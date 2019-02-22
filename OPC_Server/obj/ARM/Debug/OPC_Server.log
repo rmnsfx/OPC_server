@@ -1,0 +1,8 @@
+﻿  Validating sources
+  Copying sources remotely to '192.168.0.66'
+  Validating architecture
+  Starting remote build
+  Compiling sources:
+  main.cpp
+  Linking objects
+  OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out

@@ -1,0 +1,44 @@
+function ServerSpot(){
+    this.name = 'Server';
+    this.type = 0; //Тип узла: 0 - сервер, 1 - Коммуникационный узел, 2 - Устройство (пока только Модбус), 3 - Тэг.
+    this.comment = ''; // Комментарий объекта
+    this.Coms = []; // Массив ком. узлов
+    this.Devs = []; // Массив устройств
+    this.Tags = []; // Массив тегов
+    this.attribute = getRandomInt(1, 99999999);
+}
+
+function ComSpot(){
+    this.name = '';
+    this.type = 1;
+    this.intertype = 0; //0 - rs485, 1 - tcp (СКОРЕЕ ВСЕГО СТРОКА ОТОБРАЗИТЬСЯ: ТСР или RS-485)
+    this.port = 0; // Если rs485, то порт - это номер COM потра, а если ТСР, то порт сокета
+    this.address = 0; // Если ТСР, то ip, если rs485, то не используется
+    this.comment = '';
+    this.Coms = [];
+    this.Devs = [];
+    this.Tags = [];
+    this.attribute = getRandomInt(1, 99999999);
+}
+
+function DevSpot(){
+    this.name = '';
+    this.type = 2;
+    this.devtype = 0; // Пока хз, какие типы, пока 0 - модбус
+    this.address = 0;
+    this.comment = '';
+    this.Coms = [];
+    this.Devs = [];
+    this.Tags = [];
+    this.attribute = getRandomInt(1, 99999999);
+}
+
+function TagSpot(){
+    this.name = '';
+    this.type = 3;
+    this.tagtype = 0; //0 - string, 3 - holdong register, 4 - input register
+    this.string = ''; // используется, если тип 0
+    this.address = 0; // используется для понятно чего, если тэг бодбас устройства
+    this.comment = '';
+    this.attribute = getRandomInt(1, 99999999);
+}

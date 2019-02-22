@@ -1,0 +1,9 @@
+﻿  Validating sources
+  Copying sources remotely to '192.168.0.66'
+  Validating architecture
+  Starting remote build
+  Compiling sources:
+  main.cpp
+D:\Repos\OPC_Server\OPC_Server\OPC_Server\main.cpp(142,17): error : ‘vd’ was not declared in this scope
+D:\Repos\OPC_Server\OPC_Server\OPC_Server\main.cpp(142,17): error :   printf("%c\n", vd[1]->name );
+D:\Repos\OPC_Server\OPC_Server\OPC_Server\main.cpp(142,17): error :                  ^~
