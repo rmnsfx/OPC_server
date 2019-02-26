@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="open62541.c" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="rapidjson">
@@ -126,5 +127,9 @@
     <ClInclude Include="rapidjson\msinttypes\stdint.h">
       <Filter>rapidjson\msinttypes</Filter>
     </ClInclude>
+    <ClInclude Include="open62541.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="opc_json.json" />
   </ItemGroup>
 </Project>

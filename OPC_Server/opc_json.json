@@ -4,7 +4,7 @@
     "comment": "",
     "Coms": [
         {
-            "name": "Default Com Name",
+            "name": "Default Com Name 1",
             "type": 1,
             "intertype": "RS-485",
             "port": "",
@@ -16,7 +16,7 @@
             "attribute": 90902373
         },
         {
-            "name": "Default Com Name",
+            "name": "Default Com Name 2",
             "type": 1,
             "intertype": "RS-485",
             "port": "",
@@ -127,7 +127,7 @@
             "attribute": 13755101
         },
         {
-            "name": "Default Com Name",
+            "name": "Default Com Name 3",
             "type": 1,
             "intertype": "RS-485",
             "port": "",
@@ -140,16 +140,25 @@
         }
     ],
     "Devs": [],
-    "Tags": [
-        {
-            "name": "Default Tag Name",
-            "type": 3,
-            "tagtype": "0",
-            "string": "",
-            "address": 0,
-            "comment": "",
-            "attribute": 43946784
-        }
-    ],
+  "Tags": [
+    {
+      "name": "Default Tag Name",
+      "type": 3,
+      "tagtype": "0",
+      "string": "",
+      "address": 0,
+      "comment": "",
+      "attribute": 43946784
+    },
+    {
+      "name": "Default Tag Name 2",
+      "type": 3,
+      "tagtype": "0",
+      "string": "",
+      "address": 0,
+      "comment": "",
+      "attribute": 43946784
+    }
+  ],
     "attribute": 69183054
 }

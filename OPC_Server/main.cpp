@@ -154,58 +154,102 @@ public:
 
 int main()
 {
-	//std::vector<Controller*> vs;
+	////std::vector<Controller*> vs;
 
-	//Factory nodefactory;
+	////Factory nodefactory;
 
-	//vs.push_back(nodefactory.createController());
-	//vs.push_back(nodefactory.createTag());
-	//vs.push_back(nodefactory.createNode());
+	////vs.push_back(nodefactory.createController());
+	////vs.push_back(nodefactory.createTag());
+	////vs.push_back(nodefactory.createNode());
 
-	//printf("%s\n", vs[0]->name.c_str());
+	////printf("%s\n", vs[0]->name.c_str());
+	////
+	////printf("%s\n", vs[1]->name.c_str());
+
+	//Controller controller;
+	//Node node;
+	//Device device;
+	//Tag tag;
 	//
-	//printf("%s\n", vs[1]->name.c_str());
+	//controller.vectorNode.push_back( &node );
+	//node.vectorDevice.push_back( &device );
 
-	Controller controller;
-	Node node;
-	Device device;
-	Tag tag;
-	
-	controller.vectorNode.push_back( &node );
-	node.vectorDevice.push_back( &device );
+	//
 
-	
+	//printf("%s\n", controller.name.c_str());
+	//printf("%s\n", controller.vectorNode[0]->name.c_str());
+	//
+	//printf("%s\n", node.name.c_str());
+	//printf("%s\n", node.vectorDevice[0]->name.c_str());
 
-	printf("%s\n", controller.name.c_str());
-	printf("%s\n", controller.vectorNode[0]->name.c_str());
-	
-	printf("%s\n", node.name.c_str());
-	printf("%s\n", node.vectorDevice[0]->name.c_str());
+	//
+	////char readBuffer[65536];
 
-	
-	//char readBuffer[65536];
+	////FILE* fp = fopen("opc_json.json", "r");	
+	////FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 
-	//FILE* fp = fopen("opc_json.json", "r");	
-	//FileReadStream is(fp, readBuffer, sizeof(readBuffer));
-
-	//Document d;
-	//d.ParseStream(is);
-	//fclose(fp);
+	////Document d;
+	////d.ParseStream(is);
+	////fclose(fp);
 
 //////////
 
-	FILE* fp = fopen("/root/projects/OPC_Server/opc_json.json", "r"); 
-
-	char readBuffer[90000];
+	char readBuffer[65536];
+	
+	FILE* fp = fopen("/root/projects/OPC_Server/opc_json.json", "r"); 	
 	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
-
-	Document d;
-	d.ParseStream(is);
 	fclose(fp);
 
+	Document doc;
+	doc.ParseStream(is);
+	
+	if (doc.IsObject() == true)
+	{
+		const Value& serverName = doc["name"];
+		const Value& serverType = doc["type"];
+		const Value& serverComment = doc["comment"];		
+		const Value& Coms = doc["Coms"];
+		const Value& Devs = doc["Devs"];
+		const Value& Tags = doc["Tags"];
 
 
-	const Value& name = d["name"];
+		if (Coms.IsArray())
+		{
+			for (SizeType i = 0; i < Coms.Size(); i++)
+				printf("Coms %s\n", Coms[i]["name"].GetString());
+		}
+
+		if (Devs.IsArray())
+		{
+			for (SizeType i = 0; i < Devs.Size(); i++)
+				printf("Devs %s\n", Devs[i]["name"].GetString());
+		}
+
+
+
+		if (Tags.IsArray())
+		{
+			for (SizeType i = 0; i < Tags.Size(); i++)
+				printf("Tags %s\n", Tags[i]["name"].GetString());
+		}
+		
+
+
+
+		//printf("%s\n", Coms[0]["name"].GetString());
+
+		//for (Value::ConstValueIterator itr = Coms.Begin(); itr != Coms.End(); ++itr)
+		//	printf("%s\n", itr->GetString());
+
+	}
+
+
+	//for (Value::ConstMemberIterator itr = doc.MemberBegin(); itr != doc.MemberEnd(); ++itr)
+	//{		
+	//	printf("%s\n", itr->name.GetString());
+
+	//}
+	
 	
 
 
@@ -216,9 +260,9 @@ int main()
 	//}
 
 	
-	printf("%s\n", name.GetString() );
+	
 
-	sleep(5);
+	sleep(15);
 
 	return 0;
 }
