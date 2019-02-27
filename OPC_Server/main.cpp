@@ -45,7 +45,7 @@ public:
 		name = "Controller";		
 	}	
 	
-	std::vector<Node*> vectorNode;
+	std::vector<Node> vectorNode;
 };
 
 //Класс узел
@@ -57,14 +57,16 @@ public:
 	{
 		name = "Node";		
 	}
-
-	std::string com_port;
+		
 	int baud_rate = 0;
 	int word_lenght = 0;
 	int parity = 0;
 	int stop_bit = 0;		
+	std::string intertype;
+	std::string address;
+	std::string port;
 
-	std::vector<Device*> vectorDevice;
+	std::vector<Device> vectorDevice;
 };
 
 
@@ -79,10 +81,13 @@ public:
 	}
 
 	int modbus_address = 0;
-	int poll_priod = 0;
+	int poll_period = 0;
 	int poll_timeout = 0;
+	
+	int devtype = 0;	
+	std::string address;
 
-	std::vector<Tag*> vectorTag;
+	std::vector<Tag> vectorTag;
 };
 
 
@@ -101,6 +106,11 @@ public:
 	int type = 0;
 	double coef_A = 0;
 	double coef_B = 0;
+	double value = 0;
+
+	std::string tagtype;
+	std::string string;
+	std::string address;
 };
 
 //Класс группа
@@ -174,23 +184,7 @@ int main()
 	//controller.vectorNode.push_back( &node );
 	//node.vectorDevice.push_back( &device );
 
-	//
 
-	//printf("%s\n", controller.name.c_str());
-	//printf("%s\n", controller.vectorNode[0]->name.c_str());
-	//
-	//printf("%s\n", node.name.c_str());
-	//printf("%s\n", node.vectorDevice[0]->name.c_str());
-
-	//
-	////char readBuffer[65536];
-
-	////FILE* fp = fopen("opc_json.json", "r");	
-	////FileReadStream is(fp, readBuffer, sizeof(readBuffer));
-
-	////Document d;
-	////d.ParseStream(is);
-	////fclose(fp);
 
 //////////
 
@@ -202,63 +196,100 @@ int main()
 
 	Document doc;
 	doc.ParseStream(is);
+
+	Factory factory;
+	Controller controller;
+	
 	
 	if (doc.IsObject() == true)
 	{
+		
+
 		const Value& serverName = doc["name"];
 		const Value& serverType = doc["type"];
 		const Value& serverComment = doc["comment"];		
 		const Value& Coms = doc["Coms"];
-		const Value& Devs = doc["Devs"];
 		const Value& Tags = doc["Tags"];
 
 
-		if (Coms.IsArray())
+
+		if (Coms.Size() > 0)
 		{
+			Node node;
+
 			for (SizeType i = 0; i < Coms.Size(); i++)
-				printf("Coms %s\n", Coms[i]["name"].GetString());
+			{
+				//printf("Coms %s\n", Coms[i]["name"].GetString());
+								
+				node.name = Coms[i]["name"].GetString();
+				node.type = Coms[i]["type"].GetUint();
+				node.intertype = Coms[i]["intertype"].GetString();
+				node.port = Coms[i]["port"].GetString();
+				node.address = Coms[i]["address"].GetString();
+				node.description = Coms[i]["comment"].GetString();
+
+				
+
+				if (Coms[i]["Devs"].Size() > 0)
+				{
+					Device device;
+
+					for (SizeType j = 0; j < Coms[i]["Devs"].Size(); j++)
+					{
+						//printf("%s\n", Coms[i]["Devs"][j]["name"].GetString());					
+
+						device.name = Coms[i]["Devs"][j]["name"].GetString();
+						device.type = Coms[i]["Devs"][j]["type"].GetUint();
+						device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();
+						device.address = Coms[i]["Devs"][j]["address"].GetString();
+						device.description = Coms[i]["Devs"][j]["comment"].GetString();
+
+
+
+						if (Coms[i]["Devs"][j]["Tags"].Size() > 0)
+						{
+							Tag tags;
+
+							for (SizeType k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
+							{
+								//printf("%s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());					
+
+								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
+								tags.type = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
+								tags.tagtype = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
+								tags.string = Coms[i]["Devs"][j]["Tags"][k]["string"].GetString();
+								tags.address = Coms[i]["Devs"][j]["Tags"][k]["address"].GetString();
+								tags.description = Coms[i]["Devs"][j]["Tags"][k]["comment"].GetString();
+
+								device.vectorTag.push_back(tags);
+							}
+						}
+
+						node.vectorDevice.push_back(device);
+					}
+				}
+				
+				controller.vectorNode.push_back(node);
+			}
+
 		}
 
-		if (Devs.IsArray())
-		{
-			for (SizeType i = 0; i < Devs.Size(); i++)
-				printf("Devs %s\n", Devs[i]["name"].GetString());
-		}
 
-
-
-		if (Tags.IsArray())
-		{
-			for (SizeType i = 0; i < Tags.Size(); i++)
-				printf("Tags %s\n", Tags[i]["name"].GetString());
-		}
 		
-
-
-
-		//printf("%s\n", Coms[0]["name"].GetString());
-
-		//for (Value::ConstValueIterator itr = Coms.Begin(); itr != Coms.End(); ++itr)
-		//	printf("%s\n", itr->GetString());
-
 	}
 
 
-	//for (Value::ConstMemberIterator itr = doc.MemberBegin(); itr != doc.MemberEnd(); ++itr)
-	//{		
-	//	printf("%s\n", itr->name.GetString());
 
-	//}
 	
-	
-
-
 	//for (Value::ConstMemberIterator itr = department.MemberBegin(); itr != department.MemberEnd(); ++itr)
 	//{
 	//	std::cout << itr->name.GetString() << " : ";
 	//	std::cout << itr->value.GetInt() << "\r\n";
+	//	printf("%s\n", itr->name.GetString());
 	//}
 
+	//for (Value::ConstValueIterator itr = Coms.Begin(); itr != Coms.End(); ++itr)
+	//	printf("%s\n", itr->GetString());
 	
 	
 

@@ -1,3 +1,37 @@
 ﻿  Validating sources
   Copying sources remotely to '192.168.0.66'
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(162,5): error : Could not connect to the remote system. Please verify your connection settings, and that your machine is on the network and reachable.
+  Validating architecture
+  Starting remote build
+  Compiling sources:
+  main.cpp
+D:\Repos\OPC_Server\OPC_Server\main.cpp(258,69): warning : conversion to ‘char’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(258,69): warning :          tags.tagtype = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\main.cpp(258,69): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(208,16): warning : unused variable ‘serverName’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(208,16): warning :    const Value& serverName = doc["name"];
+D:\Repos\OPC_Server\OPC_Server\main.cpp(208,16): warning :                 ^~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(209,16): warning : unused variable ‘serverType’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(209,16): warning :    const Value& serverType = doc["type"];
+D:\Repos\OPC_Server\OPC_Server\main.cpp(209,16): warning :                 ^~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(210,16): warning : unused variable ‘serverComment’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(210,16): warning :    const Value& serverComment = doc["comment"];
+D:\Repos\OPC_Server\OPC_Server\main.cpp(210,16): warning :                 ^~~~~~~~~~~~~
+/usr/include/c++/6/bits/stl_vector.h(324,31): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
+/usr/include/c++/6/bits/stl_uninitialized.h(279,5): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
+/usr/include/c++/6/bits/stl_uninitialized.h(279,5): message :      __uninitialized_copy_a(_InputIterator __first, _InputIterator __last,
+/usr/include/c++/6/bits/stl_uninitialized.h(279,5): message :      ^~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/6/bits/stl_uninitialized.h(279,5): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
+/usr/include/c++/6/bits/stl_uninitialized.h(281,63): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
+/usr/include/c++/6/bits/stl_uninitialized.h(107,5): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
+/usr/include/c++/6/bits/stl_uninitialized.h(107,5): message :      uninitialized_copy(_InputIterator __first, _InputIterator __last,
+/usr/include/c++/6/bits/stl_uninitialized.h(107,5): message :      ^~~~~~~~~~~~~~~~~~
+/usr/include/c++/6/bits/stl_uninitialized.h(107,5): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
+/usr/include/c++/6/bits/stl_uninitialized.h(126,41): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
+/usr/include/c++/6/bits/stl_uninitialized.h(126,41): message :   __uninit_copy(__first, __last, __result);
+/usr/include/c++/6/bits/stl_uninitialized.h(126,41): message :                                          ^
+/usr/include/c++/6/bits/stl_uninitialized.h(68,9): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
+/usr/include/c++/6/bits/stl_uninitialized.h(68,9): message :          __uninit_copy(_InputIterator __first, _InputIterator __last,
+/usr/include/c++/6/bits/stl_uninitialized.h(68,9): message :          ^~~~~~~~~~~~~
+/usr/include/c++/6/bits/stl_uninitialized.h(68,9): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
+  Linking objects
+  OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out
