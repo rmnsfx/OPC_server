@@ -131,5 +131,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="opc_json.json" />
+    <None Include="test_json2.json" />
   </ItemGroup>
 </Project>

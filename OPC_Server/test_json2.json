@@ -1,0 +1,53 @@
+{
+    "name": "Server",
+    "type": 0,
+    "comment": "",
+    "Coms": 
+    [
+        {
+            "name": "Default Com Name 1",
+            "type": 1,
+            "intertype": "RS-485",
+            "port": "",
+            "address": "192.168.0.1",
+            "comment": "",
+            "Coms": [],
+            "Devs": [],
+            "Tags": 
+            [
+                    {
+                      "name": "Default Com 2 Tag Name 41",
+                      "type": 3,
+                      "tagtype": "0",
+                      "string": "",
+                      "address": "0",
+                      "comment": "",
+                      "attribute": 0
+                    },
+            ],
+            "attribute": 90902373
+        },
+    ],
+    
+    "Tags": 
+    [
+        {
+            "name": "Default Tag Name 31",
+            "type": 3,
+            "tagtype": "0",
+            "string": "",
+            "address": "0",
+            "comment": "",
+            "attribute": 43946784
+        },
+        {
+            "name": "Default Tag Name 32",
+            "type": 3,
+            "tagtype": "0",
+            "string": "",
+            "address": "0",
+            "comment": "",
+            "attribute": 43946784
+        }
+    ],    
+}    

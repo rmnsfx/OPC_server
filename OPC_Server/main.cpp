@@ -33,6 +33,7 @@ public:
 	std::string name;
 	std::string label;
 	std::string description;
+		
 };
 
 //Класс контроллер
@@ -45,7 +46,8 @@ public:
 		name = "Controller";		
 	}	
 	
-	std::vector<Node> vectorNode;
+	std::vector<Tag> vectorControllerTag;
+	std::vector<Node> vectorNode;	
 };
 
 //Класс узел
@@ -62,11 +64,13 @@ public:
 	int word_lenght = 0;
 	int parity = 0;
 	int stop_bit = 0;		
+
 	std::string intertype;
 	std::string address;
 	std::string port;
 
-	std::vector<Device> vectorDevice;
+	std::vector<Tag> vectorNodeTag;
+	std::vector<Device> vectorDevice;	
 };
 
 
@@ -87,7 +91,8 @@ public:
 	int devtype = 0;	
 	std::string address;
 
-	std::vector<Tag> vectorTag;
+	std::vector<Tag> vectorDeviceTag;
+	std::vector<Tag> vectorTag;	
 };
 
 
@@ -126,67 +131,44 @@ public:
 
 
 /////////////////////Абстрактная фабрика для производства сервера, узлов, устройств, тэгов
-class iFactory
-{
-public:
-
-	virtual Controller* createController() = 0;
-	virtual Node* createNode() = 0;
-	virtual Device* createDevice() = 0;
-	virtual Tag* createTag() = 0;
-	virtual ~iFactory() {}
-};
-
-class Factory : public iFactory
-{
-public:
-	Controller* createController()
-	{
-		return new Controller;
-	}
-
-	Node* createNode()
-	{
-		return new Node;
-	}
-
-	Device* createDevice()
-	{
-		return new Device;
-	}
-
-	Tag* createTag()
-	{
-		return new Tag;
-	}
-};
+//class iFactory
+//{
+//public:
+//
+//	virtual Controller* createController() = 0;
+//	virtual Node* createNode() = 0;
+//	virtual Device* createDevice() = 0;
+//	virtual Tag* createTag() = 0;
+//	virtual ~iFactory() {}
+//};
+//
+//class Factory : public iFactory
+//{
+//public:
+//	Controller* createController()
+//	{
+//		return new Controller;
+//	}
+//
+//	Node* createNode()
+//	{
+//		return new Node;
+//	}
+//
+//	Device* createDevice()
+//	{
+//		return new Device;
+//	}
+//
+//	Tag* createTag()
+//	{
+//		return new Tag;
+//	}
+//};
 
 
 int main()
 {
-	////std::vector<Controller*> vs;
-
-	////Factory nodefactory;
-
-	////vs.push_back(nodefactory.createController());
-	////vs.push_back(nodefactory.createTag());
-	////vs.push_back(nodefactory.createNode());
-
-	////printf("%s\n", vs[0]->name.c_str());
-	////
-	////printf("%s\n", vs[1]->name.c_str());
-
-	//Controller controller;
-	//Node node;
-	//Device device;
-	//Tag tag;
-	//
-	//controller.vectorNode.push_back( &node );
-	//node.vectorDevice.push_back( &device );
-
-
-
-//////////
 
 	char readBuffer[65536];
 	
@@ -197,25 +179,23 @@ int main()
 	Document doc;
 	doc.ParseStream(is);
 
-	Factory factory;
-	Controller controller;
-	
+	const Value& Coms = doc["Coms"];
+	const Value& Tags = doc["Tags"];
+		
+		
 	
 	if (doc.IsObject() == true)
 	{
-		
 
-		const Value& serverName = doc["name"];
-		const Value& serverType = doc["type"];
-		const Value& serverComment = doc["comment"];		
-		const Value& Coms = doc["Coms"];
-		const Value& Tags = doc["Tags"];
-
-
+		Controller controller;		
+	
+		controller.name = doc["name"].GetString();
+		controller.type = doc["type"].GetUint();
+		controller.description = doc["comment"].GetString();
 
 		if (Coms.Size() > 0)
 		{
-			Node node;
+			Node node;			
 
 			for (SizeType i = 0; i < Coms.Size(); i++)
 			{
@@ -270,13 +250,54 @@ int main()
 				}
 				
 				controller.vectorNode.push_back(node);
-			}
-
-		}
 
 
+
+				if (Coms[i]["Tags"].Size() > 0)
+				{
+					Tag nodeTags;
+
+					for (SizeType j = 0; j < Coms[i]["Tags"].Size(); j++)
+					{
+						printf("Tags: %s\n", Tags[i]["Tags"][j]["name"].GetString());
+
+						nodeTags.name = Tags[i]["Tags"][j]["name"].GetString();
+						nodeTags.type = Tags[i]["Tags"][j]["type"].GetUint();
+						nodeTags.tagtype = Tags[i]["Tags"][j]["tagtype"].GetString();
+						nodeTags.string = Tags[i]["Tags"][j]["string"].GetString();
+						nodeTags.address = Tags[i]["Tags"][j]["address"].GetString();
+						nodeTags.description = Tags[i]["Tags"][j]["comment"].GetString();
+
+						node.vectorNodeTag.push_back(nodeTags);
+					}
+				}
+
+
+			} //For Coms/Node end
+
+		} //Coms/Node end
+
+
+		if (Tags.Size() > 0)
+		{
+			Tag controllerTags;
+
+			for (SizeType i = 0; i < Tags.Size(); i++)
+			{
+				//printf("Tags: %s\n", Tags[i]["name"].GetString());
+
+				controllerTags.name = Tags[i]["name"].GetString();
+				controllerTags.type = Tags[i]["type"].GetUint();
+				controllerTags.tagtype = Tags[i]["tagtype"].GetString();
+				controllerTags.string = Tags[i]["string"].GetString();
+				controllerTags.address = Tags[i]["address"].GetString();
+				controllerTags.description = Tags[i]["comment"].GetString();
+
+				controller.vectorControllerTag.push_back(controllerTags);
+			}		
+		} 
 		
-	}
+	} //Server/Controller end
 
 
 

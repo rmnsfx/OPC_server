@@ -45,7 +45,7 @@
             "Devs": [],
             "Tags": [
               {
-                "name": "Default Tag Name 1",
+                "name": "Default //Tag Name 1",
                 "type": 3,
                 "tagtype": "0",
                 "string": "",
@@ -123,7 +123,27 @@
             "attribute": 1241970
           }
         ],
-        "Tags": [],
+        "Tags": [
+            {
+              "name": "Default Com 2 Tag Name 41",
+              "type": 3,
+              "tagtype": "0",
+              "string": "",
+              "address": "0",
+              "comment": "",
+              "attribute": 0
+            },
+            {
+              "name": "Default Com 2 Tag Name 42",
+              "type": 3,
+              "tagtype": "0",
+              "string": "",
+              "address": "0",
+              "comment": "",
+              "attribute": 0
+            },
+        
+        ],
         "attribute": 13755101
       },
       {
@@ -146,7 +166,7 @@
       "type": 3,
       "tagtype": "0",
       "string": "",
-      "address": 0,
+      "address": "0",
       "comment": "",
       "attribute": 43946784
     },
@@ -155,7 +175,7 @@
       "type": 3,
       "tagtype": "0",
       "string": "",
-      "address": 0,
+      "address": "0",
       "comment": "",
       "attribute": 43946784
     }
