@@ -2,8 +2,7 @@
     "name": "Server",
     "type": 0,
     "comment": "",
-    "Coms": 
-    [
+    "Coms":  [
         {
             "name": "Default Com Name 1",
             "type": 1,
@@ -13,8 +12,7 @@
             "comment": "",
             "Coms": [],
             "Devs": [],
-            "Tags": 
-            [
+            "Tags": [
                     {
                       "name": "Default Com 2 Tag Name 41",
                       "type": 3,
@@ -29,8 +27,7 @@
         },
     ],
     
-    "Tags": 
-    [
+    "Tags": [
         {
             "name": "Default Tag Name 31",
             "type": 3,

@@ -172,12 +172,12 @@ int main()
 
 	char readBuffer[65536];
 	
-	FILE* fp = fopen("/root/projects/OPC_Server/opc_json.json", "r"); 	
+	FILE* fp = fopen("/root/projects/OPC_Server/opc.json", "r"); 	
 	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
-	fclose(fp);
-
+	
 	Document doc;
 	doc.ParseStream(is);
+	fclose(fp);
 
 	const Value& Coms = doc["Coms"];
 	const Value& Tags = doc["Tags"];
@@ -193,13 +193,15 @@ int main()
 		controller.type = doc["type"].GetUint();
 		controller.description = doc["comment"].GetString();
 
+		printf("%s:\n", doc["name"].GetString());
+
 		if (Coms.Size() > 0)
 		{
 			Node node;			
 
 			for (SizeType i = 0; i < Coms.Size(); i++)
 			{
-				//printf("Coms %s\n", Coms[i]["name"].GetString());
+				printf("    Coms: %s\n", Coms[i]["name"].GetString());
 								
 				node.name = Coms[i]["name"].GetString();
 				node.type = Coms[i]["type"].GetUint();
@@ -216,7 +218,7 @@ int main()
 
 					for (SizeType j = 0; j < Coms[i]["Devs"].Size(); j++)
 					{
-						//printf("%s\n", Coms[i]["Devs"][j]["name"].GetString());					
+						printf("         Devs: %s\n", Coms[i]["Devs"][j]["name"].GetString());					
 
 						device.name = Coms[i]["Devs"][j]["name"].GetString();
 						device.type = Coms[i]["Devs"][j]["type"].GetUint();
@@ -232,7 +234,7 @@ int main()
 
 							for (SizeType k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
 							{
-								//printf("%s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());					
+								printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());					
 
 								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
 								tags.type = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
@@ -284,7 +286,7 @@ int main()
 
 			for (SizeType i = 0; i < Tags.Size(); i++)
 			{
-				//printf("Tags: %s\n", Tags[i]["name"].GetString());
+				printf("Tags: %s\n", Tags[i]["name"].GetString());
 
 				controllerTags.name = Tags[i]["name"].GetString();
 				controllerTags.type = Tags[i]["type"].GetUint();
@@ -302,16 +304,7 @@ int main()
 
 
 	
-	//for (Value::ConstMemberIterator itr = department.MemberBegin(); itr != department.MemberEnd(); ++itr)
-	//{
-	//	std::cout << itr->name.GetString() << " : ";
-	//	std::cout << itr->value.GetInt() << "\r\n";
-	//	printf("%s\n", itr->name.GetString());
-	//}
 
-	//for (Value::ConstValueIterator itr = Coms.Begin(); itr != Coms.End(); ++itr)
-	//	printf("%s\n", itr->GetString());
-	
 	
 
 	sleep(15);

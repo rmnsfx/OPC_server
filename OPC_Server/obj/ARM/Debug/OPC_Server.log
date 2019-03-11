@@ -1,13 +1,12 @@
-﻿  Cleaning remote project directory
-  Validating sources
-  Copying sources remotely to '192.168.0.66'
+﻿  Validating sources
+  Copying sources remotely to '192.168.5.210'
   Validating architecture
   Starting remote build
   Compiling sources:
   main.cpp
-D:\Repos\OPC_Server\OPC_Server\main.cpp(239,69): warning : conversion to ‘char’ from ‘unsigned int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(239,69): warning :          tags.tagtype = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
-D:\Repos\OPC_Server\OPC_Server\main.cpp(239,69): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(241,69): warning : conversion to ‘char’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(241,69): warning :          tags.tagtype = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\main.cpp(241,69): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
 /usr/include/c++/6/bits/stl_vector.h(324,31): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
 /usr/include/c++/6/bits/stl_uninitialized.h(279,5): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
 /usr/include/c++/6/bits/stl_uninitialized.h(279,5): message :      __uninitialized_copy_a(_InputIterator __first, _InputIterator __last,
@@ -25,6 +24,5 @@ D:\Repos\OPC_Server\OPC_Server\main.cpp(239,69): warning :                      
 /usr/include/c++/6/bits/stl_uninitialized.h(68,9): message :          __uninit_copy(_InputIterator __first, _InputIterator __last,
 /usr/include/c++/6/bits/stl_uninitialized.h(68,9): message :          ^~~~~~~~~~~~~
 /usr/include/c++/6/bits/stl_uninitialized.h(68,9): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
-  open62541.c
   Linking objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out
