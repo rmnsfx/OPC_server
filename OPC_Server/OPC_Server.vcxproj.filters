@@ -130,7 +130,6 @@
     <ClInclude Include="open62541.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="opc_json.json" />
-    <None Include="test_json2.json" />
+    <None Include="..\opc.json" />
   </ItemGroup>
 </Project>
