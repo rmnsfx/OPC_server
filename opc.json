@@ -8,7 +8,7 @@
             "type": 1,
             "intertype": "RS-485",
             "port": "",
-            "address": 0,
+            "address": "",
             "comment": "",
             "Coms": [],
             "Devs": [],
@@ -20,7 +20,7 @@
             "type": 1,
             "intertype": "RS-485",
             "port": "",
-            "address": 0,
+            "address": "",
             "comment": "",
             "Coms": [],
             "Devs": [
@@ -49,7 +49,7 @@
                             "type": 3,
                             "tagtype": "0",
                             "string": "",
-                            "address": 0,
+                            "address": "",
                             "comment": "",
                             "attribute": 66876749
                         },
@@ -58,7 +58,7 @@
                             "type": 3,
                             "tagtype": "0",
                             "string": "",
-                            "address": 0,
+                            "address": "",
                             "comment": "",
                             "attribute": 134655
                         },
@@ -67,7 +67,7 @@
                             "type": 3,
                             "tagtype": "0",
                             "string": "",
-                            "address": 0,
+                            "address": "",
                             "comment": "",
                             "attribute": 3055927
                         },
@@ -131,7 +131,7 @@
             "type": 1,
             "intertype": "RS-485",
             "port": "",
-            "address": 0,
+            "address": "",
             "comment": "",
             "Coms": [],
             "Devs": [],
@@ -146,7 +146,7 @@
             "type": 3,
             "tagtype": "0",
             "string": "",
-            "address": 0,
+            "address": "",
             "comment": "",
             "attribute": 43946784
         }
