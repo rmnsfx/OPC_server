@@ -11,8 +11,13 @@
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
-#include <iostream>
 #include "rapidjson/filereadstream.h"
+
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <arpa/inet.h>
+#include <netinet/in.h> 
+#include<netdb.h>
 
 using namespace rapidjson;
 
@@ -21,6 +26,8 @@ class Controller;
 class Node;
 class Device;
 class Tag;
+
+char readBuffer[65536];
 
 //Абстрактный базовый класс
 class iServerTree
@@ -130,47 +137,99 @@ public:
 };
 
 
-/////////////////////Абстрактная фабрика для производства сервера, узлов, устройств, тэгов
-//class iFactory
-//{
-//public:
-//
-//	virtual Controller* createController() = 0;
-//	virtual Node* createNode() = 0;
-//	virtual Device* createDevice() = 0;
-//	virtual Tag* createTag() = 0;
-//	virtual ~iFactory() {}
-//};
-//
-//class Factory : public iFactory
-//{
-//public:
-//	Controller* createController()
-//	{
-//		return new Controller;
-//	}
-//
-//	Node* createNode()
-//	{
-//		return new Node;
-//	}
-//
-//	Device* createDevice()
-//	{
-//		return new Device;
-//	}
-//
-//	Tag* createTag()
-//	{
-//		return new Tag;
-//	}
-//};
+
+void pollingDevice(Controller* controller)
+{
+	int result = 0;
+	char buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
+	
+	//struct sockaddr_in address;
+	int sock = 0, valread;
+	struct sockaddr_in serv_addr;
+	const char* address = "192.168.0.146";
+	struct timeval timeout;
+	timeout.tv_sec = 5;
+	timeout.tv_usec = 0;
+	
+
+	if (controller != NULL)
+	{
+		
+
+		if ( (sock = socket(AF_INET, SOCK_STREAM, 0)) < 0 )
+		{
+			printf("\n Socket creation error \n");
+			//return -1;
+		}
+		else
+		{
+			printf("\n Socket create %d\n", sock);
+		}
+
+		if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+		{
+			printf("\n setsockopt failed \n");
+		}		
+
+		if (setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+		{
+			printf("\n setsockopt failed \n");
+		}
+
+
+
+		memset(&serv_addr, 0, sizeof(serv_addr));
+		
+		bzero((char *)&serv_addr, sizeof(serv_addr));
+
+		//// Convert IPv4 and IPv6 addresses from text to binary form 
+		//if (inet_pton(AF_INET, address, &serv_addr.sin_addr) <= 0)
+		//{
+		//	printf("\nInvalid address/ Address not supported \n");
+		//	//return -1;
+		//}
+		//inet_pton(AF_INET, "192.168.0.146", &serv_addr.sin_addr);
+
+		
+
+		serv_addr.sin_addr.s_addr = inet_addr(address);
+		
+		serv_addr.sin_family = AF_INET;
+		serv_addr.sin_port = htons(8080);
+		
+		
+		result = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+		if (result < 0)
+		{
+			printf("\nConnection Failed: %d\n", result);
+			
+		}
+		
+		while(1)
+		{ 
+			result = send(sock, buffer, sizeof(buffer), 0);		
+			sleep(2);
+		}
+		
+		//result = write(sock, buffer, 11);
+		printf("Hello message sent %d\n", result);
+
+
+		
+
+		//printf("\n...Start polling\n\n");
+	}
+
+}
+
+
 
 
 int main()
 {
 
-	char readBuffer[65536];
+	printf("Start OPC server...\n\n");
+	
 	
 	FILE* fp = fopen("/root/projects/OPC_Server/opc.json", "r"); 	
 	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
@@ -179,9 +238,12 @@ int main()
 	doc.ParseStream(is);
 	fclose(fp);
 
+	printf("Parsing json complete.\n\n");
+
+
+
 	const Value& Coms = doc["Coms"];
-	const Value& Tags = doc["Tags"];
-		
+	const Value& Tags = doc["Tags"];		
 		
 	
 	if (doc.IsObject() == true)
@@ -277,6 +339,10 @@ int main()
 
 			} //For Coms/Node end
 
+			
+			pollingDevice(&controller); //Запуск опроса устройства
+			
+
 		} //Coms/Node end
 
 
@@ -286,7 +352,7 @@ int main()
 
 			for (SizeType i = 0; i < Tags.Size(); i++)
 			{
-				printf("Tags: %s\n", Tags[i]["name"].GetString());
+				//printf("Tags: %s\n", Tags[i]["name"].GetString());
 
 				controllerTags.name = Tags[i]["name"].GetString();
 				controllerTags.type = Tags[i]["type"].GetUint();
