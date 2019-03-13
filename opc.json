@@ -4,7 +4,7 @@
     "comment": "",
     "Coms": [
         {
-            "name": "Default Com Name",
+            "name": "Default Com Name 0",
             "type": 1,
             "intertype": "RS-485",
             "port": "",
@@ -16,7 +16,7 @@
             "attribute": 90902373
         },
         {
-            "name": "Default Com Name",
+            "name": "Default Com Name 1",
             "type": 1,
             "intertype": "RS-485",
             "port": "",
@@ -25,7 +25,7 @@
             "Coms": [],
             "Devs": [
                 {
-                    "name": "Default Dev Name",
+                    "name": "Default Dev Name 0",
                     "type": 2,
                     "devtype": 0,
                     "address": "",
@@ -36,7 +36,7 @@
                     "attribute": 9171403
                 },
                 {
-                    "name": "Default Dev Name",
+                    "name": "Default Dev Name 1",
                     "type": 2,
                     "devtype": 0,
                     "address": "",
@@ -45,16 +45,16 @@
                     "Devs": [],
                     "Tags": [
                         {
-                            "name": "Default Tag Name",
+                            "name": "Default Tag Name 0",
                             "type": 3,
                             "tagtype": "0",
                             "string": "",
                             "address": "",
-                            "comment": "",
+                            "comment": "Bingo",
                             "attribute": 66876749
                         },
                         {
-                            "name": "Default Tag Name",
+                            "name": "Default Tag Name 1",
                             "type": 3,
                             "tagtype": "0",
                             "string": "",
@@ -63,7 +63,7 @@
                             "attribute": 134655
                         },
                         {
-                            "name": "Default Tag Name",
+                            "name": "Default Tag Name 2",
                             "type": 3,
                             "tagtype": "0",
                             "string": "",
@@ -72,7 +72,7 @@
                             "attribute": 3055927
                         },
                         {
-                            "name": "Default Tag Name",
+                            "name": "Default Tag Name 3",
                             "type": 3,
                             "tagtype": "3",
                             "string": "",
@@ -81,7 +81,7 @@
                             "attribute": 8756366
                         },
                         {
-                            "name": "Default Tag Name",
+                            "name": "Default Tag Name 4",
                             "type": 3,
                             "tagtype": "3",
                             "string": "",

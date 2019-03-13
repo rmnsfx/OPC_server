@@ -27,7 +27,7 @@ class Node;
 class Device;
 class Tag;
 
-char readBuffer[65536];
+
 
 //Абстрактный базовый класс
 class iServerTree
@@ -40,6 +40,7 @@ public:
 	std::string name;
 	std::string label;
 	std::string description;
+	int attribute;
 		
 };
 
@@ -141,9 +142,8 @@ public:
 void pollingDevice(Controller* controller)
 {
 	int result = 0;
-	char buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
-	
-	//struct sockaddr_in address;
+	char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };		
+	char read_buffer[255];
 	int sock = 0, valread;
 	struct sockaddr_in serv_addr;
 	const char* address = "192.168.0.146";
@@ -158,19 +158,18 @@ void pollingDevice(Controller* controller)
 
 		if ( (sock = socket(AF_INET, SOCK_STREAM, 0)) < 0 )
 		{
-			printf("\n Socket creation error \n");
-			//return -1;
+			printf("\n Socket creation error \n");			
 		}
 		else
 		{
-			printf("\n Socket create %d\n", sock);
+			printf("\nSocket create: %d\n", sock);
 		}
 
+		//Таймаут
 		if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
 		{
 			printf("\n setsockopt failed \n");
-		}		
-
+		}
 		if (setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
 		{
 			printf("\n setsockopt failed \n");
@@ -178,9 +177,9 @@ void pollingDevice(Controller* controller)
 
 
 
-		memset(&serv_addr, 0, sizeof(serv_addr));
+		//memset(&serv_addr, 0, sizeof(serv_addr));
 		
-		bzero((char *)&serv_addr, sizeof(serv_addr));
+		//bzero((char *)&serv_addr, sizeof(serv_addr));
 
 		//// Convert IPv4 and IPv6 addresses from text to binary form 
 		//if (inet_pton(AF_INET, address, &serv_addr.sin_addr) <= 0)
@@ -189,34 +188,38 @@ void pollingDevice(Controller* controller)
 		//	//return -1;
 		//}
 		//inet_pton(AF_INET, "192.168.0.146", &serv_addr.sin_addr);
+				
 
-		
-
-		serv_addr.sin_addr.s_addr = inet_addr(address);
-		
+		serv_addr.sin_addr.s_addr = inet_addr(address);		
 		serv_addr.sin_family = AF_INET;
 		serv_addr.sin_port = htons(8080);
-		
-		
+				
 		result = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+
 		if (result < 0)
 		{
-			printf("\nConnection Failed: %d\n", result);
-			
+			printf("\nConnection Failed: %d\n", result);			
 		}
 		
 		while(1)
 		{ 
-			result = send(sock, buffer, sizeof(buffer), 0);		
-			sleep(2);
+			result = send(sock, write_buffer, sizeof(write_buffer), 0);		
+			result = read(sock, &read_buffer, 255);
+
+			for (int i = 0; i < result; i++)
+			{
+				printf("%02x ", read_buffer[i]);				
+			}
+			//printf("%d\n", result);
+			printf("%d", controller->vectorNode[1].vectorDevice[1].vectorTag[1].attribute);
+			printf("\n");
+			
+
+			sleep(1);
 		}
 		
 		//result = write(sock, buffer, 11);
-		printf("Hello message sent %d\n", result);
-
-
-		
-
+		//printf("Hello message sent %d\n", result);
 		//printf("\n...Start polling\n\n");
 	}
 
@@ -227,6 +230,7 @@ void pollingDevice(Controller* controller)
 
 int main()
 {
+	char readBuffer[65536];
 
 	printf("Start OPC server...\n\n");
 	
@@ -254,6 +258,7 @@ int main()
 		controller.name = doc["name"].GetString();
 		controller.type = doc["type"].GetUint();
 		controller.description = doc["comment"].GetString();
+		controller.attribute = doc["attribute"].GetUint();
 
 		printf("%s:\n", doc["name"].GetString());
 
@@ -271,6 +276,7 @@ int main()
 				node.port = Coms[i]["port"].GetString();
 				node.address = Coms[i]["address"].GetString();
 				node.description = Coms[i]["comment"].GetString();
+				node.attribute = Coms[i]["attribute"].GetUint();
 
 				
 
@@ -287,7 +293,7 @@ int main()
 						device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();
 						device.address = Coms[i]["Devs"][j]["address"].GetString();
 						device.description = Coms[i]["Devs"][j]["comment"].GetString();
-
+						device.attribute = Coms[i]["Devs"][j]["attribute"].GetUint();
 
 
 						if (Coms[i]["Devs"][j]["Tags"].Size() > 0)
@@ -304,6 +310,7 @@ int main()
 								tags.string = Coms[i]["Devs"][j]["Tags"][k]["string"].GetString();
 								tags.address = Coms[i]["Devs"][j]["Tags"][k]["address"].GetString();
 								tags.description = Coms[i]["Devs"][j]["Tags"][k]["comment"].GetString();
+								tags.attribute = Coms[i]["Devs"][j]["Tags"][k]["attribute"].GetUint();
 
 								device.vectorTag.push_back(tags);
 							}
@@ -331,6 +338,7 @@ int main()
 						nodeTags.string = Tags[i]["Tags"][j]["string"].GetString();
 						nodeTags.address = Tags[i]["Tags"][j]["address"].GetString();
 						nodeTags.description = Tags[i]["Tags"][j]["comment"].GetString();
+						nodeTags.attribute = Tags[i]["Tags"][j]["attribute"].GetUint();
 
 						node.vectorNodeTag.push_back(nodeTags);
 					}
@@ -360,6 +368,7 @@ int main()
 				controllerTags.string = Tags[i]["string"].GetString();
 				controllerTags.address = Tags[i]["address"].GetString();
 				controllerTags.description = Tags[i]["comment"].GetString();
+				controllerTags.attribute = Tags[i]["attribute"].GetUint();
 
 				controller.vectorControllerTag.push_back(controllerTags);
 			}		
