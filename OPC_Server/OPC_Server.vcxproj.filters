@@ -128,6 +128,7 @@
       <Filter>rapidjson\msinttypes</Filter>
     </ClInclude>
     <ClInclude Include="open62541.h" />
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\opc.json" />
