@@ -65,8 +65,8 @@ Controller serializeFromJSON(char* path)
 				node.name = Coms[i]["name"].GetString();
 				node.type = Coms[i]["type"].GetUint();
 				node.intertype = Coms[i]["intertype"].GetString();
-				node.port = Coms[i]["port"].GetString();
-				node.address = Coms[i]["address"].GetString();
+				//node.port = Coms[i]["port"].GetString();
+				//node.address = Coms[i]["address"].GetString();
 				node.description = Coms[i]["comment"].GetString();
 				node.attribute = Coms[i]["attribute"].GetUint();
 
@@ -83,9 +83,10 @@ Controller serializeFromJSON(char* path)
 						device.name = Coms[i]["Devs"][j]["name"].GetString();
 						device.type = Coms[i]["Devs"][j]["type"].GetUint();
 						device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();
-						device.address = Coms[i]["Devs"][j]["address"].GetString();
+						device.ip = Coms[i]["Devs"][j]["address"].GetString();
 						device.description = Coms[i]["Devs"][j]["comment"].GetString();
 						device.attribute = Coms[i]["Devs"][j]["attribute"].GetUint();
+						device.port = Coms[i]["Devs"][j]["port"].GetUint();
 
 
 						if (Coms[i]["Devs"][j]["Tags"].Size() > 0)

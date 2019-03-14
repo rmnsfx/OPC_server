@@ -8,10 +8,6 @@
 #include <unistd.h>
 
 #include "open62541.h"
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/filereadstream.h"
 
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -21,16 +17,13 @@
 
 #include "main.h"
 #include "serialize.h"
-
+#include "tcp.h"
 
 
 
 UA_Server *server;
 pthread_t server_thread;
-pthread_t modbus_thread;
-
-
-
+//pthread_t modbus_thread;
 
 
 
@@ -74,105 +67,11 @@ void* workerOPC(void *args)
 
 
 
-void* pollingDevice(void *args)
-{
-	int result = 0;
-	char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };		
-	char read_buffer[255];
-	int sock = 0, valread;
-	struct sockaddr_in serv_addr;
-	const char* address = "192.168.0.146";
-	struct timeval timeout;
-	timeout.tv_sec = 5;
-	timeout.tv_usec = 0;
-	
-	Controller* thread_controller = (Controller*) args;
-
-	if (thread_controller != NULL)
-	{
-		
-
-		if ( (sock = socket(AF_INET, SOCK_STREAM, 0)) < 0 )
-		{
-			printf("\n Socket creation error \n");			
-		}
-		else
-		{
-			printf("\nSocket create: %d\n", sock);
-		}
-
-		//Таймаут
-		if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
-		{
-			printf("\n setsockopt failed \n");
-		}
-		if (setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
-		{
-			printf("\n setsockopt failed \n");
-		}
 
 
 
-		//memset(&serv_addr, 0, sizeof(serv_addr));
-		
-		//bzero((char *)&serv_addr, sizeof(serv_addr));
 
-		//// Convert IPv4 and IPv6 addresses from text to binary form 
-		//if (inet_pton(AF_INET, address, &serv_addr.sin_addr) <= 0)
-		//{
-		//	printf("\nInvalid address/ Address not supported \n");
-		//	//return -1;
-		//}
-		//inet_pton(AF_INET, "192.168.0.146", &serv_addr.sin_addr);
-				
-
-		serv_addr.sin_addr.s_addr = inet_addr(address);		
-		serv_addr.sin_family = AF_INET;
-		serv_addr.sin_port = htons(8080);
-				
-		result = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-
-		if (result < 0)
-		{
-			printf("\nConnection Failed: %d\n", result);			
-		}
-
-		
-		
-		while(1)
-		{ 
-			result = send(sock, &write_buffer, sizeof(write_buffer), 0);		
-			result = read(sock, &read_buffer, sizeof(read_buffer));
-
-			thread_controller->vectorNode[1].vectorDevice[1].vectorTag[0].value = float((read_buffer[9]<<8)  + read_buffer[10]);
-
-			UA_Variant value;
-			UA_Int32 myInteger = (UA_Int32) int(thread_controller->vectorNode[1].vectorDevice[1].vectorTag[0].value);
-			UA_Variant_setScalarCopy(&value, &myInteger, &UA_TYPES[UA_TYPES_INT32]);
-			UA_Server_writeValue(server, UA_NODEID_NUMERIC(1, 1), value);
-
-
-			//for (int i = 0; i < result; i++)
-			//{
-			//	printf("%02x ", read_buffer[i]);				
-			//}
-			printf("%.00f\n", thread_controller->vectorNode[1].vectorDevice[1].vectorTag[0].value);
-			//printf("%d", thread_controller->vectorNode[1].vectorDevice[1].vectorTag[1].attribute);
-			//printf("\n");
-
-			
-			
-
-			sleep(1);
-		}
-
-	}
-
-}
-
-
-
-void* poll(void *args)
+void* pollingEngine(void *args)
 {
 
 	Controller* controller = (Controller*)args;
@@ -193,14 +92,12 @@ void* poll(void *args)
 			//Запуск опроса устройства
 			if (controller->vectorNode[i].vectorDevice[j].vectorTag.size() > 0)
 			{				
-				pthread_create(&modbus_thread[j], NULL, pollingDevice, controller);
+				pthread_create(&modbus_thread[j], NULL, pollingDevice, &controller->vectorNode[i].vectorDevice[j]);
 			}
 
 
 		}
-	}
-
-	//pthread_create(&modbus_thread[0], NULL, pollingDevice, &controller);
+	}	
 }
 
 
@@ -218,17 +115,16 @@ int main()
 
 
 	controller = serializeFromJSON("/root/projects/OPC_Server/opc.json");
-
 	
 
 	pthread_create(&server_thread, NULL, workerOPC, NULL); //Запуск OPC сервера 
 	
 	
-	poll(&controller);
-	//pthread_create(&modbus_thread, NULL, pollingDevice, &controller); //Запуск опроса устройства
+	pollingEngine(&controller);
+	
 	
 	pthread_join(server_thread, (void**)&status);
-	pthread_join(modbus_thread, (void**)&status);
+	//pthread_join(modbus_thread, (void**)&status);
 	
 
 	sleep(15);

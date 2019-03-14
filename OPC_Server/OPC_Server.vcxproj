@@ -84,6 +84,7 @@
     <ClCompile Include="serialize.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="tcp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="rapidjson\stringbuffer.h" />
     <ClInclude Include="rapidjson\writer.h" />
     <ClInclude Include="serialize.h" />
+    <ClInclude Include="tcp.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\opc.json" />

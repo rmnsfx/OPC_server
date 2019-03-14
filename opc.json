@@ -18,8 +18,8 @@
         {
             "name": "Default Com Name 1",
             "type": 1,
-            "intertype": "RS-485",
-            "port": "",
+            "intertype": "TCP",
+            "port": 8080,
             "address": "",
             "comment": "",
             
@@ -28,9 +28,9 @@
                     "name": "Default Dev Name 0",
                     "type": 2,
                     "devtype": 0,
-                    "address": "",
+                    "address": "192.168.0.146",
                     "comment": "",
-
+                    "port": 8080,
                     "Tags": [],
                     "attribute": 9171403
                 },
@@ -38,8 +38,9 @@
                     "name": "Default Dev Name 1",
                     "type": 2,
                     "devtype": 0,
-                    "address": "",
+                    "address": "192.168.0.146",
                     "comment": "",
+                    "port": 8080,
 
                     "Tags": [
                         {
@@ -47,25 +48,25 @@
                             "type": 3,
                             "tagtype": "0",
                             "string": "",
-                            "address": "",
+                            "address": "1",
                             "comment": "Bingo",
                             "attribute": 66876749
                         },
                         {
                             "name": "Default Tag Name 1",
                             "type": 3,
-                            "tagtype": "0",
+                            "tagtype": "3",
                             "string": "",
-                            "address": "",
+                            "address": "2",
                             "comment": "",
                             "attribute": 134655
                         },
                         {
                             "name": "Default Tag Name 2",
                             "type": 3,
-                            "tagtype": "0",
+                            "tagtype": "3",
                             "string": "",
-                            "address": "",
+                            "address": "3",
                             "comment": "",
                             "attribute": 3055927
                         },
@@ -74,7 +75,7 @@
                             "type": 3,
                             "tagtype": "3",
                             "string": "",
-                            "address": "",
+                            "address": "4",
                             "comment": "",
                             "attribute": 8756366
                         },
@@ -83,7 +84,7 @@
                             "type": 3,
                             "tagtype": "3",
                             "string": "",
-                            "address": "",
+                            "address": "4",
                             "comment": "",
                             "attribute": 39117196
                         }
@@ -94,8 +95,9 @@
                     "name": "Default Dev Name 2",
                     "type": 2,
                     "devtype": 0,
-                    "address": "",
+                    "address": "192.168.0.146",
                     "comment": "",
+                    "port": 8080,
 
                     "Tags": [
                       {
@@ -103,7 +105,7 @@
                         "type": 3,
                         "tagtype": "4",
                         "string": "",
-                        "address": "",
+                        "address": "5",
                         "comment": "",
                         "attribute": 9719186
                       },
@@ -112,7 +114,7 @@
                         "type": 3,
                         "tagtype": "4",
                         "string": "",
-                        "address": "",
+                        "address": "6",
                         "comment": "",
                         "attribute": 60044311
                       }

@@ -2,6 +2,15 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <cstdio>
+#include <cstdlib>
+#include <signal.h>
+#include <pthread.h>
+#include <string> 
+#include <iostream>
+#include <vector>
+#include <unistd.h>
+
 class Controller;
 class Node;
 class Device;
@@ -28,6 +37,11 @@ class Controller : public iServerTree
 {
 public:
 
+	Controller()
+	{
+		name = "Controller";
+	}
+
 	std::vector<Tag> vectorControllerTag;
 	std::vector<Node> vectorNode;
 };
@@ -37,14 +51,19 @@ class Node : public Controller
 {
 public:
 
+	Node()
+	{
+		name = "Node";
+	}
+
 	int baud_rate = 0;
 	int word_lenght = 0;
 	int parity = 0;
 	int stop_bit = 0;
 
 	std::string intertype;
-	std::string address;
-	std::string port;
+	//std::string address;
+	//std::string port;
 
 	std::vector<Tag> vectorNodeTag;
 	std::vector<Device> vectorDevice;
@@ -56,12 +75,18 @@ class Device : public Node
 {
 public:
 
+	Device()
+	{
+		name = "Device";
+	}
+
 	int modbus_address = 0;
 	int poll_period = 0;
 	int poll_timeout = 0;
+	uint port = 0;
 
 	int devtype = 0;
-	std::string address;
+	std::string ip;
 
 	std::vector<Tag> vectorDeviceTag;
 	std::vector<Tag> vectorTag;
@@ -72,6 +97,11 @@ public:
 class Tag : public Device
 {
 public:
+
+	Tag()
+	{
+		name = "Tag";
+	}
 
 	int on = 0;
 	int function = 0;
@@ -86,8 +116,15 @@ public:
 };
 
 //Класс группа
-class Group
+class Group : public iServerTree
 {
+
+public:
+
+	Group()
+	{
+		name = "Group";
+	}
 
 };
 
