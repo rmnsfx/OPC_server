@@ -187,34 +187,26 @@ void* poll(void *args)
 {
 	Controller* controller = (Controller*)args;
 	
-	int sss = controller->vectorNode.size();
+	//int sss = controller->vectorNode.size();
 	
 	
 
 
 	for (int i = 0; i < controller->vectorNode.size(); i++)
 	{
+		printf("%s, %d\n", controller->vectorNode[i].name.c_str(), controller->vectorNode[i].vectorDevice.size());
 
-		
 		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
 		{
+			printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
 
-		//	if (controller->vectorNode[i].vectorDevice[j].vectorTag.size() > 0)
-		//	for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
-		//	{
+			for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
+			{
+				printf("        %s\n", controller->vectorNode[i].vectorDevice[j].vectorTag[k].name.c_str());
+				//printf("%d\n", controller->vectorNode[i].vectorDevice[j].vectorTag[k].attribute);
+			}
 
-		//		printf("%d, %d, %s\n", i, j, controller->vectorNode[i].vectorDevice[j].vectorTag[k].name.c_str());
-		//		//printf("%d\n", controller->vectorNode[i].vectorDevice[j].vectorTag[k].attribute);
-
-		//	}
-
-			//printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
-			
-
-		}
-
-		printf("\n%s, %d\n", controller->vectorNode[i].name.c_str(), controller->vectorNode[i].vectorDevice.size());
-		
+		}	
 	}
 
 }
@@ -354,9 +346,11 @@ Controller serializeFromJSON(char* path)
 		if (Coms.Size() > 0)
 		{			
 
+			controller.vectorNode.clear();
+
 			for (SizeType i = 0; i < Coms.Size(); i++)
 			{
-				printf("    Coms: %s\n", Coms[i]["name"].GetString());				
+				//printf("    Coms: %s\n", Coms[i]["name"].GetString());				
 
 				node.name = Coms[i]["name"].GetString();
 				node.type = Coms[i]["type"].GetUint();
@@ -370,10 +364,11 @@ Controller serializeFromJSON(char* path)
 
 				if (Coms[i]["Devs"].Size() > 0)
 				{									
+					node.vectorDevice.clear();
 
 					for (SizeType j = 0; j < Coms[i]["Devs"].Size(); j++)
-					{
-						printf("         Devs: %s\n", Coms[i]["Devs"][j]["name"].GetString());						
+					{						
+						//printf("         Devs: %s\n", Coms[i]["Devs"][j]["name"].GetString());						
 
 						device.name = Coms[i]["Devs"][j]["name"].GetString();
 						device.type = Coms[i]["Devs"][j]["type"].GetUint();
@@ -385,10 +380,11 @@ Controller serializeFromJSON(char* path)
 
 						if (Coms[i]["Devs"][j]["Tags"].Size() > 0)
 						{					
+							device.vectorTag.clear();
 
 							for (SizeType k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
 							{
-								printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());
+								//printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());
 
 								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
 								tags.type = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
@@ -402,7 +398,6 @@ Controller serializeFromJSON(char* path)
 							}							
 						}
 						else device.vectorTag.clear();
-
 						
 						node.vectorDevice.push_back(device);
 					}					
@@ -418,7 +413,7 @@ Controller serializeFromJSON(char* path)
 
 					for (SizeType j = 0; j < Coms[i]["Tags"].Size(); j++)
 					{
-						printf("Tags: %s\n", Tags[i]["Tags"][j]["name"].GetString());
+						//printf("Tags: %s\n", Tags[i]["Tags"][j]["name"].GetString());
 
 						nodeTags.name = Tags[i]["Tags"][j]["name"].GetString();
 						nodeTags.type = Tags[i]["Tags"][j]["type"].GetUint();
@@ -452,9 +447,7 @@ Controller serializeFromJSON(char* path)
 				controllerTags.string = Tags[i]["string"].GetString();
 				controllerTags.address = Tags[i]["address"].GetString();
 				controllerTags.description = Tags[i]["comment"].GetString();
-				controllerTags.attribute = Tags[i]["attribute"].GetUint();
-
-				
+				controllerTags.attribute = Tags[i]["attribute"].GetUint();				
 			}
 
 			controller.vectorControllerTag.push_back(controllerTags);
