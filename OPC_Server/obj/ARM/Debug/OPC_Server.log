@@ -19,33 +19,27 @@ D:\Repos\OPC_Server\OPC_Server\main.cpp(180,16): warning :                 ^~~~~
 D:\Repos\OPC_Server\OPC_Server\main.cpp(183,1): warning : no return statement in function returning non-void [-Wreturn-type]
 D:\Repos\OPC_Server\OPC_Server\main.cpp(183,1): warning :  }
 D:\Repos\OPC_Server\OPC_Server\main.cpp(183,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(195,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(195,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(195,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(199,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(199,21): warning :    for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(199,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(203,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(203,22): warning :     for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(203,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(212,1): warning : no return statement in function returning non-void [-Wreturn-type]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(212,1): warning :  }
-D:\Repos\OPC_Server\OPC_Server\main.cpp(212,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(219,16): warning : unused variable ‘valread’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(219,16): warning :   int sock = 0, valread;
-D:\Repos\OPC_Server\OPC_Server\main.cpp(219,16): warning :                 ^~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(391,69): warning : conversion to ‘char’ from ‘unsigned int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(391,69): warning :          tags.tagtype = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
-D:\Repos\OPC_Server\OPC_Server\main.cpp(391,69): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(476,69): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(476,69): warning :   controller = serializeFromJSON("/root/projects/OPC_Server/opc.json");
-D:\Repos\OPC_Server\OPC_Server\main.cpp(476,69): warning :                                                                      ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(468,6): warning : unused variable ‘status’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(468,6): warning :   int status;
-D:\Repos\OPC_Server\OPC_Server\main.cpp(468,6): warning :       ^~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(308,1): warning : control reaches end of non-void function [-Wreturn-type]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(308,1): warning :  }
-D:\Repos\OPC_Server\OPC_Server\main.cpp(308,1): warning :  ^
+D:\Repos\OPC_Server\OPC_Server\main.cpp(193,16): warning : unused variable ‘valread’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(193,16): warning :   int sock = 0, valread;
+D:\Repos\OPC_Server\OPC_Server\main.cpp(193,16): warning :                 ^~~~~~~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(292,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(292,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(292,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(299,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(299,21): warning :    for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(299,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(319,1): warning : no return statement in function returning non-void [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(319,1): warning :  }
+D:\Repos\OPC_Server\OPC_Server\main.cpp(319,1): warning :  ^
+D:\Repos\OPC_Server\OPC_Server\main.cpp(402,69): warning : conversion to ‘char’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(402,69): warning :          tags.tagtype = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\main.cpp(402,69): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(484,69): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(484,69): warning :   controller = serializeFromJSON("/root/projects/OPC_Server/opc.json");
+D:\Repos\OPC_Server\OPC_Server\main.cpp(484,69): warning :                                                                      ^
+D:\Repos\OPC_Server\OPC_Server\main.cpp(282,1): warning : control reaches end of non-void function [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(282,1): warning :  }
+D:\Repos\OPC_Server\OPC_Server\main.cpp(282,1): warning :  ^
 /usr/include/c++/6/bits/stl_vector.h(324,31): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
 /usr/include/c++/6/bits/stl_uninitialized.h(279,5): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
 /usr/include/c++/6/bits/stl_uninitialized.h(279,5): message :      __uninitialized_copy_a(_InputIterator __first, _InputIterator __last,

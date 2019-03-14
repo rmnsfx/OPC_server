@@ -183,33 +183,7 @@ void* workerOPC(void *args)
 }
 
 
-void* poll(void *args)
-{
-	Controller* controller = (Controller*)args;
-	
-	//int sss = controller->vectorNode.size();
-	
-	
 
-
-	for (int i = 0; i < controller->vectorNode.size(); i++)
-	{
-		printf("%s, %d\n", controller->vectorNode[i].name.c_str(), controller->vectorNode[i].vectorDevice.size());
-
-		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
-		{
-			printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
-
-			for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
-			{
-				printf("        %s\n", controller->vectorNode[i].vectorDevice[j].vectorTag[k].name.c_str());
-				//printf("%d\n", controller->vectorNode[i].vectorDevice[j].vectorTag[k].attribute);
-			}
-
-		}	
-	}
-
-}
 
 void* pollingDevice(void *args)
 {
@@ -223,9 +197,9 @@ void* pollingDevice(void *args)
 	timeout.tv_sec = 5;
 	timeout.tv_usec = 0;
 	
-	Controller* controller = (Controller*) args;
+	Controller* thread_controller = (Controller*) args;
 
-	if (controller != NULL)
+	if (thread_controller != NULL)
 	{
 		
 
@@ -278,13 +252,13 @@ void* pollingDevice(void *args)
 		
 		while(1)
 		{ 
-			result = send(sock, write_buffer, sizeof(write_buffer), 0);		
+			result = send(sock, &write_buffer, sizeof(write_buffer), 0);		
 			result = read(sock, &read_buffer, sizeof(read_buffer));
 
-			controller->vectorNode[1].vectorDevice[1].vectorTag[0].value = float((read_buffer[9]<<8)  + read_buffer[10]);
+			thread_controller->vectorNode[1].vectorDevice[1].vectorTag[0].value = float((read_buffer[9]<<8)  + read_buffer[10]);
 
 			UA_Variant value;
-			UA_Int32 myInteger = (UA_Int32) int(controller->vectorNode[1].vectorDevice[1].vectorTag[0].value);
+			UA_Int32 myInteger = (UA_Int32) int(thread_controller->vectorNode[1].vectorDevice[1].vectorTag[0].value);
 			UA_Variant_setScalarCopy(&value, &myInteger, &UA_TYPES[UA_TYPES_INT32]);
 			UA_Server_writeValue(server, UA_NODEID_NUMERIC(1, 1), value);
 
@@ -293,8 +267,8 @@ void* pollingDevice(void *args)
 			//{
 			//	printf("%02x ", read_buffer[i]);				
 			//}
-			printf("%.00f\n", controller->vectorNode[1].vectorDevice[1].vectorTag[0].value);
-			//printf("%d", controller->vectorNode[1].vectorDevice[1].vectorTag[1].attribute);
+			printf("%.00f\n", thread_controller->vectorNode[1].vectorDevice[1].vectorTag[0].value);
+			//printf("%d", thread_controller->vectorNode[1].vectorDevice[1].vectorTag[1].attribute);
 			//printf("\n");
 
 			
@@ -308,10 +282,43 @@ void* pollingDevice(void *args)
 }
 
 
+
+void* poll(void *args)
+{
+
+	Controller* controller = (Controller*)args;
+
+	
+	//Узел (Node/Coms)
+	for (int i = 0; i < controller->vectorNode.size(); i++)
+	{
+		printf("%s\n", controller->vectorNode[i].name.c_str());
+
+		pthread_t modbus_thread[controller->vectorNode[i].vectorDevice.size()];
+
+		//Устройство (Device)
+		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+		{
+			printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
+
+			//Запуск опроса устройства
+			if (controller->vectorNode[i].vectorDevice[j].vectorTag.size() > 0)
+			{				
+				pthread_create(&modbus_thread[j], NULL, pollingDevice, controller);
+			}
+
+
+		}
+	}
+
+	//pthread_create(&modbus_thread[0], NULL, pollingDevice, &controller);
+}
+
+
 Controller serializeFromJSON(char* path)
 {
 	
-	Controller controller;
+	Controller contr;
 	Node node;
 	Device device;
 	Tag tags;	
@@ -336,17 +343,17 @@ Controller serializeFromJSON(char* path)
 	if (doc.IsObject() == true)
 	{
 
-		controller.name = doc["name"].GetString();
-		controller.type = doc["type"].GetUint();
-		controller.description = doc["comment"].GetString();
-		controller.attribute = doc["attribute"].GetUint();
+		contr.name = doc["name"].GetString();
+		contr.type = doc["type"].GetUint();
+		contr.description = doc["comment"].GetString();
+		contr.attribute = doc["attribute"].GetUint();
 
 		printf("%s:\n", doc["name"].GetString());
 
 		if (Coms.Size() > 0)
 		{			
 
-			controller.vectorNode.clear();
+			contr.vectorNode.clear();
 
 			for (SizeType i = 0; i < Coms.Size(); i++)
 			{
@@ -428,7 +435,7 @@ Controller serializeFromJSON(char* path)
 				}
 				else node.vectorNodeTag.clear();
 
-				controller.vectorNode.push_back(node);
+				contr.vectorNode.push_back(node);
 
 			} //ForLoop Coms (Node) end
 		} //If Coms(Node) end
@@ -450,13 +457,13 @@ Controller serializeFromJSON(char* path)
 				controllerTags.attribute = Tags[i]["attribute"].GetUint();				
 			}
 
-			controller.vectorControllerTag.push_back(controllerTags);
+			contr.vectorControllerTag.push_back(controllerTags);
 		}
-		else controller.vectorControllerTag.clear();
+		else contr.vectorControllerTag.clear();
 
 	} //Server/Controller end
 
-	return controller;
+	return contr;
 }
 
 
@@ -472,13 +479,16 @@ int main()
 
 	controller = serializeFromJSON("/root/projects/OPC_Server/opc.json");
 
-	poll(&controller);
+	
 
-	//pthread_create(&server_thread, NULL, workerOPC, NULL); //Запуск OPC сервера 
+	pthread_create(&server_thread, NULL, workerOPC, NULL); //Запуск OPC сервера 
+	
+	
+	poll(&controller);
 	//pthread_create(&modbus_thread, NULL, pollingDevice, &controller); //Запуск опроса устройства
-	//
-	//pthread_join(server_thread, (void**)&status);
-	//pthread_join(modbus_thread, (void**)&status);
+	
+	pthread_join(server_thread, (void**)&status);
+	pthread_join(modbus_thread, (void**)&status);
 	
 
 	sleep(15);
