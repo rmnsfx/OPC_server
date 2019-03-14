@@ -20,10 +20,9 @@
 #include<netdb.h>
 
 #include "main.h"
+#include "serialize.h"
 
 
-
-using namespace rapidjson;
 
 
 UA_Server *server;
@@ -205,156 +204,7 @@ void* poll(void *args)
 }
 
 
-Controller serializeFromJSON(char* path)
-{
-	
-	Controller contr;
-	Node node;
-	Device device;
-	Tag tags;	
-	Tag nodeTags;
-	Tag controllerTags;
 
-	char readBuffer[65536];
-
-	FILE* fp = fopen(path, "r");
-	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
-
-	Document doc;
-	doc.ParseStream(is);
-	fclose(fp);
-
-	printf("Parsing json complete.\n\n");
-
-	const Value& Coms = doc["Coms"];
-	const Value& Tags = doc["Tags"];
-
-
-	if (doc.IsObject() == true)
-	{
-
-		contr.name = doc["name"].GetString();
-		contr.type = doc["type"].GetUint();
-		contr.description = doc["comment"].GetString();
-		contr.attribute = doc["attribute"].GetUint();
-
-		printf("%s:\n", doc["name"].GetString());
-
-		if (Coms.Size() > 0)
-		{			
-
-			contr.vectorNode.clear();
-
-			for (SizeType i = 0; i < Coms.Size(); i++)
-			{
-				//printf("    Coms: %s\n", Coms[i]["name"].GetString());				
-
-				node.name = Coms[i]["name"].GetString();
-				node.type = Coms[i]["type"].GetUint();
-				node.intertype = Coms[i]["intertype"].GetString();
-				node.port = Coms[i]["port"].GetString();
-				node.address = Coms[i]["address"].GetString();
-				node.description = Coms[i]["comment"].GetString();
-				node.attribute = Coms[i]["attribute"].GetUint();
-
-
-
-				if (Coms[i]["Devs"].Size() > 0)
-				{									
-					node.vectorDevice.clear();
-
-					for (SizeType j = 0; j < Coms[i]["Devs"].Size(); j++)
-					{						
-						//printf("         Devs: %s\n", Coms[i]["Devs"][j]["name"].GetString());						
-
-						device.name = Coms[i]["Devs"][j]["name"].GetString();
-						device.type = Coms[i]["Devs"][j]["type"].GetUint();
-						device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();
-						device.address = Coms[i]["Devs"][j]["address"].GetString();
-						device.description = Coms[i]["Devs"][j]["comment"].GetString();
-						device.attribute = Coms[i]["Devs"][j]["attribute"].GetUint();
-
-
-						if (Coms[i]["Devs"][j]["Tags"].Size() > 0)
-						{					
-							device.vectorTag.clear();
-
-							for (SizeType k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
-							{
-								//printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());
-
-								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
-								tags.type = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
-								tags.tagtype = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
-								tags.string = Coms[i]["Devs"][j]["Tags"][k]["string"].GetString();
-								tags.address = Coms[i]["Devs"][j]["Tags"][k]["address"].GetString();
-								tags.description = Coms[i]["Devs"][j]["Tags"][k]["comment"].GetString();
-								tags.attribute = Coms[i]["Devs"][j]["Tags"][k]["attribute"].GetUint();
-
-								device.vectorTag.push_back(tags);
-							}							
-						}
-						else device.vectorTag.clear();
-						
-						node.vectorDevice.push_back(device);
-					}					
-				}
-				else node.vectorDevice.clear();
-				
-
-				
-
-
-				if (Coms[i]["Tags"].Size() > 0)
-				{
-
-					for (SizeType j = 0; j < Coms[i]["Tags"].Size(); j++)
-					{
-						//printf("Tags: %s\n", Tags[i]["Tags"][j]["name"].GetString());
-
-						nodeTags.name = Tags[i]["Tags"][j]["name"].GetString();
-						nodeTags.type = Tags[i]["Tags"][j]["type"].GetUint();
-						nodeTags.tagtype = Tags[i]["Tags"][j]["tagtype"].GetString();
-						nodeTags.string = Tags[i]["Tags"][j]["string"].GetString();
-						nodeTags.address = Tags[i]["Tags"][j]["address"].GetString();
-						nodeTags.description = Tags[i]["Tags"][j]["comment"].GetString();
-						nodeTags.attribute = Tags[i]["Tags"][j]["attribute"].GetUint();
-
-						node.vectorNodeTag.push_back(nodeTags);
-					}
-				}
-				else node.vectorNodeTag.clear();
-
-				contr.vectorNode.push_back(node);
-
-			} //ForLoop Coms (Node) end
-		} //If Coms(Node) end
-
-
-		if (Tags.Size() > 0)
-		{			
-
-			for (SizeType i = 0; i < Tags.Size(); i++)
-			{
-				//printf("Tags: %s\n", Tags[i]["name"].GetString());
-
-				controllerTags.name = Tags[i]["name"].GetString();
-				controllerTags.type = Tags[i]["type"].GetUint();
-				controllerTags.tagtype = Tags[i]["tagtype"].GetString();
-				controllerTags.string = Tags[i]["string"].GetString();
-				controllerTags.address = Tags[i]["address"].GetString();
-				controllerTags.description = Tags[i]["comment"].GetString();
-				controllerTags.attribute = Tags[i]["attribute"].GetUint();				
-			}
-
-			contr.vectorControllerTag.push_back(controllerTags);
-		}
-		else contr.vectorControllerTag.clear();
-
-	} //Server/Controller end
-
-	return contr;
-}
 
 
 int main()

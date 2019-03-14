@@ -2,6 +2,7 @@ D:\Repos\OPC_Server\OPC_Server\main.cpp|/root/projects/OPC_Server/OPC_Server/mai
 D:\Repos\OPC_Server\OPC_Server|/root/projects/OPC_Server/OPC_Server
 @D:\Repos\OPC_Server\OPC_Server|@/root/projects/OPC_Server/OPC_Server
 D:\Repos\OPC_Server\OPC_Server\open62541.c|/root/projects/OPC_Server/OPC_Server/open62541.c
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp|/root/projects/OPC_Server/OPC_Server/serialize.cpp
 D:\Repos\OPC_Server\OPC_Server\main.h|/root/projects/OPC_Server/OPC_Server/main.h
 D:\Repos\OPC_Server\OPC_Server\open62541.h|/root/projects/OPC_Server/OPC_Server/open62541.h
 D:\Repos\OPC_Server\OPC_Server\rapidjson\allocators.h|/root/projects/OPC_Server/OPC_Server/rapidjson/allocators.h
@@ -48,6 +49,7 @@ D:\Repos\OPC_Server\OPC_Server\rapidjson\schema.h|/root/projects/OPC_Server/OPC_
 D:\Repos\OPC_Server\OPC_Server\rapidjson\stream.h|/root/projects/OPC_Server/OPC_Server/rapidjson/stream.h
 D:\Repos\OPC_Server\OPC_Server\rapidjson\stringbuffer.h|/root/projects/OPC_Server/OPC_Server/rapidjson/stringbuffer.h
 D:\Repos\OPC_Server\OPC_Server\rapidjson\writer.h|/root/projects/OPC_Server/OPC_Server/rapidjson/writer.h
+D:\Repos\OPC_Server\OPC_Server\serialize.h|/root/projects/OPC_Server/OPC_Server/serialize.h
 D:\Repos\OPC_Server\opc.json|/root/projects/OPC_Server/opc.json
 D:\Repos\OPC_Server|/root/projects/OPC_Server
 @D:\Repos\OPC_Server|@/root/projects/OPC_Server

@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="open62541.c" />
+    <ClCompile Include="serialize.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="rapidjson">
@@ -129,6 +130,7 @@
     </ClInclude>
     <ClInclude Include="open62541.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="serialize.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\opc.json" />
