@@ -19,6 +19,9 @@
 #include <netinet/in.h> 
 #include<netdb.h>
 
+
+
+
 using namespace rapidjson;
 
 
@@ -27,7 +30,9 @@ class Node;
 class Device;
 class Tag;
 
-
+UA_Server *server;
+pthread_t server_thread;
+pthread_t modbus_thread;
 
 //Абстрактный базовый класс
 class iServerTree
@@ -139,7 +144,82 @@ public:
 
 
 
-void pollingDevice(Controller* controller)
+
+
+static void addCounterSensorVariable(UA_Server * server) {
+
+	UA_NodeId counterNodeId = UA_NODEID_NUMERIC(1, 1);
+
+	UA_QualifiedName counterName = UA_QUALIFIEDNAME(1, "Piece Counter[pieces]");
+
+	UA_VariableAttributes attr = UA_VariableAttributes_default;
+	attr.description = UA_LOCALIZEDTEXT("en_US", "Piece Counter (units:pieces)");
+	attr.displayName = UA_LOCALIZEDTEXT("en_US", "Piece Counter");
+	attr.dataType = UA_TYPES[UA_TYPES_INT32].typeId;
+
+	UA_Int32 counterValue = 0;
+	UA_Variant_setScalarCopy(&attr.value, &counterValue, &UA_TYPES[UA_TYPES_INT32]);
+
+	UA_Server_addVariableNode(server, counterNodeId, UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER), UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES), counterName, UA_NODEID_NULL, attr, NULL, NULL);
+}
+
+
+
+
+void* workerOPC(void *args)
+{
+	UA_Boolean running = true;
+
+
+	UA_ServerConfig *config = UA_ServerConfig_new_default();
+	
+	server = UA_Server_new(config);
+
+	addCounterSensorVariable(server);
+
+	UA_StatusCode retval = UA_Server_run(server, &running);
+	UA_Server_delete(server);
+	UA_ServerConfig_delete(config);
+}
+
+
+void* poll(void *args)
+{
+	Controller* controller = (Controller*)args;
+	
+	int sss = controller->vectorNode.size();
+	
+	
+
+
+	for (int i = 0; i < controller->vectorNode.size(); i++)
+	{
+
+		
+		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+		{
+
+		//	if (controller->vectorNode[i].vectorDevice[j].vectorTag.size() > 0)
+		//	for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
+		//	{
+
+		//		printf("%d, %d, %s\n", i, j, controller->vectorNode[i].vectorDevice[j].vectorTag[k].name.c_str());
+		//		//printf("%d\n", controller->vectorNode[i].vectorDevice[j].vectorTag[k].attribute);
+
+		//	}
+
+			//printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
+			
+
+		}
+
+		printf("\n%s, %d\n", controller->vectorNode[i].name.c_str(), controller->vectorNode[i].vectorDevice.size());
+		
+	}
+
+}
+
+void* pollingDevice(void *args)
 {
 	int result = 0;
 	char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };		
@@ -151,6 +231,7 @@ void pollingDevice(Controller* controller)
 	timeout.tv_sec = 5;
 	timeout.tv_usec = 0;
 	
+	Controller* controller = (Controller*) args;
 
 	if (controller != NULL)
 	{
@@ -200,61 +281,69 @@ void pollingDevice(Controller* controller)
 		{
 			printf("\nConnection Failed: %d\n", result);			
 		}
+
+		
 		
 		while(1)
 		{ 
 			result = send(sock, write_buffer, sizeof(write_buffer), 0);		
-			result = read(sock, &read_buffer, 255);
+			result = read(sock, &read_buffer, sizeof(read_buffer));
 
-			for (int i = 0; i < result; i++)
-			{
-				printf("%02x ", read_buffer[i]);				
-			}
-			//printf("%d\n", result);
-			printf("%d", controller->vectorNode[1].vectorDevice[1].vectorTag[1].attribute);
-			printf("\n");
+			controller->vectorNode[1].vectorDevice[1].vectorTag[0].value = float((read_buffer[9]<<8)  + read_buffer[10]);
+
+			UA_Variant value;
+			UA_Int32 myInteger = (UA_Int32) int(controller->vectorNode[1].vectorDevice[1].vectorTag[0].value);
+			UA_Variant_setScalarCopy(&value, &myInteger, &UA_TYPES[UA_TYPES_INT32]);
+			UA_Server_writeValue(server, UA_NODEID_NUMERIC(1, 1), value);
+
+
+			//for (int i = 0; i < result; i++)
+			//{
+			//	printf("%02x ", read_buffer[i]);				
+			//}
+			printf("%.00f\n", controller->vectorNode[1].vectorDevice[1].vectorTag[0].value);
+			//printf("%d", controller->vectorNode[1].vectorDevice[1].vectorTag[1].attribute);
+			//printf("\n");
+
+			
 			
 
 			sleep(1);
 		}
-		
-		//result = write(sock, buffer, 11);
-		//printf("Hello message sent %d\n", result);
-		//printf("\n...Start polling\n\n");
+
 	}
 
 }
 
 
-
-
-int main()
+Controller serializeFromJSON(char* path)
 {
+	
+	Controller controller;
+	Node node;
+	Device device;
+	Tag tags;	
+	Tag nodeTags;
+	Tag controllerTags;
+
 	char readBuffer[65536];
 
-	printf("Start OPC server...\n\n");
-	
-	
-	FILE* fp = fopen("/root/projects/OPC_Server/opc.json", "r"); 	
+	FILE* fp = fopen(path, "r");
 	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
-	
+
 	Document doc;
 	doc.ParseStream(is);
 	fclose(fp);
 
 	printf("Parsing json complete.\n\n");
 
-
-
 	const Value& Coms = doc["Coms"];
-	const Value& Tags = doc["Tags"];		
-		
-	
+	const Value& Tags = doc["Tags"];
+
+
 	if (doc.IsObject() == true)
 	{
 
-		Controller controller;		
-	
 		controller.name = doc["name"].GetString();
 		controller.type = doc["type"].GetUint();
 		controller.description = doc["comment"].GetString();
@@ -263,13 +352,12 @@ int main()
 		printf("%s:\n", doc["name"].GetString());
 
 		if (Coms.Size() > 0)
-		{
-			Node node;			
+		{			
 
 			for (SizeType i = 0; i < Coms.Size(); i++)
 			{
-				printf("    Coms: %s\n", Coms[i]["name"].GetString());
-								
+				printf("    Coms: %s\n", Coms[i]["name"].GetString());				
+
 				node.name = Coms[i]["name"].GetString();
 				node.type = Coms[i]["type"].GetUint();
 				node.intertype = Coms[i]["intertype"].GetString();
@@ -278,15 +366,14 @@ int main()
 				node.description = Coms[i]["comment"].GetString();
 				node.attribute = Coms[i]["attribute"].GetUint();
 
-				
+
 
 				if (Coms[i]["Devs"].Size() > 0)
-				{
-					Device device;
+				{									
 
 					for (SizeType j = 0; j < Coms[i]["Devs"].Size(); j++)
 					{
-						printf("         Devs: %s\n", Coms[i]["Devs"][j]["name"].GetString());					
+						printf("         Devs: %s\n", Coms[i]["Devs"][j]["name"].GetString());						
 
 						device.name = Coms[i]["Devs"][j]["name"].GetString();
 						device.type = Coms[i]["Devs"][j]["type"].GetUint();
@@ -297,12 +384,11 @@ int main()
 
 
 						if (Coms[i]["Devs"][j]["Tags"].Size() > 0)
-						{
-							Tag tags;
+						{					
 
 							for (SizeType k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
 							{
-								printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());					
+								printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());
 
 								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
 								tags.type = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
@@ -313,20 +399,22 @@ int main()
 								tags.attribute = Coms[i]["Devs"][j]["Tags"][k]["attribute"].GetUint();
 
 								device.vectorTag.push_back(tags);
-							}
+							}							
 						}
+						else device.vectorTag.clear();
 
+						
 						node.vectorDevice.push_back(device);
-					}
+					}					
 				}
+				else node.vectorDevice.clear();
 				
-				controller.vectorNode.push_back(node);
 
+				
 
 
 				if (Coms[i]["Tags"].Size() > 0)
 				{
-					Tag nodeTags;
 
 					for (SizeType j = 0; j < Coms[i]["Tags"].Size(); j++)
 					{
@@ -343,20 +431,16 @@ int main()
 						node.vectorNodeTag.push_back(nodeTags);
 					}
 				}
+				else node.vectorNodeTag.clear();
 
+				controller.vectorNode.push_back(node);
 
-			} //For Coms/Node end
-
-			
-			pollingDevice(&controller); //Запуск опроса устройства
-			
-
-		} //Coms/Node end
+			} //ForLoop Coms (Node) end
+		} //If Coms(Node) end
 
 
 		if (Tags.Size() > 0)
-		{
-			Tag controllerTags;
+		{			
 
 			for (SizeType i = 0; i < Tags.Size(); i++)
 			{
@@ -370,16 +454,38 @@ int main()
 				controllerTags.description = Tags[i]["comment"].GetString();
 				controllerTags.attribute = Tags[i]["attribute"].GetUint();
 
-				controller.vectorControllerTag.push_back(controllerTags);
-			}		
-		} 
-		
+				
+			}
+
+			controller.vectorControllerTag.push_back(controllerTags);
+		}
+		else controller.vectorControllerTag.clear();
+
 	} //Server/Controller end
 
+	return controller;
+}
 
 
+int main()
+{
+	int status;
+
+	printf("Start OPC server...\n\n");
 	
+	
+	Controller controller;
 
+
+	controller = serializeFromJSON("/root/projects/OPC_Server/opc.json");
+
+	poll(&controller);
+
+	//pthread_create(&server_thread, NULL, workerOPC, NULL); //Запуск OPC сервера 
+	//pthread_create(&modbus_thread, NULL, pollingDevice, &controller); //Запуск опроса устройства
+	//
+	//pthread_join(server_thread, (void**)&status);
+	//pthread_join(modbus_thread, (void**)&status);
 	
 
 	sleep(15);

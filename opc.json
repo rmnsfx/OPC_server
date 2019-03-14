@@ -10,7 +10,7 @@
             "port": "",
             "address": "",
             "comment": "",
-            "Coms": [],
+            
             "Devs": [],
             "Tags": [],
             "attribute": 90902373
@@ -22,7 +22,7 @@
             "port": "",
             "address": "",
             "comment": "",
-            "Coms": [],
+            
             "Devs": [
                 {
                     "name": "Default Dev Name 0",
@@ -30,8 +30,7 @@
                     "devtype": 0,
                     "address": "",
                     "comment": "",
-                    "Coms": [],
-                    "Devs": [],
+
                     "Tags": [],
                     "attribute": 9171403
                 },
@@ -41,8 +40,7 @@
                     "devtype": 0,
                     "address": "",
                     "comment": "",
-                    "Coms": [],
-                    "Devs": [],
+
                     "Tags": [
                         {
                             "name": "Default Tag Name 0",
@@ -93,32 +91,31 @@
                     "attribute": 99202404
                 },
                 {
-                    "name": "Default Dev Name",
+                    "name": "Default Dev Name 2",
                     "type": 2,
                     "devtype": 0,
                     "address": "",
                     "comment": "",
-                    "Coms": [],
-                    "Devs": [],
+
                     "Tags": [
-                        {
-                            "name": "Default Tag Name",
-                            "type": 3,
-                            "tagtype": "4",
-                            "string": "",
-                            "address": "",
-                            "comment": "",
-                            "attribute": 9719186
-                        },
-                        {
-                            "name": "Default Tag Name",
-                            "type": 3,
-                            "tagtype": "4",
-                            "string": "",
-                            "address": "",
-                            "comment": "",
-                            "attribute": 60044311
-                        }
+                      {
+                        "name": "Default Tag Name 0 (Dev Name 2)",
+                        "type": 3,
+                        "tagtype": "4",
+                        "string": "",
+                        "address": "",
+                        "comment": "",
+                        "attribute": 9719186
+                      },
+                      {
+                        "name": "Default Tag Name 1 (Dev Name 2)",
+                        "type": 3,
+                        "tagtype": "4",
+                        "string": "",
+                        "address": "",
+                        "comment": "",
+                        "attribute": 60044311
+                      }
                     ],
                     "attribute": 1241970
                 }
@@ -127,13 +124,13 @@
             "attribute": 13755101
         },
         {
-            "name": "Default Com Name",
+            "name": "Default Com Name 2",
             "type": 1,
             "intertype": "RS-485",
             "port": "",
             "address": "",
             "comment": "",
-            "Coms": [],
+            
             "Devs": [],
             "Tags": [],
             "attribute": 19601011
