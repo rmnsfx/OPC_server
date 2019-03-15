@@ -73,9 +73,7 @@ void* workerOPC(void *args)
 
 void* pollingEngine(void *args)
 {
-
 	Controller* controller = (Controller*)args;
-
 	
 	//Узел (Node/Coms)
 	for (int i = 0; i < controller->vectorNode.size(); i++)
@@ -91,8 +89,16 @@ void* pollingEngine(void *args)
 
 			//Запуск опроса устройства
 			if (controller->vectorNode[i].vectorDevice[j].vectorTag.size() > 0)
-			{				
-				pthread_create(&modbus_thread[j], NULL, pollingDevice, &controller->vectorNode[i].vectorDevice[j]);
+			{
+				if (controller->vectorNode[i].intertype == "TCP")
+				{
+					pthread_create(&modbus_thread[j], NULL, pollingDevice, &controller->vectorNode[i]);
+				}
+
+				if (controller->vectorNode[i].intertype == "RS485")
+				{
+					//pthread_create(&modbus_thread[j], NULL, pollingDevice, &controller->vectorNode[i]);
+				}
 			}
 
 

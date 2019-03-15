@@ -20,38 +20,32 @@ D:\Repos\OPC_Server\OPC_Server\main.cpp(62,16): warning :                 ^~~~~~
 D:\Repos\OPC_Server\OPC_Server\main.cpp(65,1): warning : no return statement in function returning non-void [-Wreturn-type]
 D:\Repos\OPC_Server\OPC_Server\main.cpp(65,1): warning :  }
 D:\Repos\OPC_Server\OPC_Server\main.cpp(65,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(81,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(81,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(81,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(88,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(88,21): warning :    for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(88,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(101,1): warning : no return statement in function returning non-void [-Wreturn-type]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(101,1): warning :  }
-D:\Repos\OPC_Server\OPC_Server\main.cpp(101,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(117,69): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(117,69): warning :   controller = serializeFromJSON("/root/projects/OPC_Server/opc.json");
-D:\Repos\OPC_Server\OPC_Server\main.cpp(117,69): warning :                                                                      ^
+D:\Repos\OPC_Server\OPC_Server\main.cpp(79,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(79,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(79,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(86,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(86,21): warning :    for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(86,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\main.cpp(100,1): warning : no return statement in function returning non-void [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(100,1): warning :  }
+D:\Repos\OPC_Server\OPC_Server\main.cpp(100,1): warning :  ^
+D:\Repos\OPC_Server\OPC_Server\main.cpp(116,69): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(116,69): warning :   controller = serializeFromJSON("/root/projects/OPC_Server/opc.json");
+D:\Repos\OPC_Server\OPC_Server\main.cpp(116,69): warning :                                                                      ^
   open62541.c
   serialize.cpp
 D:\Repos\OPC_Server\OPC_Server\serialize.cpp(61,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
 D:\Repos\OPC_Server\OPC_Server\serialize.cpp(61,22): warning :     for (int i = 0; i < Coms.Size(); i++)
 D:\Repos\OPC_Server\OPC_Server\serialize.cpp(61,22): warning :                     ~~^~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(79,24): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(79,24): warning :       for (int j = 0; j < Coms[i]["Devs"].Size(); j++)
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(79,24): warning :                       ~~^~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(96,26): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(96,26): warning :         for (int k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(96,26): warning :                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,69): warning : conversion to ‘char’ from ‘unsigned int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,69): warning :          tags.tagtype = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,69): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(125,24): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(125,24): warning :       for (int j = 0; j < Coms[i]["Tags"].Size(); j++)
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(125,24): warning :                       ~~^~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(151,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(151,22): warning :     for (int i = 0; i < Tags.Size(); i++)
-D:\Repos\OPC_Server\OPC_Server\serialize.cpp(151,22): warning :                     ~~^~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(84,24): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(84,24): warning :       for (int j = 0; j < Coms[i]["Devs"].Size(); j++)
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(84,24): warning :                       ~~^~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,26): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,26): warning :         for (int k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,26): warning :                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(43,15): warning : unused variable ‘Tags’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(43,15): warning :   const Value& Tags = doc["Tags"];
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(43,15): warning :                ^~~~
 /usr/include/c++/6/bits/stl_vector.h(324,31): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
 /usr/include/c++/6/bits/stl_uninitialized.h(279,5): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
 /usr/include/c++/6/bits/stl_uninitialized.h(279,5): message :      __uninitialized_copy_a(_InputIterator __first, _InputIterator __last,
@@ -70,14 +64,14 @@ D:\Repos\OPC_Server\OPC_Server\serialize.cpp(151,22): warning :                 
 /usr/include/c++/6/bits/stl_uninitialized.h(68,9): message :          ^~~~~~~~~~~~~
 /usr/include/c++/6/bits/stl_uninitialized.h(68,9): message : parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<const Tag*, std::vector<Tag> >’ will change in GCC 7.1
   tcp.cpp
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(84,38): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘uint {aka unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(84,38): warning :    serv_addr.sin_port = htons(device->port);
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(84,38): warning :                               ~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(30,16): warning : unused variable ‘valread’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(30,16): warning :   int sock = 0, valread;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(30,16): warning :                 ^~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(117,1): warning : control reaches end of non-void function [-Wreturn-type]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(117,1): warning :  }
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(117,1): warning :  ^
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(82,36): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(82,36): warning :    serv_addr.sin_port = htons(node->port);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(82,36): warning :                               ~~~~~~^~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(37,6): warning : unused variable ‘valread’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(37,6): warning :   int valread;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(37,6): warning :       ^~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(115,1): warning : control reaches end of non-void function [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(115,1): warning :  }
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(115,1): warning :  ^
   Linking objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out

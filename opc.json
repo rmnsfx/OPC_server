@@ -5,86 +5,114 @@
     "Coms": [
         {
             "name": "Default Com Name 0",
+            "on": 0,
             "type": 1,
-            "intertype": "RS-485",
-            "port": "",
-            "address": "",
+            "intertype": "RS",
+            "address": "192.168.0.146",
+            "port": 8080,
             "comment": "",
-            
+            "baud_rate": 9600,
+            "word_lenght": 8,
+            "parity": 0,
+            "stop_bit": 0,
+            "wait_connection": 0,
             "Devs": [],
             "Tags": [],
             "attribute": 90902373
         },
         {
             "name": "Default Com Name 1",
+            "on": 0,
             "type": 1,
             "intertype": "TCP",
+            "address": "192.168.0.146",
             "port": 8080,
-            "address": "",
             "comment": "",
-            
+            "baud_rate": 115200,
+            "word_lenght": 8,
+            "parity": 0,
+            "stop_bit": 1,
+            "wait_connection": 0,         
             "Devs": [
                 {
                     "name": "Default Dev Name 0",
+                    "on": 1,
                     "type": 2,
-                    "devtype": 0,
-                    "address": "192.168.0.146",
-                    "comment": "",
-                    "port": 8080,
+                    "devtype": 0,                    
+                    "address_device": 7,
+                    "comment": "",           
+                    "period": 0,
+                    "timeout": 0,
                     "Tags": [],
                     "attribute": 9171403
                 },
                 {
                     "name": "Default Dev Name 1",
+                    "on": 1,
                     "type": 2,
-                    "devtype": 0,
-                    "address": "192.168.0.146",
-                    "comment": "",
-                    "port": 8080,
-
+                    "devtype": 0,                    
+                    "address_device": 7,
+                    "comment": "",           
+                    "period": 0,
+                    "timeout": 0,
                     "Tags": [
                         {
                             "name": "Default Tag Name 0",
-                            "type": 3,
-                            "tagtype": "0",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 1,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
                             "string": "",
-                            "address": "1",
-                            "comment": "Bingo",
+                            "comment": "",
                             "attribute": 66876749
                         },
                         {
                             "name": "Default Tag Name 1",
-                            "type": 3,
-                            "tagtype": "3",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 1,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
                             "string": "",
-                            "address": "2",
                             "comment": "",
                             "attribute": 134655
                         },
                         {
                             "name": "Default Tag Name 2",
-                            "type": 3,
-                            "tagtype": "3",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 1,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
                             "string": "",
-                            "address": "3",
                             "comment": "",
                             "attribute": 3055927
                         },
                         {
                             "name": "Default Tag Name 3",
-                            "type": 3,
-                            "tagtype": "3",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 1,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
                             "string": "",
-                            "address": "4",
                             "comment": "",
                             "attribute": 8756366
                         },
                         {
                             "name": "Default Tag Name 4",
-                            "type": 3,
-                            "tagtype": "3",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 1,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
                             "string": "",
-                            "address": "4",
                             "comment": "",
                             "attribute": 39117196
                         }
@@ -93,55 +121,51 @@
                 },
                 {
                     "name": "Default Dev Name 2",
+                    "on": 1,
                     "type": 2,
-                    "devtype": 0,
-                    "address": "192.168.0.146",
-                    "comment": "",
-                    "port": 8080,
-
+                    "devtype": 0,                    
+                    "address_device": 7,
+                    "comment": "",           
+                    "period": 0,
+                    "timeout": 0,
                     "Tags": [
-                      {
-                        "name": "Default Tag Name 0 (Dev Name 2)",
-                        "type": 3,
-                        "tagtype": "4",
-                        "string": "",
-                        "address": "5",
-                        "comment": "",
-                        "attribute": 9719186
-                      },
-                      {
-                        "name": "Default Tag Name 1 (Dev Name 2)",
-                        "type": 3,
-                        "tagtype": "4",
-                        "string": "",
-                        "address": "6",
-                        "comment": "",
-                        "attribute": 60044311
-                      }
+                        {
+                          "name": "Default Tag Name 0 (Dev Name 2)",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 1,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
+                            "string": "",
+                            "comment": "",
+                          "attribute": 9719186
+                        },
+                        {
+                          "name": "Default Tag Name 1 (Dev Name 2)",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 1,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
+                            "string": "",
+                            "comment": "",
+                          "attribute": 60044311
+                        }
                     ],
                     "attribute": 1241970
                 }
-            ],
-            "Tags": [],
+            ],            
             "attribute": 13755101
-        },
-        {
-            "name": "Default Com Name 2",
-            "type": 1,
-            "intertype": "RS-485",
-            "port": "",
-            "address": "",
-            "comment": "",
-            
-            "Devs": [],
-            "Tags": [],
-            "attribute": 19601011
         }
+
     ],
-    "Devs": [],
+    
     "Tags": [
         {
             "name": "Default Tag Name",
+            "on": 0,
             "type": 3,
             "tagtype": "0",
             "string": "",

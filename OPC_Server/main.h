@@ -23,7 +23,7 @@ class iServerTree
 public:
 
 	virtual ~iServerTree() {};
-
+	
 	int type;
 	std::string name;
 	std::string label;
@@ -35,84 +35,70 @@ public:
 //Класс контроллер
 class Controller : public iServerTree
 {
+
 public:
-
-	Controller()
-	{
-		name = "Controller";
-	}
-
-	std::vector<Tag> vectorControllerTag;
 	std::vector<Node> vectorNode;
+
+private:
+	std::vector<Tag> vectorControllerTag;
+	
 };
 
 //Класс узел
 class Node : public Controller
 {
-public:
 
-	Node()
-	{
-		name = "Node";
-	}
+public:	
+	std::vector<Device> vectorDevice;
 
-	int baud_rate = 0;
-	int word_lenght = 0;
+	int on = 0;
+	int baud_rate = 9600;
+	int word_lenght = 8;
 	int parity = 0;
-	int stop_bit = 0;
+	int stop_bit = 1;
 
 	std::string intertype;
-	//std::string address;
-	//std::string port;
+	std::string address; //IP or RS485 device
+	int port = 8080;
+	int tcp_wait_connection = 5;
 
+private:
 	std::vector<Tag> vectorNodeTag;
-	std::vector<Device> vectorDevice;
+
 };
 
 
 //Класс устройство
 class Device : public Node
 {
+
 public:
+	std::vector<Tag> vectorTag;
 
-	Device()
-	{
-		name = "Device";
-	}
-
-	int modbus_address = 0;
-	int poll_period = 0;
-	int poll_timeout = 0;
-	uint port = 0;
+	int device_address = 0;
+	int poll_period = 1;
+	int poll_timeout = 1;
 
 	int devtype = 0;
-	std::string ip;
 
+private:
 	std::vector<Tag> vectorDeviceTag;
-	std::vector<Tag> vectorTag;
+
 };
 
 
 //Класс тэг
 class Tag : public Device
 {
+
 public:
-
-	Tag()
-	{
-		name = "Tag";
-	}
-
-	int on = 0;
+	int reg_address = 0;
 	int function = 0;
-	int type = 0;
-	double coef_A = 0;
+	std::string data_type;
+	double coef_A = 1;
 	double coef_B = 0;
 	double value = 0;
 
-	std::string tagtype;
-	std::string string;
-	std::string address;
 };
 
 //Класс группа

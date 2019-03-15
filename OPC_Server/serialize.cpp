@@ -21,7 +21,7 @@ using namespace rapidjson;
 Controller serializeFromJSON(char* path)
 {
 
-	Controller contr;
+	Controller controller;
 	Node node;
 	Device device;
 	Tag tags;
@@ -45,28 +45,33 @@ Controller serializeFromJSON(char* path)
 
 	if (doc.IsObject() == true)
 	{
-
-		contr.name = doc["name"].GetString();
-		contr.type = doc["type"].GetUint();
-		contr.description = doc["comment"].GetString();
-		contr.attribute = doc["attribute"].GetUint();
+		
+		controller.name = doc["name"].GetString();
+		controller.type = doc["type"].GetUint();
+		controller.description = doc["comment"].GetString();
+		controller.attribute = doc["attribute"].GetUint();
 
 		printf("%s:\n", doc["name"].GetString());
 
 		if (Coms.Size() > 0)
 		{
 
-			contr.vectorNode.clear();
+			controller.vectorNode.clear();
 
 			for (int i = 0; i < Coms.Size(); i++)
 			{
-				//printf("    Coms: %s\n", Coms[i]["name"].GetString());				
-
+				printf("    Coms: %s\n", Coms[i]["name"].GetString());				
+								
 				node.name = Coms[i]["name"].GetString();
+				node.on = Coms[i]["on"].GetUint();
 				node.type = Coms[i]["type"].GetUint();
 				node.intertype = Coms[i]["intertype"].GetString();
-				//node.port = Coms[i]["port"].GetString();
-				//node.address = Coms[i]["address"].GetString();
+				node.address = Coms[i]["address"].GetString();
+				node.port = Coms[i]["port"].GetUint();	
+				node.baud_rate = Coms[i]["baud_rate"].GetUint();
+				node.word_lenght = Coms[i]["word_lenght"].GetUint();
+				node.parity = Coms[i]["parity"].GetUint();
+				node.stop_bit = Coms[i]["stop_bit"].GetUint();
 				node.description = Coms[i]["comment"].GetString();
 				node.attribute = Coms[i]["attribute"].GetUint();
 
@@ -78,16 +83,17 @@ Controller serializeFromJSON(char* path)
 
 					for (int j = 0; j < Coms[i]["Devs"].Size(); j++)
 					{
-						//printf("         Devs: %s\n", Coms[i]["Devs"][j]["name"].GetString());						
+						printf("         Devs: %s\n", Coms[i]["Devs"][j]["name"].GetString());						
 
 						device.name = Coms[i]["Devs"][j]["name"].GetString();
+						device.on = Coms[i]["Devs"][j]["on"].GetUint();						
 						device.type = Coms[i]["Devs"][j]["type"].GetUint();
-						device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();
-						device.ip = Coms[i]["Devs"][j]["address"].GetString();
-						device.description = Coms[i]["Devs"][j]["comment"].GetString();
+						device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();						
+						device.device_address = Coms[i]["Devs"][j]["address_device"].GetUint();
+						device.description = Coms[i]["Devs"][j]["comment"].GetString();						
+						device.poll_period = Coms[i]["Devs"][j]["period"].GetUint();
+						device.poll_timeout = Coms[i]["Devs"][j]["timeout"].GetUint();
 						device.attribute = Coms[i]["Devs"][j]["attribute"].GetUint();
-						device.port = Coms[i]["Devs"][j]["port"].GetUint();
-
 
 						if (Coms[i]["Devs"][j]["Tags"].Size() > 0)
 						{
@@ -95,13 +101,16 @@ Controller serializeFromJSON(char* path)
 
 							for (int k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
 							{
-								//printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());
+								printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());
 
 								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
-								tags.type = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
-								tags.tagtype = Coms[i]["Devs"][j]["Tags"][k]["type"].GetUint();
-								tags.string = Coms[i]["Devs"][j]["Tags"][k]["string"].GetString();
-								tags.address = Coms[i]["Devs"][j]["Tags"][k]["address"].GetString();
+								tags.on = Coms[i]["Devs"][j]["Tags"][k]["on"].GetUint();								
+								tags.data_type = Coms[i]["Devs"][j]["Tags"][k]["data_type"].GetString();
+								tags.function = Coms[i]["Devs"][j]["Tags"][k]["function"].GetUint();
+								tags.reg_address = Coms[i]["Devs"][j]["Tags"][k]["register"].GetUint();
+								tags.coef_A = Coms[i]["Devs"][j]["Tags"][k]["coef_A"].GetUint();
+								tags.coef_B = Coms[i]["Devs"][j]["Tags"][k]["coef_B"].GetUint();
+								
 								tags.description = Coms[i]["Devs"][j]["Tags"][k]["comment"].GetString();
 								tags.attribute = Coms[i]["Devs"][j]["Tags"][k]["attribute"].GetUint();
 
@@ -119,53 +128,53 @@ Controller serializeFromJSON(char* path)
 
 
 
-				if (Coms[i]["Tags"].Size() > 0)
-				{
+				//if (Coms[i]["Tags"].Size() > 0)
+				//{
 
-					for (int j = 0; j < Coms[i]["Tags"].Size(); j++)
-					{
-						//printf("Tags: %s\n", Tags[i]["Tags"][j]["name"].GetString());
+				//	for (int j = 0; j < Coms[i]["Tags"].Size(); j++)
+				//	{
+				//		//printf("Tags: %s\n", Tags[i]["Tags"][j]["name"].GetString());
 
-						nodeTags.name = Tags[i]["Tags"][j]["name"].GetString();
-						nodeTags.type = Tags[i]["Tags"][j]["type"].GetUint();
-						nodeTags.tagtype = Tags[i]["Tags"][j]["tagtype"].GetString();
-						nodeTags.string = Tags[i]["Tags"][j]["string"].GetString();
-						nodeTags.address = Tags[i]["Tags"][j]["address"].GetString();
-						nodeTags.description = Tags[i]["Tags"][j]["comment"].GetString();
-						nodeTags.attribute = Tags[i]["Tags"][j]["attribute"].GetUint();
+				//		nodeTags.name = Tags[i]["Tags"][j]["name"].GetString();
+				//		nodeTags.type = Tags[i]["Tags"][j]["type"].GetUint();
+				//		nodeTags.tagtype = Tags[i]["Tags"][j]["tagtype"].GetString();
+				//		nodeTags.string = Tags[i]["Tags"][j]["string"].GetString();
+				//		nodeTags.address = Tags[i]["Tags"][j]["address"].GetString();
+				//		nodeTags.description = Tags[i]["Tags"][j]["comment"].GetString();
+				//		nodeTags.attribute = Tags[i]["Tags"][j]["attribute"].GetUint();
 
-						node.vectorNodeTag.push_back(nodeTags);
-					}
-				}
-				else node.vectorNodeTag.clear();
+				//		node.vectorNodeTag.push_back(nodeTags);
+				//	}
+				//}
+				//else node.vectorNodeTag.clear();
 
-				contr.vectorNode.push_back(node);
+				controller.vectorNode.push_back(node);
 
 			} //ForLoop Coms (Node) end
 		} //If Coms(Node) end
 
 
-		if (Tags.Size() > 0)
-		{
+		//if (Tags.Size() > 0)
+		//{
 
-			for (int i = 0; i < Tags.Size(); i++)
-			{
-				//printf("Tags: %s\n", Tags[i]["name"].GetString());
+		//	for (int i = 0; i < Tags.Size(); i++)
+		//	{
+		//		//printf("Tags: %s\n", Tags[i]["name"].GetString());
 
-				controllerTags.name = Tags[i]["name"].GetString();
-				controllerTags.type = Tags[i]["type"].GetUint();
-				controllerTags.tagtype = Tags[i]["tagtype"].GetString();
-				controllerTags.string = Tags[i]["string"].GetString();
-				controllerTags.address = Tags[i]["address"].GetString();
-				controllerTags.description = Tags[i]["comment"].GetString();
-				controllerTags.attribute = Tags[i]["attribute"].GetUint();
-			}
+		//		controllerTags.name = Tags[i]["name"].GetString();
+		//		controllerTags.type = Tags[i]["type"].GetUint();
+		//		controllerTags.tagtype = Tags[i]["tagtype"].GetString();
+		//		controllerTags.string = Tags[i]["string"].GetString();
+		//		controllerTags.address = Tags[i]["address"].GetString();
+		//		controllerTags.description = Tags[i]["comment"].GetString();
+		//		controllerTags.attribute = Tags[i]["attribute"].GetUint();
+		//	}
 
-			contr.vectorControllerTag.push_back(controllerTags);
-		}
-		else contr.vectorControllerTag.clear();
+		//	controller.vectorControllerTag.push_back(controllerTags);
+		//}
+		//else controller.vectorControllerTag.clear();
 
 	} //Server/Controller end
 
-	return contr;
+	return controller;
 }

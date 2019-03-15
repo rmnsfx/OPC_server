@@ -22,25 +22,23 @@ extern UA_Server *server;
 void* pollingDevice(void *args)
 {
 	
-	Device* device = (Device*)args;
-	
-	int result = 0;
-	char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
-	char read_buffer[255];
-	int sock = 0, valread;
-	
+	Node* node = (Node*)args;
 	
 	struct sockaddr_in serv_addr;
 	
-	
-	//const char* address = "192.168.0.146";
 	struct timeval timeout;
 	timeout.tv_sec = 5;
 	timeout.tv_usec = 0;
 
+	int sock = 0;
+	int result = 0;
+	char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
+	char read_buffer[255];
+	int valread;
+
 	
 
-	if (device != NULL)
+	if (node != NULL)
 	{
 
 
@@ -79,9 +77,9 @@ void* pollingDevice(void *args)
 
 		
 
-		serv_addr.sin_addr.s_addr = inet_addr(device->ip.c_str());
+		serv_addr.sin_addr.s_addr = inet_addr(node->address.c_str());
 		serv_addr.sin_family = AF_INET;
-		serv_addr.sin_port = htons(device->port);
+		serv_addr.sin_port = htons(node->port);
 
 		result = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 
@@ -97,16 +95,16 @@ void* pollingDevice(void *args)
 			result = send(sock, &write_buffer, sizeof(write_buffer), 0);
 			result = read(sock, &read_buffer, sizeof(read_buffer));
 
-			device->vectorTag[0].value = float((read_buffer[9] << 8) + read_buffer[10]);
+			node->vectorDevice[1].vectorTag[0].value = float((read_buffer[9] << 8) + read_buffer[10]);
 
 			UA_Variant value;
-			UA_Int32 myInteger = (UA_Int32) int(device->vectorTag[0].value);
+			UA_Int32 myInteger = (UA_Int32) int(node->vectorDevice[1].vectorTag[0].value);
 			UA_Variant_setScalarCopy(&value, &myInteger, &UA_TYPES[UA_TYPES_INT32]);
 			UA_Server_writeValue(server, UA_NODEID_NUMERIC(1, 1), value);
 
 
 			
-			printf("%.00f\n", device->vectorTag[0].value);
+			printf("%.00f\n", node->vectorDevice[1].vectorTag[0].value);
 
 
 			sleep(1);
