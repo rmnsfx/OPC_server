@@ -3,48 +3,27 @@
   Validating architecture
   Starting remote build
   Compiling sources:
-  main.cpp
-D:\Repos\OPC_Server\OPC_Server\main.cpp(73,80): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(73,80): warning :   oAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*) controller->name.c_str());
-D:\Repos\OPC_Server\OPC_Server\main.cpp(73,80): warning :                                                                                 ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(81,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(81,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(81,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(90,76): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(90,76): warning :    statusAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_node.c_str());
-D:\Repos\OPC_Server\OPC_Server\main.cpp(90,76): warning :                                                                             ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(96,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(96,21): warning :    for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(96,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(104,80): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(104,80): warning :     statusAttr2.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_device.c_str());
-D:\Repos\OPC_Server\OPC_Server\main.cpp(104,80): warning :                                                                                 ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(110,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(110,22): warning :     for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(110,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(117,78): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(117,78): warning :      statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
-D:\Repos\OPC_Server\OPC_Server\main.cpp(117,78): warning :                                                                               ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(148,16): warning : unused variable ‘retval’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(148,16): warning :   UA_StatusCode retval = UA_Server_run(server, &running);
-D:\Repos\OPC_Server\OPC_Server\main.cpp(148,16): warning :                 ^~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(151,1): warning : no return statement in function returning non-void [-Wreturn-type]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(151,1): warning :  }
-D:\Repos\OPC_Server\OPC_Server\main.cpp(151,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(167,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(167,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(167,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(182,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(182,21): warning :    for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(182,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\main.cpp(189,56): warning : suggest parentheses around assignment used as truth value [-Wparentheses]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(189,56): warning :     if (controller->vectorNode[i].vectorDevice[j].on = 1)
-D:\Repos\OPC_Server\OPC_Server\main.cpp(189,56): warning :                                                         ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(207,1): warning : no return statement in function returning non-void [-Wreturn-type]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(207,1): warning :  }
-D:\Repos\OPC_Server\OPC_Server\main.cpp(207,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(223,69): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(223,69): warning :   controller = serializeFromJSON("/root/projects/OPC_Server/opc.json");
-D:\Repos\OPC_Server\OPC_Server\main.cpp(223,69): warning :                                                                      ^
+  tcp.cpp
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(60,36): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(60,36): warning :    serv_addr.sin_port = htons(node->port);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(60,36): warning :                               ~~~~~~^~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(70,1): warning : no return statement in function returning non-void [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(70,1): warning :  }
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(70,1): warning :  ^
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(93,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(93,21): warning :    for (int j = 0; j < device->vectorTag.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(93,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(100,31): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(100,31): warning :      write_buffer[6] = device->device_address;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(100,31): warning :                        ~~~~~~~~^~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,44): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,44): warning :      write_buffer[7] = device->vectorTag[j].function;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(102,56): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(102,56): warning :      write_buffer[8] = device->vectorTag[j].reg_address >> 8;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(103,44): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(103,44): warning :      write_buffer[9] = device->vectorTag[j].reg_address;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(79,6): warning : variable ‘result’ set but not used [-Wunused-but-set-variable]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(79,6): warning :   int result = 0;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(79,6): warning :       ^~~~~~
   Linking objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out

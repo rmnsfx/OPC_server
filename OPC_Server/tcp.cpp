@@ -117,7 +117,7 @@ void* pollingDeviceTCP(void *args)
 				
 				UA_Double opc_value = (UA_Double) device->vectorTag[j].value;
 				UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_DOUBLE]);
-				UA_Server_writeValue(server, UA_NODEID_NUMERIC(1, 1), value);
+				UA_Server_writeValue(server, device->vectorTag[j].tagNodeId, value);
 			}
 		}
 
@@ -126,13 +126,7 @@ void* pollingDeviceTCP(void *args)
 
 
 
-		
-		
-		
-		
-
-
-		if (device->id_device == 1) printf("%.00f\n", device->vectorTag[0].value);
+		//if (device->id_device == 1) printf("%.00f\n", device->vectorTag[0].value);
 
 
 		sleep(1);

@@ -11,6 +11,8 @@
 #include <vector>
 #include <unistd.h>
 
+#include "open62541.h"
+
 class Controller;
 class Node;
 class Device;
@@ -103,7 +105,8 @@ public:
 	double coef_A = 1;
 	double coef_B = 0;
 	double value = 0;
-
+	
+	UA_NodeId tagNodeId;
 };
 
 //Класс группа

@@ -57,8 +57,8 @@ void* workerOPC(void *args)
 		UA_NodeId nodeId;
 
 		UA_VariableAttributes statusAttr = UA_VariableAttributes_default;
-		UA_Boolean status = true;
-		UA_Variant_setScalar(&statusAttr.value, &status, &UA_TYPES[UA_TYPES_BOOLEAN]);
+
+		UA_Variant_setScalar(&statusAttr.value, NULL, NULL);
 		statusAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_node.c_str());
 		UA_Server_addVariableNode(server, UA_NODEID_NULL, contrId,
 			UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -71,8 +71,8 @@ void* workerOPC(void *args)
 			std::string id_device = controller->vectorNode[i].vectorDevice[j].name;
 
 			UA_VariableAttributes statusAttr2 = UA_VariableAttributes_default;
-			UA_Boolean status2 = true;
-			UA_Variant_setScalar(&statusAttr2.value, &status2, &UA_TYPES[UA_TYPES_BOOLEAN]);
+			
+			UA_Variant_setScalar(&statusAttr2.value, NULL, NULL);
 			statusAttr2.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_device.c_str());
 			UA_Server_addVariableNode(server, UA_NODEID_NULL, nodeId,
 				UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -81,16 +81,19 @@ void* workerOPC(void *args)
 
 			for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
 			{
+				UA_NodeId tagNodeId;
 				std::string id_tag = controller->vectorNode[i].vectorDevice[j].vectorTag[k].name;
 
 				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
-				UA_Boolean status3 = true;
-				UA_Variant_setScalar(&statusAttr3.value, &status3, &UA_TYPES[UA_TYPES_BOOLEAN]);
+				UA_Double value = 0;
+				UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_DOUBLE]);
 				statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 				UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 					UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
 					UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
-					UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, NULL);
+					UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
+
+				controller->vectorNode[i].vectorDevice[j].vectorTag[k].tagNodeId = tagNodeId;
 			}
 		}
 
@@ -114,8 +117,7 @@ void* workerOPC(void *args)
 void* pollingEngine(void *args)
 {
 	Controller* controller = (Controller*)args;
-	
-	
+
 
 	//Узел (Node/Coms)
 	for (int i = 0; i < controller->vectorNode.size(); i++)
