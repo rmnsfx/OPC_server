@@ -76,12 +76,15 @@ void* pollingDeviceTCP(void *args)
 	
 	Device* device = (Device*)args;
 
-	int result = 0;
-	
-	char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
+	int result = 0;	
+	//char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
+	char write_buffer[12];
 	char read_buffer[255];
-	
 
+	extern UA_Server *server;
+	UA_Variant value;
+
+	
 	while (1)
 	{
 	
@@ -92,6 +95,8 @@ void* pollingDeviceTCP(void *args)
 			if (device->vectorTag[j].on == 1)
 			{
 				//Формируем пакет для запроса
+				write_buffer[4] = 0x00;
+				write_buffer[5] = 0x06;
 				write_buffer[6] = device->device_address;
 				write_buffer[7] = device->vectorTag[j].function;
 				write_buffer[8] = device->vectorTag[j].reg_address >> 8;
@@ -108,6 +113,11 @@ void* pollingDeviceTCP(void *args)
 				device->vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
 
 				//printf("%.00f\n", device->vectorTag[j].value);
+
+				
+				UA_Double opc_value = (UA_Double) device->vectorTag[j].value;
+				UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_DOUBLE]);
+				UA_Server_writeValue(server, UA_NODEID_NUMERIC(1, 1), value);
 			}
 		}
 
@@ -116,15 +126,10 @@ void* pollingDeviceTCP(void *args)
 
 
 
-		//result = send(sock, &write_buffer, sizeof(write_buffer), 0);
-		//result = read(sock, &read_buffer, sizeof(read_buffer));
-
-		//node->vectorDevice[1].vectorTag[0].value = float((read_buffer[9] << 8) + read_buffer[10]);
-
-		//UA_Variant value;
-		//UA_Int32 myInteger = (UA_Int32) int(node->vectorDevice[1].vectorTag[0].value);
-		//UA_Variant_setScalarCopy(&value, &myInteger, &UA_TYPES[UA_TYPES_INT32]);
-		//UA_Server_writeValue(server, UA_NODEID_NUMERIC(1, 1), value);
+		
+		
+		
+		
 
 
 		if (device->id_device == 1) printf("%.00f\n", device->vectorTag[0].value);

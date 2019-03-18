@@ -23,41 +23,81 @@
 
 UA_Server *server;
 pthread_t server_thread;
-//pthread_t modbus_thread;
 pthread_t* modbus_thread;
 int status;
-
-
-static void addCounterSensorVariable(UA_Server * server) {
-
-	UA_NodeId counterNodeId = UA_NODEID_NUMERIC(1, 1);
-
-	UA_QualifiedName counterName = UA_QUALIFIEDNAME(1, "Piece Counter[pieces]");
-
-	UA_VariableAttributes attr = UA_VariableAttributes_default;
-	attr.description = UA_LOCALIZEDTEXT("en_US", "Piece Counter (units:pieces)");
-	attr.displayName = UA_LOCALIZEDTEXT("en_US", "Piece Counter");
-	attr.dataType = UA_TYPES[UA_TYPES_INT32].typeId;
-
-	UA_Int32 counterValue = 0;
-	UA_Variant_setScalarCopy(&attr.value, &counterValue, &UA_TYPES[UA_TYPES_INT32]);
-
-	UA_Server_addVariableNode(server, counterNodeId, UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER), UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES), counterName, UA_NODEID_NULL, attr, NULL, NULL);
-}
-
 
 
 
 void* workerOPC(void *args)
 {
+	Controller* controller = (Controller*) args;
+	
 	UA_Boolean running = true;
-
 
 	UA_ServerConfig *config = UA_ServerConfig_new_default();
 	
 	server = UA_Server_new(config);
 
-	addCounterSensorVariable(server);
+
+
+	UA_NodeId contrId; /* get the nodeid assigned by the server */
+	UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
+	oAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*) controller->name.c_str());
+	UA_Server_addObjectNode(server, UA_NODEID_NULL,
+		UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
+		UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
+		UA_QUALIFIEDNAME(1, (char*)controller->name.c_str()), UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
+		oAttr, NULL, &contrId);
+
+
+	for (int i = 0; i < controller->vectorNode.size(); i++)
+	{
+		//UA_NodeId nodeId = UA_NODEID_NUMERIC(1, i);
+		std::string id_node = controller->vectorNode[i].name.c_str();
+		UA_NodeId nodeId;
+
+		UA_VariableAttributes statusAttr = UA_VariableAttributes_default;
+		UA_Boolean status = true;
+		UA_Variant_setScalar(&statusAttr.value, &status, &UA_TYPES[UA_TYPES_BOOLEAN]);
+		statusAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_node.c_str());
+		UA_Server_addVariableNode(server, UA_NODEID_NULL, contrId,
+			UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+			UA_QUALIFIEDNAME(1, (char*)id_node.c_str()),
+			UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr, NULL, &nodeId);
+
+		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+		{
+			UA_NodeId deviceId;
+			std::string id_device = controller->vectorNode[i].vectorDevice[j].name;
+
+			UA_VariableAttributes statusAttr2 = UA_VariableAttributes_default;
+			UA_Boolean status2 = true;
+			UA_Variant_setScalar(&statusAttr2.value, &status2, &UA_TYPES[UA_TYPES_BOOLEAN]);
+			statusAttr2.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_device.c_str());
+			UA_Server_addVariableNode(server, UA_NODEID_NULL, nodeId,
+				UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+				UA_QUALIFIEDNAME(1, (char*)id_device.c_str()),
+				UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr2, NULL, &deviceId);
+
+			for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
+			{
+				std::string id_tag = controller->vectorNode[i].vectorDevice[j].vectorTag[k].name;
+
+				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
+				UA_Boolean status3 = true;
+				UA_Variant_setScalar(&statusAttr3.value, &status3, &UA_TYPES[UA_TYPES_BOOLEAN]);
+				statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+				UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
+					UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+					UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
+					UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, NULL);
+			}
+		}
+
+	}
+
+
+
 
 	UA_StatusCode retval = UA_Server_run(server, &running);
 	UA_Server_delete(server);
@@ -137,15 +177,13 @@ int main()
 	controller = serializeFromJSON("/root/projects/OPC_Server/opc.json");
 	
 
-	pthread_create(&server_thread, NULL, workerOPC, NULL); //Запуск OPC сервера 
+	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 
 	
 	
 	pollingEngine(&controller);
 	
 	
 	pthread_join(server_thread, (void**)&status);
-	
-	//pthread_join(modbus_thread[0], (void**)&status);
 	
 
 	sleep(15);

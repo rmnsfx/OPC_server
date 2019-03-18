@@ -41226,9 +41226,9 @@ const UA_ConnectionConfig UA_ConnectionConfig_default = {
 /***************************/
 
 #define MANUFACTURER_NAME "open62541"
-#define PRODUCT_NAME "open62541 OPC UA Server"
-#define PRODUCT_URI "http://open62541.org"
-#define APPLICATION_NAME "open62541-based OPC UA Application"
+#define PRODUCT_NAME "OPC UA Server"
+#define PRODUCT_URI ""
+#define APPLICATION_NAME "OPC UA Application"
 #define APPLICATION_URI "urn:unconfigured:application"
 
 #define STRINGIFY(arg) #arg
