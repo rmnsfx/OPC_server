@@ -62,6 +62,9 @@ public:
 	int port = 8080;
 	int tcp_wait_connection = 5;
 
+	int socket = 0;
+	
+
 private:
 	std::vector<Tag> vectorNodeTag;
 
@@ -80,6 +83,8 @@ public:
 	int poll_timeout = 1;
 
 	int devtype = 0;
+	int id_device = 0;
+	int device_socket = 0;
 
 private:
 	std::vector<Tag> vectorDeviceTag;
@@ -113,5 +118,7 @@ public:
 	}
 
 };
+
+
 
 #endif

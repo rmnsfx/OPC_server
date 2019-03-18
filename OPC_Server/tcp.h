@@ -4,6 +4,7 @@
 
 #include "main.h"
 
-void* pollingDevice(void *args);
+void* connectDeviceTCP(void *args);
+void* pollingDeviceTCP(void *args);
 
 #endif

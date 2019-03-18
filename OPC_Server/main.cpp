@@ -24,8 +24,8 @@
 UA_Server *server;
 pthread_t server_thread;
 //pthread_t modbus_thread;
-
-
+pthread_t* modbus_thread;
+int status;
 
 
 static void addCounterSensorVariable(UA_Server * server) {
@@ -75,34 +75,48 @@ void* pollingEngine(void *args)
 {
 	Controller* controller = (Controller*)args;
 	
+	
+
 	//Узел (Node/Coms)
 	for (int i = 0; i < controller->vectorNode.size(); i++)
 	{
-		printf("%s\n", controller->vectorNode[i].name.c_str());
+		//printf("%s\n", controller->vectorNode[i].name.c_str());
 
 		pthread_t modbus_thread[controller->vectorNode[i].vectorDevice.size()];
+
+		//Создание сокета и подключение к устройству
+		if (controller->vectorNode[i].intertype == "TCP")
+		{
+			connectDeviceTCP(&controller->vectorNode[i]);
+		}
+			
+
 
 		//Устройство (Device)
 		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
 		{
-			printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
+			//printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
 
-			//Запуск опроса устройства
-			if (controller->vectorNode[i].vectorDevice[j].vectorTag.size() > 0)
+			controller->vectorNode[i].vectorDevice[j].id_device = j;
+			controller->vectorNode[i].vectorDevice[j].device_socket = controller->vectorNode[i].socket;
+			
+			if (controller->vectorNode[i].vectorDevice[j].on = 1)
 			{
+
 				if (controller->vectorNode[i].intertype == "TCP")
 				{
-					pthread_create(&modbus_thread[j], NULL, pollingDevice, &controller->vectorNode[i]);
+					pthread_create(&modbus_thread[j], NULL, pollingDeviceTCP, &controller->vectorNode[i].vectorDevice[j]);
 				}
 
-				if (controller->vectorNode[i].intertype == "RS485")
-				{
+				//if (controller->vectorNode[i].intertype == "RS485")
+				//{
 					//pthread_create(&modbus_thread[j], NULL, pollingDevice, &controller->vectorNode[i]);
-				}
+				//}
 			}
-
-
+			
 		}
+
+
 	}	
 }
 
@@ -112,7 +126,7 @@ void* pollingEngine(void *args)
 
 int main()
 {
-	int status;
+	
 
 	printf("Start OPC server...\n\n");
 	
@@ -130,7 +144,8 @@ int main()
 	
 	
 	pthread_join(server_thread, (void**)&status);
-	//pthread_join(modbus_thread, (void**)&status);
+	
+	//pthread_join(modbus_thread[0], (void**)&status);
 	
 
 	sleep(15);
