@@ -83,6 +83,7 @@ void* pollingDeviceTCP(void *args)
 
 	extern UA_Server *server;
 	UA_Variant value;
+	int modbus_value = 0;
 
 	
 	while (1)
@@ -101,8 +102,9 @@ void* pollingDeviceTCP(void *args)
 				write_buffer[7] = device->vectorTag[j].function;
 				write_buffer[8] = device->vectorTag[j].reg_address >> 8;
 				write_buffer[9] = device->vectorTag[j].reg_address;
-				write_buffer[10] = 0x00;
-				write_buffer[11] = 0x01;
+				write_buffer[10] = 0x00;				
+				if (device->vectorTag[j].data_type == "int") write_buffer[11] = 0x01;
+				if (device->vectorTag[j].data_type == "float") write_buffer[11] = 0x02;
 
 				//Запрос
 				result = send(device->device_socket, &write_buffer, sizeof(write_buffer), 0);
@@ -110,14 +112,25 @@ void* pollingDeviceTCP(void *args)
 				//Ответ
 				result = read(device->device_socket, &read_buffer, sizeof(read_buffer));
 
-				device->vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
-
-				//printf("%.00f\n", device->vectorTag[j].value);
-
 				
-				UA_Double opc_value = (UA_Double) device->vectorTag[j].value;
-				UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_DOUBLE]);
-				UA_Server_writeValue(server, device->vectorTag[j].tagNodeId, value);
+				if (device->vectorTag[j].data_type == "int")
+				{
+					device->vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
+
+					UA_Int16 opc_value = (UA_Int16)device->vectorTag[j].value;
+					UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT16]);
+					UA_Server_writeValue(server, device->vectorTag[j].tagNodeId, value);
+				}
+				
+				if (device->vectorTag[j].data_type == "float") 
+				{
+					modbus_value = ( (read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12] );
+					device->vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);
+
+					UA_Float opc_value = (UA_Float)device->vectorTag[j].value;
+					UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);
+					UA_Server_writeValue(server, device->vectorTag[j].tagNodeId, value);
+				}				
 			}
 		}
 
@@ -126,7 +139,7 @@ void* pollingDeviceTCP(void *args)
 
 
 
-		//if (device->id_device == 1) printf("%.00f\n", device->vectorTag[0].value);
+		if (device->id_device == 1) printf("%.02f\n", device->vectorTag[4].value);
 
 
 		sleep(1);

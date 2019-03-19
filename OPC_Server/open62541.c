@@ -41228,7 +41228,7 @@ const UA_ConnectionConfig UA_ConnectionConfig_default = {
 #define MANUFACTURER_NAME "open62541"
 #define PRODUCT_NAME "OPC UA Server"
 #define PRODUCT_URI ""
-#define APPLICATION_NAME "OPC UA Application"
+#define APPLICATION_NAME "TIK Distributed System"
 #define APPLICATION_URI "urn:unconfigured:application"
 
 #define STRINGIFY(arg) #arg

@@ -102,9 +102,9 @@ public:
 	int reg_address = 0;
 	int function = 0;
 	std::string data_type;
-	double coef_A = 1;
-	double coef_B = 0;
-	double value = 0;
+	float coef_A = 1;
+	float coef_B = 0;
+	float value = 0;
 	
 	UA_NodeId tagNodeId;
 };

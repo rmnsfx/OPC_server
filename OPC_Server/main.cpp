@@ -85,8 +85,8 @@ void* workerOPC(void *args)
 				std::string id_tag = controller->vectorNode[i].vectorDevice[j].vectorTag[k].name;
 
 				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
-				UA_Double value = 0;
-				UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_DOUBLE]);
+				UA_Float value = 0;
+				UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_FLOAT]);
 				statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 				UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 					UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
