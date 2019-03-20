@@ -85,6 +85,13 @@ void* pollingDeviceTCP(void *args)
 	UA_Variant value;
 	int modbus_value = 0;
 
+	struct timeval timeout;
+	timeout.tv_sec = 2;
+	timeout.tv_usec = 0;
+	
+	fd_set set;
+	
+	int trial = 0;
 	
 	while (1)
 	{
@@ -110,7 +117,31 @@ void* pollingDeviceTCP(void *args)
 				result = send(device->device_socket, &write_buffer, sizeof(write_buffer), 0);
 
 				//Ответ
-				result = read(device->device_socket, &read_buffer, sizeof(read_buffer));
+				//result = read(device->device_socket, &read_buffer, sizeof(read_buffer));
+
+				FD_ZERO(&set); /* clear the set */
+				FD_SET(device->device_socket, &set); /* add our file descriptor to the set */
+				result = select(device->device_socket+1, &set, NULL, NULL, &timeout);
+
+				if (result > 0 )
+				{
+					result = read(device->device_socket, &read_buffer, sizeof(read_buffer));
+				}
+				else if (result == 0)
+				{
+					printf("Timeout device: %d, poll attempt %d \n", device->device_address, trial);
+					
+					//reinit timeout
+					timeout.tv_sec = 2;
+					timeout.tv_usec = 0;
+
+					if (++trial > 3)
+					{
+						printf("Timeout device: %d, exit thread.\n", device->device_address);
+						return 0;
+					}
+				}
+
 
 				
 				if (device->vectorTag[j].data_type == "int")
@@ -132,6 +163,8 @@ void* pollingDeviceTCP(void *args)
 					UA_Server_writeValue(server, device->vectorTag[j].tagNodeId, value);
 				}				
 			}
+
+			printf("%d %s %.00f\n", device->device_address, device->vectorTag[j].name.c_str(), device->vectorTag[j].value);
 		}
 
 
@@ -139,7 +172,7 @@ void* pollingDeviceTCP(void *args)
 
 
 
-		if (device->id_device == 1) printf("%.02f\n", device->vectorTag[4].value);
+		//if (device->id_device == 0) printf("%d\n", device->vectorTag[0].value);
 
 
 		sleep(1);

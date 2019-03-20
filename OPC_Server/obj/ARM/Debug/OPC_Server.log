@@ -10,23 +10,20 @@ D:\Repos\OPC_Server\OPC_Server\tcp.cpp(60,36): warning :                        
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(70,1): warning : no return statement in function returning non-void [-Wreturn-type]
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(70,1): warning :  }
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(70,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(94,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(94,21): warning :    for (int j = 0; j < device->vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(94,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,31): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,31): warning :      write_buffer[6] = device->device_address;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,31): warning :                        ~~~~~~~~^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(102,44): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(102,44): warning :      write_buffer[7] = device->vectorTag[j].function;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(103,56): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(103,56): warning :      write_buffer[8] = device->vectorTag[j].reg_address >> 8;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(104,44): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(104,44): warning :      write_buffer[9] = device->vectorTag[j].reg_address;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(118,58): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(118,58): warning :       device->vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(118,58): warning :                                    ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(79,6): warning : variable ‘result’ set but not used [-Wunused-but-set-variable]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(79,6): warning :   int result = 0;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(79,6): warning :       ^~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,21): warning :    for (int j = 0; j < device->vectorTag.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(108,31): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(108,31): warning :      write_buffer[6] = device->device_address;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(108,31): warning :                        ~~~~~~~~^~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,44): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,44): warning :      write_buffer[7] = device->vectorTag[j].function;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(110,56): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(110,56): warning :      write_buffer[8] = device->vectorTag[j].reg_address >> 8;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(111,44): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(111,44): warning :      write_buffer[9] = device->vectorTag[j].reg_address;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(149,58): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(149,58): warning :       device->vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(149,58): warning :                                    ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
   Linking objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out
