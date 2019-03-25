@@ -75,7 +75,8 @@ void* connectDeviceTCP(void *args)
 void* pollingDeviceTCP(void *args)
 {
 	
-	Device* device = (Device*)args;
+	//Device* device = (Device*)args;
+	Node* node = (Node*)args;
 
 	int result = 0;	
 	//char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
@@ -89,92 +90,102 @@ void* pollingDeviceTCP(void *args)
 	struct timeval timeout;
 	
 	fd_set set;	
-	int trial = 0;
+	int trial[node->vectorDevice.size()];
 
 	signal(SIGPIPE, SIG_IGN);
 	
 	while (1)
 	{
 	
-
-		//Проходим по тэгам устройства 
-		for (int j = 0; j < device->vectorTag.size(); j++)
+		//Проходим по устройствам
+		for (int i = 0; i < node->vectorDevice.size(); i++)
 		{
-			if (device->vectorTag[j].on == 1)
+			if (node->vectorDevice[i].on == 1)
+			//Проходим по тэгам устройства 
+			for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
 			{
-				//Формируем пакет для запроса
-				write_buffer[4] = 0x00;
-				write_buffer[5] = 0x06;
-				write_buffer[6] = device->device_address;
-				write_buffer[7] = device->vectorTag[j].function;
-				write_buffer[8] = device->vectorTag[j].reg_address >> 8;
-				write_buffer[9] = device->vectorTag[j].reg_address;
-				write_buffer[10] = 0x00;				
-				if (device->vectorTag[j].data_type == "int") write_buffer[11] = 0x01;
-				if (device->vectorTag[j].data_type == "float") write_buffer[11] = 0x02;
-
-				//Запрос
-				result = send(device->device_socket, &write_buffer, sizeof(write_buffer), 0);
-
-				//Ответ
-				//result = read(device->device_socket, &read_buffer, sizeof(read_buffer));
-
-				//reinit fd
-				FD_ZERO(&set); /* clear the set */
-				FD_SET(device->device_socket, &set); /* add our file descriptor to the set */
-
-				//reinit timeout
-				timeout.tv_sec = device->poll_timeout / 1000;
-				timeout.tv_usec = (device->poll_timeout % 1000) * 1000;
-
-				//mutex_lock.lock();
-
-				result = select(device->device_socket+1, &set, 0, 0, &timeout);			
-				
-				//mutex_lock.unlock();
-				
-				if (result > 0 )
+				if (node->vectorDevice[i].vectorTag[j].on == 1)
 				{
-					result = read(device->device_socket, &read_buffer, sizeof(read_buffer));
-				}
-				else if (result == 0)
-				{
-					printf("Timeout device: %d, poll attempt %d \n", device->device_address, trial);
-					
-					if (++trial > 3)
+					//Формируем пакет для запроса
+					write_buffer[4] = 0x00;
+					write_buffer[5] = 0x06;
+					write_buffer[6] = node->vectorDevice[i].device_address;
+					write_buffer[7] = node->vectorDevice[i].vectorTag[j].function;
+					write_buffer[8] = node->vectorDevice[i].vectorTag[j].reg_address >> 8;
+					write_buffer[9] = node->vectorDevice[i].vectorTag[j].reg_address;
+					write_buffer[10] = 0x00;
+					if (node->vectorDevice[i].vectorTag[j].data_type == "int") write_buffer[11] = 0x01;
+					if (node->vectorDevice[i].vectorTag[j].data_type == "float") write_buffer[11] = 0x02;
+
+					//Запрос
+					result = send(node->vectorDevice[i].device_socket, &write_buffer, sizeof(write_buffer), 0);
+
+					//Ответ
+					//result = read(device->device_socket, &read_buffer, sizeof(read_buffer));
+
+					//reinit fd
+					FD_ZERO(&set); /* clear the set */
+					FD_SET(node->vectorDevice[i].device_socket, &set); /* add our file descriptor to the set */
+
+					//reinit timeout
+					timeout.tv_sec = node->vectorDevice[i].poll_timeout / 1000;
+					timeout.tv_usec = (node->vectorDevice[i].poll_timeout % 1000) * 1000;
+
+					//mutex_lock.lock();
+
+					result = select(node->vectorDevice[i].device_socket + 1, &set, 0, 0, &timeout);
+
+					//mutex_lock.unlock();
+
+					if (result > 0)
 					{
-						printf("Timeout device: %d, exit thread.\n", device->device_address);
-						return 0;
+						result = read(node->vectorDevice[i].device_socket, &read_buffer, sizeof(read_buffer));
+					}
+					else if (result == 0)
+					{
+						printf("Timeout device: %d, poll attempt %d \n", node->vectorDevice[i].device_address, trial[i]);
+
+						//reset buffer to zero when poll timed out
+						for (int h = 0; h < sizeof(read_buffer); h++) read_buffer[h] = 0;
+
+						if (++trial[i] > 3)
+						{
+							printf("Timeout device: %d, switch off device.\n", node->vectorDevice[i].device_address);
+							//return 0;
+
+							node->vectorDevice[i].on = 0;
+						}
+					}
+
+
+
+
+					if (node->vectorDevice[i].vectorTag[j].data_type == "int")
+					{
+						node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
+
+						UA_Int16 opc_value = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
+						UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT16]);
+						UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+					}
+
+					if (node->vectorDevice[i].vectorTag[j].data_type == "float")
+					{
+						modbus_value = ((read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12]);
+						node->vectorDevice[i].vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);
+
+						UA_Float opc_value = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
+						UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);
+						UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 					}
 				}
 
-				
-
-				
-				if (device->vectorTag[j].data_type == "int")
-				{
-					device->vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
-
-					UA_Int16 opc_value = (UA_Int16)device->vectorTag[j].value;
-					UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT16]);
-					UA_Server_writeValue(server, device->vectorTag[j].tagNodeId, value);
-				}
-				
-				if (device->vectorTag[j].data_type == "float") 
-				{
-					modbus_value = ( (read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12] );
-					device->vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);
-
-					UA_Float opc_value = (UA_Float)device->vectorTag[j].value;
-					UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);
-					UA_Server_writeValue(server, device->vectorTag[j].tagNodeId, value);
-				}				
+				printf("%d %s %.00f\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
 			}
 
-			printf("%d %s %.00f\n", device->device_address, device->vectorTag[j].name.c_str(), device->vectorTag[j].value);
+			usleep(node->vectorDevice[i].poll_period * 1000);
+
 		}
-
-
 
 
 
@@ -182,7 +193,7 @@ void* pollingDeviceTCP(void *args)
 		//if (device->id_device == 0) printf("%d\n", device->vectorTag[0].value);
 
 
-		usleep(device->poll_period * 1000);
+		
 	}
 
 	
