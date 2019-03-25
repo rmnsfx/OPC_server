@@ -16,8 +16,9 @@
 #include<netdb.h>
 
 #include "open62541.h"
+#include <mutex>
 
-
+std::mutex mutex_lock;
 
 void* connectDeviceTCP(void *args)
 {
@@ -59,7 +60,7 @@ void* connectDeviceTCP(void *args)
 		serv_addr.sin_family = AF_INET;
 		serv_addr.sin_port = htons(node->port);
 
-		//Соединяем
+		//Подключаем
 		result = connect(node->socket, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 
 		if (result < 0)
@@ -86,12 +87,11 @@ void* pollingDeviceTCP(void *args)
 	int modbus_value = 0;
 
 	struct timeval timeout;
-	timeout.tv_sec = 2;
-	timeout.tv_usec = 0;
 	
-	fd_set set;
-	
+	fd_set set;	
 	int trial = 0;
+
+	signal(SIGPIPE, SIG_IGN);
 	
 	while (1)
 	{
@@ -119,10 +119,20 @@ void* pollingDeviceTCP(void *args)
 				//Ответ
 				//result = read(device->device_socket, &read_buffer, sizeof(read_buffer));
 
+				//reinit fd
 				FD_ZERO(&set); /* clear the set */
 				FD_SET(device->device_socket, &set); /* add our file descriptor to the set */
-				result = select(device->device_socket+1, &set, NULL, NULL, &timeout);
 
+				//reinit timeout
+				timeout.tv_sec = device->poll_timeout / 1000;
+				timeout.tv_usec = (device->poll_timeout % 1000) * 1000;
+
+				//mutex_lock.lock();
+
+				result = select(device->device_socket+1, &set, 0, 0, &timeout);			
+				
+				//mutex_lock.unlock();
+				
 				if (result > 0 )
 				{
 					result = read(device->device_socket, &read_buffer, sizeof(read_buffer));
@@ -131,10 +141,6 @@ void* pollingDeviceTCP(void *args)
 				{
 					printf("Timeout device: %d, poll attempt %d \n", device->device_address, trial);
 					
-					//reinit timeout
-					timeout.tv_sec = 2;
-					timeout.tv_usec = 0;
-
 					if (++trial > 3)
 					{
 						printf("Timeout device: %d, exit thread.\n", device->device_address);
@@ -142,6 +148,7 @@ void* pollingDeviceTCP(void *args)
 					}
 				}
 
+				
 
 				
 				if (device->vectorTag[j].data_type == "int")
@@ -175,7 +182,7 @@ void* pollingDeviceTCP(void *args)
 		//if (device->id_device == 0) printf("%d\n", device->vectorTag[0].value);
 
 
-		sleep(1);
+		usleep(device->poll_period * 1000);
 	}
 
 	

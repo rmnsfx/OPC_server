@@ -18,6 +18,8 @@
 #include "main.h"
 #include "serialize.h"
 #include "tcp.h"
+#include <mutex>
+
 
 
 
@@ -183,6 +185,7 @@ void* pollingEngine(void *args)
 
 int main()
 {
+	
 	
 
 	printf("Start OPC server...\n\n");
