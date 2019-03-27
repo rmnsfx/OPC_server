@@ -18,7 +18,15 @@
 #include "open62541.h"
 #include <mutex>
 
-std::mutex mutex_lock;
+#define _BSD_SOURCE
+
+#include <time.h>
+#include <sys/time.h>
+
+
+//struct timeval start, stop, duration;
+struct timespec start, stop, duration;
+
 
 void* connectDeviceTCP(void *args)
 {
@@ -75,7 +83,7 @@ void* connectDeviceTCP(void *args)
 void* pollingDeviceTCP(void *args)
 {
 	
-	//Device* device = (Device*)args;
+	
 	Node* node = (Node*)args;
 
 	int result = 0;	
@@ -90,13 +98,16 @@ void* pollingDeviceTCP(void *args)
 	struct timeval timeout;
 	
 	fd_set set;	
-	int trial[node->vectorDevice.size()];
+	int trial[node->vectorDevice.size()]; //Хранилище флагов о попытках опроса
 
-	signal(SIGPIPE, SIG_IGN);
+	//signal(SIGPIPE, SIG_IGN);
+
 	
 	while (1)
 	{
-	
+		//gettimeofday(&start, NULL);
+		clock_gettime(CLOCK_REALTIME, &start);
+
 		//Проходим по устройствам
 		for (int i = 0; i < node->vectorDevice.size(); i++)
 		{
@@ -150,9 +161,9 @@ void* pollingDeviceTCP(void *args)
 
 						if (++trial[i] > 3)
 						{
-							printf("Timeout device: %d, switch off device.\n", node->vectorDevice[i].device_address);
-							//return 0;
+							printf("Timeout device: %d, switch off device.\n", node->vectorDevice[i].device_address);							
 
+							//Выключаем устройство
 							node->vectorDevice[i].on = 0;
 						}
 					}
@@ -178,12 +189,13 @@ void* pollingDeviceTCP(void *args)
 						UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);
 						UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 					}
+
+					
+					
 				}
 
 				printf("%d %s %.00f\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
-			}
-
-			usleep(node->vectorDevice[i].poll_period * 1000);
+			}			
 
 		}
 
@@ -191,9 +203,20 @@ void* pollingDeviceTCP(void *args)
 
 
 		//if (device->id_device == 0) printf("%d\n", device->vectorTag[0].value);
-
-
 		
+
+
+		sleep(1);
+		
+		/*gettimeofday(&stop, NULL);
+		duration.tv_sec = stop.tv_sec - start.tv_sec;
+		duration.tv_usec = stop.tv_usec - start.tv_usec;
+		printf("Time %d", ((duration.tv_sec*100) + (duration.tv_usec/1000)) );*/
+
+		clock_gettime(CLOCK_REALTIME, &stop);
+		duration.tv_sec = stop.tv_sec - start.tv_sec;
+		duration.tv_nsec = stop.tv_nsec - start.tv_nsec;
+		printf("Time %d", duration.tv_sec*100 + (duration.tv_nsec / 1000000) );
 	}
 
 	

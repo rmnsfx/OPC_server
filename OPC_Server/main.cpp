@@ -194,7 +194,7 @@ int main()
 	pthread_join(server_thread, (void**)&status);
 	
 
-	sleep(15);
+	//sleep(15);
 
 	return 0;
 }
