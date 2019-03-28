@@ -5,6 +5,7 @@
     <ClCompile Include="open62541.c" />
     <ClCompile Include="serialize.cpp" />
     <ClCompile Include="tcp.cpp" />
+    <ClCompile Include="poll_optimize.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="rapidjson">
@@ -133,6 +134,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="serialize.h" />
     <ClInclude Include="tcp.h" />
+    <ClInclude Include="poll_optimize.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\opc.json" />

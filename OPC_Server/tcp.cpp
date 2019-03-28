@@ -18,13 +18,12 @@
 #include "open62541.h"
 #include <mutex>
 
-#define _BSD_SOURCE
+#define _BSD_SOURCE //for <sys/time.h>
 
 #include <time.h>
 #include <sys/time.h>
 
 
-//struct timeval start, stop, duration;
 struct timespec start, stop, duration;
 
 
@@ -100,12 +99,13 @@ void* pollingDeviceTCP(void *args)
 	fd_set set;	
 	int trial[node->vectorDevice.size()]; //Хранилище флагов о попытках опроса
 
+	int dur_ms = 0;
+
 	//signal(SIGPIPE, SIG_IGN);
 
 	
 	while (1)
-	{
-		//gettimeofday(&start, NULL);
+	{		
 		clock_gettime(CLOCK_REALTIME, &start);
 
 		//Проходим по устройствам
@@ -200,23 +200,19 @@ void* pollingDeviceTCP(void *args)
 		}
 
 
-
-
-		//if (device->id_device == 0) printf("%d\n", device->vectorTag[0].value);
 		
-
-
-		sleep(1);
-		
-		/*gettimeofday(&stop, NULL);
-		duration.tv_sec = stop.tv_sec - start.tv_sec;
-		duration.tv_usec = stop.tv_usec - start.tv_usec;
-		printf("Time %d", ((duration.tv_sec*100) + (duration.tv_usec/1000)) );*/
-
 		clock_gettime(CLOCK_REALTIME, &stop);
 		duration.tv_sec = stop.tv_sec - start.tv_sec;
 		duration.tv_nsec = stop.tv_nsec - start.tv_nsec;
-		printf("Time %d", duration.tv_sec*100 + (duration.tv_nsec / 1000000) );
+		dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
+		//printf("Time %d", duration.tv_sec*100 + (duration.tv_nsec / 1000000) );
+
+		if (dur_ms < node->vectorDevice[0].poll_period)
+		{
+			usleep( (node->vectorDevice[0].poll_period - dur_ms) *1000);
+			
+			//printf("Time %d ", (node->vectorDevice[0].poll_period - dur_ms));
+		}
 	}
 
 	
