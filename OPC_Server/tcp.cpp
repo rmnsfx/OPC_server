@@ -133,7 +133,6 @@ void* pollingDeviceTCP(void *args)
 	while (1)
 	{		
 		clock_gettime(CLOCK_REALTIME, &start);
-
 		
 
 		//Проходим по устройствам
@@ -173,7 +172,7 @@ void* pollingDeviceTCP(void *args)
 					}
 				}
 
-
+				distributeResponse(node, vector_optimize);
 
 				//Проходим по тэгам устройства 
 				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
@@ -183,7 +182,7 @@ void* pollingDeviceTCP(void *args)
 
 						if (node->vectorDevice[i].vectorTag[j].data_type == "int")
 						{
-							node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
+							//node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
 
 							UA_Int16 opc_value = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
 							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT16]);
@@ -192,8 +191,8 @@ void* pollingDeviceTCP(void *args)
 
 						if (node->vectorDevice[i].vectorTag[j].data_type == "float")
 						{
-							modbus_value = ((read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12]);
-							node->vectorDevice[i].vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);
+							//modbus_value = ((read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12]);
+							//node->vectorDevice[i].vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);
 
 							UA_Float opc_value = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
 							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);
@@ -211,24 +210,18 @@ void* pollingDeviceTCP(void *args)
 
 		
 		clock_gettime(CLOCK_REALTIME, &stop);
-
 		duration = time_diff(start, stop);
-
-
-		dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
-		
+		dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);		
 		//printf("Time %d", duration.tv_sec*100 + (duration.tv_nsec / 1000000) );
 
 		if (dur_ms < node->poll_period)
 		{
-			usleep( (node->poll_period - dur_ms) * 1000);
-			
+			usleep( (node->poll_period - dur_ms) * 1000);			
 			//printf("Time %d ", (node->vectorDevice[0].poll_period - dur_ms));
 		}
 
 		clock_gettime(CLOCK_REALTIME, &stop2);
-		common_duration = time_diff(start, stop2);
-		
+		common_duration = time_diff(start, stop2);		
 		//printf("\nCommon Duration Time %d \n\n", common_duration.tv_sec*100 + (common_duration.tv_nsec / 1000000) );
 	}
 

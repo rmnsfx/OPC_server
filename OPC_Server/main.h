@@ -131,6 +131,8 @@ public:
 struct Optimize
 {
 	int device_addr;
+	int function;
+	std::vector<int> regs; //список адресов регистров
 	uint8_t request[12];
 	uint8_t response[255];
 };
