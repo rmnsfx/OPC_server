@@ -148,8 +148,6 @@ void* pollingEngine(void *args)
 		{
 			connectDeviceTCP(&controller->vectorNode[i]);
 		}
-			
-
 
 		//Устройство (Device)
 		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
@@ -157,24 +155,14 @@ void* pollingEngine(void *args)
 			//printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
 
 			controller->vectorNode[i].vectorDevice[j].id_device = j;
-			controller->vectorNode[i].vectorDevice[j].device_socket = controller->vectorNode[i].socket;
-			
-			if (controller->vectorNode[i].vectorDevice[j].on = 1)
-			{
-
-				if (controller->vectorNode[i].intertype == "TCP")
-				{
-					pthread_create(&modbus_thread[j], NULL, pollingDeviceTCP, &controller->vectorNode[i].vectorDevice[j]);
-				}
-
-				//if (controller->vectorNode[i].intertype == "RS485")
-				//{
-					//pthread_create(&modbus_thread[j], NULL, pollingDevice, &controller->vectorNode[i]);
-				//}
-			}
-			
+			controller->vectorNode[i].vectorDevice[j].device_socket = controller->vectorNode[i].socket;		
 		}
 
+		//Запускаем опрос
+		if (controller->vectorNode[i].on == 1)
+		{
+			pthread_create(&modbus_thread[i], NULL, pollingDeviceTCP, &controller->vectorNode[i]);
+		}
 
 	}	
 }
@@ -206,7 +194,7 @@ int main()
 	pthread_join(server_thread, (void**)&status);
 	
 
-	sleep(15);
+	//sleep(15);
 
 	return 0;
 }

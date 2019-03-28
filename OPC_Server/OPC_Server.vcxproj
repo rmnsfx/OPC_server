@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="open62541.c" />
+    <ClCompile Include="poll_optimize.cpp" />
     <ClCompile Include="serialize.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -89,6 +90,7 @@
   <ItemGroup>
     <ClInclude Include="main.h" />
     <ClInclude Include="open62541.h" />
+    <ClInclude Include="poll_optimize.h" />
     <ClInclude Include="rapidjson\allocators.h" />
     <ClInclude Include="rapidjson\cursorstreamwrapper.h" />
     <ClInclude Include="rapidjson\document.h" />

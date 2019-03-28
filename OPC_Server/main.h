@@ -70,6 +70,7 @@ public:
 
 	int socket = 0;
 	
+	
 
 private:
 	std::vector<Tag> vectorNodeTag;
