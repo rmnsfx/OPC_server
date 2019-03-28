@@ -74,7 +74,7 @@ Controller serializeFromJSON(char* path)
 				node.stop_bit = Coms[i]["stop_bit"].GetUint();
 				node.description = Coms[i]["comment"].GetString();
 				node.attribute = Coms[i]["attribute"].GetUint();
-
+				node.poll_period = Coms[i]["period"].GetUint();
 
 
 				if (Coms[i]["Devs"].Size() > 0)
@@ -90,8 +90,7 @@ Controller serializeFromJSON(char* path)
 						device.type = Coms[i]["Devs"][j]["type"].GetUint();
 						device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();						
 						device.device_address = Coms[i]["Devs"][j]["address_device"].GetUint();
-						device.description = Coms[i]["Devs"][j]["comment"].GetString();						
-						device.poll_period = Coms[i]["Devs"][j]["period"].GetUint();
+						device.description = Coms[i]["Devs"][j]["comment"].GetString();												
 						device.poll_timeout = Coms[i]["Devs"][j]["timeout"].GetUint();
 						device.attribute = Coms[i]["Devs"][j]["attribute"].GetUint();
 

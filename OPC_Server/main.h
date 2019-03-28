@@ -69,6 +69,7 @@ public:
 	int tcp_wait_connection = 5;
 
 	int socket = 0;
+	int poll_period = 1000;
 	
 	
 
@@ -85,9 +86,8 @@ class Device : public Node
 public:
 	std::vector<Tag> vectorTag;
 
-	int device_address = 0;
-	int poll_period = 1;
-	int poll_timeout = 1;
+	int device_address = 0;	
+	int poll_timeout = 1000;
 
 	int devtype = 0;
 	int id_device = 0;

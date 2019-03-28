@@ -1136,7 +1136,7 @@ public:
         if (member != MemberEnd())
             return member->value;
         else {
-            RAPIDJSON_ASSERT(false);    // see above note
+           RAPIDJSON_ASSERT(false);    // see above note
 
             // This will generate -Wexit-time-destructors in clang
             // static GenericValue NullValue;

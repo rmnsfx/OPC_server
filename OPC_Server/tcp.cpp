@@ -207,9 +207,9 @@ void* pollingDeviceTCP(void *args)
 		dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
 		//printf("Time %d", duration.tv_sec*100 + (duration.tv_nsec / 1000000) );
 
-		if (dur_ms < node->vectorDevice[0].poll_period)
+		if (dur_ms < node->poll_period)
 		{
-			usleep( (node->vectorDevice[0].poll_period - dur_ms) *1000);
+			usleep( (node->poll_period - dur_ms) *1000);
 			
 			//printf("Time %d ", (node->vectorDevice[0].poll_period - dur_ms));
 		}
