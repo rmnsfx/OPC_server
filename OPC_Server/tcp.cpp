@@ -26,6 +26,23 @@
 
 
 
+timespec time_diff(timespec start, timespec end)
+{
+	timespec temp;
+
+	if ((end.tv_nsec - start.tv_nsec) < 0)
+	{
+		temp.tv_sec = end.tv_sec - start.tv_sec - 1;
+		temp.tv_nsec = 1000000000 + end.tv_nsec - start.tv_nsec;
+	}
+	else
+	{
+		temp.tv_sec = end.tv_sec - start.tv_sec;
+		temp.tv_nsec = end.tv_nsec - start.tv_nsec;
+	}
+	return temp;
+}
+
 
 void* connectDeviceTCP(void *args)
 {
@@ -100,8 +117,8 @@ void* pollingDeviceTCP(void *args)
 	int trial[node->vectorDevice.size()]; //Хранилище флагов о попытках опроса
 
 	int dur_ms = 0;
-
-	struct timespec start, stop, duration;
+	int common_dur_ms = 0;
+	struct timespec start, stop, duration, stop2, common_duration;
 
 	//signal(SIGPIPE, SIG_IGN);
 
@@ -109,7 +126,7 @@ void* pollingDeviceTCP(void *args)
 	Optimize optimize;
 	std::vector<Optimize> vector_optimize;
 	vector_optimize = reorganizeNodeIntoPolls(node);
-	if (vector_optimize.size() != node->vectorDevice.size()) printf("Warning! Vector != Device. Break.");	
+	if (vector_optimize.size() != node->vectorDevice.size()) printf("Warning, vector != device quantity.");	
 	
 
 	
@@ -194,9 +211,12 @@ void* pollingDeviceTCP(void *args)
 
 		
 		clock_gettime(CLOCK_REALTIME, &stop);
-		duration.tv_sec = stop.tv_sec - start.tv_sec;
-		duration.tv_nsec = stop.tv_nsec - start.tv_nsec;
+
+		duration = time_diff(start, stop);
+
+
 		dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
+		
 		//printf("Time %d", duration.tv_sec*100 + (duration.tv_nsec / 1000000) );
 
 		if (dur_ms < node->poll_period)
@@ -205,6 +225,11 @@ void* pollingDeviceTCP(void *args)
 			
 			//printf("Time %d ", (node->vectorDevice[0].poll_period - dur_ms));
 		}
+
+		clock_gettime(CLOCK_REALTIME, &stop2);
+		common_duration = time_diff(start, stop2);
+		
+		//printf("\nCommon Duration Time %d \n\n", common_duration.tv_sec*100 + (common_duration.tv_nsec / 1000000) );
 	}
 
 	

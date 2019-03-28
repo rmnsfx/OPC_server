@@ -4,26 +4,29 @@
   Starting remote build
   Compiling sources:
   tcp.cpp
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(68,36): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(68,36): warning :    serv_addr.sin_port = htons(node->port);
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(68,36): warning :                               ~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(78,1): warning : no return statement in function returning non-void [-Wreturn-type]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(78,1): warning :  }
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(78,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(125,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(125,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(125,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(165,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(165,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(165,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(225,74): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(225,74): warning :         node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(225,74): warning :                                                    ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(90,7): warning : unused variable ‘write_buffer’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(90,7): warning :   char write_buffer[12];
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(90,7): warning :        ^~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,11): warning : unused variable ‘optimize’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,11): warning :   Optimize optimize;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,11): warning :            ^~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(85,36): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(85,36): warning :    serv_addr.sin_port = htons(node->port);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(85,36): warning :                               ~~~~~~^~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(95,1): warning : no return statement in function returning non-void [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(95,1): warning :  }
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(95,1): warning :  ^
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(140,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(140,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(140,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(179,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(179,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(179,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(186,74): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(186,74): warning :         node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(186,74): warning :                                                    ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(107,7): warning : unused variable ‘write_buffer’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(107,7): warning :   char write_buffer[12];
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(107,7): warning :        ^~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(120,6): warning : unused variable ‘common_dur_ms’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(120,6): warning :   int common_dur_ms = 0;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(120,6): warning :       ^~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(126,11): warning : unused variable ‘optimize’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(126,11): warning :   Optimize optimize;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(126,11): warning :            ^~~~~~~~
   Linking objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out
