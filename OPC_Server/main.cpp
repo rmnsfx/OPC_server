@@ -188,7 +188,7 @@ int main()
 	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 
 	
 	
-	pollingEngine(&controller);
+	pollingEngine(&controller);	
 	
 	
 	pthread_join(server_thread, (void**)&status);

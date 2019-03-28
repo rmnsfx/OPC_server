@@ -127,6 +127,13 @@ public:
 
 };
 
+//—труктура дл€ хранени€ оптимизированных запросов каждого из устройств
+struct Optimize
+{
+	int device_addr;
+	uint8_t request[12];
+	uint8_t response[255];
+};
 
 
 #endif
