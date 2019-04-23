@@ -112,6 +112,7 @@ public:
 	float value = 0;
 	
 	UA_NodeId tagNodeId;
+	int reg_position;
 };
 
 //Класс группа
@@ -134,7 +135,7 @@ struct Optimize
 	int function;
 	std::vector<int> regs; //список адресов регистров
 	uint8_t request[12];
-	uint8_t response[255];
+	uint8_t response[255];		
 };
 
 

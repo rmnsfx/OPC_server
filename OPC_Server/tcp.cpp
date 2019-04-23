@@ -172,9 +172,10 @@ void* pollingDeviceTCP(void *args)
 					}
 				}
 
+				//Распределяем полученные значения по исходным регистрам
 				distributeResponse(node, vector_optimize);
 
-				//Проходим по тэгам устройства 
+				//Проходим по тэгам устройства (OPC)
 				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
 				{
 					if (node->vectorDevice[i].vectorTag[j].on == 1)

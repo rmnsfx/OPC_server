@@ -4,34 +4,34 @@
   Starting remote build
   Compiling sources:
   poll_optimize.cpp
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(28,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(28,20): warning :   for (int i = 0; i < node->vectorDevice.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(28,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(33,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(33,22): warning :     for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(33,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(50,48): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(50,48): warning :     optimize.request[6] = node->vectorDevice[i].device_address;      //����� ����������
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(52,39): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(52,39): warning :     optimize.request[8] = regs.front() >> 8;          //����� ������� �������� Hi ����
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(52,39): warning :                           ~~~~~~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(53,36): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(53,36): warning :     optimize.request[9] = regs.front();            //����� ������� �������� Lo ����
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(53,36): warning :                           ~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(29,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(29,20): warning :   for (int i = 0; i < node->vectorDevice.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(29,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(34,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(34,22): warning :     for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(34,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(52,48): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(52,48): warning :     optimize.request[6] = node->vectorDevice[i].device_address;      //����� ����������
 D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(54,39): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(54,39): warning :     optimize.request[10] = regs.back() >> 8;          //���������� ��������� Hi ����
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(54,39): warning :                            ~~~~~~~~~~~~^~~~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(54,39): warning :     optimize.request[8] = regs.front() >> 8;          //����� ������� �������� Hi ����
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(54,39): warning :                           ~~~~~~~~~~~~~^~~~
 D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(55,36): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(55,36): warning :     optimize.request[11] = regs.back();            //���������� ��������� Lo ����
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(55,36): warning :                            ~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(76,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(76,20): warning :   for (int i = 0; i < node->vectorDevice.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(76,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(81,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(81,22): warning :     for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(81,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(85,24): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(85,24): warning :       for (int k = 0; k < vector_response[i].regs.size(); k++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(85,24): warning :                       ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(55,36): warning :     optimize.request[9] = regs.front();            //����� ������� �������� Lo ����
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(55,36): warning :                           ~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(59,35): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(59,35): warning :     optimize.request[10] = reg_qty >> 8;          //���������� ��������� Hi ����
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(59,35): warning :                            ~~~~~~~~^~~~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(60,27): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(60,27): warning :     optimize.request[11] = reg_qty;            //���������� ��������� Lo ����
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(60,27): warning :                            ^~~~~~~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(80,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(80,20): warning :   for (int i = 0; i < node->vectorDevice.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(80,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(95,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(95,22): warning :     for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(95,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(107,61): warning : conversion to ‘float’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(107,61): warning :      node->vectorDevice[i].vectorTag[j].value = value_array[j];
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(107,61): warning :                                                              ^
   Linking objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out
