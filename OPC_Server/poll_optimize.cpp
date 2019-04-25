@@ -17,55 +17,242 @@
 #include <sys/time.h>
 #include <bits/stdc++.h> 
 
+
+
+std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
+{	
+	std::vector<int> split;
+	std::vector <std::vector<int>> split_out;
+
+	if (regs.size() > 1)
+	{
+		sort(regs.begin(), regs.end());
+
+		for (int i = 0; i < regs.size() - 1; i++)
+		{
+			//Проверка на количество регистров в запросе (ограничение протокола modbus)
+			if ((regs[i + 1] - regs[i]) <= 125)
+			{
+				split.push_back(regs[i] - 1);
+				split.push_back(regs[i + 1] - 1);
+				split_out.push_back(split);
+				split.clear();
+			}
+			else
+			{
+				split.push_back(regs[i + 1] - 1);
+				split_out.push_back(split);
+				split.clear();
+			}
+		}
+	}
+	else if (regs.size() == 1)
+	{
+
+		split.push_back(regs[0] - 1);
+		split_out.push_back(split);
+
+	}
+
+	return split_out;
+};
+
+
 std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 {
-	Optimize optimize;	
+	
 	std::vector<Optimize> vector_optimize; //Для формирования пакета запроса
 	std::vector<int> regs;	//Для сортировки адресов
 	int reg_qty = 0;
-	
+	std::vector<uint8_t> message;	
+	bool holding_present = false;
+	bool input_present = false;
+	std::vector <std::vector<int>> pair_request;
+
+
 
 	//Проходим по устройствам
 	for (int i = 0; i < node->vectorDevice.size(); i++)
 	{
 		if (node->vectorDevice[i].on == 1)
 		{
-			//Проходим по тэгам устройства 
+			Optimize optimize;
+			holding_present = false;
+			input_present = false;
+
+
+
+			//Определяем присутствие функции в тэгах устройства
 			for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
 			{
 				if (node->vectorDevice[i].vectorTag[j].on == 1)
 				{
-					regs.push_back(node->vectorDevice[i].vectorTag[j].reg_address);
-					node->vectorDevice[i].vectorTag[j].reg_position = j; //Запоминаем номер позиции регистра
+					if (node->vectorDevice[i].vectorTag[j].function == 3) holding_present = true;
+					if (node->vectorDevice[i].vectorTag[j].function == 4) input_present = true;
 				}
 			}
 
-			sort(regs.begin(), regs.end());
 
-			//Формируем пакет для запроса
-			optimize.request[0] = 0x00;														//Идентификатор транзакции
-			optimize.request[1] = 0x00;
-			optimize.request[2] = 0x00;														//Идентификатор протокола
-			optimize.request[3] = 0x00;
-			optimize.request[4] = 0x00;														//Длина сообщения
-			optimize.request[5] = 0x06;														
-			optimize.request[6] = node->vectorDevice[i].device_address;						//Адрес устройства
-			optimize.request[7] = 0x03;														//Функциональный код !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Доделать !!!!!!!!!!!!!!!!!!!!!!!!!!!
-			optimize.request[8] = regs.front() >> 8;										//Адрес первого регистра Hi байт
-			optimize.request[9] = regs.front();												//Адрес первого регистра Lo байт			
+			if (holding_present == true)
+			{
+				//Проходим по тэгам устройства 
+				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+				{
+					if (node->vectorDevice[i].vectorTag[j].on == 1 && node->vectorDevice[i].vectorTag[j].function == 3)
+					{
+						if (node->vectorDevice[i].vectorTag[j].reg_address != 0)
+						{
+							regs.push_back(node->vectorDevice[i].vectorTag[j].reg_address);
+							node->vectorDevice[i].vectorTag[j].reg_position = j; //Запоминаем номер позиции регистра
+						}
+						else printf("Warning! %s Register address == 0 \n", node->vectorDevice[i].vectorTag[j].name);
+					}
+				}
+
+				//Сортируем и разбиваем адреса (общий список) на подзапросы
+				pair_request = splitRegs(regs);
+
+				for (int z = 0; z < pair_request.size(); z++)
+				{				
+
+					if ((pair_request[z].back() - pair_request[z].front()) > 0)
+					{
+						//Формируем пакет для запроса
+						message.push_back(0x00);														//Идентификатор транзакции
+						message.push_back(0x00);
+						message.push_back(0x00);														//Идентификатор протокола
+						message.push_back(0x00);
+						message.push_back(0x00);														//Длина сообщения
+						message.push_back(0x06);
+						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
+						message.push_back(0x03);														//Функциональный код 
+						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
+						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
+
+						reg_qty = pair_request[z].back() - pair_request[z].front() + 1;
+
+						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
+						message.push_back(reg_qty);														//Количество регистров Lo байт
+
+						optimize.device_addr = node->vectorDevice[i].device_address;
+						optimize.request.push_back(message);
 						
-			reg_qty = regs.back() - regs.front() + 1;
+						for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]);	//Копирование вектора
 
-			optimize.request[10] = reg_qty >> 8;										//Количество регистров Hi байт
-			optimize.request[11] = reg_qty;												//Количество регистров Lo байт
+					}
+					else
+					{
+						//Формируем пакет для запроса
+						message.push_back(0x00);														//Идентификатор транзакции
+						message.push_back(0x00);
+						message.push_back(0x00);														//Идентификатор протокола
+						message.push_back(0x00);
+						message.push_back(0x00);														//Длина сообщения
+						message.push_back(0x06);
+						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
+						message.push_back(0x03);														//Функциональный код 
+						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
+						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
 
-			optimize.device_addr = node->vectorDevice[i].device_address;						
-			optimize.regs.swap(regs);
-			vector_optimize.push_back(optimize);	
+						reg_qty = 1;
 
-			regs.clear();
+						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
+						message.push_back(reg_qty);														//Количество регистров Lo байт
+
+
+						optimize.device_addr = node->vectorDevice[i].device_address;
+						optimize.request.push_back(message);
+
+						for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]);	//Копирование вектора
+
+					}
+
+					regs.clear();
+					message.clear();
+
+				}
+			}
+
+
+			if (input_present == true)
+			{
+				//Проходим по тэгам устройства 
+				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+				{
+					if (node->vectorDevice[i].vectorTag[j].on == 1 && node->vectorDevice[i].vectorTag[j].function == 4)
+					{
+						if (node->vectorDevice[i].vectorTag[j].reg_address != 0)
+						{
+							regs.push_back(node->vectorDevice[i].vectorTag[j].reg_address);
+							node->vectorDevice[i].vectorTag[j].reg_position = j; //Запоминаем номер позиции регистра
+						}
+						else printf("Warning! %s Register address == 0 \n", node->vectorDevice[i].vectorTag[j].name);
+					}
+				}
+
+				//Сортируем и разбиваем адреса (общий список) на подзапросы
+				pair_request = splitRegs(regs);
+
+				for (int z = 0; z < pair_request.size(); z++)
+				{
+					if ((pair_request[z].back() - pair_request[z].front()) > 0)
+					{
+						//Формируем пакет для запроса
+						message.push_back(0x00);														//Идентификатор транзакции
+						message.push_back(0x00);
+						message.push_back(0x00);														//Идентификатор протокола
+						message.push_back(0x00);
+						message.push_back(0x00);														//Длина сообщения
+						message.push_back(0x06);
+						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
+						message.push_back(0x04);														//Функциональный код 
+						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
+						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
+
+						reg_qty = pair_request[z].back() - pair_request[z].front() + 1;
+
+						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
+						message.push_back(reg_qty);														//Количество регистров Lo байт
+
+
+						optimize.device_addr = node->vectorDevice[i].device_address;
+						optimize.request.push_back(message);
+
+						for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]);	//Копирование вектора
+					}
+					else
+					{
+						//Формируем пакет для запроса
+						message.push_back(0x00);														//Идентификатор транзакции
+						message.push_back(0x00);
+						message.push_back(0x00);														//Идентификатор протокола
+						message.push_back(0x00);
+						message.push_back(0x00);														//Длина сообщения
+						message.push_back(0x06);
+						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
+						message.push_back(0x04);														//Функциональный код 
+						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
+						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
+
+						reg_qty = 1;
+
+						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
+						message.push_back(reg_qty);														//Количество регистров Lo байт
+
+
+						optimize.device_addr = node->vectorDevice[i].device_address;
+						optimize.request.push_back(message);
+						
+						for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]);	//Копирование вектора
+					}
+
+					regs.clear();
+					message.clear();
+				}
+			}
+
+			vector_optimize.push_back(optimize);
 		}	
-
 	}	
 
 	return vector_optimize;
