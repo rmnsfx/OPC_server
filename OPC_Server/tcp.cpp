@@ -91,6 +91,7 @@ void* connectDeviceTCP(void *args)
 		{
 			printf("\nConnection Failed: %d\n", result);
 		}
+
 	}
 }
 
@@ -103,8 +104,8 @@ void* pollingDeviceTCP(void *args)
 	Node* node = (Node*)args;
 
 	int result = 0;	
-	//char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
-	char write_buffer[12];
+	char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
+	//char write_buffer[12];
 	char read_buffer[255];
 
 	extern UA_Server *server;
@@ -123,12 +124,14 @@ void* pollingDeviceTCP(void *args)
 	//signal(SIGPIPE, SIG_IGN);
 
 	//Оптимизируем запрос
-	Optimize optimize;
-	std::vector<Optimize> vector_optimize;
-	vector_optimize = reorganizeNodeIntoPolls(node);
+	//Optimize optimize;
+
+	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);
+	
 	if (vector_optimize.size() != node->vectorDevice.size()) printf("Warning, vector != device quantity.");	
 	
-
+	
+	
 	
 	while (1)
 	{		
@@ -139,71 +142,85 @@ void* pollingDeviceTCP(void *args)
 		for (int i = 0; i < node->vectorDevice.size(); i++)
 		{
 			if (node->vectorDevice[i].on == 1)
-			{				
-				result = send(node->vectorDevice[i].device_socket, &vector_optimize[i].request, sizeof(vector_optimize[i].request), 0);
+			{					
 
-				//reinit fd
-				FD_ZERO(&set); /* clear the set */
-				FD_SET(node->vectorDevice[i].device_socket, &set); /* add our file descriptor to the set */
+				//Отправляем запросы и принимаем ответы по порядку
+				for (int y = 0; y < vector_optimize[i].request.size(); y++)
+				{									
+						
+					result = send(node->vectorDevice[i].device_socket, &vector_optimize[i].request[y][0], vector_optimize[i].request[y].size(), 0);				
+					
 
-				//reinit timeout
-				timeout.tv_sec = node->vectorDevice[i].poll_timeout / 1000;
-				timeout.tv_usec = (node->vectorDevice[i].poll_timeout % 1000) * 1000;
+					//reinit fd
+					FD_ZERO(&set); /* clear the set */
+					FD_SET(node->vectorDevice[i].device_socket, &set); /* add our file descriptor to the set */
 
-				result = select(node->vectorDevice[i].device_socket + 1, &set, 0, 0, &timeout);
+					//reinit timeout
+					timeout.tv_sec = node->vectorDevice[i].poll_timeout / 1000;
+					timeout.tv_usec = (node->vectorDevice[i].poll_timeout % 1000) * 1000;
 
-				if (result > 0)
-				{
-					result = read(node->vectorDevice[i].device_socket, &vector_optimize[i].response, sizeof(vector_optimize[i].response));
-				}
-				else if (result == 0)
-				{
-					printf("Timeout device: %d, poll attempt %d \n", node->vectorDevice[i].device_address, trial[i]);
+					result = select(node->vectorDevice[i].device_socket + 1, &set, 0, 0, &timeout);
 
-					//reset buffer to zero when poll timed out
-					//for (int h = 0; h < sizeof(vector_optimize[i].request); h++) vector_optimize[i].request[h] = 0;
-
-					if (++trial[i] > 3)
+					if (result > 0)
 					{
-						printf("Timeout device: %d, switch off device.\n", node->vectorDevice[i].device_address);
-
-						//Выключаем устройство
-						node->vectorDevice[i].on = 0;
+						result = read(node->vectorDevice[i].device_socket, &vector_optimize[i].response, sizeof(vector_optimize[i].response));
 					}
-				}
-
-				//Распределяем полученные значения по исходным регистрам
-				distributeResponse(node, vector_optimize);
-
-				//Проходим по тэгам устройства (OPC)
-				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-				{
-					if (node->vectorDevice[i].vectorTag[j].on == 1)
+					else if (result == 0)
 					{
+						printf("Timeout device: %d, poll attempt %d \n", node->vectorDevice[i].device_address, trial[i]);
 
-						if (node->vectorDevice[i].vectorTag[j].data_type == "int")
+						//reset buffer to zero when poll timed out
+						//for (int h = 0; h < sizeof(vector_optimize[i].request); h++) vector_optimize[i].request[h] = 0;
+
+						if (++trial[i] > 3)
 						{
-							//node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
+							printf("Timeout device: %d, switch off device.\n", node->vectorDevice[i].device_address);
 
-							UA_Int16 opc_value = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
-							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT16]);
-							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+							//Выключаем устройство
+							node->vectorDevice[i].on = 0;
 						}
-
-						if (node->vectorDevice[i].vectorTag[j].data_type == "float")
-						{
-							//modbus_value = ((read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12]);
-							//node->vectorDevice[i].vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);
-
-							UA_Float opc_value = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
-							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);
-							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						}
-
 					}
 
-					printf("%d %s %.00f\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
-				}
+					//Распределяем полученные значения по исходным регистрам
+					//distributeResponse(node, vector_optimize);
+
+					//Проходим по тэгам устройства (OPC)
+					for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+					{
+						if (node->vectorDevice[i].vectorTag[j].on == 1)
+						{
+
+							if (node->vectorDevice[i].vectorTag[j].data_type == "int")
+							{
+								//node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
+
+								UA_Int16 opc_value = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
+								UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT16]);
+								UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+							}
+
+							if (node->vectorDevice[i].vectorTag[j].data_type == "float")
+							{
+								//modbus_value = ((read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12]);
+								//node->vectorDevice[i].vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);
+
+								UA_Float opc_value = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
+								UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);
+								UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+							}
+
+						}
+
+						printf("%d %s %.00f\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
+					}
+
+
+				
+				
+				}//Закрывашка "отправляем запросы и принимаем ответы по порядку"
+
+
+
 			}
 
 		}
