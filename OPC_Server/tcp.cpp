@@ -104,9 +104,9 @@ void* pollingDeviceTCP(void *args)
 	Node* node = (Node*)args;
 
 	int result = 0;	
-	char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
-	//char write_buffer[12];
+	//char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };	
 	char read_buffer[255];
+	std::vector<uint8_t> read_buffer_vector;
 
 	extern UA_Server *server;
 	UA_Variant value;
@@ -123,12 +123,10 @@ void* pollingDeviceTCP(void *args)
 
 	//signal(SIGPIPE, SIG_IGN);
 
-	//Оптимизируем запрос
-	//Optimize optimize;
 
-	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);
-	
+	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);	
 	if (vector_optimize.size() != node->vectorDevice.size()) printf("Warning, vector != device quantity.");	
+	
 	
 	
 	
@@ -163,9 +161,19 @@ void* pollingDeviceTCP(void *args)
 
 					if (result > 0)
 					{
-						result = read(node->vectorDevice[i].device_socket, &vector_optimize[i].response, sizeof(vector_optimize[i].response));
+						result = read(node->vectorDevice[i].device_socket, &read_buffer, sizeof(read_buffer));
+						
+						for (int a = 0; a < result; a++)
+						{							
+							read_buffer_vector.push_back(read_buffer[a]);
+						}
+
+						vector_optimize[i].response.push_back(read_buffer_vector);						
+						
+						read_buffer_vector.clear();
 					}
-					else if (result == 0)
+					
+					if (result == 0)
 					{
 						printf("Timeout device: %d, poll attempt %d \n", node->vectorDevice[i].device_address, trial[i]);
 
@@ -179,6 +187,11 @@ void* pollingDeviceTCP(void *args)
 							//Выключаем устройство
 							node->vectorDevice[i].on = 0;
 						}
+					}
+
+					if (result == -1)
+					{
+						printf("Warning! Error read, result: %d\n", result);
 					}
 
 					//Распределяем полученные значения по исходным регистрам

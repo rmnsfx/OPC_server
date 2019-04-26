@@ -10,21 +10,15 @@ D:\Repos\OPC_Server\OPC_Server\tcp.cpp(85,36): warning :                        
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(96,1): warning : no return statement in function returning non-void [-Wreturn-type]
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(96,1): warning :  }
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(96,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(142,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(142,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(142,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(148,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(148,23): warning :      for (int y = 0; y < vector_optimize[i].request.size(); y++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(148,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(192,24): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(192,24): warning :       for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(192,24): warning :                       ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(107,7): warning : unused variable ‘write_buffer’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(107,7): warning :   char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(107,7): warning :        ^~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,7): warning : unused variable ‘read_buffer’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,7): warning :   char read_buffer[255];
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,7): warning :        ^~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(140,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(140,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(140,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(146,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(146,23): warning :      for (int y = 0; y < vector_optimize[i].request.size(); y++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(146,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(201,24): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(201,24): warning :       for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(201,24): warning :                       ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(113,6): warning : unused variable ‘modbus_value’ [-Wunused-variable]
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(113,6): warning :   int modbus_value = 0;
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(113,6): warning :       ^~~~~~~~~~~~

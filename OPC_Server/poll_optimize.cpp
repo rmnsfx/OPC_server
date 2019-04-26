@@ -263,48 +263,48 @@ void distributeResponse(Node* node, std::vector<Optimize> vector_response)
 {		
 
 
-	//Проходим по устройствам
-	for (int i = 0; i < node->vectorDevice.size(); i++)
-	{
-		if (node->vectorDevice[i].on == 1)
-		{
+	////Проходим по устройствам
+	//for (int i = 0; i < node->vectorDevice.size(); i++)
+	//{
+	//	if (node->vectorDevice[i].on == 1)
+	//	{
 
-			//Передаем лямбду (11-ый стандарт) в функцию сортировки из STL
-			std::sort(node->vectorDevice[i].vectorTag.begin(), node->vectorDevice[i].vectorTag.end(), [](const Tag& tag1, const Tag& tag2) -> bool 			
-			{
-				return tag1.reg_address < tag2.reg_address;
-			});
-
-
-			std::vector<int> value_array;
-
-			//Проходим по тэгам устройства 
-			for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-			{				
-
-				//Проходим по байтам вектора с ответом															
-				for (int k = 9, t = node->vectorDevice[i].vectorTag[0].reg_address; k < (9 + vector_response[i].response[8]); k+=2, t++)
-				{					
-					if (t == node->vectorDevice[i].vectorTag[j].reg_address)
-					{
-						value_array.push_back((vector_response[i].response[k] << 8) + vector_response[i].response[k + 1]);
-					}
-				}
-								
-				node->vectorDevice[i].vectorTag[j].value = value_array[j];
-
-				//printf("%d ", vector_response[i].response[k]);				
-				
-			}
+	//		//Передаем лямбду (11-ый стандарт) в функцию сортировки из STL
+	//		std::sort(node->vectorDevice[i].vectorTag.begin(), node->vectorDevice[i].vectorTag.end(), [](const Tag& tag1, const Tag& tag2) -> bool 			
+	//		{
+	//			return tag1.reg_address < tag2.reg_address;
+	//		});
 
 
-			//Передаем лямбду (11-ый стандарт) в функцию сортировки из STL
-			std::sort(node->vectorDevice[i].vectorTag.begin(), node->vectorDevice[i].vectorTag.end(), [](const Tag& tag1, const Tag& tag2) -> bool
-			{
-				return tag1.reg_position < tag2.reg_position;
-			});
+	//		std::vector<int> value_array;
 
-		}
-	}
+	//		//Проходим по тэгам устройства 
+	//		for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+	//		{				
+
+	//			//Проходим по байтам вектора с ответом															
+	//			for (int k = 9, t = node->vectorDevice[i].vectorTag[0].reg_address; k < (9 + vector_response[i].response[8]); k+=2, t++)
+	//			{					
+	//				if (t == node->vectorDevice[i].vectorTag[j].reg_address)
+	//				{
+	//					value_array.push_back((vector_response[i].response[k] << 8) + vector_response[i].response[k + 1]);
+	//				}
+	//			}
+	//							
+	//			node->vectorDevice[i].vectorTag[j].value = value_array[j];
+
+	//			//printf("%d ", vector_response[i].response[k]);				
+	//			
+	//		}
+
+
+	//		//Передаем лямбду (11-ый стандарт) в функцию сортировки из STL
+	//		std::sort(node->vectorDevice[i].vectorTag.begin(), node->vectorDevice[i].vectorTag.end(), [](const Tag& tag1, const Tag& tag2) -> bool
+	//		{
+	//			return tag1.reg_position < tag2.reg_position;
+	//		});
+
+	//	}
+	//}
 
 }
