@@ -10,7 +10,7 @@
 
 
 std::vector<Optimize> reorganizeNodeIntoPolls(Node* node);
-void distributeResponse(Node* node, std::vector<Optimize> vector_response);
+void distributeResponse(Node* node, std::vector<Optimize> vector_response, int sequence_number);
 
 
 #endif

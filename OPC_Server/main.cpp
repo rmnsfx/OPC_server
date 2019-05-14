@@ -182,7 +182,7 @@ int main()
 	Controller controller;
 
 
-	controller = serializeFromJSON("/usr/httpserv/opc.json");
+	controller = serializeFromJSON("/usr/httpserv/opc.json");	
 	
 
 	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 

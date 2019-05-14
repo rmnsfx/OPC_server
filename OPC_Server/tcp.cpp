@@ -144,10 +144,10 @@ void* pollingDeviceTCP(void *args)
 
 				//Отправляем запросы и принимаем ответы по порядку
 				for (int y = 0; y < vector_optimize[i].request.size(); y++)
-				{									
-						
-					result = send(node->vectorDevice[i].device_socket, &vector_optimize[i].request[y][0], vector_optimize[i].request[y].size(), 0);				
-					
+				{
+
+					result = send(node->vectorDevice[i].device_socket, &vector_optimize[i].request[y][0], vector_optimize[i].request[y].size(), 0);
+
 
 					//reinit fd
 					FD_ZERO(&set); /* clear the set */
@@ -162,22 +162,64 @@ void* pollingDeviceTCP(void *args)
 					if (result > 0)
 					{
 						result = read(node->vectorDevice[i].device_socket, &read_buffer, sizeof(read_buffer));
-						
-						for (int a = 0; a < result; a++)
-						{							
-							read_buffer_vector.push_back(read_buffer[a]);
-						}
 
-						vector_optimize[i].response.push_back(read_buffer_vector);						
-						
-						read_buffer_vector.clear();
+						if (result > 0)
+						{
+							for (int a = 0; a < result; a++)
+							{
+								read_buffer_vector.push_back(read_buffer[a]);
+							}
+
+							vector_optimize[i].response.push_back(read_buffer_vector);
+
+
+							//Разбираем (распределяем значения по регистрам) ответ
+							//Определяем начальный адрес
+							int start_address = (vector_optimize[i].request[y][8] << 8) + vector_optimize[i].request[y][9];
+							
+							
+							//Проходим по вектору с ответами
+							for (int v = 9, addr = start_address+1; v < vector_optimize[i].response[y].size(); v+=2, addr++)
+							{			
+
+								//Перебираем holding
+								if (vector_optimize[i].response[y][7] == 0x03)
+								{	
+									for (int s = 0; s < vector_optimize[i].holding_regs.size(); s++)
+									{
+										if (vector_optimize[i].holding_regs[s] == addr)
+										{
+											//printf("s = %d, holding = %d, addr = %d \n", s, vector_optimize[i].holding_regs[s], addr);
+											node->vectorDevice[i].vectorTag[s].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+										}										
+									}
+								}
+
+								//Перебираем input
+								if (vector_optimize[i].response[y][7] == 0x04)
+								{
+									for (int s = 0; s < vector_optimize[i].input_regs.size(); s++)
+									{
+										printf("%d \n", vector_optimize[i].input_regs[0]);
+									}
+								}
+							}
+
+							if (vector_optimize[i].response[y][7] == 0x83 || vector_optimize[i].response[y][7] == 0x84)
+							{
+								printf("Warning! No response from: device = %d, register = %d \n", node->vectorDevice[i].device_address, start_address);
+							}
+
+							read_buffer_vector.clear();
+							
+						}
 					}
-					
+
 					if (result == 0)
 					{
 						printf("Timeout device: %d, poll attempt %d \n", node->vectorDevice[i].device_address, trial[i]);
 
-						//reset buffer to zero when poll timed out
+						//set buffer to zero when poll timed out
 						//for (int h = 0; h < sizeof(vector_optimize[i].request); h++) vector_optimize[i].request[h] = 0;
 
 						if (++trial[i] > 3)
@@ -193,9 +235,54 @@ void* pollingDeviceTCP(void *args)
 					{
 						printf("Warning! Error read, result: %d\n", result);
 					}
+					
+					//distributeResponse(node, vector_optimize, y);
 
-					//Распределяем полученные значения по исходным регистрам
-					//distributeResponse(node, vector_optimize);
+
+				}//Закрывашка "отправляем запросы и принимаем ответы по порядку"
+
+				vector_optimize[i].response.clear();
+
+
+				//if (result > 0) //Распределяем полученные значения по исходным регистрам
+				//{
+
+					//std::vector<int> value_array;
+
+					//Проходим по вектору с ответами
+					//for (int v = 0; v < vector_optimize[i].response.size(); v++)
+					//{
+						//int size = (9 + vector_optimize[i].response[v][8]);
+						//printf("%d \n", size);
+
+						//Проходим по байтам ответа
+						//for (int b = 9, k = 0; b < size; b+=2, k++)
+						//{							
+						//	value_array.push_back((vector_optimize[i].response[v][b] << 8) + vector_optimize[i].response[v][b + 1]);
+						//	printf("%d \n", (vector_optimize[i].response[v][b] << 8) + vector_optimize[i].response[v][b + 1]);							
+						//}						
+					//}
+
+					//for (int t = 1; t <= value_array.size(); t++)
+					//{
+					//	if (t == node->vectorDevice[i].vectorTag[t].reg_address)
+					//	{
+					//		node->vectorDevice[i].vectorTag[t].value = value_array[t];
+					//	}
+					//}
+
+					//value_array.clear();
+
+				//}
+				//else
+				//{
+				//	printf("Warning! No response, device: %d \n", node->vectorDevice[i].device_address);
+				//}
+
+
+
+
+
 
 					//Проходим по тэгам устройства (OPC)
 					for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
@@ -230,7 +317,7 @@ void* pollingDeviceTCP(void *args)
 
 				
 				
-				}//Закрывашка "отправляем запросы и принимаем ответы по порядку"
+				
 
 
 

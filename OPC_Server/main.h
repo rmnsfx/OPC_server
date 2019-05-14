@@ -133,10 +133,9 @@ struct Optimize
 {
 	int device_addr;	
 	std::vector<int> holding_regs; //список адресов регистров
-	std::vector<int> input_regs; //список адресов регистров	
-	//uint8_t response[255];		
+	std::vector<int> input_regs; //список адресов регистров		
 	std::vector<std::vector<uint8_t>> request; //список запросов
-	std::vector<std::vector<uint8_t>> response; //список ответов
+	std::vector<std::vector<uint8_t>> response; //список ответов	
 };
 
 
