@@ -43,7 +43,7 @@ std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
 			
 			for (int i = 0; i < regs.size() - 1; i++)
 			{
-				//Проверка на количество регистров в запросе (ограничение протокола modbus)
+				//РџСЂРѕРІРµСЂРєР° РЅР° РєРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРіРёСЃС‚СЂРѕРІ РІ Р·Р°РїСЂРѕСЃРµ (РѕРіСЂР°РЅРёС‡РµРЅРёРµ РїСЂРѕС‚РѕРєРѕР»Р° modbus)
 				if ((regs[i + 1] - regs[i]) < 125)
 				{
 					split.push_back(regs[i] - 1);
@@ -87,8 +87,8 @@ std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
 std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 {
 	
-	std::vector<Optimize> vector_optimize; //Для формирования пакета запроса
-	std::vector<int> regs;	//Для сортировки адресов
+	std::vector<Optimize> vector_optimize; //Р”Р»СЏ С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ РїР°РєРµС‚Р° Р·Р°РїСЂРѕСЃР°
+	std::vector<int> regs;	//Р”Р»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё Р°РґСЂРµСЃРѕРІ
 	int reg_qty = 0;
 	std::vector<uint8_t> message;	
 	bool holding_present = false;
@@ -97,7 +97,7 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 
 
 
-	//Проходим по устройствам
+	//РџСЂРѕС…РѕРґРёРј РїРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР°Рј
 	for (int i = 0; i < node->vectorDevice.size(); i++)
 	{
 		if (node->vectorDevice[i].on == 1)
@@ -108,7 +108,7 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 
 
 
-			//Определяем присутствие функции в тэгах устройства
+			//РћРїСЂРµРґРµР»СЏРµРј РїСЂРёСЃСѓС‚СЃС‚РІРёРµ С„СѓРЅРєС†РёРё РІ С‚СЌРіР°С… СѓСЃС‚СЂРѕР№СЃС‚РІР°
 			for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
 			{
 				if (node->vectorDevice[i].vectorTag[j].on == 1)
@@ -121,7 +121,7 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 
 			if (holding_present == true)
 			{
-				//Проходим по тэгам устройства 
+				//РџСЂРѕС…РѕРґРёРј РїРѕ С‚СЌРіР°Рј СѓСЃС‚СЂРѕР№СЃС‚РІР° 
 				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
 				{
 					if (node->vectorDevice[i].vectorTag[j].on == 1 && node->vectorDevice[i].vectorTag[j].function == 3)
@@ -129,13 +129,13 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						if (node->vectorDevice[i].vectorTag[j].reg_address != 0)
 						{
 							regs.push_back(node->vectorDevice[i].vectorTag[j].reg_address);
-							node->vectorDevice[i].vectorTag[j].reg_position = j; //Запоминаем номер позиции регистра
+							node->vectorDevice[i].vectorTag[j].reg_position = j; //Р—Р°РїРѕРјРёРЅР°РµРј РЅРѕРјРµСЂ РїРѕР·РёС†РёРё СЂРµРіРёСЃС‚СЂР°
 						}
 						else printf("Warning! %s Register address == 0 \n", node->vectorDevice[i].vectorTag[j].name);
 					}
 				}
 
-				//Сортируем и разбиваем адреса (общий список) на подзапросы
+				//РЎРѕСЂС‚РёСЂСѓРµРј Рё СЂР°Р·Р±РёРІР°РµРј Р°РґСЂРµСЃР° (РѕР±С‰РёР№ СЃРїРёСЃРѕРє) РЅР° РїРѕРґР·Р°РїСЂРѕСЃС‹
 				pair_request = splitRegs(regs);
 
 				for (int z = 0; z < pair_request.size(); z++)
@@ -143,53 +143,53 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 
 					if ((pair_request[z].back() - pair_request[z].front()) > 0)
 					{
-						//Формируем пакет для запроса
-						message.push_back(0x00);														//Идентификатор транзакции
+						//Р¤РѕСЂРјРёСЂСѓРµРј РїР°РєРµС‚ РґР»СЏ Р·Р°РїСЂРѕСЃР°
+						message.push_back(0x00);														//РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚СЂР°РЅР·Р°РєС†РёРё
 						message.push_back(0x00);
-						message.push_back(0x00);														//Идентификатор протокола
+						message.push_back(0x00);														//РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСЂРѕС‚РѕРєРѕР»Р°
 						message.push_back(0x00);
-						message.push_back(0x00);														//Длина сообщения
+						message.push_back(0x00);														//Р”Р»РёРЅР° СЃРѕРѕР±С‰РµРЅРёСЏ
 						message.push_back(0x06);
-						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
-						message.push_back(0x03);														//Функциональный код 
-						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
-						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
+						message.push_back(node->vectorDevice[i].device_address);						//РђРґСЂРµСЃ СѓСЃС‚СЂРѕР№СЃС‚РІР°
+						message.push_back(0x03);														//Р¤СѓРЅРєС†РёРѕРЅР°Р»СЊРЅС‹Р№ РєРѕРґ 
+						message.push_back(pair_request[z].front() >> 8);								//РђРґСЂРµСЃ РїРµСЂРІРѕРіРѕ СЂРµРіРёСЃС‚СЂР° Hi Р±Р°Р№С‚
+						message.push_back(pair_request[z].front());										//РђРґСЂРµСЃ РїРµСЂРІРѕРіРѕ СЂРµРіРёСЃС‚СЂР° Lo Р±Р°Р№С‚			
 
 						reg_qty = pair_request[z].back() - pair_request[z].front() + 1;
 
-						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
-						message.push_back(reg_qty);														//Количество регистров Lo байт
+						message.push_back(reg_qty >> 8);												//РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРіРёСЃС‚СЂРѕРІ Hi Р±Р°Р№С‚
+						message.push_back(reg_qty);														//РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРіРёСЃС‚СЂРѕРІ Lo Р±Р°Р№С‚
 
 						optimize.device_addr = node->vectorDevice[i].device_address;
 						optimize.request.push_back(message);
 						
-						for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]);	//Копирование вектора
+						for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]);	//РљРѕРїРёСЂРѕРІР°РЅРёРµ РІРµРєС‚РѕСЂР°
 
 					}
 					else
 					{
-						//Формируем пакет для запроса
-						message.push_back(0x00);														//Идентификатор транзакции
+						//Р¤РѕСЂРјРёСЂСѓРµРј РїР°РєРµС‚ РґР»СЏ Р·Р°РїСЂРѕСЃР°
+						message.push_back(0x00);														//РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚СЂР°РЅР·Р°РєС†РёРё
 						message.push_back(0x00);
-						message.push_back(0x00);														//Идентификатор протокола
+						message.push_back(0x00);														//РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСЂРѕС‚РѕРєРѕР»Р°
 						message.push_back(0x00);
-						message.push_back(0x00);														//Длина сообщения
+						message.push_back(0x00);														//Р”Р»РёРЅР° СЃРѕРѕР±С‰РµРЅРёСЏ
 						message.push_back(0x06);
-						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
-						message.push_back(0x03);														//Функциональный код 
-						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
-						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
+						message.push_back(node->vectorDevice[i].device_address);						//РђРґСЂРµСЃ СѓСЃС‚СЂРѕР№СЃС‚РІР°
+						message.push_back(0x03);														//Р¤СѓРЅРєС†РёРѕРЅР°Р»СЊРЅС‹Р№ РєРѕРґ 
+						message.push_back(pair_request[z].front() >> 8);								//РђРґСЂРµСЃ РїРµСЂРІРѕРіРѕ СЂРµРіРёСЃС‚СЂР° Hi Р±Р°Р№С‚
+						message.push_back(pair_request[z].front());										//РђРґСЂРµСЃ РїРµСЂРІРѕРіРѕ СЂРµРіРёСЃС‚СЂР° Lo Р±Р°Р№С‚			
 
 						reg_qty = 1;
 
-						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
-						message.push_back(reg_qty);														//Количество регистров Lo байт
+						message.push_back(reg_qty >> 8);												//РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРіРёСЃС‚СЂРѕРІ Hi Р±Р°Р№С‚
+						message.push_back(reg_qty);														//РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРіРёСЃС‚СЂРѕРІ Lo Р±Р°Р№С‚
 
 
 						optimize.device_addr = node->vectorDevice[i].device_address;
 						optimize.request.push_back(message);
 
-						for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]);	//Копирование вектора
+						for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]);	//РљРѕРїРёСЂРѕРІР°РЅРёРµ РІРµРєС‚РѕСЂР°
 
 					}
 
@@ -202,7 +202,7 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 
 			if (input_present == true)
 			{
-				//Проходим по тэгам устройства 
+				//РџСЂРѕС…РѕРґРёРј РїРѕ С‚СЌРіР°Рј СѓСЃС‚СЂРѕР№СЃС‚РІР° 
 				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
 				{
 					if (node->vectorDevice[i].vectorTag[j].on == 1 && node->vectorDevice[i].vectorTag[j].function == 4)
@@ -210,66 +210,66 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						if (node->vectorDevice[i].vectorTag[j].reg_address != 0)
 						{
 							regs.push_back(node->vectorDevice[i].vectorTag[j].reg_address);
-							node->vectorDevice[i].vectorTag[j].reg_position = j; //Запоминаем номер позиции регистра
+							node->vectorDevice[i].vectorTag[j].reg_position = j; //Р—Р°РїРѕРјРёРЅР°РµРј РЅРѕРјРµСЂ РїРѕР·РёС†РёРё СЂРµРіРёСЃС‚СЂР°
 						}
 						else printf("Warning! %s Register address == 0 \n", node->vectorDevice[i].vectorTag[j].name);
 					}
 				}
 
-				//Сортируем и разбиваем адреса (общий список) на подзапросы
+				//РЎРѕСЂС‚РёСЂСѓРµРј Рё СЂР°Р·Р±РёРІР°РµРј Р°РґСЂРµСЃР° (РѕР±С‰РёР№ СЃРїРёСЃРѕРє) РЅР° РїРѕРґР·Р°РїСЂРѕСЃС‹
 				pair_request = splitRegs(regs);
 
 				for (int z = 0; z < pair_request.size(); z++)
 				{
 					if ((pair_request[z].back() - pair_request[z].front()) > 0)
 					{
-						//Формируем пакет для запроса
-						message.push_back(0x00);														//Идентификатор транзакции
+						//Р¤РѕСЂРјРёСЂСѓРµРј РїР°РєРµС‚ РґР»СЏ Р·Р°РїСЂРѕСЃР°
+						message.push_back(0x00);														//РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚СЂР°РЅР·Р°РєС†РёРё
 						message.push_back(0x00);
-						message.push_back(0x00);														//Идентификатор протокола
+						message.push_back(0x00);														//РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСЂРѕС‚РѕРєРѕР»Р°
 						message.push_back(0x00);
-						message.push_back(0x00);														//Длина сообщения
+						message.push_back(0x00);														//Р”Р»РёРЅР° СЃРѕРѕР±С‰РµРЅРёСЏ
 						message.push_back(0x06);
-						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
-						message.push_back(0x04);														//Функциональный код 
-						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
-						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
+						message.push_back(node->vectorDevice[i].device_address);						//РђРґСЂРµСЃ СѓСЃС‚СЂРѕР№СЃС‚РІР°
+						message.push_back(0x04);														//Р¤СѓРЅРєС†РёРѕРЅР°Р»СЊРЅС‹Р№ РєРѕРґ 
+						message.push_back(pair_request[z].front() >> 8);								//РђРґСЂРµСЃ РїРµСЂРІРѕРіРѕ СЂРµРіРёСЃС‚СЂР° Hi Р±Р°Р№С‚
+						message.push_back(pair_request[z].front());										//РђРґСЂРµСЃ РїРµСЂРІРѕРіРѕ СЂРµРіРёСЃС‚СЂР° Lo Р±Р°Р№С‚			
 
 						reg_qty = pair_request[z].back() - pair_request[z].front() + 1;
 
-						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
-						message.push_back(reg_qty);														//Количество регистров Lo байт
+						message.push_back(reg_qty >> 8);												//РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРіРёСЃС‚СЂРѕРІ Hi Р±Р°Р№С‚
+						message.push_back(reg_qty);														//РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРіРёСЃС‚СЂРѕРІ Lo Р±Р°Р№С‚
 
 
 						optimize.device_addr = node->vectorDevice[i].device_address;
 						optimize.request.push_back(message);
 
-						for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]);	//Копирование вектора
+						for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]);	//РљРѕРїРёСЂРѕРІР°РЅРёРµ РІРµРєС‚РѕСЂР°
 					}
 					else
 					{
-						//Формируем пакет для запроса
-						message.push_back(0x00);														//Идентификатор транзакции
+						//Р¤РѕСЂРјРёСЂСѓРµРј РїР°РєРµС‚ РґР»СЏ Р·Р°РїСЂРѕСЃР°
+						message.push_back(0x00);														//РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚СЂР°РЅР·Р°РєС†РёРё
 						message.push_back(0x00);
-						message.push_back(0x00);														//Идентификатор протокола
+						message.push_back(0x00);														//РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСЂРѕС‚РѕРєРѕР»Р°
 						message.push_back(0x00);
-						message.push_back(0x00);														//Длина сообщения
+						message.push_back(0x00);														//Р”Р»РёРЅР° СЃРѕРѕР±С‰РµРЅРёСЏ
 						message.push_back(0x06);
-						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
-						message.push_back(0x04);														//Функциональный код 
-						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
-						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
+						message.push_back(node->vectorDevice[i].device_address);						//РђРґСЂРµСЃ СѓСЃС‚СЂРѕР№СЃС‚РІР°
+						message.push_back(0x04);														//Р¤СѓРЅРєС†РёРѕРЅР°Р»СЊРЅС‹Р№ РєРѕРґ 
+						message.push_back(pair_request[z].front() >> 8);								//РђРґСЂРµСЃ РїРµСЂРІРѕРіРѕ СЂРµРіРёСЃС‚СЂР° Hi Р±Р°Р№С‚
+						message.push_back(pair_request[z].front());										//РђРґСЂРµСЃ РїРµСЂРІРѕРіРѕ СЂРµРіРёСЃС‚СЂР° Lo Р±Р°Р№С‚			
 
 						reg_qty = 1;
 
-						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
-						message.push_back(reg_qty);														//Количество регистров Lo байт
+						message.push_back(reg_qty >> 8);												//РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРіРёСЃС‚СЂРѕРІ Hi Р±Р°Р№С‚
+						message.push_back(reg_qty);														//РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРіРёСЃС‚СЂРѕРІ Lo Р±Р°Р№С‚
 
 
 						optimize.device_addr = node->vectorDevice[i].device_address;
 						optimize.request.push_back(message);
 						
-						for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]);	//Копирование вектора
+						for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]);	//РљРѕРїРёСЂРѕРІР°РЅРёРµ РІРµРєС‚РѕСЂР°
 					}
 
 					regs.clear();
@@ -285,60 +285,60 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 }
 
 
-void distributeResponse(Node* node, std::vector<Optimize> vector_optimize, int sequence_number)
-{		
-
-
-	//Проходим по устройствам
-	for (int i = 0; i < node->vectorDevice.size(); i++)
-	{
-		if (node->vectorDevice[i].on == 1)
-		{
-
-			//Передаем лямбду (11-ый стандарт) в функцию сортировки из STL
-			std::sort(node->vectorDevice[i].vectorTag.begin(), node->vectorDevice[i].vectorTag.end(), [](const Tag& tag1, const Tag& tag2) -> bool 			
-			{
-				return tag1.reg_address < tag2.reg_address;
-			});
-
-
-			std::vector<int> value_array;
-
-			//Проходим по тэгам устройства 
-			for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-			{				
-				int size = (9 + vector_optimize[i].response[j][8]);
-				for (int k = 9; k < size; k += 2)
-				{
-					//printf("%d \n", (vector_optimize[i].response[j][k] << 8) + vector_optimize[i].response[j][k+1]);
-					value_array.push_back((vector_optimize[i].response[j][k] << 8) + vector_optimize[i].response[j][k + 1]);
-				}
-				
-				
-				
-				////Проходим по байтам вектора с ответом															
-				//for (int k = 9, t = node->vectorDevice[i].vectorTag[j].reg_address; k < (9 + vector_response[i].response[j][8]); k+=2, t++)
-				//{					
-				//	if (t == node->vectorDevice[i].vectorTag[j].reg_address)
-				//	{
-				//		value_array.push_back((vector_response[i].response[k] << 8) + vector_response[i].response[k + 1]);
-				//	}
-				//}
-								
-				//node->vectorDevice[i].vectorTag[j].value = value_array[j];
-
-				//printf("%d ", vector_response[i].response[k]);				
-				
-			}
-
-
-			//Передаем лямбду (11-ый стандарт) в функцию сортировки из STL
-			std::sort(node->vectorDevice[i].vectorTag.begin(), node->vectorDevice[i].vectorTag.end(), [](const Tag& tag1, const Tag& tag2) -> bool
-			{
-				return tag1.reg_position < tag2.reg_position;
-			});
-
-		}
-	}
-
-}
+//void distributeResponse(Node* node, std::vector<Optimize> vector_optimize, int sequence_number)
+//{		
+//
+//
+//	//РџСЂРѕС…РѕРґРёРј РїРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР°Рј
+//	for (int i = 0; i < node->vectorDevice.size(); i++)
+//	{
+//		if (node->vectorDevice[i].on == 1)
+//		{
+//
+//			//РџРµСЂРµРґР°РµРј Р»СЏРјР±РґСѓ (11-С‹Р№ СЃС‚Р°РЅРґР°СЂС‚) РІ С„СѓРЅРєС†РёСЋ СЃРѕСЂС‚РёСЂРѕРІРєРё РёР· STL
+//			std::sort(node->vectorDevice[i].vectorTag.begin(), node->vectorDevice[i].vectorTag.end(), [](const Tag& tag1, const Tag& tag2) -> bool 			
+//			{
+//				return tag1.reg_address < tag2.reg_address;
+//			});
+//
+//
+//			std::vector<int> value_array;
+//
+//			//РџСЂРѕС…РѕРґРёРј РїРѕ С‚СЌРіР°Рј СѓСЃС‚СЂРѕР№СЃС‚РІР° 
+//			for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+//			{				
+//				int size = (9 + vector_optimize[i].response[j][8]);
+//				for (int k = 9; k < size; k += 2)
+//				{
+//					//printf("%d \n", (vector_optimize[i].response[j][k] << 8) + vector_optimize[i].response[j][k+1]);
+//					value_array.push_back((vector_optimize[i].response[j][k] << 8) + vector_optimize[i].response[j][k + 1]);
+//				}
+//				
+//				
+//				
+//				////РџСЂРѕС…РѕРґРёРј РїРѕ Р±Р°Р№С‚Р°Рј РІРµРєС‚РѕСЂР° СЃ РѕС‚РІРµС‚РѕРј															
+//				//for (int k = 9, t = node->vectorDevice[i].vectorTag[j].reg_address; k < (9 + vector_response[i].response[j][8]); k+=2, t++)
+//				//{					
+//				//	if (t == node->vectorDevice[i].vectorTag[j].reg_address)
+//				//	{
+//				//		value_array.push_back((vector_response[i].response[k] << 8) + vector_response[i].response[k + 1]);
+//				//	}
+//				//}
+//								
+//				//node->vectorDevice[i].vectorTag[j].value = value_array[j];
+//
+//				//printf("%d ", vector_response[i].response[k]);				
+//				
+//			}
+//
+//
+//			//РџРµСЂРµРґР°РµРј Р»СЏРјР±РґСѓ (11-С‹Р№ СЃС‚Р°РЅРґР°СЂС‚) РІ С„СѓРЅРєС†РёСЋ СЃРѕСЂС‚РёСЂРѕРІРєРё РёР· STL
+//			std::sort(node->vectorDevice[i].vectorTag.begin(), node->vectorDevice[i].vectorTag.end(), [](const Tag& tag1, const Tag& tag2) -> bool
+//			{
+//				return tag1.reg_position < tag2.reg_position;
+//			});
+//
+//		}
+//	}
+//
+//}

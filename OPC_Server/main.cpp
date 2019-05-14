@@ -136,20 +136,20 @@ void* pollingEngine(void *args)
 	Controller* controller = (Controller*)args;
 
 
-	//Узел (Node/Coms)
+	//РЈР·РµР» (Node/Coms)
 	for (int i = 0; i < controller->vectorNode.size(); i++)
 	{
 		//printf("%s\n", controller->vectorNode[i].name.c_str());
 
 		pthread_t modbus_thread[controller->vectorNode[i].vectorDevice.size()];
 
-		//Создание сокета и подключение к устройству
+		//РЎРѕР·РґР°РЅРёРµ СЃРѕРєРµС‚Р° Рё РїРѕРґРєР»СЋС‡РµРЅРёРµ Рє СѓСЃС‚СЂРѕР№СЃС‚РІСѓ
 		if (controller->vectorNode[i].intertype == "TCP")
 		{
 			connectDeviceTCP(&controller->vectorNode[i]);
 		}
 
-		//Устройство (Device)
+		//РЈСЃС‚СЂРѕР№СЃС‚РІРѕ (Device)
 		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
 		{
 			//printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
@@ -158,7 +158,7 @@ void* pollingEngine(void *args)
 			controller->vectorNode[i].vectorDevice[j].device_socket = controller->vectorNode[i].socket;		
 		}
 
-		//Запускаем опрос
+		//Р—Р°РїСѓСЃРєР°РµРј РѕРїСЂРѕСЃ
 		if (controller->vectorNode[i].on == 1)
 		{
 			pthread_create(&modbus_thread[i], NULL, pollingDeviceTCP, &controller->vectorNode[i]);
@@ -185,7 +185,7 @@ int main()
 	controller = serializeFromJSON("/usr/httpserv/opc.json");	
 	
 
-	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 
+	pthread_create(&server_thread, NULL, workerOPC, &controller); //Р—Р°РїСѓСЃРє OPC СЃРµСЂРІРµСЂР° 
 	
 	
 	pollingEngine(&controller);	

@@ -23,7 +23,7 @@ class Device;
 class Tag;
 
 
-//Абстрактный базовый класс
+//РђР±СЃС‚СЂР°РєС‚РЅС‹Р№ Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ
 class iServerTree
 {
 public:
@@ -38,7 +38,7 @@ public:
 
 };
 
-//Класс контроллер
+//РљР»Р°СЃСЃ РєРѕРЅС‚СЂРѕР»Р»РµСЂ
 class Controller : public iServerTree
 {
 
@@ -50,7 +50,7 @@ private:
 	
 };
 
-//Класс узел
+//РљР»Р°СЃСЃ СѓР·РµР»
 class Node : public Controller
 {
 
@@ -79,7 +79,7 @@ private:
 };
 
 
-//Класс устройство
+//РљР»Р°СЃСЃ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ
 class Device : public Node
 {
 
@@ -99,7 +99,7 @@ private:
 };
 
 
-//Класс тэг
+//РљР»Р°СЃСЃ С‚СЌРі
 class Tag : public Device
 {
 
@@ -115,7 +115,7 @@ public:
 	int reg_position;
 };
 
-//Класс группа
+//РљР»Р°СЃСЃ РіСЂСѓРїРїР°
 class Group : public iServerTree
 {
 
@@ -128,14 +128,14 @@ public:
 
 };
 
-//Структура для хранения оптимизированных запросов каждого из устройств
+//РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РѕРїС‚РёРјРёР·РёСЂРѕРІР°РЅРЅС‹С… Р·Р°РїСЂРѕСЃРѕРІ РєР°Р¶РґРѕРіРѕ РёР· СѓСЃС‚СЂРѕР№СЃС‚РІ
 struct Optimize
 {
 	int device_addr;	
-	std::vector<int> holding_regs; //список адресов регистров
-	std::vector<int> input_regs; //список адресов регистров		
-	std::vector<std::vector<uint8_t>> request; //список запросов
-	std::vector<std::vector<uint8_t>> response; //список ответов	
+	std::vector<int> holding_regs; //СЃРїРёСЃРѕРє Р°РґСЂРµСЃРѕРІ СЂРµРіРёСЃС‚СЂРѕРІ
+	std::vector<int> input_regs; //СЃРїРёСЃРѕРє Р°РґСЂРµСЃРѕРІ СЂРµРіРёСЃС‚СЂРѕРІ		
+	std::vector<std::vector<uint8_t>> request; //СЃРїРёСЃРѕРє Р·Р°РїСЂРѕСЃРѕРІ
+	std::vector<std::vector<uint8_t>> response; //СЃРїРёСЃРѕРє РѕС‚РІРµС‚РѕРІ	
 };
 
 

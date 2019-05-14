@@ -59,7 +59,7 @@ void* connectDeviceTCP(void *args)
 	if (node != NULL)
 	{
 
-		//Создаем сокет
+		//РЎРѕР·РґР°РµРј СЃРѕРєРµС‚
 		if ((node->socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 		{
 			printf("\n Socket creation error \n");
@@ -69,7 +69,7 @@ void* connectDeviceTCP(void *args)
 			printf("\nSocket create: %d\n", node->socket);
 		}
 
-		//Таймаут
+		//РўР°Р№РјР°СѓС‚
 		if (setsockopt(node->socket, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
 		{
 			printf("\n setsockopt failed \n");
@@ -79,12 +79,12 @@ void* connectDeviceTCP(void *args)
 			printf("\n setsockopt failed \n");
 		}
 
-		//IP и Порт
+		//IP Рё РџРѕСЂС‚
 		serv_addr.sin_addr.s_addr = inet_addr(node->address.c_str());
 		serv_addr.sin_family = AF_INET;
 		serv_addr.sin_port = htons(node->port);
 
-		//Подключаем
+		//РџРѕРґРєР»СЋС‡Р°РµРј
 		result = connect(node->socket, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 
 		if (result < 0)
@@ -115,7 +115,7 @@ void* pollingDeviceTCP(void *args)
 	struct timeval timeout;
 	
 	fd_set set;	
-	int trial[node->vectorDevice.size()]; //Хранилище флагов о попытках опроса
+	int trial[node->vectorDevice.size()]; //РҐСЂР°РЅРёР»РёС‰Рµ С„Р»Р°РіРѕРІ Рѕ РїРѕРїС‹С‚РєР°С… РѕРїСЂРѕСЃР°
 
 	int dur_ms = 0;
 	int common_dur_ms = 0;
@@ -136,13 +136,13 @@ void* pollingDeviceTCP(void *args)
 		clock_gettime(CLOCK_REALTIME, &start);
 		
 
-		//Проходим по устройствам
+		//РџСЂРѕС…РѕРґРёРј РїРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР°Рј
 		for (int i = 0; i < node->vectorDevice.size(); i++)
 		{
 			if (node->vectorDevice[i].on == 1)
 			{					
 
-				//Отправляем запросы и принимаем ответы по порядку
+				//РћС‚РїСЂР°РІР»СЏРµРј Р·Р°РїСЂРѕСЃС‹ Рё РїСЂРёРЅРёРјР°РµРј РѕС‚РІРµС‚С‹ РїРѕ РїРѕСЂСЏРґРєСѓ
 				for (int y = 0; y < vector_optimize[i].request.size(); y++)
 				{
 
@@ -173,16 +173,16 @@ void* pollingDeviceTCP(void *args)
 							vector_optimize[i].response.push_back(read_buffer_vector);
 
 
-							//Разбираем (распределяем значения по регистрам) ответ
-							//Определяем начальный адрес
+							//Р Р°Р·Р±РёСЂР°РµРј (СЂР°СЃРїСЂРµРґРµР»СЏРµРј Р·РЅР°С‡РµРЅРёСЏ РїРѕ СЂРµРіРёСЃС‚СЂР°Рј) РѕС‚РІРµС‚
+							//РћРїСЂРµРґРµР»СЏРµРј РЅР°С‡Р°Р»СЊРЅС‹Р№ Р°РґСЂРµСЃ
 							int start_address = (vector_optimize[i].request[y][8] << 8) + vector_optimize[i].request[y][9];
 							
 							
-							//Проходим по вектору с ответами
+							//РџСЂРѕС…РѕРґРёРј РїРѕ РІРµРєС‚РѕСЂСѓ СЃ РѕС‚РІРµС‚Р°РјРё
 							for (int v = 9, addr = start_address+1; v < vector_optimize[i].response[y].size(); v+=2, addr++)
 							{			
 
-								//Перебираем holding
+								//РџРµСЂРµР±РёСЂР°РµРј holding
 								if (vector_optimize[i].response[y][7] == 0x03)
 								{	
 									for (int s = 0; s < vector_optimize[i].holding_regs.size(); s++)
@@ -195,7 +195,7 @@ void* pollingDeviceTCP(void *args)
 									}
 								}
 
-								//Перебираем input
+								//РџРµСЂРµР±РёСЂР°РµРј input
 								if (vector_optimize[i].response[y][7] == 0x04)
 								{
 									for (int s = 0; s < vector_optimize[i].input_regs.size(); s++)
@@ -226,7 +226,7 @@ void* pollingDeviceTCP(void *args)
 						{
 							printf("Timeout device: %d, switch off device.\n", node->vectorDevice[i].device_address);
 
-							//Выключаем устройство
+							//Р’С‹РєР»СЋС‡Р°РµРј СѓСЃС‚СЂРѕР№СЃС‚РІРѕ
 							node->vectorDevice[i].on = 0;
 						}
 					}
@@ -239,23 +239,23 @@ void* pollingDeviceTCP(void *args)
 					//distributeResponse(node, vector_optimize, y);
 
 
-				}//Закрывашка "отправляем запросы и принимаем ответы по порядку"
+				}//Р—Р°РєСЂС‹РІР°С€РєР° "РѕС‚РїСЂР°РІР»СЏРµРј Р·Р°РїСЂРѕСЃС‹ Рё РїСЂРёРЅРёРјР°РµРј РѕС‚РІРµС‚С‹ РїРѕ РїРѕСЂСЏРґРєСѓ"
 
 				vector_optimize[i].response.clear();
 
 
-				//if (result > 0) //Распределяем полученные значения по исходным регистрам
+				//if (result > 0) //Р Р°СЃРїСЂРµРґРµР»СЏРµРј РїРѕР»СѓС‡РµРЅРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РїРѕ РёСЃС…РѕРґРЅС‹Рј СЂРµРіРёСЃС‚СЂР°Рј
 				//{
 
 					//std::vector<int> value_array;
 
-					//Проходим по вектору с ответами
+					//РџСЂРѕС…РѕРґРёРј РїРѕ РІРµРєС‚РѕСЂСѓ СЃ РѕС‚РІРµС‚Р°РјРё
 					//for (int v = 0; v < vector_optimize[i].response.size(); v++)
 					//{
 						//int size = (9 + vector_optimize[i].response[v][8]);
 						//printf("%d \n", size);
 
-						//Проходим по байтам ответа
+						//РџСЂРѕС…РѕРґРёРј РїРѕ Р±Р°Р№С‚Р°Рј РѕС‚РІРµС‚Р°
 						//for (int b = 9, k = 0; b < size; b+=2, k++)
 						//{							
 						//	value_array.push_back((vector_optimize[i].response[v][b] << 8) + vector_optimize[i].response[v][b + 1]);
@@ -284,7 +284,7 @@ void* pollingDeviceTCP(void *args)
 
 
 
-					//Проходим по тэгам устройства (OPC)
+					//РџСЂРѕС…РѕРґРёРј РїРѕ С‚СЌРіР°Рј СѓСЃС‚СЂРѕР№СЃС‚РІР° (OPC)
 					for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
 					{
 						if (node->vectorDevice[i].vectorTag[j].on == 1)
