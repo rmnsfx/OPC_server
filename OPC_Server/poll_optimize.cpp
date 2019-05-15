@@ -41,33 +41,38 @@ std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
 		else
 		{ 			
 			
-			for (int i = 0; i < regs.size() - 1; i++)
-			{
+			
+
+			for (int i = 0; i < regs.size() + 1; i++)
+			{				
+
 				//Проверка на количество регистров в запросе (ограничение протокола modbus)
 				if ((regs[i + 1] - regs[i]) < 125)
 				{
-					split.push_back(regs[i] - 1);
-					split.push_back(regs[i + 1] - 1);
+					split.push_back(regs[i]);
+					split.push_back(regs[i + 1]);
 					split_out.push_back(split);
 					split.clear();
 				}
-				else
-				{
-					if (regs.size() == 2)
-					{
-						split.push_back(regs[i] - 1);
-						split_out.push_back(split);
-						split.clear();
-						split.push_back(regs[i + 1] - 1);
-					}
-					else
-					{
-						split.push_back(regs[i + 1] - 1);
-					}
 
-					split_out.push_back(split);
-					split.clear();
-				}
+
+				//else
+				//{
+				//	if (regs.size() == 2)
+				//	{
+				//		split.push_back(regs[i]);
+				//		split_out.push_back(split);
+				//		split.clear();
+				//		split.push_back(regs[i + 1]);
+				//	}
+				//	else
+				//	{
+				//		split.push_back(regs[i + 1]);
+				//	}
+
+				//	split_out.push_back(split);
+				//	split.clear();
+				//}
 			}				
 
 		}
@@ -75,7 +80,7 @@ std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
 	else if (regs.size() == 1)
 	{
 
-		split.push_back(regs[0] - 1);
+		split.push_back(regs[0]);
 		split_out.push_back(split);
 
 	}

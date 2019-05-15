@@ -20,7 +20,8 @@
 #include "tcp.h"
 #include <mutex>
 
-
+#include "rs485_device_ioctl.h"
+#include "rs485.h"
 
 
 UA_Server *server;
@@ -147,21 +148,36 @@ void* pollingEngine(void *args)
 		if (controller->vectorNode[i].intertype == "TCP")
 		{
 			connectDeviceTCP(&controller->vectorNode[i]);
+
+
+			//Устройство (Device)
+			for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+			{
+				//printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
+
+				controller->vectorNode[i].vectorDevice[j].id_device = j;
+				controller->vectorNode[i].vectorDevice[j].device_socket = controller->vectorNode[i].socket;
+			}
+
+			//Запускаем опрос
+			if (controller->vectorNode[i].on == 1)
+			{
+				pthread_create(&modbus_thread[i], NULL, pollingDeviceTCP, &controller->vectorNode[i]);
+			}
 		}
 
-		//Устройство (Device)
-		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+		//Подключение к устройству RS-485
+		if (controller->vectorNode[i].intertype == "RS-485")
 		{
-			//printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
+			connectDeviceRS485(&controller->vectorNode[i]);
 
-			controller->vectorNode[i].vectorDevice[j].id_device = j;
-			controller->vectorNode[i].vectorDevice[j].device_socket = controller->vectorNode[i].socket;		
-		}
 
-		//Запускаем опрос
-		if (controller->vectorNode[i].on == 1)
-		{
-			pthread_create(&modbus_thread[i], NULL, pollingDeviceTCP, &controller->vectorNode[i]);
+			//Запускаем опрос
+			if (controller->vectorNode[i].on == 1)
+			{
+				pthread_create(&modbus_thread[i], NULL, pollingDeviceRS485, &controller->vectorNode[i]);
+			}
+
 		}
 
 	}	
