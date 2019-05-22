@@ -136,6 +136,10 @@ struct Optimize
 	std::vector<int> input_regs; //список адресов регистров		
 	std::vector<std::vector<uint8_t>> request; //список запросов
 	std::vector<std::vector<uint8_t>> response; //список ответов	
+	std::vector<std::vector<uint8_t>> holding_request; //список запросов
+	std::vector<std::vector<uint8_t>> input_request; //список запросов	
+	std::vector<std::vector<uint8_t>> holding_response; //список ответов	
+	std::vector<std::vector<uint8_t>> input_response; //список ответов	
 };
 
 

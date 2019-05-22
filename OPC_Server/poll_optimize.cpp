@@ -21,68 +21,43 @@
 
 std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
 {	
-	std::vector<int> split;
-	std::vector <std::vector<int>> split_out;
+	std::vector<int> split(2); // создали и указали число ячеек	
+	std::vector<std::vector<int>> split_out;
 
 	if (regs.size() > 1)
 	{
 		sort(regs.begin(), regs.end());
 
-		if ((regs.back() - regs.front()) < 125)
+		
+		split[0] = regs[0] -1; //Адрес регистра = Номер регистра - 1
+
+		for (int i = 1; i < regs.size(); i++)
 		{
-			if (regs.front() == 0) split.push_back(regs.front());
-			else split.push_back(regs.front() - 1);
 
-			if (regs.back() == 0) split.push_back(regs.back());
-			else split.push_back(regs.back() - 1);
+			if ((regs[i] - split[0]) < 125)
+			{
+				split[1] = regs[i] -1;
+			}
+			else
+			{
+				split_out.push_back(split);
+				split.clear();
+				split.push_back(regs[i] -1);
+				split.push_back(0);
+			}
 
-			split_out.push_back(split);
-		}
-		else
-		{ 			
-			
-			
-
-			for (int i = 0; i < regs.size() + 1; i++)
-			{				
-
-				//Проверка на количество регистров в запросе (ограничение протокола modbus)
-				if ((regs[i + 1] - regs[i]) < 125)
-				{
-					split.push_back(regs[i]);
-					split.push_back(regs[i + 1]);
-					split_out.push_back(split);
-					split.clear();
-				}
-
-
-				//else
-				//{
-				//	if (regs.size() == 2)
-				//	{
-				//		split.push_back(regs[i]);
-				//		split_out.push_back(split);
-				//		split.clear();
-				//		split.push_back(regs[i + 1]);
-				//	}
-				//	else
-				//	{
-				//		split.push_back(regs[i + 1]);
-				//	}
-
-				//	split_out.push_back(split);
-				//	split.clear();
-				//}
-			}				
-
+			if (i == (regs.size() - 1))
+			{
+				split_out.push_back(split);
+				split.clear();
+			}
+		
 		}
 	}
 	else if (regs.size() == 1)
 	{
-
-		split.push_back(regs[0]);
+		split.push_back(regs[0] -1);
 		split_out.push_back(split);
-
 	}
 
 	return split_out;
@@ -160,7 +135,7 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
 						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
 
-						reg_qty = pair_request[z].back() - pair_request[z].front() + 1;
+						reg_qty = pair_request[z].back() - pair_request[z].front() +1;
 
 						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
 						message.push_back(reg_qty);														//Количество регистров Lo байт
@@ -240,7 +215,7 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
 						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
 
-						reg_qty = pair_request[z].back() - pair_request[z].front() + 1;
+						reg_qty = pair_request[z].back() - pair_request[z].front() +1;
 
 						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
 						message.push_back(reg_qty);														//Количество регистров Lo байт

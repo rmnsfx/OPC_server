@@ -185,7 +185,7 @@ void* pollingDeviceTCP(void *args)
 								//Перебираем holding
 								if (vector_optimize[i].response[y][7] == 0x03)
 								{	
-									for (int s = 0; s < vector_optimize[i].holding_regs.size(); s++)
+									for (int s = 0; s < vector_optimize[i].holding_regs.size()+1; s++)
 									{
 										if (vector_optimize[i].holding_regs[s] == addr)
 										{
