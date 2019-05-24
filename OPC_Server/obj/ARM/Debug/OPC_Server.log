@@ -25,19 +25,23 @@ D:\Repos\OPC_Server\OPC_Server\tcp.cpp(189,28): warning :                       
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(193,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(193,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(193,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(198,100): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(198,100): warning :               node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(208,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(208,28): warning :           for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(208,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(212,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(212,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(212,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(217,100): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(217,100): warning :               node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(269,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(269,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(269,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(201,101): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(201,101): warning :                node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(206,101): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(206,101): warning :                node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(217,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(217,28): warning :           for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(217,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(221,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(221,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(221,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(229,101): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(229,101): warning :                node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(234,101): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(234,101): warning :                node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(287,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(287,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(287,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(113,6): warning : unused variable ‘modbus_value’ [-Wunused-variable]
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(113,6): warning :   int modbus_value = 0;
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp(113,6): warning :       ^~~~~~~~~~~~

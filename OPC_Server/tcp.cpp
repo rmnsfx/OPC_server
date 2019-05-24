@@ -195,7 +195,16 @@ void* pollingDeviceTCP(void *args)
 												if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
 												{
 													pos = node->vectorDevice[i].vectorTag[c].reg_position;
-													node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+
+													if (node->vectorDevice[i].vectorTag[pos].data_type == "int")
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+													}
+
+													if (node->vectorDevice[i].vectorTag[pos].data_type == "float")
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+													}
 												}
 											}																				
 										}										
@@ -214,7 +223,16 @@ void* pollingDeviceTCP(void *args)
 												if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
 												{
 													pos = node->vectorDevice[i].vectorTag[c].reg_position;
-													node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+
+													if (node->vectorDevice[i].vectorTag[pos].data_type == "int")
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+													}
+
+													if (node->vectorDevice[i].vectorTag[pos].data_type == "float")
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+													}
 												}
 											}
 										}
