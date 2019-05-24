@@ -203,7 +203,10 @@ void* pollingDeviceTCP(void *args)
 
 													if (node->vectorDevice[i].vectorTag[pos].data_type == "float")
 													{
-														node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+														//int int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 4]);
+														int int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);														
+														
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 													}
 												}
 											}																				
@@ -231,7 +234,10 @@ void* pollingDeviceTCP(void *args)
 
 													if (node->vectorDevice[i].vectorTag[pos].data_type == "float")
 													{
-														node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+														//int int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 4]);
+														int int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
+
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 													}
 												}
 											}
@@ -310,7 +316,7 @@ void* pollingDeviceTCP(void *args)
 
 					}
 
-					printf("%d %s %.00f\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
+					printf("%d %s %g\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
 				}
 
 
