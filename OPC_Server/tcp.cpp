@@ -123,6 +123,7 @@ void* pollingDeviceTCP(void *args)
 
 	//signal(SIGPIPE, SIG_IGN);
 
+	int pos = 0;
 
 	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);	
 	if (vector_optimize.size() != node->vectorDevice.size()) printf("Warning, vector != device quantity.");	
@@ -189,8 +190,14 @@ void* pollingDeviceTCP(void *args)
 									{
 										if (vector_optimize[i].holding_regs[s] == addr)
 										{
-											//printf("s = %d, holding = %d, addr = %d \n", s, vector_optimize[i].holding_regs[s], addr);
-											node->vectorDevice[i].vectorTag[s].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+											for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
+											{
+												if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
+												{
+													pos = node->vectorDevice[i].vectorTag[c].reg_position;
+													node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+												}
+											}																				
 										}										
 									}
 								}
@@ -198,16 +205,28 @@ void* pollingDeviceTCP(void *args)
 								//Перебираем input
 								if (vector_optimize[i].response[y][7] == 0x04)
 								{
-									for (int s = 0; s < vector_optimize[i].input_regs.size(); s++)
+									for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
 									{
-										printf("%d \n", vector_optimize[i].input_regs[0]);
+										if (vector_optimize[i].input_regs[s] == addr)
+										{
+											for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
+											{
+												if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
+												{
+													pos = node->vectorDevice[i].vectorTag[c].reg_position;
+													node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+												}
+											}
+										}
 									}
 								}
+
+
 							}
 
 							if (vector_optimize[i].response[y][7] == 0x83 || vector_optimize[i].response[y][7] == 0x84)
 							{
-								printf("Warning! No response from: device = %d, register = %d \n", node->vectorDevice[i].device_address, start_address);
+								printf("Warning! No response from: device = %d, start reg address = %d \n", node->vectorDevice[i].device_address, start_address);
 							}
 
 							read_buffer_vector.clear();
@@ -244,83 +263,40 @@ void* pollingDeviceTCP(void *args)
 				vector_optimize[i].response.clear();
 
 
-				//if (result > 0) //Распределяем полученные значения по исходным регистрам
-				//{
-
-					//std::vector<int> value_array;
-
-					//Проходим по вектору с ответами
-					//for (int v = 0; v < vector_optimize[i].response.size(); v++)
-					//{
-						//int size = (9 + vector_optimize[i].response[v][8]);
-						//printf("%d \n", size);
-
-						//Проходим по байтам ответа
-						//for (int b = 9, k = 0; b < size; b+=2, k++)
-						//{							
-						//	value_array.push_back((vector_optimize[i].response[v][b] << 8) + vector_optimize[i].response[v][b + 1]);
-						//	printf("%d \n", (vector_optimize[i].response[v][b] << 8) + vector_optimize[i].response[v][b + 1]);							
-						//}						
-					//}
-
-					//for (int t = 1; t <= value_array.size(); t++)
-					//{
-					//	if (t == node->vectorDevice[i].vectorTag[t].reg_address)
-					//	{
-					//		node->vectorDevice[i].vectorTag[t].value = value_array[t];
-					//	}
-					//}
-
-					//value_array.clear();
-
-				//}
-				//else
-				//{
-				//	printf("Warning! No response, device: %d \n", node->vectorDevice[i].device_address);
-				//}
 
 
-
-
-
-
-					//Проходим по тэгам устройства (OPC)
-					for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+				//Проходим по тэгам устройства (OPC)
+				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+				{
+					if (node->vectorDevice[i].vectorTag[j].on == 1)
 					{
-						if (node->vectorDevice[i].vectorTag[j].on == 1)
+
+						if (node->vectorDevice[i].vectorTag[j].data_type == "int")
 						{
+							//node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
 
-							if (node->vectorDevice[i].vectorTag[j].data_type == "int")
-							{
-								//node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
-
-								UA_Int16 opc_value = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
-								UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT16]);
-								UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-							}
-
-							if (node->vectorDevice[i].vectorTag[j].data_type == "float")
-							{
-								//modbus_value = ((read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12]);
-								//node->vectorDevice[i].vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);
-
-								UA_Float opc_value = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
-								UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);
-								UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-							}
-
+							UA_Int16 opc_value = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
+							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT16]);
+							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 						}
 
-						printf("%d %s %.00f\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
+						if (node->vectorDevice[i].vectorTag[j].data_type == "float")
+						{
+							//modbus_value = ((read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12]);
+							//node->vectorDevice[i].vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);
+
+							UA_Float opc_value = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
+							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);
+							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+						}
+
 					}
 
+					printf("%d %s %.00f\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
+				}
+
 
 				
-				
-				
-
-
-
 			}
 
 		}
