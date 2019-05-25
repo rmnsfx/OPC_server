@@ -196,12 +196,12 @@ void* pollingDeviceTCP(void *args)
 												{
 													pos = node->vectorDevice[i].vectorTag[c].reg_position;
 
-													if (node->vectorDevice[i].vectorTag[pos].data_type == "int")
+													if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int16)
 													{
 														node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
 													}
 
-													if (node->vectorDevice[i].vectorTag[pos].data_type == "float")
+													if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float32)
 													{
 														//int int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 4]);
 														int int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);														
@@ -227,12 +227,12 @@ void* pollingDeviceTCP(void *args)
 												{
 													pos = node->vectorDevice[i].vectorTag[c].reg_position;
 
-													if (node->vectorDevice[i].vectorTag[pos].data_type == "int")
+													if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int16)
 													{
 														node->vectorDevice[i].vectorTag[pos].value = (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
 													}
 
-													if (node->vectorDevice[i].vectorTag[pos].data_type == "float")
+													if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float32)
 													{
 														//int int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 4]);
 														int int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
@@ -295,7 +295,7 @@ void* pollingDeviceTCP(void *args)
 					if (node->vectorDevice[i].vectorTag[j].on == 1)
 					{
 
-						if (node->vectorDevice[i].vectorTag[j].data_type == "int")
+						if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int16)
 						{
 							//node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
 
@@ -304,7 +304,7 @@ void* pollingDeviceTCP(void *args)
 							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 						}
 
-						if (node->vectorDevice[i].vectorTag[j].data_type == "float")
+						if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float32)
 						{
 							//modbus_value = ((read_buffer[9] << 24) + (read_buffer[10] << 16) + (read_buffer[11] << 8) + read_buffer[12]);
 							//node->vectorDevice[i].vectorTag[j].value = *reinterpret_cast<float*>(&modbus_value);

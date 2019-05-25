@@ -106,8 +106,7 @@ class Tag : public Device
 
 public:
 	int reg_address = 0;
-	int function = 0;
-	std::string data_type;
+	int function = 0;	
 	Data_type enum_data_type;
 	float coef_A = 1;
 	float coef_B = 0;

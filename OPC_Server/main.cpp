@@ -89,7 +89,7 @@ void* workerOPC(void *args)
 
 				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
 
-				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].data_type == "int")
+				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
 				{
 					UA_Int16 value = 0;
 					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_INT16]);
@@ -100,7 +100,7 @@ void* workerOPC(void *args)
 						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
 				}
 
-				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].data_type == "float")
+				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float32)
 				{
 					UA_Float value = 0;
 					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_FLOAT]);
@@ -186,8 +186,7 @@ void* pollingEngine(void *args)
 
 Data_type type_converter(const std::string &str)
 {
-	if (str == "int16") return Data_type::int16;
-	else if (str == "int32") return Data_type::int32;
+	if (str == "int") return Data_type::int16;	
 	else if (str == "float") return Data_type::float32;
 };
 
