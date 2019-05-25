@@ -124,12 +124,12 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 					if ((pair_request[z].back() - pair_request[z].front()) > 0)
 					{
 						//Формируем пакет для запроса
-						message.push_back(0x00);														//Идентификатор транзакции
-						message.push_back(0x00);
-						message.push_back(0x00);														//Идентификатор протокола
-						message.push_back(0x00);
-						message.push_back(0x00);														//Длина сообщения
-						message.push_back(0x06);
+						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Идентификатор транзакции
+						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);
+						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Идентификатор протокола
+						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);
+						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Длина сообщения
+						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x06);
 						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
 						message.push_back(0x03);														//Функциональный код 
 						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт

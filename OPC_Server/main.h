@@ -50,6 +50,8 @@ private:
 	
 };
 
+enum class Interface_type { tcp, rs485 };
+
 //Класс узел
 class Node : public Controller
 {
@@ -63,7 +65,8 @@ public:
 	int parity = 0;
 	int stop_bit = 1;
 
-	std::string intertype;
+	//std::string intertype;
+	Interface_type enum_interface_type;
 	std::string address; //IP or RS485 device
 	int port = 8080;
 	int tcp_wait_connection = 5;
@@ -137,13 +140,14 @@ struct Optimize
 	std::vector<int> input_regs; //список адресов регистров		
 	std::vector<std::vector<uint8_t>> request; //список запросов
 	std::vector<std::vector<uint8_t>> response; //список ответов	
-	std::vector<std::vector<uint8_t>> holding_request; //список запросов
-	std::vector<std::vector<uint8_t>> input_request; //список запросов	
-	std::vector<std::vector<uint8_t>> holding_response; //список ответов	
-	std::vector<std::vector<uint8_t>> input_response; //список ответов	
+	//std::vector<std::vector<uint8_t>> holding_request; //список запросов
+	//std::vector<std::vector<uint8_t>> input_request; //список запросов	
+	//std::vector<std::vector<uint8_t>> holding_response; //список ответов	
+	//std::vector<std::vector<uint8_t>> input_response; //список ответов	
 };
 
 
 Data_type type_converter(const std::string &str);
+Interface_type interface_converter(const std::string &str);
 
 #endif

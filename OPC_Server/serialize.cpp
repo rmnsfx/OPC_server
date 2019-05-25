@@ -65,7 +65,8 @@ Controller serializeFromJSON(char* path)
 				node.name = Coms[i]["name"].GetString();
 				node.on = Coms[i]["on"].GetUint();
 				node.type = Coms[i]["type"].GetUint();
-				node.intertype = Coms[i]["intertype"].GetString();
+				//node.intertype = Coms[i]["intertype"].GetString();
+				node.enum_interface_type = interface_converter( Coms[i]["intertype"].GetString() );
 				node.address = Coms[i]["address"].GetString();
 				node.port = Coms[i]["port"].GetUint();	
 				node.baud_rate = Coms[i]["baud_rate"].GetUint();

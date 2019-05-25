@@ -43,11 +43,14 @@ D:\Repos\OPC_Server\OPC_Server\main.cpp(154,22): warning :                     ~
 D:\Repos\OPC_Server\OPC_Server\main.cpp(184,1): warning : no return statement in function returning non-void [-Wreturn-type]
 D:\Repos\OPC_Server\OPC_Server\main.cpp(184,1): warning :  }
 D:\Repos\OPC_Server\OPC_Server\main.cpp(184,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\main.cpp(205,57): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\main.cpp(205,57): warning :   controller = serializeFromJSON("/usr/httpserv/opc.json");
-D:\Repos\OPC_Server\OPC_Server\main.cpp(205,57): warning :                                                          ^
+D:\Repos\OPC_Server\OPC_Server\main.cpp(212,57): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(212,57): warning :   controller = serializeFromJSON("/usr/httpserv/opc.json");
+D:\Repos\OPC_Server\OPC_Server\main.cpp(212,57): warning :                                                          ^
 D:\Repos\OPC_Server\OPC_Server\main.cpp(191,1): warning : control reaches end of non-void function [-Wreturn-type]
 D:\Repos\OPC_Server\OPC_Server\main.cpp(191,1): warning :  };
 D:\Repos\OPC_Server\OPC_Server\main.cpp(191,1): warning :  ^
+D:\Repos\OPC_Server\OPC_Server\main.cpp(197,1): warning : control reaches end of non-void function [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(197,1): warning :  };
+D:\Repos\OPC_Server\OPC_Server\main.cpp(197,1): warning :  ^
   Linking objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out

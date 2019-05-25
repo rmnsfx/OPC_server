@@ -145,7 +145,7 @@ void* pollingEngine(void *args)
 		pthread_t modbus_thread[controller->vectorNode[i].vectorDevice.size()];
 
 		//Создание сокета и подключение к устройству
-		if (controller->vectorNode[i].intertype == "TCP")
+		if (controller->vectorNode[i].enum_interface_type == Interface_type::tcp)
 		{
 			connectDeviceTCP(&controller->vectorNode[i]);
 
@@ -159,7 +159,7 @@ void* pollingEngine(void *args)
 				controller->vectorNode[i].vectorDevice[j].device_socket = controller->vectorNode[i].socket;
 			}
 
-			//Запускаем опрос
+			//Запускаем опрос по TCP
 			if (controller->vectorNode[i].on == 1)
 			{
 				pthread_create(&modbus_thread[i], NULL, pollingDeviceTCP, &controller->vectorNode[i]);
@@ -167,12 +167,12 @@ void* pollingEngine(void *args)
 		}
 
 		//Подключение к устройству RS-485
-		if (controller->vectorNode[i].intertype == "RS-485")
+		if (controller->vectorNode[i].enum_interface_type == Interface_type::rs485)
 		{
 			connectDeviceRS485(&controller->vectorNode[i]);
 
 
-			//Запускаем опрос
+			//Запускаем опрос по RS-485
 			if (controller->vectorNode[i].on == 1)
 			{
 				pthread_create(&modbus_thread[i], NULL, pollingDeviceRS485, &controller->vectorNode[i]);
@@ -189,6 +189,13 @@ Data_type type_converter(const std::string &str)
 	if (str == "int") return Data_type::int16;	
 	else if (str == "float") return Data_type::float32;
 };
+
+Interface_type interface_converter(const std::string &str)
+{
+	if (str == "TCP") return Interface_type::tcp;
+	else if (str == "RS-485") return Interface_type::rs485;
+};
+
 
 
 int main()

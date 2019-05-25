@@ -215,15 +215,15 @@ void* pollingDeviceTCP(void *args)
 								}
 
 								//Перебираем input
-								if (vector_optimize[i].response[y][7] == 0x04)
+								if (vector_optimize[i].response[y][7] == 0x04)							
 								{
 									for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
 									{
-										if (vector_optimize[i].input_regs[s] == addr)
+										if (vector_optimize[i].input_regs[s] == addr) 
 										{
 											for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
 											{
-												if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
+												if (addr == node->vectorDevice[i].vectorTag[c].reg_address) 
 												{
 													pos = node->vectorDevice[i].vectorTag[c].reg_position;
 
@@ -277,9 +277,7 @@ void* pollingDeviceTCP(void *args)
 					if (result == -1)
 					{
 						printf("Warning! Error read, result: %d\n", result);
-					}
-					
-					//distributeResponse(node, vector_optimize, y);
+					}				
 
 
 				}//Закрывашка "отправляем запросы и принимаем ответы по порядку"
