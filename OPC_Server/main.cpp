@@ -184,7 +184,12 @@ void* pollingEngine(void *args)
 }
 
 
-
+Data_type type_converter(const std::string &str)
+{
+	if (str == "int16") return Data_type::int16;
+	else if (str == "int32") return Data_type::int32;
+	else if (str == "float") return Data_type::float32;
+};
 
 
 int main()

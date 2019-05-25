@@ -98,6 +98,7 @@ private:
 
 };
 
+enum class Data_type { int16, uint16, int32, uint32, float32 };
 
 //Класс тэг
 class Tag : public Device
@@ -107,6 +108,7 @@ public:
 	int reg_address = 0;
 	int function = 0;
 	std::string data_type;
+	Data_type enum_data_type;
 	float coef_A = 1;
 	float coef_B = 0;
 	float value = 0;
@@ -142,5 +144,7 @@ struct Optimize
 	std::vector<std::vector<uint8_t>> input_response; //список ответов	
 };
 
+
+Data_type type_converter(const std::string &str);
 
 #endif

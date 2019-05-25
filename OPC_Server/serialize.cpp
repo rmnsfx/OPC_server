@@ -105,6 +105,9 @@ Controller serializeFromJSON(char* path)
 								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
 								tags.on = Coms[i]["Devs"][j]["Tags"][k]["on"].GetUint();								
 								tags.data_type = Coms[i]["Devs"][j]["Tags"][k]["data_type"].GetString();
+
+								tags.enum_data_type = type_converter( Coms[i]["Devs"][j]["Tags"][k]["data_type"].GetString() );
+
 								tags.function = Coms[i]["Devs"][j]["Tags"][k]["function"].GetUint();
 								tags.reg_address = Coms[i]["Devs"][j]["Tags"][k]["register"].GetUint(); //Адрес регистра = Номер регистра - 1
 								tags.coef_A = Coms[i]["Devs"][j]["Tags"][k]["coef_A"].GetUint();

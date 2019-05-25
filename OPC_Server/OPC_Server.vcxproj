@@ -78,6 +78,9 @@
     <LibraryPath>$(ProjectDir)rapidjson;$(LibraryPath)</LibraryPath>
     <IncludePath>$(ProjectDir)rapidjson;$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <LocalRemoteCopySources>true</LocalRemoteCopySources>
+  </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="open62541.c" />
