@@ -23,6 +23,7 @@
 #include <sys/ioctl.h>
 
 #include <fcntl.h>
+#include "crc.h"
 
 
 
@@ -34,7 +35,7 @@ void* connectDeviceRS485(void *args)
 
 	if (node != NULL)
 	{
-		int F_ID_x = open("/dev/rs485_6", O_RDWR);
+		int F_ID_x = open("/dev/rs485_3", O_RDWR);
 		if (F_ID_x < 0)
 		{
 			//return -1;
@@ -49,9 +50,10 @@ void* pollingDeviceRS485(void *args)
 {
 	Node* node = (Node*)args;
 
-	int F_ID_x = open("/dev/rs485_7", O_RDWR);
+	int F_ID_x = open("/dev/rs485_3", O_RDWR);
 
 	char write_buffer[] = { 0x01, 0x04, 0x03, 0xDD, 0x00, 0x01, 0xA1, 0xB4 };
+	
 	char read_buffer[255];
 
 	//transaction preparation			
@@ -78,6 +80,9 @@ void* pollingDeviceRS485(void *args)
 		printf("F_ID = %d, rx_count = %d \n", F_ID_x, config.rx_count);
 
 		//for (int i = 0; i < sizeof(read_buffer); i++) read_buffer[i] = 0;
+
+		//int crc = calculate_crc((uint8_t*)&buf, 6);
+		//printf("crc = %d \n", crc);
 
 		sleep(1);
 	}

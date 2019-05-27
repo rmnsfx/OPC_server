@@ -82,6 +82,7 @@
     <LocalRemoteCopySources>true</LocalRemoteCopySources>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="crc.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="open62541.c" />
     <ClCompile Include="poll_optimize.cpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="tcp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="crc.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="open62541.h" />
     <ClInclude Include="poll_optimize.h" />

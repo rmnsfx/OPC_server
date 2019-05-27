@@ -1,11 +1,13 @@
-D:\Repos\OPC_Server\OPC_Server\main.cpp|/root/projects/OPC_Server/OPC_Server/main.cpp
+D:\Repos\OPC_Server\OPC_Server\crc.cpp|/root/projects/OPC_Server/OPC_Server/crc.cpp
 D:\Repos\OPC_Server\OPC_Server|/root/projects/OPC_Server/OPC_Server
 @D:\Repos\OPC_Server\OPC_Server|@/root/projects/OPC_Server/OPC_Server
+D:\Repos\OPC_Server\OPC_Server\main.cpp|/root/projects/OPC_Server/OPC_Server/main.cpp
 D:\Repos\OPC_Server\OPC_Server\open62541.c|/root/projects/OPC_Server/OPC_Server/open62541.c
 D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp|/root/projects/OPC_Server/OPC_Server/poll_optimize.cpp
 D:\Repos\OPC_Server\OPC_Server\rs485.cpp|/root/projects/OPC_Server/OPC_Server/rs485.cpp
 D:\Repos\OPC_Server\OPC_Server\serialize.cpp|/root/projects/OPC_Server/OPC_Server/serialize.cpp
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp|/root/projects/OPC_Server/OPC_Server/tcp.cpp
+D:\Repos\OPC_Server\OPC_Server\crc.h|/root/projects/OPC_Server/OPC_Server/crc.h
 D:\Repos\OPC_Server\OPC_Server\main.h|/root/projects/OPC_Server/OPC_Server/main.h
 D:\Repos\OPC_Server\OPC_Server\open62541.h|/root/projects/OPC_Server/OPC_Server/open62541.h
 D:\Repos\OPC_Server\OPC_Server\poll_optimize.h|/root/projects/OPC_Server/OPC_Server/poll_optimize.h
