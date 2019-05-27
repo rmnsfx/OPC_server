@@ -26,31 +26,71 @@
 #include "crc.h"
 
 
-
-
-void* connectDeviceRS485(void *args)
+char* pathToPort(int node_port)
 {
-	Node* node = (Node*)args;
-
-
-	if (node != NULL)
+	switch (node_port)
 	{
-		int F_ID_x = open("/dev/rs485_3", O_RDWR);
-		if (F_ID_x < 0)
-		{
-			//return -1;
-		}
-
-		
+	case 0:
+		return "/dev/rs485_0";
+	case 1:
+		return "/dev/rs485_1";
+	case 2:
+		return "/dev/rs485_2";
+	case 3:
+		return "/dev/rs485_3";
+	case 4:
+		return "/dev/rs485_4";
+	case 5:
+		return "/dev/rs485_5";
+	case 6:
+		return "/dev/rs485_6";
+	case 7:
+		return "/dev/rs485_7";
+	
+	
+	default:
+		printf("Warning! Wrong RS-485 port parameter. Default value: /dev/rs485_3\n");
+		return "/dev/rs485_3";
 	}
-}
+};
+
+
+
+//void* connectDeviceRS485(void *args)
+//{
+//	Node* node = (Node*)args;
+//
+//
+//	if (node != NULL)
+//	{
+//		int F_ID_x = open(pathToPort(node->port), O_RDWR);
+//
+//		if (F_ID_x < 0)
+//		{
+//			printf("\nConnection Failed: %d\n", F_ID_x);
+//			//return -1;
+//		}
+//
+//		
+//	}
+//}
 
 
 void* pollingDeviceRS485(void *args)
 {
 	Node* node = (Node*)args;
+	int F_ID_x = 0;
 
-	int F_ID_x = open("/dev/rs485_3", O_RDWR);
+	if (node != NULL)
+	{
+		int F_ID_x = open( pathToPort(node->port), O_RDWR );
+
+		if (F_ID_x < 0)
+		{
+			printf("\nConnection Failed: %d\n", F_ID_x);
+			//return -1;
+		}
+	}
 
 	char write_buffer[] = { 0x01, 0x04, 0x03, 0xDD, 0x00, 0x01, 0xA1, 0xB4 };
 	

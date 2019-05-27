@@ -10,7 +10,7 @@
 #include <iostream>
 #include <vector>
 #include <unistd.h>
-
+#include <stdint.h>
 #include "open62541.h"
 
 
@@ -101,7 +101,12 @@ private:
 
 };
 
-enum class Data_type { int16, uint16, int32, uint32, float32 };
+//float_BE = point big endian(4, 3, 2, 1)			
+//float_BE_swap = point big endian whit byte swapped(3, 4, 1, 2) 	
+//float_LE = point little endian(1, 2, 3, 4)			
+//float_LE_swap = point little endian whit byte - swapped(2, 1, 4, 3)
+
+enum class Data_type { int16, uint16, int32, uint32, float_BE, float_BE_swap, float_LE, float_LE_swap };
 
 //Класс тэг
 class Tag : public Device

@@ -100,7 +100,7 @@ void* workerOPC(void *args)
 						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
 				}
 
-				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float32)
+				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE)
 				{
 					UA_Float value = 0;
 					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_FLOAT]);
@@ -169,7 +169,7 @@ void* pollingEngine(void *args)
 		//Подключение к устройству RS-485
 		if (controller->vectorNode[i].enum_interface_type == Interface_type::rs485)
 		{
-			connectDeviceRS485(&controller->vectorNode[i]);
+			//connectDeviceRS485(&controller->vectorNode[i]);
 
 
 			//Запускаем опрос по RS-485
@@ -186,8 +186,14 @@ void* pollingEngine(void *args)
 
 Data_type type_converter(const std::string &str)
 {
-	if (str == "int") return Data_type::int16;	
-	else if (str == "float") return Data_type::float32;
+	if (str == "int16") return Data_type::int16;	
+	else if (str == "uint16") return Data_type::uint16;
+	else if (str == "int32") return Data_type::int32;
+	else if (str == "uint32") return Data_type::uint32;
+	else if (str == "float_BE") return Data_type::float_BE;
+	else if (str == "float_BE_swap") return Data_type::float_BE_swap;
+	else if (str == "float_LE") return Data_type::float_LE;
+	else if (str == "float_LE_swap") return Data_type::float_LE_swap;
 };
 
 Interface_type interface_converter(const std::string &str)
