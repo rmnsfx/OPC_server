@@ -1,6 +1,4 @@
-
-#ifndef MAIN_H
-#define MAIN_H
+#pragma once
 
 #include <cstdio>
 #include <cstdlib>
@@ -30,11 +28,11 @@ public:
 
 	virtual ~iServerTree() {};
 	
-	int type;
+	int16_t type;
 	std::string name;
 	std::string label;
 	std::string description;
-	int attribute;
+	int16_t attribute;
 
 };
 
@@ -59,21 +57,19 @@ class Node : public Controller
 public:	
 	std::vector<Device> vectorDevice;
 
-	int on = 0;
-	int baud_rate = 9600;
-	int word_lenght = 8;
-	int parity = 0;
-	int stop_bit = 1;
-
-	//std::string intertype;
+	int16_t on = 0;
+	int16_t baud_rate = 9600;
+	int16_t word_lenght = 8;
+	int16_t parity = 0;
+	int16_t stop_bit = 1;
+		
 	Interface_type enum_interface_type;
 	std::string address; //IP or RS485 device
-	int port = 8080;
-	int tcp_wait_connection = 5;
-
-	int socket = 0;
-	int poll_period = 1000;
-	
+	int16_t port = 8080;
+	int16_t tcp_wait_connection = 5;
+	int16_t socket = 0;
+	int16_t poll_period = 1000;
+	int16_t f_id = 0; //Дескриптор для RS-485
 	
 
 private:
@@ -89,12 +85,12 @@ class Device : public Node
 public:
 	std::vector<Tag> vectorTag;
 
-	int device_address = 0;	
-	int poll_timeout = 1000;
+	int16_t device_address = 0;
+	int16_t poll_timeout = 1000;
 
-	int devtype = 0;
-	int id_device = 0;
-	int device_socket = 0;
+	int16_t devtype = 0;
+	int16_t id_device = 0;
+	int16_t device_socket = 0;
 
 private:
 	std::vector<Tag> vectorDeviceTag;
@@ -113,8 +109,8 @@ class Tag : public Device
 {
 
 public:
-	int reg_address = 0;
-	int function = 0;	
+	int16_t reg_address = 0;
+	int16_t function = 0;
 	Data_type enum_data_type;
 	float coef_A = 1;
 	float coef_B = 0;
@@ -140,9 +136,9 @@ public:
 //Структура для хранения оптимизированных запросов каждого из устройств
 struct Optimize
 {
-	int device_addr;	
-	std::vector<int> holding_regs; //список адресов регистров
-	std::vector<int> input_regs; //список адресов регистров		
+	int16_t device_addr;
+	std::vector<int16_t> holding_regs; //список адресов регистров
+	std::vector<int16_t> input_regs; //список адресов регистров		
 	std::vector<std::vector<uint8_t>> request; //список запросов
 	std::vector<std::vector<uint8_t>> response; //список ответов	
 	//std::vector<std::vector<uint8_t>> holding_request; //список запросов
@@ -155,4 +151,3 @@ struct Optimize
 Data_type type_converter(const std::string &str);
 Interface_type interface_converter(const std::string &str);
 
-#endif

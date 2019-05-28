@@ -1,5 +1,4 @@
-#ifndef SERIALIZE_H
-#define SERIALIZE_H
+#pragma once
 
 
 #include "main.h"
@@ -7,4 +6,4 @@
 
 Controller serializeFromJSON(char* path);
 
-#endif
+

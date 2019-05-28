@@ -57,7 +57,7 @@ std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
 	}
 	else if (regs.size() == 1)
 	{
-		split.push_back(regs[0] -1);
+		split[0] = regs[0] -1;
 		split_out.push_back(split);
 	}
 
@@ -147,9 +147,9 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 
 						if (node->enum_interface_type == Interface_type::rs485)
 						{
-							int crc = calculate_crc((uint8_t*) &message, 16);
-							message.push_back(0x00);	//CRC
-							message.push_back(0x00);	//CRC
+							uint16_t crc = calculate_crc((uint8_t*) &message[0], 6);
+							message.push_back(crc);			//CRC 
+							message.push_back(crc >> 8);	//CRC
 						}
 
 						optimize.device_addr = node->vectorDevice[i].device_address;
@@ -161,12 +161,15 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 					else
 					{
 						//Формируем пакет для запроса
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Идентификатор транзакции
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Идентификатор протокола
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Длина сообщения
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x06);
+						if (node->enum_interface_type == Interface_type::tcp)
+						{
+							message.push_back(0x00);	//Идентификатор транзакции
+							message.push_back(0x00);
+							message.push_back(0x00);	//Идентификатор протокола
+							message.push_back(0x00);
+							message.push_back(0x00);	//Длина сообщения
+							message.push_back(0x06);
+						}
 
 						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
 						message.push_back(0x03);														//Функциональный код 
@@ -178,6 +181,12 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
 						message.push_back(reg_qty);														//Количество регистров Lo байт
 
+						if (node->enum_interface_type == Interface_type::rs485)
+						{
+							uint16_t crc = calculate_crc((uint8_t*)&message[0], 6);
+							message.push_back(crc);			//CRC 
+							message.push_back(crc >> 8);	//CRC
+						}
 
 						optimize.device_addr = node->vectorDevice[i].device_address;
 						optimize.request.push_back(message);
@@ -219,12 +228,15 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 					if ((pair_request[z].back() - pair_request[z].front()) > 0)
 					{
 						//Формируем пакет для запроса
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Идентификатор транзакции
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Идентификатор протокола
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Длина сообщения
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x06);
+						if (node->enum_interface_type == Interface_type::tcp)
+						{
+							message.push_back(0x00);	//Идентификатор транзакции
+							message.push_back(0x00);
+							message.push_back(0x00);	//Идентификатор протокола
+							message.push_back(0x00);
+							message.push_back(0x00);	//Длина сообщения
+							message.push_back(0x06);
+						}
 
 						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
 						message.push_back(0x04);														//Функциональный код 
@@ -236,6 +248,12 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
 						message.push_back(reg_qty);														//Количество регистров Lo байт
 
+						if (node->enum_interface_type == Interface_type::rs485)
+						{
+							uint16_t crc = calculate_crc((uint8_t*)&message[0], 6);
+							message.push_back(crc);			//CRC 
+							message.push_back(crc >> 8);	//CRC
+						}
 
 						optimize.device_addr = node->vectorDevice[i].device_address;
 						optimize.request.push_back(message);
@@ -245,12 +263,15 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 					else
 					{
 						//Формируем пакет для запроса
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Идентификатор транзакции
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Идентификатор протокола
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x00);	//Длина сообщения
-						if (node->enum_interface_type == Interface_type::tcp) message.push_back(0x06);
+						if (node->enum_interface_type == Interface_type::tcp)
+						{
+							message.push_back(0x00);	//Идентификатор транзакции
+							message.push_back(0x00);
+							message.push_back(0x00);	//Идентификатор протокола
+							message.push_back(0x00);
+							message.push_back(0x00);	//Длина сообщения
+							message.push_back(0x06);
+						}
 
 						message.push_back(node->vectorDevice[i].device_address);						//Адрес устройства
 						message.push_back(0x04);														//Функциональный код 
@@ -262,6 +283,12 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
 						message.push_back(reg_qty);														//Количество регистров Lo байт
 
+						if (node->enum_interface_type == Interface_type::rs485)
+						{
+							uint16_t crc = calculate_crc((uint8_t*)&message[0], 6);
+							message.push_back(crc);			//CRC 
+							message.push_back(crc >> 8);	//CRC
+						}
 
 						optimize.device_addr = node->vectorDevice[i].device_address;
 						optimize.request.push_back(message);

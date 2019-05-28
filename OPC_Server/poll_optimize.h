@@ -1,6 +1,4 @@
-
-#ifndef POLL_OPTIMIZE_H
-#define POLL_OPTIMIZE_H
+#pragma once
 
 #include "main.h"
 
@@ -10,7 +8,7 @@
 
 
 std::vector<Optimize> reorganizeNodeIntoPolls(Node* node);
-void distributeResponse(Node* node, std::vector<Optimize> vector_response, int sequence_number);
+void distributeResponse(Node* node, std::vector<Optimize> vector_response, int16_t sequence_number);
 
 
-#endif
+

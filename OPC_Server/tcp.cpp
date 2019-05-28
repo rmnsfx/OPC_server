@@ -103,27 +103,27 @@ void* pollingDeviceTCP(void *args)
 	
 	Node* node = (Node*)args;
 
-	int result = 0;	
+	int16_t result = 0;	
 	//char write_buffer[] = { 00, 00, 00, 00, 00, 06, 01, 03, 00, 00, 00, 01 };	
-	char read_buffer[255];
+	uint8_t read_buffer[255];
 	std::vector<uint8_t> read_buffer_vector;
 
 	extern UA_Server *server;
 	UA_Variant value;
-	int modbus_value = 0;
+	int16_t modbus_value = 0;
 
 	struct timeval timeout;
 	
 	fd_set set;	
-	int trial[node->vectorDevice.size()]; //Хранилище флагов о попытках опроса
+	int16_t trial[node->vectorDevice.size()]; //Хранилище флагов о попытках опроса
 
-	int dur_ms = 0;
-	int common_dur_ms = 0;
+	int16_t dur_ms = 0;
+	int16_t common_dur_ms = 0;
 	struct timespec start, stop, duration, stop2, common_duration;
 
 	//signal(SIGPIPE, SIG_IGN);
 
-	int pos = 0;
+	int16_t pos = 0;
 
 	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);	
 	if (vector_optimize.size() != node->vectorDevice.size()) printf("Warning, vector != device quantity.");	

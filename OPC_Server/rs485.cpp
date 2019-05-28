@@ -24,6 +24,7 @@
 
 #include <fcntl.h>
 #include "crc.h"
+#include "poll_optimize.h"
 
 
 char* pathToPort(int node_port)
@@ -56,68 +57,104 @@ char* pathToPort(int node_port)
 
 
 
-//void* connectDeviceRS485(void *args)
-//{
-//	Node* node = (Node*)args;
-//
-//
-//	if (node != NULL)
-//	{
-//		int F_ID_x = open(pathToPort(node->port), O_RDWR);
-//
-//		if (F_ID_x < 0)
-//		{
-//			printf("\nConnection Failed: %d\n", F_ID_x);
-//			//return -1;
-//		}
-//
-//		
-//	}
-//}
-
 
 void* pollingDeviceRS485(void *args)
-{
+{	
+	
+	
+	int16_t result = 0;
+	char write_buffer[] = { 0x01, 0x04, 0x03, 0xDD, 0x00, 0x01, 0xA1, 0xB4 };
+	char read_buffer[255];
+
+
+
+
+
 	Node* node = (Node*)args;
-	int F_ID_x = 0;
+
 
 	if (node != NULL)
 	{
-		int F_ID_x = open( pathToPort(node->port), O_RDWR );
+		char* port = pathToPort(node->port);
 
-		if (F_ID_x < 0)
+		node->f_id = open(port, O_RDWR);
+		
+
+		if (node->f_id < 0)
 		{
-			printf("\nConnection Failed: %d\n", F_ID_x);
+			printf("\nConnection Failed: %d\n", node->f_id);
 			//return -1;
 		}
 	}
-
-	char write_buffer[] = { 0x01, 0x04, 0x03, 0xDD, 0x00, 0x01, 0xA1, 0xB4 };
 	
-	char read_buffer[255];
+
+
+	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);
+
 
 	//transaction preparation			
 	rs485_device_ioctl_t config;
-
+	   
 	while (1)
 	{
-		config.tx_buf = write_buffer;
-		config.tx_count = sizeof(write_buffer);
-		config.rx_buf = read_buffer;
-		config.rx_size = sizeof(read_buffer);
-		config.rx_expected = 8; 		//ATTENTION: rx_expected must be set for correct driver reception.
 
-		
-
-		ioctl(F_ID_x, RS485_SEND_PACKED, &config);
-
-		for (int i = 0; i < 8; i++)
+		//Проходим по устройствам
+		for (int i = 0; i < node->vectorDevice.size(); i++)
 		{
-			printf("%d ", read_buffer[i]);
-		}
-		printf("\n");
+			if (node->vectorDevice[i].on == 1)
+			{
 
-		printf("F_ID = %d, rx_count = %d \n", F_ID_x, config.rx_count);
+				//Отправляем запросы и принимаем ответы по порядку
+				for (int y = 0; y < vector_optimize[i].request.size(); y++)
+				{
+					config.tx_buf = (const char*) &vector_optimize[i].request[y][0];
+					config.tx_count = vector_optimize[i].request[y].size();
+					
+					config.rx_buf = read_buffer;
+					config.rx_size = sizeof(read_buffer);
+					config.rx_expected = 100; 		//ATTENTION: rx_expected must be set for correct driver reception.
+					
+					ioctl(node->f_id, RS485_SEND_PACKED, &config);
+					//result = send(node->vectorDevice[i].device_socket, &vector_optimize[i].request[y][0], vector_optimize[i].request[y].size(), 0);
+
+					printf("--->");
+					for (int w = 0; w < 8; w++)
+					{
+						printf("%X ", vector_optimize[i].request[y][w]);					
+					}
+					printf("\n <---");
+					for (int w = 0; w < 20; w++)
+					{					
+						printf("%X ", read_buffer[w]);
+					}
+					printf("\n");
+
+					
+				}
+			}
+		}
+
+
+
+
+
+		//config.tx_buf = write_buffer;
+		//config.tx_count = sizeof(write_buffer);
+		//config.rx_buf = read_buffer;
+		//config.rx_size = sizeof(read_buffer);
+		//config.rx_expected = 10; 		//ATTENTION: rx_expected must be set for correct driver reception.
+
+		//
+
+		//ioctl(F_ID_x, RS485_SEND_PACKED, &config);
+
+		//for (int i = 0; i < 8; i++)
+		//{
+		//	printf("%d ", read_buffer[i]);
+		//}
+		//printf("\n");
+
+		//printf("F_ID = %d, rx_count = %d \n", node->f_id, config.rx_count);
 
 		//for (int i = 0; i < sizeof(read_buffer); i++) read_buffer[i] = 0;
 
