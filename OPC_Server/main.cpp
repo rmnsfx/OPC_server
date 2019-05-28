@@ -33,6 +33,14 @@ int status;
 
 void* workerOPC(void *args)
 {
+
+	UA_Int16 value_int16;
+	UA_UInt16 value_uint16;
+	UA_Int32 value_int32;
+	UA_UInt32 value_uint32;
+	UA_Float value_float;
+
+
 	Controller* controller = (Controller*) args;
 	
 	UA_Boolean running = true;
@@ -91,8 +99,8 @@ void* workerOPC(void *args)
 
 				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
 				{
-					UA_Int16 value = 0;
-					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_INT16]);
+					value_int16 = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_int16, &UA_TYPES[UA_TYPES_INT16]);
 					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -101,8 +109,8 @@ void* workerOPC(void *args)
 				}
 				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::uint16)
 				{
-					UA_UInt16 value = 0;
-					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_UINT16]);
+					value_uint16 = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_uint16, &UA_TYPES[UA_TYPES_UINT16]);
 					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -111,8 +119,8 @@ void* workerOPC(void *args)
 				}
 				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int32)
 				{
-					UA_Int32 value = 0;
-					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_INT32]);
+					value_int32 = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_int32, &UA_TYPES[UA_TYPES_INT32]);
 					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -121,8 +129,8 @@ void* workerOPC(void *args)
 				}
 				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::uint32)
 				{
-					UA_UInt32 value = 0;
-					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_UINT32]);
+					value_uint32 = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_uint32, &UA_TYPES[UA_TYPES_UINT32]);
 					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -135,8 +143,8 @@ void* workerOPC(void *args)
 					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE) ||
 					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE_swap) )
 				{
-					UA_Float value = 0;
-					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_FLOAT]);
+					value_float = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_float, &UA_TYPES[UA_TYPES_FLOAT]);
 					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
