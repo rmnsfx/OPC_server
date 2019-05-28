@@ -323,8 +323,28 @@ void* pollingDeviceRS485(void *args)
 							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT16]);
 							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 						}
-
-						if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE)
+						else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint16)
+						{
+							UA_UInt16 opc_value = (UA_UInt16)node->vectorDevice[i].vectorTag[j].value;
+							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_UINT16]);
+							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+						}
+						else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int32)
+						{
+							UA_Int32 opc_value = (UA_Int32)node->vectorDevice[i].vectorTag[j].value;
+							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_INT32]);
+							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+						}
+						else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint32)
+						{
+							UA_UInt32 opc_value = (UA_UInt32)node->vectorDevice[i].vectorTag[j].value;
+							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_UINT32]);
+							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+						}
+						else if ( (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE) ||
+							(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE_swap) ||
+							(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE) ||
+							(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE_swap) )
 						{
 							UA_Float opc_value = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
 							UA_Variant_setScalarCopy(&value, &opc_value, &UA_TYPES[UA_TYPES_FLOAT]);

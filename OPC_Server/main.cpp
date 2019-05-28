@@ -99,8 +99,41 @@ void* workerOPC(void *args)
 						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
 						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
 				}
+				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::uint16)
+				{
+					UA_UInt16 value = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_UINT16]);
+					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
+						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
+						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
+				}
+				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int32)
+				{
+					UA_Int32 value = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_INT32]);
+					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
+						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
+						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
+				}
+				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::uint32)
+				{
+					UA_UInt32 value = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_UINT32]);
+					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
+						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
+						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
+				}
 
-				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE)
+				if ( (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_BE) ||
+					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_BE_swap) ||
+					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE) ||
+					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE_swap) )
 				{
 					UA_Float value = 0;
 					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_FLOAT]);
