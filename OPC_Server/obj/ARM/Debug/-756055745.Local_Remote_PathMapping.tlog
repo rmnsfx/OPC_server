@@ -7,6 +7,7 @@ D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp|/root/projects/OPC_Server/OPC_S
 D:\Repos\OPC_Server\OPC_Server\rs485.cpp|/root/projects/OPC_Server/OPC_Server/rs485.cpp
 D:\Repos\OPC_Server\OPC_Server\serialize.cpp|/root/projects/OPC_Server/OPC_Server/serialize.cpp
 D:\Repos\OPC_Server\OPC_Server\tcp.cpp|/root/projects/OPC_Server/OPC_Server/tcp.cpp
+D:\Repos\OPC_Server\OPC_Server\utils.cpp|/root/projects/OPC_Server/OPC_Server/utils.cpp
 D:\Repos\OPC_Server\OPC_Server\crc.h|/root/projects/OPC_Server/OPC_Server/crc.h
 D:\Repos\OPC_Server\OPC_Server\main.h|/root/projects/OPC_Server/OPC_Server/main.h
 D:\Repos\OPC_Server\OPC_Server\open62541.h|/root/projects/OPC_Server/OPC_Server/open62541.h
@@ -59,6 +60,7 @@ D:\Repos\OPC_Server\OPC_Server\rs485.h|/root/projects/OPC_Server/OPC_Server/rs48
 D:\Repos\OPC_Server\OPC_Server\rs485_device_ioctl.h|/root/projects/OPC_Server/OPC_Server/rs485_device_ioctl.h
 D:\Repos\OPC_Server\OPC_Server\serialize.h|/root/projects/OPC_Server/OPC_Server/serialize.h
 D:\Repos\OPC_Server\OPC_Server\tcp.h|/root/projects/OPC_Server/OPC_Server/tcp.h
+D:\Repos\OPC_Server\OPC_Server\utils.h|/root/projects/OPC_Server/OPC_Server/utils.h
 D:\Repos\OPC_Server\opc.json|/root/projects/OPC_Server/opc.json
 D:\Repos\OPC_Server|/root/projects/OPC_Server
 @D:\Repos\OPC_Server|@/root/projects/OPC_Server

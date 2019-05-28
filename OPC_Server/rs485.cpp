@@ -25,6 +25,7 @@
 #include <fcntl.h>
 #include "crc.h"
 #include "poll_optimize.h"
+#include "utils.h"
 
 
 char* pathToPort(int node_port)
@@ -63,9 +64,11 @@ void* pollingDeviceRS485(void *args)
 	
 	
 	int16_t result = 0;
-	char write_buffer[] = { 0x01, 0x04, 0x03, 0xDD, 0x00, 0x01, 0xA1, 0xB4 };
-	char read_buffer[255];
-
+	//char write_buffer[] = { 0x01, 0x04, 0x03, 0xDD, 0x00, 0x01, 0xA1, 0xB4 };
+	uint8_t read_buffer[255];
+	int16_t dur_ms = 0;
+	int16_t common_dur_ms = 0;
+	struct timespec start, stop, duration, stop2, common_duration;
 
 
 
@@ -97,6 +100,8 @@ void* pollingDeviceRS485(void *args)
 	   
 	while (1)
 	{
+		clock_gettime(CLOCK_REALTIME, &start);
+
 
 		//Проходим по устройствам
 		for (int i = 0; i < node->vectorDevice.size(); i++)
@@ -110,12 +115,14 @@ void* pollingDeviceRS485(void *args)
 					config.tx_buf = (const char*) &vector_optimize[i].request[y][0];
 					config.tx_count = vector_optimize[i].request[y].size();
 					
-					config.rx_buf = read_buffer;
+					config.rx_buf = (char*) &read_buffer;
 					config.rx_size = sizeof(read_buffer);
-					config.rx_expected = 100; 		//ATTENTION: rx_expected must be set for correct driver reception.
+					config.rx_expected = ((vector_optimize[i].request[y][4] << 8) + vector_optimize[i].request[y][5]); 		//ATTENTION: rx_expected must be set for correct driver reception.
 					
+					printf("expected size: %d\n", ((vector_optimize[i].request[y][4] << 8) + vector_optimize[i].request[y][5]));
+
 					ioctl(node->f_id, RS485_SEND_PACKED, &config);
-					//result = send(node->vectorDevice[i].device_socket, &vector_optimize[i].request[y][0], vector_optimize[i].request[y].size(), 0);
+					
 
 					printf("--->");
 					for (int w = 0; w < 8; w++)
@@ -138,30 +145,22 @@ void* pollingDeviceRS485(void *args)
 
 
 
-		//config.tx_buf = write_buffer;
-		//config.tx_count = sizeof(write_buffer);
-		//config.rx_buf = read_buffer;
-		//config.rx_size = sizeof(read_buffer);
-		//config.rx_expected = 10; 		//ATTENTION: rx_expected must be set for correct driver reception.
 
-		//
 
-		//ioctl(F_ID_x, RS485_SEND_PACKED, &config);
+		clock_gettime(CLOCK_REALTIME, &stop);
+		duration = time_diff(start, stop);
+		dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
+		//printf("Time %d", duration.tv_sec*100 + (duration.tv_nsec / 1000000) );
 
-		//for (int i = 0; i < 8; i++)
-		//{
-		//	printf("%d ", read_buffer[i]);
-		//}
-		//printf("\n");
+		if (dur_ms < node->poll_period)
+		{
+			usleep((node->poll_period - dur_ms) * 1000);
+			//printf("Time %d ", (node->poll_period - dur_ms));
+		}
 
-		//printf("F_ID = %d, rx_count = %d \n", node->f_id, config.rx_count);
-
-		//for (int i = 0; i < sizeof(read_buffer); i++) read_buffer[i] = 0;
-
-		//int crc = calculate_crc((uint8_t*)&buf, 6);
-		//printf("crc = %d \n", crc);
-
-		sleep(1);
+		clock_gettime(CLOCK_REALTIME, &stop2);
+		common_duration = time_diff(start, stop2);
+		//printf("\nCommon Duration Time %d \n\n", common_duration.tv_sec*100 + (common_duration.tv_nsec / 1000000) );
 	}
 
 

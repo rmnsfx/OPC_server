@@ -91,6 +91,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="tcp.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="crc.h" />
@@ -137,6 +138,7 @@
     <ClInclude Include="rs485_device_ioctl.h" />
     <ClInclude Include="serialize.h" />
     <ClInclude Include="tcp.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\opc.json" />

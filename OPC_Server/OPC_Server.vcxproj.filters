@@ -8,6 +8,7 @@
     <ClCompile Include="poll_optimize.cpp" />
     <ClCompile Include="rs485.cpp" />
     <ClCompile Include="crc.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="rapidjson">
@@ -140,6 +141,7 @@
     <ClInclude Include="rs485_device_ioctl.h" />
     <ClInclude Include="rs485.h" />
     <ClInclude Include="crc.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\opc.json" />

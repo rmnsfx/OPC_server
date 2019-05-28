@@ -23,25 +23,11 @@
 #include <time.h>
 #include <sys/time.h>
 #include "poll_optimize.h"
+#include "utils.h"
 
 
 
-timespec time_diff(timespec start, timespec end)
-{
-	timespec temp;
 
-	if ((end.tv_nsec - start.tv_nsec) < 0)
-	{
-		temp.tv_sec = end.tv_sec - start.tv_sec - 1;
-		temp.tv_nsec = 1000000000 + end.tv_nsec - start.tv_nsec;
-	}
-	else
-	{
-		temp.tv_sec = end.tv_sec - start.tv_sec;
-		temp.tv_nsec = end.tv_nsec - start.tv_nsec;
-	}
-	return temp;
-}
 
 
 void* connectDeviceTCP(void *args)
@@ -389,7 +375,7 @@ void* pollingDeviceTCP(void *args)
 		if (dur_ms < node->poll_period)
 		{
 			usleep( (node->poll_period - dur_ms) * 1000);			
-			//printf("Time %d ", (node->vectorDevice[0].poll_period - dur_ms));
+			//printf("Time %d ", (node->poll_period - dur_ms));
 		}
 
 		clock_gettime(CLOCK_REALTIME, &stop2);

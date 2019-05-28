@@ -67,13 +67,14 @@ public:
 	std::string address; //IP or RS485 device
 	int16_t port = 8080;
 	int16_t tcp_wait_connection = 5;
-	int16_t socket = 0;
-	int16_t poll_period = 1000;
+	int16_t socket = 0;	
 	int16_t f_id = 0; //Дескриптор для RS-485
-	
+
+	int16_t poll_period = 0;
 
 private:
 	std::vector<Tag> vectorNodeTag;
+	
 
 };
 
