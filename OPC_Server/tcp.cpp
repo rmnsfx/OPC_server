@@ -114,6 +114,7 @@ void* pollingDeviceTCP(void *args)
 	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);	
 	if (vector_optimize.size() != node->vectorDevice.size()) printf("Warning, vector != device quantity.");	
 	
+	uint16_t r_addr = 0;
 	
 	
 	
@@ -166,7 +167,7 @@ void* pollingDeviceTCP(void *args)
 							
 							
 							//Проходим по вектору с ответами
-							for (int v = 9, addr = start_address+1; v < vector_optimize[i].response[y].size(); v+=2, addr++)
+							for (int v = 9, r_addr = start_address+1; v < vector_optimize[i].response[y].size(); v+=2, r_addr++)
 							{			
 
 								//Перебираем holding
@@ -174,11 +175,11 @@ void* pollingDeviceTCP(void *args)
 								{	
 									for (int s = 0; s < vector_optimize[i].holding_regs.size()+1; s++)
 									{
-										if (vector_optimize[i].holding_regs[s] == addr)
+										if (vector_optimize[i].holding_regs[s] == r_addr)
 										{
 											for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
 											{
-												if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
+												if (r_addr == node->vectorDevice[i].vectorTag[c].reg_address)
 												{
 													pos = node->vectorDevice[i].vectorTag[c].reg_position;
 
@@ -233,11 +234,11 @@ void* pollingDeviceTCP(void *args)
 								{
 									for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
 									{
-										if (vector_optimize[i].input_regs[s] == addr) 
+										if (vector_optimize[i].input_regs[s] == r_addr)
 										{
 											for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
 											{
-												if (addr == node->vectorDevice[i].vectorTag[c].reg_address) 
+												if (r_addr == node->vectorDevice[i].vectorTag[c].reg_address)
 												{
 													pos = node->vectorDevice[i].vectorTag[c].reg_position;
 

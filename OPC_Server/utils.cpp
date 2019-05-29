@@ -3,6 +3,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include "utils.h"
+#include "poll_optimize.h"
 
 timespec time_diff(timespec start, timespec end)
 {
@@ -19,4 +20,6 @@ timespec time_diff(timespec start, timespec end)
 		temp.tv_nsec = end.tv_nsec - start.tv_nsec;
 	}
 	return temp;
-}
+};
+
+

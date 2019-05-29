@@ -258,9 +258,11 @@ int main()
 
 	controller = serializeFromJSON("/usr/httpserv/opc.json");	
 	
+	sleep(1);
 
 	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 
 	
+	sleep(1);
 	
 	pollingEngine(&controller);	
 	

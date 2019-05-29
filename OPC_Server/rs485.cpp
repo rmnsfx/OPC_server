@@ -214,6 +214,9 @@ void* pollingDeviceRS485(void *args)
 													node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 												}
 
+												//Применяем коэфициенты А и B
+												node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
+
 												printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
 											}
 										}
@@ -280,6 +283,9 @@ void* pollingDeviceRS485(void *args)
 													//node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 													memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
 												}
+
+												//Применяем коэфициенты A и B
+												node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
 
 												printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
 											}

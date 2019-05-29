@@ -30,7 +30,7 @@ std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
 		sort(regs.begin(), regs.end());
 
 		
-		split[0] = regs[0] -1; //Адрес регистра = Номер регистра - 1
+		split[0] = regs[0] -1; //Адрес регистра = (Номер регистра - 1)
 
 		for (int i = 1; i < regs.size(); i++)
 		{
@@ -138,7 +138,7 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 
 				//Сортируем и разбиваем адреса (общий список) на подзапросы
 				pair_request = splitRegs(regs);
-				regs.clear();
+				
 
 
 				for (int z = 0; z < pair_request.size(); z++)
@@ -162,7 +162,15 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
 						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
 
-						reg_qty = pair_request[z].back() - pair_request[z].front() +1;
+						//Если float увеличиваем кол-во регистров 
+						if (checkFloatType(node->vectorDevice[i].vectorTag, pair_request[z].back()) == true)
+						{
+							reg_qty = (pair_request[z].back() - pair_request[z].front() + 1) + 1;
+						}
+						else
+						{
+							reg_qty = pair_request[z].back() - pair_request[z].front() + 1;
+						}
 
 						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
 						message.push_back(reg_qty);														//Количество регистров Lo байт
@@ -178,6 +186,7 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						optimize.request.push_back(message);
 						
 						for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]);	//Копирование вектора
+						
 
 					}
 					else
@@ -198,7 +207,12 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
 						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
 
-						reg_qty = 1;
+						//Если float увеличиваем кол-во регистров
+						if (checkFloatType(node->vectorDevice[i].vectorTag, pair_request[z].front()) == true)
+						{
+							reg_qty = 4;
+						}
+						else reg_qty = 1;
 
 						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
 						message.push_back(reg_qty);														//Количество регистров Lo байт
@@ -214,6 +228,7 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						optimize.request.push_back(message);
 
 						for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]);	//Копирование вектора
+						
 
 					}
 
