@@ -64,6 +64,26 @@ std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
 	return split_out;
 };
 
+bool checkFloatType(std::vector<Tag> vector_tag, uint16_t reg_number)
+{
+	for (int j = 0; j < vector_tag.size(); j++)
+	{
+		if ((vector_tag[j].reg_address - 1) == reg_number)
+		{
+			if ((vector_tag[j].enum_data_type == Data_type::float_BE) ||
+				(vector_tag[j].enum_data_type == Data_type::float_BE_swap) ||
+				(vector_tag[j].enum_data_type == Data_type::float_LE) ||
+				(vector_tag[j].enum_data_type == Data_type::float_LE_swap))
+			{
+				return true;
+			};
+		}
+		
+	}
+
+	return false;
+};
+
 
 std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 {
@@ -118,6 +138,8 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 
 				//Сортируем и разбиваем адреса (общий список) на подзапросы
 				pair_request = splitRegs(regs);
+				regs.clear();
+
 
 				for (int z = 0; z < pair_request.size(); z++)
 				{				
@@ -243,7 +265,16 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
 						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
 
-						reg_qty = pair_request[z].back() - pair_request[z].front() +1;
+						//Если float увеличиваем кол-во регистров 
+						if (checkFloatType(node->vectorDevice[i].vectorTag, pair_request[z].back()) == true)
+						{
+							reg_qty = (pair_request[z].back() - pair_request[z].front() + 1) + 1;
+						}
+						else
+						{
+							reg_qty = pair_request[z].back() - pair_request[z].front() + 1;
+						}
+	
 
 						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
 						message.push_back(reg_qty);														//Количество регистров Lo байт
@@ -278,7 +309,12 @@ std::vector<Optimize> reorganizeNodeIntoPolls(Node* node)
 						message.push_back(pair_request[z].front() >> 8);								//Адрес первого регистра Hi байт
 						message.push_back(pair_request[z].front());										//Адрес первого регистра Lo байт			
 
-						reg_qty = 1;
+						//Если float увеличиваем кол-во регистров
+						if (checkFloatType(node->vectorDevice[i].vectorTag, pair_request[z].front()) == true)
+						{
+							reg_qty = 4;
+						}
+						else reg_qty = 1;
 
 						message.push_back(reg_qty >> 8);												//Количество регистров Hi байт
 						message.push_back(reg_qty);														//Количество регистров Lo байт
