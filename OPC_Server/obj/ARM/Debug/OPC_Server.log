@@ -3,32 +3,72 @@
   Validating architecture
   Starting remote build
   Compiling sources:
-  tcp.cpp
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(68,36): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(68,36): warning :    serv_addr.sin_port = htons(node->port);
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(68,36): warning :                               ~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(78,1): warning : no return statement in function returning non-void [-Wreturn-type]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(78,1): warning :  }
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(78,1): warning :  ^
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(112,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(112,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(112,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(116,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(116,22): warning :     for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(116,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(123,46): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(123,46): warning :       write_buffer[6] = node->vectorDevice[i].device_address;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(124,59): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(124,59): warning :       write_buffer[7] = node->vectorDevice[i].vectorTag[j].function;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(125,71): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(125,71): warning :       write_buffer[8] = node->vectorDevice[i].vectorTag[j].reg_address >> 8;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(126,59): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(126,59): warning :       write_buffer[9] = node->vectorDevice[i].vectorTag[j].reg_address;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(160,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(160,25): warning :        for (int h = 0; h < sizeof(read_buffer); h++) read_buffer[h] = 0;
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(160,25): warning :                        ~~^~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(176,73): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(176,73): warning :        node->vectorDevice[i].vectorTag[j].value = ((read_buffer[9] << 8) + read_buffer[10]);
-D:\Repos\OPC_Server\OPC_Server\tcp.cpp(176,73): warning :                                                   ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+  serialize.cpp
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(50,40): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(50,40): warning :    controller.type = doc["type"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(50,40): warning :                      ~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(52,50): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(52,50): warning :    controller.attribute = doc["attribute"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(52,50): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(61,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(61,22): warning :     for (int i = 0; i < Coms.Size(); i++)
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(61,22): warning :                     ~~^~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(66,36): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(66,36): warning :      node.on = Coms[i]["on"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(66,36): warning :                ~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(67,40): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(67,40): warning :      node.type = Coms[i]["type"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(67,40): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(71,40): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(71,40): warning :      node.port = Coms[i]["port"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(71,40): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(72,50): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(72,50): warning :      node.baud_rate = Coms[i]["baud_rate"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(72,50): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(77,50): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(77,50): warning :      node.attribute = Coms[i]["attribute"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(77,50): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(78,49): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(78,49): warning :      node.poll_period = Coms[i]["period"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(78,49): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(85,24): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(85,24): warning :       for (int j = 0; j < Coms[i]["Devs"].Size(); j++)
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(85,24): warning :                       ~~^~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(90,51): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(90,51): warning :        device.on = Coms[i]["Devs"][j]["on"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(90,51): warning :                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(91,55): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(91,55): warning :        device.type = Coms[i]["Devs"][j]["type"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(91,55): warning :                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(92,61): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(92,61): warning :        device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(92,61): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(93,75): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(93,75): warning :        device.device_address = Coms[i]["Devs"][j]["address_device"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(93,75): warning :                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(95,66): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(95,66): warning :        device.poll_timeout = Coms[i]["Devs"][j]["timeout"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(95,66): warning :                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(96,65): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(96,65): warning :        device.attribute = Coms[i]["Devs"][j]["attribute"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(96,65): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,26): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,26): warning :         for (int k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,26): warning :                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(107,62): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(107,62): warning :          tags.on = Coms[i]["Devs"][j]["Tags"][k]["on"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(107,62): warning :                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(111,74): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(111,74): warning :          tags.function = Coms[i]["Devs"][j]["Tags"][k]["function"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(111,74): warning :                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(112,77): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(112,77): warning :          tags.reg_address = Coms[i]["Devs"][j]["Tags"][k]["register"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(112,77): warning :                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(117,76): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(117,76): warning :          tags.attribute = Coms[i]["Devs"][j]["Tags"][k]["attribute"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(117,76): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(43,15): warning : unused variable ‘Tags’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(43,15): warning :   const Value& Tags = doc["Tags"];
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(43,15): warning :                ^~~~
   Linking objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out
