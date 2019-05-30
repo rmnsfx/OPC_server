@@ -78,16 +78,23 @@
     <LibraryPath>$(ProjectDir)rapidjson;$(LibraryPath)</LibraryPath>
     <IncludePath>$(ProjectDir)rapidjson;$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <LocalRemoteCopySources>true</LocalRemoteCopySources>
+  </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="crc.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="open62541.c" />
     <ClCompile Include="poll_optimize.cpp" />
+    <ClCompile Include="rs485.cpp" />
     <ClCompile Include="serialize.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="tcp.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="crc.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="open62541.h" />
     <ClInclude Include="poll_optimize.h" />
@@ -127,16 +134,23 @@
     <ClInclude Include="rapidjson\stream.h" />
     <ClInclude Include="rapidjson\stringbuffer.h" />
     <ClInclude Include="rapidjson\writer.h" />
+    <ClInclude Include="rs485.h" />
+    <ClInclude Include="rs485_device_ioctl.h" />
     <ClInclude Include="serialize.h" />
     <ClInclude Include="tcp.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\opc.json" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <Link>
-      <AdditionalOptions>-lpthread</AdditionalOptions>
+      <AdditionalOptions>-lpthread -lc</AdditionalOptions>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>

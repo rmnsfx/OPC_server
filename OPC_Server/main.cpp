@@ -20,19 +20,36 @@
 #include "tcp.h"
 #include <mutex>
 
-
+#include "rs485_device_ioctl.h"
+#include "rs485.h"
+#include "utils.h"
+#include <signal.h>
+#include <syslog.h> 
+#include <sys/syscall.h>
 
 
 UA_Server *server;
 pthread_t server_thread;
 pthread_t* modbus_thread;
 int status;
-
+pid_t main_pid;
+pid_t th1_pid;
 
 
 void* workerOPC(void *args)
 {
+
+	UA_Int16 value_int16;
+	UA_UInt16 value_uint16;
+	UA_Int32 value_int32;
+	UA_UInt32 value_uint32;
+	UA_Float value_float;
+
+	//Controller * controller = (Controller*) calloc(100, sizeof(Controller)); // Р’С‹РґРµР»СЏРµРј РїР°РјСЏС‚СЊ 
+	//controller = (Controller*)args;
+
 	Controller* controller = (Controller*) args;
+	
 	
 	UA_Boolean running = true;
 
@@ -88,10 +105,40 @@ void* workerOPC(void *args)
 
 				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
 
-				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].data_type == "int")
+				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
 				{
-					UA_Int16 value = 0;
-					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_INT16]);
+					value_int16 = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_int16, &UA_TYPES[UA_TYPES_INT16]);
+					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
+						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
+						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
+				}
+				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::uint16)
+				{
+					value_uint16 = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_uint16, &UA_TYPES[UA_TYPES_UINT16]);
+					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
+						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
+						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
+				}
+				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int32)
+				{
+					value_int32 = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_int32, &UA_TYPES[UA_TYPES_INT32]);
+					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
+						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
+						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
+				}
+				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::uint32)
+				{
+					value_uint32 = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_uint32, &UA_TYPES[UA_TYPES_UINT32]);
 					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -99,10 +146,13 @@ void* workerOPC(void *args)
 						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
 				}
 
-				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].data_type == "float")
+				if ( (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_BE) ||
+					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_BE_swap) ||
+					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE) ||
+					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE_swap) )
 				{
-					UA_Float value = 0;
-					UA_Variant_setScalar(&statusAttr3.value, &value, &UA_TYPES[UA_TYPES_FLOAT]);
+					value_float = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_float, &UA_TYPES[UA_TYPES_FLOAT]);
 					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -136,64 +186,124 @@ void* pollingEngine(void *args)
 	Controller* controller = (Controller*)args;
 
 
-	//Узел (Node/Coms)
+	//РЈР·РµР» (Node/Coms)
 	for (int i = 0; i < controller->vectorNode.size(); i++)
 	{
 		//printf("%s\n", controller->vectorNode[i].name.c_str());
 
 		pthread_t modbus_thread[controller->vectorNode[i].vectorDevice.size()];
 
-		//Создание сокета и подключение к устройству
-		if (controller->vectorNode[i].intertype == "TCP")
+		//РЎРѕР·РґР°РЅРёРµ СЃРѕРєРµС‚Р° Рё РїРѕРґРєР»СЋС‡РµРЅРёРµ Рє СѓСЃС‚СЂРѕР№СЃС‚РІСѓ
+		if (controller->vectorNode[i].enum_interface_type == Interface_type::tcp)
 		{
 			connectDeviceTCP(&controller->vectorNode[i]);
+
+
+			//РЈСЃС‚СЂРѕР№СЃС‚РІРѕ (Device)
+			for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+			{
+				//printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
+
+				controller->vectorNode[i].vectorDevice[j].id_device = j;
+				controller->vectorNode[i].vectorDevice[j].device_socket = controller->vectorNode[i].socket;
+			}
+
+			//Р—Р°РїСѓСЃРєР°РµРј РѕРїСЂРѕСЃ РїРѕ TCP
+			if (controller->vectorNode[i].on == 1)
+			{
+				pthread_create(&modbus_thread[i], NULL, pollingDeviceTCP, &controller->vectorNode[i]);
+			}
 		}
 
-		//Устройство (Device)
-		for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+		//РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє СѓСЃС‚СЂРѕР№СЃС‚РІСѓ RS-485
+		if (controller->vectorNode[i].enum_interface_type == Interface_type::rs485)
 		{
-			//printf("    %s\n", controller->vectorNode[i].vectorDevice[j].name.c_str());
+			//connectDeviceRS485(&controller->vectorNode[i]);
 
-			controller->vectorNode[i].vectorDevice[j].id_device = j;
-			controller->vectorNode[i].vectorDevice[j].device_socket = controller->vectorNode[i].socket;		
-		}
 
-		//Запускаем опрос
-		if (controller->vectorNode[i].on == 1)
-		{
-			pthread_create(&modbus_thread[i], NULL, pollingDeviceTCP, &controller->vectorNode[i]);
+			//Р—Р°РїСѓСЃРєР°РµРј РѕРїСЂРѕСЃ РїРѕ RS-485
+			if (controller->vectorNode[i].on == 1)
+			{
+				pthread_create(&modbus_thread[i], NULL, pollingDeviceRS485, &controller->vectorNode[i]);
+			}
+
 		}
 
 	}	
 }
 
 
-
-
-
-int main()
+Data_type type_converter(const std::string &str)
 {
-	
-	
+	if (str == "int16") return Data_type::int16;	
+	else if (str == "uint16") return Data_type::uint16;
+	else if (str == "int32") return Data_type::int32;
+	else if (str == "uint32") return Data_type::uint32;
+	else if (str == "float_BE") return Data_type::float_BE;
+	else if (str == "float_BE_swap") return Data_type::float_BE_swap;
+	else if (str == "float_LE") return Data_type::float_LE;
+	else if (str == "float_LE_swap") return Data_type::float_LE_swap;
+};
 
-	printf("Start OPC server...\n\n");
+Interface_type interface_converter(const std::string &str)
+{
+	if (str == "TCP") return Interface_type::tcp;
+	else if (str == "RS-485") return Interface_type::rs485;
+};
+
+
+void sig_handler(int signum)
+{
+	printf("\nReceived signal %d. \n", signum);
+
 	
-	
+	if (signum == SIGTERM | signum == SIGSTOP | signum == SIGINT | signum == SIGQUIT | signum == SIGTSTP)
+	{		
+		pthread_exit(&server_thread);
+		exit(0);
+		kill(main_pid, SIGSTOP);
+	}
+
+};
+
+
+
+int main(int argc, char** argv)
+{
+
+	signal(SIGINT, sig_handler);
+
+	main_pid = getpid();
+
+	char* path_to_json;
+
+	if (argc > 1)
+	{
+		path_to_json = argv[1];
+	}
+	else
+	{
+		path_to_json = "/usr/httpserv/opc.json";
+	};
+
+
+	printf("Start OPC server...\n");
+	printf("Path to json: %s\n", path_to_json);
+
+		
 	Controller controller;
+	
+	controller = serializeFromJSON(path_to_json);
+	
+	pthread_create(&server_thread, NULL, workerOPC, &controller); //Р—Р°РїСѓСЃРє OPC СЃРµСЂРІРµСЂР° 
+		
+	sleep(1);
 
+	pollingEngine(&controller);	//Р—Р°РїСѓСЃРє MODBUS РѕРїСЂРѕСЃР°
+		
 
-	controller = serializeFromJSON("/usr/httpserv/opc.json");
-	
-
-	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 
-	
-	
-	pollingEngine(&controller);
-	
-	
 	pthread_join(server_thread, (void**)&status);
 	
-
 	//sleep(15);
 
 	return 0;
