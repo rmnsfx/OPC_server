@@ -70,9 +70,9 @@ Controller serializeFromJSON(char* path)
 				node.address = Coms[i]["address"].GetString();
 				node.port = Coms[i]["port"].GetUint();	
 				node.baud_rate = Coms[i]["baud_rate"].GetUint();
-				node.word_lenght = Coms[i]["word_lenght"].GetUint();
-				node.parity = Coms[i]["parity"].GetUint();
-				node.stop_bit = Coms[i]["stop_bit"].GetUint();
+				node.word_lenght = 8;//node.word_lenght = Coms[i]["word_lenght"].GetUint();
+				node.parity = 0;//node.parity = Coms[i]["parity"].GetUint();
+				node.stop_bit = 1;//node.stop_bit = Coms[i]["stop_bit"].GetUint();
 				node.description = Coms[i]["comment"].GetString();
 				node.attribute = Coms[i]["attribute"].GetUint();
 				node.poll_period = Coms[i]["period"].GetUint();
@@ -105,11 +105,13 @@ Controller serializeFromJSON(char* path)
 
 								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
 								tags.on = Coms[i]["Devs"][j]["Tags"][k]["on"].GetUint();																
-								tags.enum_data_type = type_converter( Coms[i]["Devs"][j]["Tags"][k]["data_type"].GetString() );
+								tags.enum_data_type = type_converter( Coms[i]["Devs"][j]["Tags"][k]["data_type"].GetString() ); //Конвертируем типы в enum
+
+
 								tags.function = Coms[i]["Devs"][j]["Tags"][k]["function"].GetUint();
-								tags.reg_address = Coms[i]["Devs"][j]["Tags"][k]["register"].GetUint(); //Адрес регистра = Номер регистра - 1
-								tags.coef_A = Coms[i]["Devs"][j]["Tags"][k]["coef_A"].GetUint();
-								tags.coef_B = Coms[i]["Devs"][j]["Tags"][k]["coef_B"].GetUint();
+								tags.reg_address = Coms[i]["Devs"][j]["Tags"][k]["register"].GetUint(); 
+								tags.coef_A = Coms[i]["Devs"][j]["Tags"][k]["coef_A"].GetFloat();
+								tags.coef_B = Coms[i]["Devs"][j]["Tags"][k]["coef_B"].GetFloat();
 								
 								tags.description = Coms[i]["Devs"][j]["Tags"][k]["comment"].GetString();
 								tags.attribute = Coms[i]["Devs"][j]["Tags"][k]["attribute"].GetUint();

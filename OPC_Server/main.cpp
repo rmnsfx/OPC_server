@@ -22,13 +22,18 @@
 
 #include "rs485_device_ioctl.h"
 #include "rs485.h"
+#include "utils.h"
+#include <signal.h>
+#include <syslog.h> 
+#include <sys/syscall.h>
 
 
 UA_Server *server;
 pthread_t server_thread;
 pthread_t* modbus_thread;
 int status;
-
+pid_t main_pid;
+pid_t th1_pid;
 
 
 void* workerOPC(void *args)
@@ -40,8 +45,11 @@ void* workerOPC(void *args)
 	UA_UInt32 value_uint32;
 	UA_Float value_float;
 
+	//Controller * controller = (Controller*) calloc(100, sizeof(Controller)); // Выделяем память 
+	//controller = (Controller*)args;
 
 	Controller* controller = (Controller*) args;
+	
 	
 	UA_Boolean running = true;
 
@@ -244,32 +252,58 @@ Interface_type interface_converter(const std::string &str)
 };
 
 
-
-int main()
+void sig_handler(int signum)
 {
-	
-	
+	printf("\nReceived signal %d. \n", signum);
 
-	printf("Start OPC server...\n\n");
 	
-	
+	if (signum == SIGTERM | signum == SIGSTOP | signum == SIGINT | signum == SIGQUIT | signum == SIGTSTP)
+	{		
+		pthread_exit(&server_thread);
+		exit(0);
+		kill(main_pid, SIGSTOP);
+	}
+
+};
+
+
+
+int main(int argc, char** argv)
+{
+
+	signal(SIGINT, sig_handler);
+
+	main_pid = getpid();
+
+	char* path_to_json;
+
+	if (argc > 1)
+	{
+		path_to_json = argv[1];
+	}
+	else
+	{
+		path_to_json = "/usr/httpserv/opc.json";
+	};
+
+
+	printf("Start OPC server...\n");
+	printf("Path to json: %s\n", path_to_json);
+
+		
 	Controller controller;
-
-
-	controller = serializeFromJSON("/usr/httpserv/opc.json");	
 	
-	sleep(1);
-
+	controller = serializeFromJSON(path_to_json);
+	
 	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 
-	
+		
 	sleep(1);
-	
-	pollingEngine(&controller);	
-	
-	
+
+	pollingEngine(&controller);	//Запуск MODBUS опроса
+		
+
 	pthread_join(server_thread, (void**)&status);
 	
-
 	//sleep(15);
 
 	return 0;

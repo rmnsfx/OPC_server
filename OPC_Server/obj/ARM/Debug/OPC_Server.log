@@ -3,149 +3,72 @@
   Validating architecture
   Starting remote build
   Compiling sources:
-  poll_optimize.cpp
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(35,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(35,21): warning :    for (int i = 1; i < regs.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(35,21): warning :                    ~~^~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(50,10): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(50,10): warning :     if (i == (regs.size() - 1))
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(50,10): warning :         ~~^~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(69,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(69,20): warning :   for (int j = 0; j < vector_tag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(69,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(102,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(102,20): warning :   for (int i = 0; i < node->vectorDevice.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(102,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(113,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(113,22): warning :     for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(113,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(126,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(126,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(126,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(144,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(144,23): warning :      for (int z = 0; z < pair_request.size(); z++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(144,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(160,47): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int16_t {aka short int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(160,47): warning :        message.push_back(node->vectorDevice[i].device_address);      //Адрес устройства
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(162,49): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(162,49): warning :        message.push_back(pair_request[z].front() >> 8);        //Адрес первого регистра Hi байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(162,49): warning :                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(163,46): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(163,46): warning :        message.push_back(pair_request[z].front());          //Адрес первого регистра Lo байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(163,46): warning :                          ~~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(166,79): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(166,79): warning :        if (checkFloatType(node->vectorDevice[i].vectorTag, pair_request[z].back()) == true)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(166,79): warning :                                                            ~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(175,33): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(175,33): warning :        message.push_back(reg_qty >> 8);            //Количество регистров Hi байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(175,33): warning :                          ~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(176,32): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(176,32): warning :        message.push_back(reg_qty);              //Количество регистров Lo байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(176,32): warning :                                 ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(181,29): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘uint16_t {aka short unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(181,29): warning :         message.push_back(crc);   //CRC
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(181,29): warning :                              ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(182,30): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(182,30): warning :         message.push_back(crc >> 8); //CRC
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(182,30): warning :                           ~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(188,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(188,25): warning :        for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]); //Копирование вектора
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(188,25): warning :                        ~~^~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(188,84): warning : conversion to ‘std::vector<short int>::value_type {aka short int}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(188,84): warning :        for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]); //Копирование вектора
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(188,84): warning :                                                                                     ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(205,47): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int16_t {aka short int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(205,47): warning :        message.push_back(node->vectorDevice[i].device_address);      //Адрес устройства
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(207,49): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(207,49): warning :        message.push_back(pair_request[z].front() >> 8);        //Адрес первого регистра Hi байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(207,49): warning :                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(208,46): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(208,46): warning :        message.push_back(pair_request[z].front());          //Адрес первого регистра Lo байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(208,46): warning :                          ~~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(211,80): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(211,80): warning :        if (checkFloatType(node->vectorDevice[i].vectorTag, pair_request[z].front()) == true)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(211,80): warning :                                                            ~~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(217,33): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(217,33): warning :        message.push_back(reg_qty >> 8);            //Количество регистров Hi байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(217,33): warning :                          ~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(218,32): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(218,32): warning :        message.push_back(reg_qty);              //Количество регистров Lo байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(218,32): warning :                                 ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(223,29): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘uint16_t {aka short unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(223,29): warning :         message.push_back(crc);   //CRC
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(223,29): warning :                              ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(224,30): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(224,30): warning :         message.push_back(crc >> 8); //CRC
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(224,30): warning :                           ~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(230,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(230,25): warning :        for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]); //Копирование вектора
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(230,25): warning :                        ~~^~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(230,84): warning : conversion to ‘std::vector<short int>::value_type {aka short int}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(230,84): warning :        for (int g = 0; g < regs.size(); g++) optimize.holding_regs.push_back(regs[g]); //Копирование вектора
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(230,84): warning :                                                                                     ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(247,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(247,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(247,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(263,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(263,23): warning :      for (int z = 0; z < pair_request.size(); z++)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(263,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(278,47): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int16_t {aka short int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(278,47): warning :        message.push_back(node->vectorDevice[i].device_address);      //Адрес устройства
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(280,49): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(280,49): warning :        message.push_back(pair_request[z].front() >> 8);        //Адрес первого регистра Hi байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(280,49): warning :                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(281,46): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(281,46): warning :        message.push_back(pair_request[z].front());          //Адрес первого регистра Lo байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(281,46): warning :                          ~~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(284,79): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(284,79): warning :        if (checkFloatType(node->vectorDevice[i].vectorTag, pair_request[z].back()) == true)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(284,79): warning :                                                            ~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(294,33): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(294,33): warning :        message.push_back(reg_qty >> 8);            //Количество регистров Hi байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(294,33): warning :                          ~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(295,32): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(295,32): warning :        message.push_back(reg_qty);              //Количество регистров Lo байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(295,32): warning :                                 ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(300,29): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘uint16_t {aka short unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(300,29): warning :         message.push_back(crc);   //CRC
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(300,29): warning :                              ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(301,30): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(301,30): warning :         message.push_back(crc >> 8); //CRC
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(301,30): warning :                           ~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(307,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(307,25): warning :        for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]); //Копирование вектора
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(307,25): warning :                        ~~^~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(307,82): warning : conversion to ‘std::vector<short int>::value_type {aka short int}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(307,82): warning :        for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]); //Копирование вектора
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(307,82): warning :                                                                                   ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(322,47): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int16_t {aka short int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(322,47): warning :        message.push_back(node->vectorDevice[i].device_address);      //Адрес устройства
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(324,49): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(324,49): warning :        message.push_back(pair_request[z].front() >> 8);        //Адрес первого регистра Hi байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(324,49): warning :                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(325,46): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(325,46): warning :        message.push_back(pair_request[z].front());          //Адрес первого регистра Lo байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(325,46): warning :                          ~~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(328,80): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(328,80): warning :        if (checkFloatType(node->vectorDevice[i].vectorTag, pair_request[z].front()) == true)
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(328,80): warning :                                                            ~~~~~~~~~~~~~~~~~~~~~^~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(334,33): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(334,33): warning :        message.push_back(reg_qty >> 8);            //Количество регистров Hi байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(334,33): warning :                          ~~~~~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(335,32): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(335,32): warning :        message.push_back(reg_qty);              //Количество регистров Lo байт
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(335,32): warning :                                 ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(340,29): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘uint16_t {aka short unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(340,29): warning :         message.push_back(crc);   //CRC
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(340,29): warning :                              ^
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(341,30): warning : conversion to ‘std::vector<unsigned char>::value_type {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(341,30): warning :         message.push_back(crc >> 8); //CRC
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(341,30): warning :                           ~~~~^~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(347,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(347,25): warning :        for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]); //Копирование вектора
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(347,25): warning :                        ~~^~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(347,82): warning : conversion to ‘std::vector<short int>::value_type {aka short int}’ from ‘__gnu_cxx::__alloc_traits<std::allocator<int> >::value_type {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(347,82): warning :        for (int g = 0; g < regs.size(); g++) optimize.input_regs.push_back(regs[g]); //Копирование вектора
-D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp(347,82): warning :                                                                                   ^
+  serialize.cpp
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(50,40): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(50,40): warning :    controller.type = doc["type"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(50,40): warning :                      ~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(52,50): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(52,50): warning :    controller.attribute = doc["attribute"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(52,50): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(61,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(61,22): warning :     for (int i = 0; i < Coms.Size(); i++)
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(61,22): warning :                     ~~^~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(66,36): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(66,36): warning :      node.on = Coms[i]["on"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(66,36): warning :                ~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(67,40): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(67,40): warning :      node.type = Coms[i]["type"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(67,40): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(71,40): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(71,40): warning :      node.port = Coms[i]["port"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(71,40): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(72,50): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(72,50): warning :      node.baud_rate = Coms[i]["baud_rate"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(72,50): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(77,50): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(77,50): warning :      node.attribute = Coms[i]["attribute"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(77,50): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(78,49): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(78,49): warning :      node.poll_period = Coms[i]["period"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(78,49): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(85,24): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(85,24): warning :       for (int j = 0; j < Coms[i]["Devs"].Size(); j++)
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(85,24): warning :                       ~~^~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(90,51): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(90,51): warning :        device.on = Coms[i]["Devs"][j]["on"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(90,51): warning :                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(91,55): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(91,55): warning :        device.type = Coms[i]["Devs"][j]["type"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(91,55): warning :                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(92,61): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(92,61): warning :        device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(92,61): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(93,75): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(93,75): warning :        device.device_address = Coms[i]["Devs"][j]["address_device"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(93,75): warning :                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(95,66): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(95,66): warning :        device.poll_timeout = Coms[i]["Devs"][j]["timeout"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(95,66): warning :                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(96,65): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(96,65): warning :        device.attribute = Coms[i]["Devs"][j]["attribute"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(96,65): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,26): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,26): warning :         for (int k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(102,26): warning :                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(107,62): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(107,62): warning :          tags.on = Coms[i]["Devs"][j]["Tags"][k]["on"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(107,62): warning :                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(111,74): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(111,74): warning :          tags.function = Coms[i]["Devs"][j]["Tags"][k]["function"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(111,74): warning :                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(112,77): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(112,77): warning :          tags.reg_address = Coms[i]["Devs"][j]["Tags"][k]["register"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(112,77): warning :                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(117,76): warning : conversion to ‘int16_t {aka short int}’ from ‘unsigned int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(117,76): warning :          tags.attribute = Coms[i]["Devs"][j]["Tags"][k]["attribute"].GetUint();
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(117,76): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(43,15): warning : unused variable ‘Tags’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(43,15): warning :   const Value& Tags = doc["Tags"];
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp(43,15): warning :                ^~~~
   Linking objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out
