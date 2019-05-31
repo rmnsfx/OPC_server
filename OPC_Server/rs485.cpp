@@ -115,13 +115,13 @@ void* pollingDeviceRS485(void *args)
 		clock_gettime(CLOCK_REALTIME, &start);
 
 
-		//Проходим по устройствам
+		//РџСЂРѕС…РѕРґРёРј РїРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР°Рј
 		for (int i = 0; i < node->vectorDevice.size(); i++)
 		{
 			if (node->vectorDevice[i].on == 1)
 			{
 
-				//Отправляем запросы и принимаем ответы по порядку
+				//РћС‚РїСЂР°РІР»СЏРµРј Р·Р°РїСЂРѕСЃС‹ Рё РїСЂРёРЅРёРјР°РµРј РѕС‚РІРµС‚С‹ РїРѕ РїРѕСЂСЏРґРєСѓ
 				for (int y = 0; y < vector_optimize[i].request.size(); y++)
 				{
 					config.tx_buf = (const char*)&vector_optimize[i].request[y][0];
@@ -133,13 +133,13 @@ void* pollingDeviceRS485(void *args)
 					config.rx_size = sizeof(read_buffer);
 					config.rx_expected = expected_size; 		//ATTENTION: rx_expected must be set for correct driver reception.
 
-					//Драйвер осуществляет запрос/ответ
+					//Р”СЂР°Р№РІРµСЂ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ Р·Р°РїСЂРѕСЃ/РѕС‚РІРµС‚
 					result = ioctl(node->f_id, RS485_SEND_PACKED, &config);
 
 					printf("Port: %d RX_count: %d \n", node->port, config.rx_count);
 
 
-					//Проверяем количество байт, если 0 то обрыв или ошибка
+					//РџСЂРѕРІРµСЂСЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚, РµСЃР»Рё 0 С‚Рѕ РѕР±СЂС‹РІ РёР»Рё РѕС€РёР±РєР°
 					if (config.rx_count >= expected_size)
 					{
 						for (int a = 0; a < expected_size; a++)
@@ -147,7 +147,7 @@ void* pollingDeviceRS485(void *args)
 							read_buffer_vector.push_back(read_buffer[a]);
 						}
 
-						//Проверяем crc
+						//РџСЂРѕРІРµСЂСЏРµРј crc
 						current_crc = read_buffer_vector[expected_size - 2] + (read_buffer_vector[expected_size - 1] << 8);
 						expected_crc = calculate_crc((uint8_t*)&read_buffer_vector[0], read_buffer_vector.size() - 2);
 
@@ -156,8 +156,8 @@ void* pollingDeviceRS485(void *args)
 							vector_optimize[i].response.push_back(read_buffer_vector);
 
 
-							//Разбираем (распределяем значения по регистрам) ответ
-							//Определяем начальный адрес
+							//Р Р°Р·Р±РёСЂР°РµРј (СЂР°СЃРїСЂРµРґРµР»СЏРµРј Р·РЅР°С‡РµРЅРёСЏ РїРѕ СЂРµРіРёСЃС‚СЂР°Рј) РѕС‚РІРµС‚
+							//РћРїСЂРµРґРµР»СЏРµРј РЅР°С‡Р°Р»СЊРЅС‹Р№ Р°РґСЂРµСЃ
 							uint16_t start_address = (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3];
 							//printf("start: %d \n", start_address);
 
@@ -165,7 +165,7 @@ void* pollingDeviceRS485(void *args)
 							{
 
 
-								//Перебираем holding
+								//РџРµСЂРµР±РёСЂР°РµРј holding
 								if (vector_optimize[i].response[y][1] == 0x03)
 								{
 									for (int s = 0; s < vector_optimize[i].holding_regs.size() + 1; s++)
@@ -219,7 +219,7 @@ void* pollingDeviceRS485(void *args)
 														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 													}
 
-													//Применяем коэфициенты А и B
+													//РџСЂРёРјРµРЅСЏРµРј РєРѕСЌС„РёС†РёРµРЅС‚С‹ Рђ Рё B
 													node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
 
 													//printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
@@ -231,7 +231,7 @@ void* pollingDeviceRS485(void *args)
 
 
 
-								//Перебираем input
+								//РџРµСЂРµР±РёСЂР°РµРј input
 								if (vector_optimize[i].response[y][1] == 0x04)
 								{
 									for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
@@ -289,7 +289,7 @@ void* pollingDeviceRS485(void *args)
 														memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
 													}
 
-													//Применяем коэфициенты A и B
+													//РџСЂРёРјРµРЅСЏРµРј РєРѕСЌС„РёС†РёРµРЅС‚С‹ A Рё B
 													node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
 
 													//printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
@@ -300,7 +300,7 @@ void* pollingDeviceRS485(void *args)
 								}
 							}
 
-						} // Закрываем CRC
+						} // Р—Р°РєСЂС‹РІР°РµРј CRC
 						else
 						{
 							std::string s = " Port: " + std::to_string(node->port) + "!!! CRC Error";
@@ -332,7 +332,7 @@ void* pollingDeviceRS485(void *args)
 
 
 
-						//Проходим по тэгам устройства (OPC)
+						//РџСЂРѕС…РѕРґРёРј РїРѕ С‚СЌРіР°Рј СѓСЃС‚СЂРѕР№СЃС‚РІР° (OPC)
 						for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
 						{
 							if (node->vectorDevice[i].vectorTag[j].on == 1)
@@ -376,10 +376,10 @@ void* pollingDeviceRS485(void *args)
 
 							//printf("%d %s %d\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
 						
-						} //Закрываем for.. "Проходим по тэгам устройства (OPC)"
+						} //Р—Р°РєСЂС‹РІР°РµРј for.. "РџСЂРѕС…РѕРґРёРј РїРѕ С‚СЌРіР°Рј СѓСЃС‚СЂРѕР№СЃС‚РІР° (OPC)"
 
 
-					} //Закрываем if ..."Проверяем количество байт, если 0 то обрыв или ошибка"
+					} //Р—Р°РєСЂС‹РІР°РµРј if ..."РџСЂРѕРІРµСЂСЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚, РµСЃР»Рё 0 С‚Рѕ РѕР±СЂС‹РІ РёР»Рё РѕС€РёР±РєР°"
 					else
 					{
 						std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count (" + std::to_string(config.rx_count) + ") < expected (" + std::to_string(config.rx_expected) + ")";
@@ -387,20 +387,20 @@ void* pollingDeviceRS485(void *args)
 					}
 
 
-				} // Закрываем for... "Отправляем запросы и принимаем ответы по порядку"
+				} // Р—Р°РєСЂС‹РІР°РµРј for... "РћС‚РїСЂР°РІР»СЏРµРј Р·Р°РїСЂРѕСЃС‹ Рё РїСЂРёРЅРёРјР°РµРј РѕС‚РІРµС‚С‹ РїРѕ РїРѕСЂСЏРґРєСѓ"
 
 						
 				std::string s = " Port: " + std::to_string(node->port);
 				write_text_to_log_file(s.c_str());
 
 
-			} //Закрываем vectorDevice[i].on == 1
+			} //Р—Р°РєСЂС‹РІР°РµРј vectorDevice[i].on == 1
 
 
 			vector_optimize[i].response.clear();
 
 
-		} // Закрываем for ... "Проходим по устройствам"
+		} // Р—Р°РєСЂС‹РІР°РµРј for ... "РџСЂРѕС…РѕРґРёРј РїРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР°Рј"
 
 		
 
@@ -423,7 +423,7 @@ void* pollingDeviceRS485(void *args)
 		common_duration = time_diff(start, stop2);
 		//printf("\nCommon Duration Time %d \n\n", common_duration.tv_sec*100 + (common_duration.tv_nsec / 1000000) );
 	
-	} // Закрываем while
+	} // Р—Р°РєСЂС‹РІР°РµРј while
 
 
 }
