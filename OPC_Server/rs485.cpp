@@ -138,11 +138,6 @@ void* pollingDeviceRS485(void *args)
 
 					printf("Port: %d RX_count: %d \n", node->port, config.rx_count);
 
-					if (result != 1)
-					{
-						std::string s = " Port: " + std::to_string(node->port) + " !!!!Error ioctl. Code=" + std::to_string(result);
-						write_text_to_log_file(s.c_str());
-					}
 
 					//Проверяем количество байт, если 0 то обрыв или ошибка
 					if (config.rx_count >= expected_size)
@@ -381,7 +376,7 @@ void* pollingDeviceRS485(void *args)
 					} //Закрываем if ..."Проверяем количество байт, если 0 то обрыв или ошибка"
 					else
 					{
-						std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count < expected";
+						std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count (" + std::to_string(config.rx_count) + ") < expected (" + std::to_string(config.rx_expected) + ")";
 						write_text_to_log_file(s.c_str());					
 					}
 
