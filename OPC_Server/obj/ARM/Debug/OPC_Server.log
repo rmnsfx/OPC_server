@@ -85,12 +85,12 @@ D:\Repos\OPC_Server\OPC_Server\rs485.cpp(257,206): warning : conversion to ‘fl
 D:\Repos\OPC_Server\OPC_Server\rs485.cpp(257,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
 D:\Repos\OPC_Server\OPC_Server\rs485.cpp(261,207): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
 D:\Repos\OPC_Server\OPC_Server\rs485.cpp(261,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(330,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(330,25): warning :        for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(330,25): warning :                        ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(407,34): warning : conversion to ‘int16_t {aka short int}’ from ‘long int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(407,34): warning :    dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(407,34): warning :             ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\rs485.cpp(336,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\rs485.cpp(336,25): warning :        for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\rs485.cpp(336,25): warning :                        ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\rs485.cpp(413,34): warning : conversion to ‘int16_t {aka short int}’ from ‘long int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\rs485.cpp(413,34): warning :    dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
+D:\Repos\OPC_Server\OPC_Server\rs485.cpp(413,34): warning :             ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 D:\Repos\OPC_Server\OPC_Server\rs485.cpp(66,10): warning : variable ‘result’ set but not used [-Wunused-but-set-variable]
 D:\Repos\OPC_Server\OPC_Server\rs485.cpp(66,10): warning :   int16_t result = 0;
 D:\Repos\OPC_Server\OPC_Server\rs485.cpp(66,10): warning :           ^~~~~~

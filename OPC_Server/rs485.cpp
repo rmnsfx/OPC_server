@@ -300,8 +300,14 @@ void* pollingDeviceRS485(void *args)
 								}
 							}
 
+						} // Закрываем CRC
+						else
+						{
+							std::string s = " Port: " + std::to_string(node->port) + "!!! CRC Error";
+							write_text_to_log_file(s.c_str());
+
+							printf("Warning! Error CRC. ");
 						}
-						else printf("Warning! Error CRC. ");
 
 						if (vector_optimize[i].response[y][1] == 0x83 || vector_optimize[i].response[y][1] == 0x84)
 						{
