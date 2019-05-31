@@ -266,8 +266,8 @@ void sig_handler(int signum)
 	};
 
 	if (signum == SIGSEGV) //Segmentation fault
-	{
-		print_date_time();
+	{		
+		write_text_to_log_file("Segmentation fault");
 	};
 
 };
