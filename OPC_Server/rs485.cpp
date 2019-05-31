@@ -217,7 +217,7 @@ void* pollingDeviceRS485(void *args)
 												//Применяем коэфициенты А и B
 												node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
 
-												printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
+												//printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
 											}
 										}
 									}
@@ -287,7 +287,7 @@ void* pollingDeviceRS485(void *args)
 												//Применяем коэфициенты A и B
 												node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
 
-												printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
+												//printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
 											}
 										}
 									}
@@ -369,12 +369,16 @@ void* pollingDeviceRS485(void *args)
 
 					//printf("%d %s %d\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
 				}
-
-
-
 			}
 
 			vector_optimize[i].response.clear();
+			
+			
+			
+			//print_date_time();
+			std::string s = " Port: " + std::to_string(node->port);
+			write_text_to_log_file( s.c_str() );
+			
 		}
 
 		

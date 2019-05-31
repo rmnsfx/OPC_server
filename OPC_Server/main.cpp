@@ -26,6 +26,7 @@
 #include <signal.h>
 #include <syslog.h> 
 #include <sys/syscall.h>
+#include <time.h>
 
 
 UA_Server *server;
@@ -257,12 +258,17 @@ void sig_handler(int signum)
 	printf("\nReceived signal %d. \n", signum);
 
 	
-	if (signum == SIGTERM | signum == SIGSTOP | signum == SIGINT | signum == SIGQUIT | signum == SIGTSTP)
+	if (signum == SIGTERM || signum == SIGSTOP || signum == SIGINT || signum == SIGQUIT || signum == SIGTSTP)
 	{		
 		pthread_exit(&server_thread);
 		exit(0);
 		kill(main_pid, SIGSTOP);
-	}
+	};
+
+	if (signum == SIGSEGV) //Segmentation fault
+	{
+		print_date_time();
+	};
 
 };
 
