@@ -70,3 +70,27 @@ unsigned long long getTotalSystemMemory(void)
 	long page_size = sysconf(_SC_PAGE_SIZE);
 	return pages * page_size;
 }
+
+int getRam(void)
+{
+	FILE *meminfo = fopen("/proc/meminfo", "r");
+	
+	if (meminfo == NULL) return -1; // handle error
+	
+	char line[256];
+	
+	while (fgets(line, sizeof(line), meminfo))
+	{
+		int ram;
+		if (sscanf(line, "MemAvailable: %d kB", &ram) == 1)
+		{
+			fclose(meminfo);
+			return ram;
+		}
+	}
+
+	// If we got here, then we couldn't find the proper line in the meminfo file:
+	// do something appropriate like return an error code, throw an exception, etc.
+	fclose(meminfo);
+	return -1;
+}
