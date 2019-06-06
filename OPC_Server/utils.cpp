@@ -7,7 +7,8 @@
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
-
+#include <unistd.h>
+#include <sys/sysctl.h>
 
 timespec time_diff(timespec start, timespec end)
 {
@@ -61,4 +62,11 @@ void write_text_to_log_file(const char* text)
 	log_file << input << text << std::endl;
 	log_file.close();
 	
+}
+
+unsigned long long getTotalSystemMemory(void)
+{
+	long pages = sysconf(_SC_PHYS_PAGES);
+	long page_size = sysconf(_SC_PAGE_SIZE);
+	return pages * page_size;
 }

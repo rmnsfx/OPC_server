@@ -94,7 +94,9 @@ void* pollingDeviceTCP(void *args)
 	uint8_t read_buffer[255];
 	std::vector<uint8_t> read_buffer_vector;
 
-	extern UA_Server *server;
+	//extern UA_Server *server;
+	UA_Server* server = getServer();
+	
 	UA_Variant value;
 	int16_t modbus_value = 0;
 

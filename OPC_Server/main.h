@@ -28,11 +28,11 @@ public:
 
 	virtual ~iServerTree() {};
 	
-	int16_t type;
-	std::string name;
-	std::string label;
-	std::string description;
-	int16_t attribute;
+	int16_t type = 0;
+	std::string name = "";
+	std::string label = "";
+	std::string description = "";
+	int16_t attribute = 0;
 
 };
 
@@ -42,6 +42,7 @@ class Controller : public iServerTree
 
 public:
 	std::vector<Node> vectorNode;
+	
 
 private:
 	std::vector<Tag> vectorControllerTag;
@@ -50,7 +51,7 @@ private:
 
 enum class Interface_type { tcp, rs485 };
 
-//Класс узел
+//Класс узел (порт)
 class Node : public Controller
 {
 
@@ -151,4 +152,5 @@ struct Optimize
 
 Data_type type_converter(const std::string &str);
 Interface_type interface_converter(const std::string &str);
+UA_Server* getServer(void);
 

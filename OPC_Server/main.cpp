@@ -27,14 +27,15 @@
 #include <syslog.h> 
 #include <sys/syscall.h>
 #include <time.h>
+#include <memory>
 
+ 
+static UA_Server* server;
 
-UA_Server *server;
-pthread_t server_thread;
-pthread_t* modbus_thread;
-int status;
-pid_t main_pid;
-pid_t th1_pid;
+UA_Server* getServer(void)
+{
+	return server;
+}
 
 
 void* workerOPC(void *args)
@@ -46,19 +47,19 @@ void* workerOPC(void *args)
 	UA_UInt32 value_uint32;
 	UA_Float value_float;
 
-	//Controller * controller = (Controller*) calloc(100, sizeof(Controller)); // Выделяем память 
+	//Controller * controller = (Controller*) calloc(1, sizeof(Controller)); // Выделяем память 
 	//controller = (Controller*)args;
 
 	Controller* controller = (Controller*) args;
-	
-	
+		
 	UA_Boolean running = true;
 
-	UA_ServerConfig *config = UA_ServerConfig_new_default();
 	
+
+	UA_ServerConfig* config = UA_ServerConfig_new_default();	
 	server = UA_Server_new(config);
 
-
+	
 
 	UA_NodeId contrId; /* get the nodeid assigned by the server */
 	UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
@@ -168,11 +169,16 @@ void* workerOPC(void *args)
 	}
 
 
-
+	
 
 	UA_StatusCode retval = UA_Server_run(server, &running);
+
 	UA_Server_delete(server);
 	UA_ServerConfig_delete(config);
+	
+	free(controller);
+	
+	pthread_exit(0);
 }
 
 
@@ -186,13 +192,16 @@ void* pollingEngine(void *args)
 {
 	Controller* controller = (Controller*)args;
 
+	std::vector<pthread_t> modbus_thread;
+	
 
 	//Узел (Node/Coms)
 	for (int i = 0; i < controller->vectorNode.size(); i++)
 	{
 		//printf("%s\n", controller->vectorNode[i].name.c_str());
 
-		pthread_t modbus_thread[controller->vectorNode[i].vectorDevice.size()];
+		//std::vector<pthread_t> modbus_thread(controller->vectorNode[i].vectorDevice.size());				
+		
 
 		//Создание сокета и подключение к устройству
 		if (controller->vectorNode[i].enum_interface_type == Interface_type::tcp)
@@ -224,13 +233,31 @@ void* pollingEngine(void *args)
 
 			//Запускаем опрос по RS-485
 			if (controller->vectorNode[i].on == 1)
-			{
-				pthread_create(&modbus_thread[i], NULL, pollingDeviceRS485, &controller->vectorNode[i]);
-			}
+			{				
+				pthread_t thr;
+				
+				modbus_thread.push_back(thr);
+
+				pthread_create(&thr, NULL, pollingDeviceRS485, &controller->vectorNode[i]);					
+				
+			}			
 
 		}
-
+		
 	}	
+
+
+	
+	for (int i = 0; i < modbus_thread.size(); i++)
+	{
+		pthread_join((pthread_t)&modbus_thread[i], NULL);
+		pthread_detach((pthread_t)&modbus_thread[i]);
+	}
+	
+	
+	modbus_thread.clear();
+	
+	return 0;
 }
 
 
@@ -260,9 +287,9 @@ void sig_handler(int signum)
 	
 	if (signum == SIGTERM || signum == SIGSTOP || signum == SIGINT || signum == SIGQUIT || signum == SIGTSTP)
 	{		
-		pthread_exit(&server_thread);
+		//pthread_exit(&server_thread);
 		exit(0);
-		kill(main_pid, SIGSTOP);
+		//kill(main_pid, SIGSTOP);
 	};
 
 	if (signum == SIGSEGV) //Segmentation fault
@@ -276,6 +303,17 @@ void sig_handler(int signum)
 
 int main(int argc, char** argv)
 {
+
+	pthread_t server_thread;
+
+	int status;
+	pid_t main_pid;
+	pid_t th1_pid;
+
+	
+	
+
+
 
 	signal(SIGINT, sig_handler);
 
@@ -295,22 +333,23 @@ int main(int argc, char** argv)
 
 	printf("Start OPC server...\n");
 	printf("Path to json: %s\n", path_to_json);
+		
+	write_text_to_log_file("Start OPC server...\n");
 
 		
 	Controller controller;
 	
 	controller = serializeFromJSON(path_to_json);
 	
-	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 
-		
+	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 		
 	sleep(1);
 
-	pollingEngine(&controller);	//Запуск MODBUS опроса
-		
+
+	pollingEngine(&controller);	//Запуск MODBUS опроса		
 
 	pthread_join(server_thread, (void**)&status);
-	
-	//sleep(15);
+	pthread_detach(server_thread);
+
 
 	return 0;
 }

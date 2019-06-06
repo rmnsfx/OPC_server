@@ -26,7 +26,7 @@
 #include "crc.h"
 #include "poll_optimize.h"
 #include "utils.h"
-
+#include <memory>
 
 char* pathToPort(int node_port)
 {
@@ -65,27 +65,31 @@ void* pollingDeviceRS485(void *args)
 	
 	int16_t result = 0;
 	//char write_buffer[] = { 0x01, 0x04, 0x03, 0xDD, 0x00, 0x01, 0xA1, 0xB4 };
+	
+	//std::shared_ptr<unsigned char> read_buffer(new unsigned char[255]);
+	//char* read_buffer = new char[255];
+	//memset(read_buffer, 0, 255); //Иниц.
+	//std::vector<uint8_t> read_buffer(255);
+
 	uint8_t read_buffer[255];
+	
 	int16_t dur_ms = 0;
 	int16_t common_dur_ms = 0;
+	
 	struct timespec start, stop, duration, stop2, common_duration;
 	std::vector<uint8_t> read_buffer_vector;
+	
 	uint8_t expected_size = 0;
 	uint16_t current_crc = 0;
 	uint16_t expected_crc = 0;
 	int16_t pos = 0;
-	extern UA_Server *server;
-	UA_Variant value;
-	UA_Int16 opc_value_int16;
-	UA_UInt16 opc_value_uint16;
-	UA_Int32 opc_value_int32;
-	UA_UInt32 opc_value_uint32;
-	UA_Float opc_value_float;
 
-
-
+		
+	uint8_t test_val_count = 0;
 
 	Node* node = (Node*)args;
+	UA_Server* server = getServer();
+	
 
 
 	if (node != NULL)
@@ -102,14 +106,14 @@ void* pollingDeviceRS485(void *args)
 		}
 	}
 	
-
-
+	
 	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);
-
-
+	
 	//transaction preparation			
 	rs485_device_ioctl_t config;
 	   
+
+
 	while (1)
 	{
 		clock_gettime(CLOCK_REALTIME, &start);
@@ -136,7 +140,7 @@ void* pollingDeviceRS485(void *args)
 					//Драйвер осуществляет запрос/ответ
 					result = ioctl(node->f_id, RS485_SEND_PACKED, &config);
 
-					printf("Port: %d RX_count: %d \n", node->port, config.rx_count);
+					//printf("Port: %d RX_count: %d \n", node->port, config.rx_count);
 
 
 					//Проверяем количество байт, если 0 то обрыв или ошибка
@@ -305,6 +309,8 @@ void* pollingDeviceRS485(void *args)
 						{
 							std::string s = " Port: " + std::to_string(node->port) + "!!! CRC Error";
 							write_text_to_log_file(s.c_str());
+							
+
 
 							printf("Warning! Error CRC. ");
 						}
@@ -315,6 +321,7 @@ void* pollingDeviceRS485(void *args)
 						}
 
 						read_buffer_vector.clear();
+						
 
 
 						//printf("--->");
@@ -337,28 +344,29 @@ void* pollingDeviceRS485(void *args)
 						{
 							if (node->vectorDevice[i].vectorTag[j].on == 1)
 							{
+								UA_Variant value;
 
 								if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int16)
 								{
-									opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
+									UA_Int16 opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
 									UA_Variant_setScalarCopy(&value, &opc_value_int16, &UA_TYPES[UA_TYPES_INT16]);
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 								}
 								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint16)
 								{
-									opc_value_uint16 = (UA_UInt16)node->vectorDevice[i].vectorTag[j].value;
+									UA_UInt16 opc_value_uint16 = (UA_UInt16)node->vectorDevice[i].vectorTag[j].value;
 									UA_Variant_setScalarCopy(&value, &opc_value_uint16, &UA_TYPES[UA_TYPES_UINT16]);
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 								}
 								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int32)
 								{
-									opc_value_int32 = (UA_Int32)node->vectorDevice[i].vectorTag[j].value;
+									UA_Int32 opc_value_int32 = (UA_Int32)node->vectorDevice[i].vectorTag[j].value;
 									UA_Variant_setScalarCopy(&value, &opc_value_int32, &UA_TYPES[UA_TYPES_INT32]);
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 								}
 								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint32)
 								{
-									opc_value_uint32 = (UA_UInt32)node->vectorDevice[i].vectorTag[j].value;
+									UA_UInt32 opc_value_uint32 = (UA_UInt32)node->vectorDevice[i].vectorTag[j].value;
 									UA_Variant_setScalarCopy(&value, &opc_value_uint32, &UA_TYPES[UA_TYPES_UINT32]);
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 								}
@@ -367,7 +375,7 @@ void* pollingDeviceRS485(void *args)
 									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE) ||
 									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE_swap))
 								{
-									opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
+									UA_Float opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
 									UA_Variant_setScalarCopy(&value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 								}
@@ -382,8 +390,18 @@ void* pollingDeviceRS485(void *args)
 					} //Закрываем if ..."Проверяем количество байт, если 0 то обрыв или ошибка"
 					else
 					{
+
 						std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count (" + std::to_string(config.rx_count) + ") < expected (" + std::to_string(config.rx_expected) + ")";
-						write_text_to_log_file(s.c_str());					
+						write_text_to_log_file(s.c_str());		
+						
+						printf("Port: %d !!! rx_count (%d) < expected (%d) \n", node->port, config.rx_count, config.rx_expected);
+						
+						for (int w = 0; w < config.rx_count; w++)
+						{
+							printf("%X ", read_buffer[w]);
+						}
+						printf("\n");
+
 					}
 
 
@@ -392,13 +410,14 @@ void* pollingDeviceRS485(void *args)
 						
 				std::string s = " Port: " + std::to_string(node->port);
 				write_text_to_log_file(s.c_str());
+				
 
 
 			} //Закрываем vectorDevice[i].on == 1
 
 
 			vector_optimize[i].response.clear();
-
+			//std::vector<Optimize>().swap(vector_optimize); //free memory
 
 		} // Закрываем for ... "Проходим по устройствам"
 
@@ -423,7 +442,18 @@ void* pollingDeviceRS485(void *args)
 		common_duration = time_diff(start, stop2);
 		//printf("\nCommon Duration Time %d \n\n", common_duration.tv_sec*100 + (common_duration.tv_nsec / 1000000) );
 	
+
+		//printf("%d \n", test_val_count);
+
+		//std::string s = " Memory: " + getTotalSystemMemory();
+		//write_text_to_log_file(s.c_str());
+		
 	} // Закрываем while
 
 
+
+
+
+	pthread_exit(0);
+	//return 0;
 }

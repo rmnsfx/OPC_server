@@ -28,7 +28,8 @@ Controller serializeFromJSON(char* path)
 	Tag nodeTags;
 	Tag controllerTags;
 
-	char readBuffer[65536];
+	//char* readBuffer = (char*) calloc(65536, sizeof(char)); // Âûהוכÿול ןאלÿעü 	
+	char* readBuffer = new char[65536];
 
 	FILE* fp = fopen(path, "r");
 	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
@@ -127,56 +128,17 @@ Controller serializeFromJSON(char* path)
 				else node.vectorDevice.clear();
 
 
-
-
-
-				//if (Coms[i]["Tags"].Size() > 0)
-				//{
-
-				//	for (int j = 0; j < Coms[i]["Tags"].Size(); j++)
-				//	{
-				//		//printf("Tags: %s\n", Tags[i]["Tags"][j]["name"].GetString());
-
-				//		nodeTags.name = Tags[i]["Tags"][j]["name"].GetString();
-				//		nodeTags.type = Tags[i]["Tags"][j]["type"].GetUint();
-				//		nodeTags.tagtype = Tags[i]["Tags"][j]["tagtype"].GetString();
-				//		nodeTags.string = Tags[i]["Tags"][j]["string"].GetString();
-				//		nodeTags.address = Tags[i]["Tags"][j]["address"].GetString();
-				//		nodeTags.description = Tags[i]["Tags"][j]["comment"].GetString();
-				//		nodeTags.attribute = Tags[i]["Tags"][j]["attribute"].GetUint();
-
-				//		node.vectorNodeTag.push_back(nodeTags);
-				//	}
-				//}
-				//else node.vectorNodeTag.clear();
-
 				controller.vectorNode.push_back(node);
 
 			} //ForLoop Coms (Node) end
+
 		} //If Coms(Node) end
 
-
-		//if (Tags.Size() > 0)
-		//{
-
-		//	for (int i = 0; i < Tags.Size(); i++)
-		//	{
-		//		//printf("Tags: %s\n", Tags[i]["name"].GetString());
-
-		//		controllerTags.name = Tags[i]["name"].GetString();
-		//		controllerTags.type = Tags[i]["type"].GetUint();
-		//		controllerTags.tagtype = Tags[i]["tagtype"].GetString();
-		//		controllerTags.string = Tags[i]["string"].GetString();
-		//		controllerTags.address = Tags[i]["address"].GetString();
-		//		controllerTags.description = Tags[i]["comment"].GetString();
-		//		controllerTags.attribute = Tags[i]["attribute"].GetUint();
-		//	}
-
-		//	controller.vectorControllerTag.push_back(controllerTags);
-		//}
-		//else controller.vectorControllerTag.clear();
-
 	} //Server/Controller end
+
+
+	delete []readBuffer;
+
 
 	return controller;
 }
