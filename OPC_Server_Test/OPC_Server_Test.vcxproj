@@ -91,12 +91,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <AdditionalOptions>-lpthread -lgtest -lgtest_main %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>/root/projects/OPC_Server/bin/ARM/Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <LibraryDependencies>gtest; pthread; gtest_main; </LibraryDependencies>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SharedLibrarySearchPath>/root/projects/OPC_Server/bin/ARM/Debug;%(SharedLibrarySearchPath)</SharedLibrarySearchPath>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
