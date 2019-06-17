@@ -11,6 +11,8 @@
 #include "poll_optimize.h"
 #include "rs485.h"
 #include "tcp.h"
+#include <vector>
+#include <unistd.h>
 
 
 //https://github.com/google/googletest/blob/master/googletest/samples/sample1_unittest.cc
@@ -69,25 +71,45 @@ TEST(Test_main, type_converter)
 	Interface_type asis_tcp = interface_converter(tcp);
 	Interface_type asis_485 = interface_converter(rs485);
 
-	EXPECT_EQ(tobe_tcp, asis_tcp);
-	EXPECT_EQ(tobe_485, asis_485);
+		EXPECT_EQ(tobe_tcp, asis_tcp);
+		EXPECT_EQ(tobe_485, asis_485);
 };
 
 TEST(Test_main, interface_converter)
 {
-	EXPECT_EQ(type_converter("int16"), Data_type::int16);
-	EXPECT_EQ(type_converter("uint16"), Data_type::uint16);
-	EXPECT_EQ(type_converter("int32"), Data_type::int32);
-	EXPECT_EQ(type_converter("uint32"), Data_type::uint32);
-	EXPECT_EQ(type_converter("float_BE"), Data_type::float_BE);
-	EXPECT_EQ(type_converter("float_BE_swap"), Data_type::float_BE_swap);
-	EXPECT_EQ(type_converter("float_LE"), Data_type::float_LE);
-	EXPECT_EQ(type_converter("float_LE_swap"), Data_type::float_LE_swap);
+		EXPECT_EQ(type_converter("int16"), Data_type::int16);
+		EXPECT_EQ(type_converter("uint16"), Data_type::uint16);
+		EXPECT_EQ(type_converter("int32"), Data_type::int32);
+		EXPECT_EQ(type_converter("uint32"), Data_type::uint32);
+		EXPECT_EQ(type_converter("float_BE"), Data_type::float_BE);
+		EXPECT_EQ(type_converter("float_BE_swap"), Data_type::float_BE_swap);
+		EXPECT_EQ(type_converter("float_LE"), Data_type::float_LE);
+		EXPECT_EQ(type_converter("float_LE_swap"), Data_type::float_LE_swap);
 };
 
 TEST(Test_poll_optimize, splitRegs)
 {
+	std::vector<int> regs1 = { 1 };
+	std::vector<std::vector<int>> result1; 
+	result1 = splitRegs(regs1);
+	
+		EXPECT_EQ(result1[0][0], 0);
 
+	std::vector<int> regs2 = { 5, 3, 8 };
+	std::vector<std::vector<int>> result2;
+	result2 = splitRegs(regs2);
+
+		EXPECT_EQ(result2[0][0], 2);
+		EXPECT_EQ(result2[0][1], 7);
+
+
+	std::vector<int> regs3 = { 5, 300, 8 };
+	std::vector<std::vector<int>> result3;
+	result3 = splitRegs(regs3);
+
+		EXPECT_EQ(result3[0][0], 4);
+		EXPECT_EQ(result3[0][1], 7);
+		EXPECT_EQ(result3[1][0], 299);
 };
 
 TEST(Test_poll_optimize, checkFloatType)
