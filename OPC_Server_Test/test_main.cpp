@@ -13,6 +13,9 @@
 #include "tcp.h"
 
 
+//https://github.com/google/googletest/blob/master/googletest/samples/sample1_unittest.cc
+//https://eax.me/cpp-gtest/
+
 class TestSerialization : public testing::Test {
 public:
 	TestSerialization() { /* init protected members here */ }
@@ -56,13 +59,30 @@ TEST(Test_main, pollingEngine)
 };
 
 TEST(Test_main, type_converter)
-{
+{	
+	const std::string tcp = "TCP";
+	const std::string rs485 = "RS-485";
+		
+	Interface_type tobe_tcp = Interface_type::tcp;
+	Interface_type tobe_485 = Interface_type::rs485;
 
+	Interface_type asis_tcp = interface_converter(tcp);
+	Interface_type asis_485 = interface_converter(rs485);
+
+	EXPECT_EQ(tobe_tcp, asis_tcp);
+	EXPECT_EQ(tobe_485, asis_485);
 };
 
 TEST(Test_main, interface_converter)
 {
-
+	EXPECT_EQ(type_converter("int16"), Data_type::int16);
+	EXPECT_EQ(type_converter("uint16"), Data_type::uint16);
+	EXPECT_EQ(type_converter("int32"), Data_type::int32);
+	EXPECT_EQ(type_converter("uint32"), Data_type::uint32);
+	EXPECT_EQ(type_converter("float_BE"), Data_type::float_BE);
+	EXPECT_EQ(type_converter("float_BE_swap"), Data_type::float_BE_swap);
+	EXPECT_EQ(type_converter("float_LE"), Data_type::float_LE);
+	EXPECT_EQ(type_converter("float_LE_swap"), Data_type::float_LE_swap);
 };
 
 TEST(Test_poll_optimize, splitRegs)

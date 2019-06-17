@@ -90,11 +90,11 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalOptions>-lpthread -lgtest -lgtest_main %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-lpthread -lgtest %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <LibraryDependencies>gtest; pthread; gtest_main; </LibraryDependencies>
+      <LibraryDependencies>gtest; pthread; </LibraryDependencies>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
