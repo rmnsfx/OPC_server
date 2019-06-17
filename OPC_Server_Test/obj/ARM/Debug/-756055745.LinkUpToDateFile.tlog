@@ -1,0 +1,1 @@
+g++ -o "/root/projects/OPC_Server_Test/bin/ARM/Debug/OPC_Server_Test.out" -Wl,--no-undefined -Wl,-rpath-link=/root/projects/OPC_Server/bin/ARM/Debug -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack /root/projects/OPC_Server_Test/obj/ARM/Debug/test_main.o /root/projects/OPC_Server/bin/ARM/Debug/libOPC_Server.a -lgtest -lpthread -lgtest_main

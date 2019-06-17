@@ -3,12 +3,5 @@
   Validating architecture
   Starting remote build
   Compiling sources:
-  utils.cpp
-/usr/include/features.h(148,3): warning : #warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Wcpp]
-/usr/include/features.h(148,3): warning :  # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE"
-/usr/include/features.h(148,3): warning :    ^~~~~~~
-D:\Repos\OPC_Server\OPC_Server\utils.cpp(36,7): warning : address of local variable ‘buff’ returned [-Wreturn-local-addr]
-D:\Repos\OPC_Server\OPC_Server\utils.cpp(36,7): warning :   char buff[20];
-D:\Repos\OPC_Server\OPC_Server\utils.cpp(36,7): warning :        ^~~~
-  Linking objects
-  OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\OPC_Server.out
+  Archiving objects
+  OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\libOPC_Server.a
