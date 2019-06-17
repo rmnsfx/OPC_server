@@ -1,13 +1,11 @@
 ﻿  Validating sources
   Copying sources remotely to '192.168.5.210'
-  Validating sources
-  Copying sources remotely to '192.168.5.210'
   Validating architecture
   Starting remote build
   Compiling sources:
   test_main.cpp
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(18,6): warning : variable ‘returnValue’ set but not used [-Wunused-but-set-variable]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(18,6): warning :   int returnValue;
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(18,6): warning :       ^~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(105,6): warning : variable ‘returnValue’ set but not used [-Wunused-but-set-variable]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(105,6): warning :   int returnValue;
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(105,6): warning :       ^~~~~~~~~~~
   Linking objects
   OPC_Server_Test.vcxproj -> D:\Repos\OPC_Server\OPC_Server_Test\bin\ARM\Debug\OPC_Server_Test.out

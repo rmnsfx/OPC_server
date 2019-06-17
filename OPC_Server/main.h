@@ -154,3 +154,7 @@ Data_type type_converter(const std::string &str);
 Interface_type interface_converter(const std::string &str);
 UA_Server* getServer(void);
 
+void* workerOPC(void *args);
+void* pollingEngine(void *args);
+Data_type type_converter(const std::string &str);
+Interface_type interface_converter(const std::string &str);
