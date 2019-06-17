@@ -200,9 +200,7 @@ void* pollingEngine(void *args)
 	{
 		//printf("%s\n", controller->vectorNode[i].name.c_str());
 
-		//std::vector<pthread_t> modbus_thread(controller->vectorNode[i].vectorDevice.size());				
 		
-
 		//Создание сокета и подключение к устройству
 		if (controller->vectorNode[i].enum_interface_type == Interface_type::tcp)
 		{
@@ -345,7 +343,7 @@ int main(int argc, char** argv)
 	sleep(1);
 
 
-	pollingEngine(&controller);	//Запуск MODBUS опроса		
+	pollingEngine(&controller);	//Запуск опроса	(MODBUS)
 
 	pthread_join(server_thread, (void**)&status);
 	pthread_detach(server_thread);

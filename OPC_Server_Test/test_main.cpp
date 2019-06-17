@@ -8,10 +8,12 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/filereadstream.h"
+#include "poll_optimize.h"
+#include "rs485.h"
+#include "tcp.h"
 
 
-
-class TestSerialization : public ::testing::Test {
+class TestSerialization : public testing::Test {
 public:
 	TestSerialization() { /* init protected members here */ }
 	~TestSerialization() { /* free protected members here */ }
@@ -100,13 +102,8 @@ TEST(Test_tcp, pollingDeviceTCP)
 
 
 int main(int argc, char** argv)
-{
-    //printf("hello from OPC_Server_Test!\n");
-	int returnValue;
-	::testing::InitGoogleTest(&argc, argv);
+{    	
+	testing::InitGoogleTest(&argc, argv);
 
-	returnValue = RUN_ALL_TESTS();
-
-
-    return 0;
+	return RUN_ALL_TESTS();    
 }
