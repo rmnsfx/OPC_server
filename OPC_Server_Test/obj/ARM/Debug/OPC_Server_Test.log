@@ -6,5 +6,11 @@
   Starting remote build
   Compiling sources:
   test_main.cpp
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning :   for (int i = 0; i < vectorReference_tcp.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(217,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(217,20): warning :   for (int i = 0; i < vectorReference_rs485.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(217,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Linking objects
   OPC_Server_Test.vcxproj -> D:\Repos\OPC_Server\OPC_Server_Test\bin\ARM\Debug\OPC_Server_Test.out

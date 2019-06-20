@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <stdlib.h>
 #include "gtest/gtest.h"
+
 #include "crc.h"
 #include "serialize.h"
 #include "main.h"
@@ -71,20 +72,20 @@ TEST(Test_main, type_converter)
 	Interface_type asis_tcp = interface_converter(tcp);
 	Interface_type asis_485 = interface_converter(rs485);
 
-		EXPECT_EQ(tobe_tcp, asis_tcp);
-		EXPECT_EQ(tobe_485, asis_485);
+	EXPECT_EQ(tobe_tcp, asis_tcp);
+	EXPECT_EQ(tobe_485, asis_485);
 };
 
 TEST(Test_main, interface_converter)
 {
-		EXPECT_EQ(type_converter("int16"), Data_type::int16);
-		EXPECT_EQ(type_converter("uint16"), Data_type::uint16);
-		EXPECT_EQ(type_converter("int32"), Data_type::int32);
-		EXPECT_EQ(type_converter("uint32"), Data_type::uint32);
-		EXPECT_EQ(type_converter("float_BE"), Data_type::float_BE);
-		EXPECT_EQ(type_converter("float_BE_swap"), Data_type::float_BE_swap);
-		EXPECT_EQ(type_converter("float_LE"), Data_type::float_LE);
-		EXPECT_EQ(type_converter("float_LE_swap"), Data_type::float_LE_swap);
+	EXPECT_EQ(type_converter("int16"), Data_type::int16);
+	EXPECT_EQ(type_converter("uint16"), Data_type::uint16);
+	EXPECT_EQ(type_converter("int32"), Data_type::int32);
+	EXPECT_EQ(type_converter("uint32"), Data_type::uint32);
+	EXPECT_EQ(type_converter("float_BE"), Data_type::float_BE);
+	EXPECT_EQ(type_converter("float_BE_swap"), Data_type::float_BE_swap);
+	EXPECT_EQ(type_converter("float_LE"), Data_type::float_LE);
+	EXPECT_EQ(type_converter("float_LE_swap"), Data_type::float_LE_swap);
 };
 
 TEST(Test_poll_optimize, splitRegs)
@@ -93,33 +94,132 @@ TEST(Test_poll_optimize, splitRegs)
 	std::vector<std::vector<int>> result1; 
 	result1 = splitRegs(regs1);
 	
-		EXPECT_EQ(result1[0][0], 0);
+	EXPECT_EQ(result1[0][0], 0);
 
 	std::vector<int> regs2 = { 5, 3, 8 };
 	std::vector<std::vector<int>> result2;
 	result2 = splitRegs(regs2);
 
-		EXPECT_EQ(result2[0][0], 2);
-		EXPECT_EQ(result2[0][1], 7);
-
+	EXPECT_EQ(result2[0][0], 2);
+	EXPECT_EQ(result2[0][1], 7);
 
 	std::vector<int> regs3 = { 5, 300, 8 };
 	std::vector<std::vector<int>> result3;
 	result3 = splitRegs(regs3);
 
-		EXPECT_EQ(result3[0][0], 4);
-		EXPECT_EQ(result3[0][1], 7);
-		EXPECT_EQ(result3[1][0], 299);
+	EXPECT_EQ(result3[0][0], 4);
+	EXPECT_EQ(result3[0][1], 7);
+	EXPECT_EQ(result3[1][0], 299);
 };
 
 TEST(Test_poll_optimize, checkFloatType)
 {
+	Tag tag;
+	std::vector<Tag> vector_tag;
+	
+	tag.reg_address = 10;
+	tag.enum_data_type = Data_type::float_BE;
+	
+	vector_tag.push_back(tag);
+
+	EXPECT_EQ(checkFloatType(vector_tag, 9), true);
+	
+	vector_tag[0].enum_data_type = Data_type::float_BE_swap;
+	EXPECT_EQ(checkFloatType(vector_tag, 9), true);
+
+	vector_tag[0].enum_data_type = Data_type::float_LE;
+	EXPECT_EQ(checkFloatType(vector_tag, 9), true);
+
+	vector_tag[0].enum_data_type = Data_type::float_LE_swap;
+	EXPECT_EQ(checkFloatType(vector_tag, 9), true);
+
+	vector_tag[0].enum_data_type = Data_type::int16;
+	EXPECT_EQ(checkFloatType(vector_tag, 9), false);
 
 };
 
-TEST(Test_poll_optimize, reorganizeNodeIntoPolls)
+TEST(Test_poll_optimize, reorganizeNodeIntoPolls_TCP)
 {
+	std::vector<int> vectorReference_tcp = {0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x03, 0x00, 0x02, 0x00, 0x06};
+	
+	Node node;
+	Device device;
+	Tag tag;
 
+	node.on = 1;
+	node.enum_interface_type = Interface_type::tcp; //Interface_type::rs485;
+	device.on = 1;
+	
+	tag.function = 3;
+	tag.enum_data_type = Data_type::int16;
+	tag.on = 1;
+	
+	tag.reg_address = 3;		
+	tag.reg_position = 0;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 5;
+	tag.reg_position = 1;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 8;
+	tag.reg_position = 2;
+	device.vectorTag.push_back(tag);
+
+	node.vectorDevice.push_back(device);
+
+	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(&node);
+	
+	
+	
+	for (int i = 0; i < vectorReference_tcp.size(); i++)
+	{
+		SCOPED_TRACE(i); //write to the console in which iteration the error occurred
+		EXPECT_EQ(vector_optimize[0].request[0][i], vectorReference_tcp[i]);
+		//EXPECT_EQ(vectorReference2[i], vectorReference1[i]);
+		
+	}
+};
+
+TEST(Test_poll_optimize, reorganizeNodeIntoPolls_RS485)
+{	
+	std::vector<int> vectorReference_rs485 = { 0x00, 0x03, 0x00, 0x02, 0x00, 0x06, 0x65, 0xD9 };
+	Node node;
+	Device device;
+	Tag tag;
+
+	node.on = 1;
+	node.enum_interface_type = Interface_type::rs485; //Interface_type::rs485;
+	device.on = 1;
+
+	tag.function = 3;
+	tag.enum_data_type = Data_type::int16;
+	tag.on = 1;
+
+	tag.reg_address = 3;
+	tag.reg_position = 0;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 5;
+	tag.reg_position = 1;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 8;
+	tag.reg_position = 2;
+	device.vectorTag.push_back(tag);
+
+	node.vectorDevice.push_back(device);
+
+	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(&node);
+
+
+
+	for (int i = 0; i < vectorReference_rs485.size(); i++)
+	{
+		SCOPED_TRACE(i); //write to the console in which iteration the error occurred
+		EXPECT_EQ(vector_optimize[0].request[0][i], vectorReference_rs485[i]);
+		//EXPECT_EQ(vectorReference2[i], vectorReference1[i]);
+	}
 };
 
 TEST(Test_rs485, pathToPort)
