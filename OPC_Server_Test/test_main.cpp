@@ -138,16 +138,17 @@ TEST(Test_poll_optimize, checkFloatType)
 
 };
 
-TEST(Test_poll_optimize, reorganizeNodeIntoPolls_TCP)
+TEST(Test_poll_optimize, reorganizeNodeIntoPolls_TCP_INT16)
 {
-	std::vector<int> vectorReference_tcp = {0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x03, 0x00, 0x02, 0x00, 0x06};
+	std::vector<int> vectorReference_tcp_holding = {0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x03, 0x00, 0x02, 0x00, 0x06};
+	std::vector<int> vectorReference_tcp_input = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x04, 0x00, 0x02, 0x00, 0x06 };
 	
 	Node node;
 	Device device;
 	Tag tag;
 
 	node.on = 1;
-	node.enum_interface_type = Interface_type::tcp; //Interface_type::rs485;
+	node.enum_interface_type = Interface_type::tcp; 
 	device.on = 1;
 	
 	tag.function = 3;
@@ -168,22 +169,90 @@ TEST(Test_poll_optimize, reorganizeNodeIntoPolls_TCP)
 
 	node.vectorDevice.push_back(device);
 
-	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(&node);
-	
-	
-	
-	for (int i = 0; i < vectorReference_tcp.size(); i++)
+	//Тестируем holding 
+	std::vector<Optimize> vector_optimize_holding = reorganizeNodeIntoPolls(&node);
+		
+	for (int i = 0; i < vectorReference_tcp_input.size(); i++)
 	{
 		SCOPED_TRACE(i); //write to the console in which iteration the error occurred
-		EXPECT_EQ(vector_optimize[0].request[0][i], vectorReference_tcp[i]);
-		//EXPECT_EQ(vectorReference2[i], vectorReference1[i]);
-		
+		EXPECT_EQ(vector_optimize_holding[0].request[0][i], vectorReference_tcp_holding[i]);		
+	}
+
+
+	//Тестируем input 
+	node.vectorDevice[0].vectorTag[0].function = 4;
+	node.vectorDevice[0].vectorTag[1].function = 4;
+	node.vectorDevice[0].vectorTag[2].function = 4;
+
+	std::vector<Optimize> vector_optimize_input = reorganizeNodeIntoPolls(&node);
+
+	for (int i = 0; i < vectorReference_tcp_holding.size(); i++)
+	{
+		SCOPED_TRACE(i); 
+		EXPECT_EQ(vector_optimize_input[0].request[0][i], vectorReference_tcp_input[i]);
 	}
 };
 
-TEST(Test_poll_optimize, reorganizeNodeIntoPolls_RS485)
+TEST(Test_poll_optimize, reorganizeNodeIntoPolls_TCP_FLOAT_BE)
+{
+	std::vector<int> vectorReference_tcp_holding = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x03, 0x00, 0x02, 0x00, 0x07 };
+	std::vector<int> vectorReference_tcp_input = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x04, 0x00, 0x02, 0x00, 0x07 };
+
+	Node node;
+	Device device;
+	Tag tag;
+
+	node.on = 1;
+	node.enum_interface_type = Interface_type::tcp; 
+	device.on = 1;
+
+	tag.function = 3;
+	tag.enum_data_type = Data_type::float_BE;
+	tag.on = 1;
+
+	tag.reg_address = 3;
+	tag.reg_position = 0;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 5;
+	tag.reg_position = 1;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 8;
+	tag.reg_position = 2;
+	device.vectorTag.push_back(tag);
+
+	node.vectorDevice.push_back(device);
+
+	//Тестируем holding 
+	std::vector<Optimize> vector_optimize_holding = reorganizeNodeIntoPolls(&node);
+
+	for (int i = 0; i < vectorReference_tcp_holding.size(); i++)
+	{
+		SCOPED_TRACE(i); //write to the console in which iteration the error occurred
+		EXPECT_EQ(vector_optimize_holding[0].request[0][i], vectorReference_tcp_holding[i]);
+	}
+
+
+	//Тестируем input 
+	node.vectorDevice[0].vectorTag[0].function = 4;
+	node.vectorDevice[0].vectorTag[1].function = 4;
+	node.vectorDevice[0].vectorTag[2].function = 4;
+
+	std::vector<Optimize> vector_optimize_input = reorganizeNodeIntoPolls(&node);
+
+	for (int i = 0; i < vectorReference_tcp_input.size(); i++)
+	{
+		SCOPED_TRACE(i); //write to the console in which iteration the error occurred
+		EXPECT_EQ(vector_optimize_input[0].request[0][i], vectorReference_tcp_input[i]);
+	}
+};
+
+TEST(Test_poll_optimize, reorganizeNodeIntoPolls_RS485_INT16)
 {	
-	std::vector<int> vectorReference_rs485 = { 0x00, 0x03, 0x00, 0x02, 0x00, 0x06, 0x65, 0xD9 };
+	std::vector<int> vectorReference_rs485_holding = { 0x00, 0x03, 0x00, 0x02, 0x00, 0x06, 0x65, 0xD9 };
+	std::vector<int> vectorReference_rs485_input = { 0x00, 0x04, 0x00, 0x02, 0x00, 0x06, 0xD0, 0x19 };
+
 	Node node;
 	Device device;
 	Tag tag;
@@ -210,15 +279,83 @@ TEST(Test_poll_optimize, reorganizeNodeIntoPolls_RS485)
 
 	node.vectorDevice.push_back(device);
 
-	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(&node);
+	//Тестируем holding 
+	std::vector<Optimize> vector_optimize_holding = reorganizeNodeIntoPolls(&node);
+
+	for (int i = 0; i < vectorReference_rs485_holding.size(); i++)
+	{
+		SCOPED_TRACE(i); 
+		EXPECT_EQ(vector_optimize_holding[0].request[0][i], vectorReference_rs485_holding[i]);
+	}
 
 
+	//Тестируем input 
+	node.vectorDevice[0].vectorTag[0].function = 4;
+	node.vectorDevice[0].vectorTag[1].function = 4;
+	node.vectorDevice[0].vectorTag[2].function = 4;
 
-	for (int i = 0; i < vectorReference_rs485.size(); i++)
+	std::vector<Optimize> vector_optimize_input = reorganizeNodeIntoPolls(&node);
+
+	for (int i = 0; i < vectorReference_rs485_input.size(); i++)
+	{
+		SCOPED_TRACE(i); 
+		EXPECT_EQ(vector_optimize_input[0].request[0][i], vectorReference_rs485_input[i]);
+	}
+};
+
+
+TEST(Test_poll_optimize, reorganizeNodeIntoPolls_RS485_FLOAT_BE)
+{
+	std::vector<int> vectorReference_rs485_holding = { 0x00, 0x03, 0x00, 0x02, 0x00, 0x07, 0xA4, 0x19 };
+	std::vector<int> vectorReference_rs485_input = { 0x00, 0x04, 0x00, 0x02, 0x00, 0x07, 0x11, 0xD9 };
+
+	Node node;
+	Device device;
+	Tag tag;
+
+	node.on = 1;
+	node.enum_interface_type = Interface_type::rs485; 
+	device.on = 1;
+
+	tag.function = 3;
+	tag.enum_data_type = Data_type::float_BE;
+	tag.on = 1;
+
+	tag.reg_address = 3;
+	tag.reg_position = 0;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 5;
+	tag.reg_position = 1;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 8;
+	tag.reg_position = 2;
+	device.vectorTag.push_back(tag);
+
+	node.vectorDevice.push_back(device);
+
+	//Тестируем holding 
+	std::vector<Optimize> vector_optimize_holding = reorganizeNodeIntoPolls(&node);
+
+	for (int i = 0; i < vectorReference_rs485_holding.size(); i++)
 	{
 		SCOPED_TRACE(i); //write to the console in which iteration the error occurred
-		EXPECT_EQ(vector_optimize[0].request[0][i], vectorReference_rs485[i]);
-		//EXPECT_EQ(vectorReference2[i], vectorReference1[i]);
+		EXPECT_EQ(vector_optimize_holding[0].request[0][i], vectorReference_rs485_holding[i]);
+	}
+
+
+	//Тестируем input 
+	node.vectorDevice[0].vectorTag[0].function = 4;
+	node.vectorDevice[0].vectorTag[1].function = 4;
+	node.vectorDevice[0].vectorTag[2].function = 4;
+
+	std::vector<Optimize> vector_optimize_input = reorganizeNodeIntoPolls(&node);
+
+	for (int i = 0; i < vectorReference_rs485_input.size(); i++)
+	{
+		SCOPED_TRACE(i); 
+		EXPECT_EQ(vector_optimize_input[0].request[0][i], vectorReference_rs485_input[i]);
 	}
 };
 
