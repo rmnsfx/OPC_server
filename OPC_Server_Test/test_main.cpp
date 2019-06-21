@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <stdlib.h>
 #include "gtest/gtest.h"
-
+#include "gmock/gmock.h"
 #include "crc.h"
 #include "serialize.h"
 #include "main.h"
@@ -360,8 +360,15 @@ TEST(Test_poll_optimize, reorganizeNodeIntoPolls_RS485_FLOAT_BE)
 };
 
 TEST(Test_rs485, pathToPort)
-{
-
+{	
+	ASSERT_STREQ(pathToPort(0), "/dev/rs485_0");
+	ASSERT_STREQ(pathToPort(1), "/dev/rs485_1");
+	ASSERT_STREQ(pathToPort(2), "/dev/rs485_2");
+	ASSERT_STREQ(pathToPort(3), "/dev/rs485_3");
+	ASSERT_STREQ(pathToPort(4), "/dev/rs485_4");
+	ASSERT_STREQ(pathToPort(5), "/dev/rs485_5");
+	ASSERT_STREQ(pathToPort(6), "/dev/rs485_6");
+	ASSERT_STREQ(pathToPort(7), "/dev/rs485_7");
 };
 
 TEST(Test_rs485, pollingDeviceRS485)
