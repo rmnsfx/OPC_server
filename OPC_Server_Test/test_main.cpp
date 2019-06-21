@@ -371,9 +371,12 @@ TEST(Test_rs485, pathToPort)
 	ASSERT_STREQ(pathToPort(7), "/dev/rs485_7");
 };
 
+using ::testing::ElementsAre;
+
 TEST(Test_rs485, pollingDeviceRS485)
 {
-
+	std::vector<int> v = {5, 10, 15};
+	ASSERT_THAT(v, ElementsAre(5, 110, 15));
 };
 
 TEST(Test_tcp, connectDeviceTCP)
