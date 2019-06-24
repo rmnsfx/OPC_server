@@ -375,8 +375,43 @@ using ::testing::ElementsAre;
 
 TEST(Test_rs485, pollingDeviceRS485)
 {
-	std::vector<int> v = {5, 10, 15};
-	ASSERT_THAT(v, ElementsAre(5, 110, 15));
+	//std::vector<int> v = {5, 10, 15};
+	//ASSERT_THAT(v, ElementsAre(5, 10, 15));
+
+	std::vector<int> vectorReference_rs485_holding = { 0x00, 0x03, 0x00, 0x02, 0x00, 0x06, 0x65, 0xD9 };
+	std::vector<int> vectorReference_rs485_input = { 0x00, 0x04, 0x00, 0x02, 0x00, 0x06, 0xD0, 0x19 };
+
+	Node node;
+	Device device;
+	Tag tag;
+
+	node.on = 1;
+	node.enum_interface_type = Interface_type::rs485; //Interface_type::rs485;
+	device.on = 1;
+
+	tag.function = 3;
+	tag.enum_data_type = Data_type::int16;
+	tag.on = 1;
+
+	tag.reg_address = 3;
+	tag.reg_position = 0;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 5;
+	tag.reg_position = 1;
+	device.vectorTag.push_back(tag);
+
+	tag.reg_address = 8;
+	tag.reg_position = 2;
+	device.vectorTag.push_back(tag);
+
+	node.vectorDevice.push_back(device);
+
+
+
+
+
+
 };
 
 TEST(Test_tcp, connectDeviceTCP)

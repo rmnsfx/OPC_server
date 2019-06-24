@@ -299,55 +299,62 @@ void sig_handler(int signum)
 
 
 
-//int main(int argc, char** argv)
-//{
-//
-//	pthread_t server_thread;
-//
-//	int status;
-//	pid_t main_pid;
-//	pid_t th1_pid;
-//
-//	
-//	
-//
-//
-//
-//	signal(SIGINT, sig_handler);
-//
-//	main_pid = getpid();
-//
-//	char* path_to_json;
-//
-//	if (argc > 1)
-//	{
-//		path_to_json = argv[1];
-//	}
-//	else
-//	{
-//		path_to_json = "/usr/httpserv/opc.json";
-//	};
-//
-//
-//	printf("Start OPC server...\n");
-//	printf("Path to json: %s\n", path_to_json);
-//		
-//	write_text_to_log_file("Start OPC server...\n");
-//
-//		
-//	Controller controller;
-//	
-//	controller = serializeFromJSON(path_to_json);
-//	
-//	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 		
-//	sleep(1);
-//
-//
-//	pollingEngine(&controller);	//Запуск опроса	(MODBUS)
-//
-//	pthread_join(server_thread, (void**)&status);
-//	pthread_detach(server_thread);
-//
-//
-//	return 0;
-//}
+
+//Отключаем main для возможости запуска gtest проекта
+#if GTEST_DEBUG == 0
+
+int main(int argc, char** argv)
+{
+
+	pthread_t server_thread;
+
+	int status;
+	pid_t main_pid;
+	pid_t th1_pid;
+
+
+
+
+
+
+	signal(SIGINT, sig_handler);
+
+	main_pid = getpid();
+
+	char* path_to_json;
+
+	if (argc > 1)
+	{
+		path_to_json = argv[1];
+	}
+	else
+	{
+		path_to_json = "/usr/httpserv/opc.json";
+	};
+
+
+	printf("Start OPC server...\n");
+	printf("Path to json: %s\n", path_to_json);
+
+	write_text_to_log_file("Start OPC server...\n");
+
+
+	Controller controller;
+
+	controller = serializeFromJSON(path_to_json);
+
+	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 		
+	sleep(1);
+
+
+	pollingEngine(&controller);	//Запуск опроса	(MODBUS)
+
+	pthread_join(server_thread, (void**)&status);
+	pthread_detach(server_thread);
+
+
+	return 0;
+}
+
+
+#endif 
