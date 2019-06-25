@@ -135,9 +135,12 @@ void* pollingDeviceTCP(void *args)
 				//Отправляем запросы и принимаем ответы по порядку
 				for (int y = 0; y < vector_optimize[i].request.size(); y++)
 				{
-
-					result = send(node->vectorDevice[i].device_socket, &vector_optimize[i].request[y][0], vector_optimize[i].request[y].size(), 0);
-
+					
+					#if GTEST_DEBUG == 1		
+						result = 21;
+					#else
+						result = send(node->vectorDevice[i].device_socket, &vector_optimize[i].request[y][0], vector_optimize[i].request[y].size(), 0);
+					#endif;
 
 					//reinit fd
 					FD_ZERO(&set); /* clear the set */
@@ -147,11 +150,43 @@ void* pollingDeviceTCP(void *args)
 					timeout.tv_sec = node->vectorDevice[i].poll_timeout / 1000;
 					timeout.tv_usec = (node->vectorDevice[i].poll_timeout % 1000) * 1000;
 
-					result = select(node->vectorDevice[i].device_socket + 1, &set, 0, 0, &timeout);
+					#if GTEST_DEBUG == 1		
+						result = 21;
+					#else
+						result = select(node->vectorDevice[i].device_socket + 1, &set, 0, 0, &timeout);
+					#endif;
 
 					if (result > 0)
 					{
-						result = read(node->vectorDevice[i].device_socket, &read_buffer, sizeof(read_buffer));
+						
+						#if GTEST_DEBUG == 1						
+							read_buffer[0] = 0x00;
+							read_buffer[1] = 0x00;
+							read_buffer[2] = 0x00;
+							read_buffer[3] = 0x00;
+							read_buffer[4] = 0x00;
+							read_buffer[5] = 0x00;
+							
+							read_buffer[6] = 0x00;
+							read_buffer[7] = 0x03;
+							read_buffer[8] = 0x0C;
+
+							read_buffer[9] = 0x00;
+							read_buffer[10] = 0x03;
+							read_buffer[11] = 0x00;
+							read_buffer[12] = 0x04;
+							read_buffer[13] = 0x00;
+							read_buffer[14] = 0x05;
+							read_buffer[15] = 0x00;
+							read_buffer[16] = 0x06;
+							read_buffer[17] = 0x00;
+							read_buffer[18] = 0x07;
+							read_buffer[19] = 0x00;
+							read_buffer[20] = 0x08;
+						#else
+							result = read(node->vectorDevice[i].device_socket, &read_buffer, sizeof(read_buffer));
+						#endif
+							
 
 						if (result > 0)
 						{
@@ -329,7 +364,9 @@ void* pollingDeviceTCP(void *args)
 
 				vector_optimize[i].response.clear();
 
-
+				#if GTEST_DEBUG == 1	
+					return 0;
+				#endif
 
 
 				//Проходим по тэгам устройства (OPC)

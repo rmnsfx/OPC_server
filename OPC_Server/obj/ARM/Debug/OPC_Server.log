@@ -3,105 +3,77 @@
   Validating architecture
   Starting remote build
   Compiling sources:
-  rs485.cpp
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning :    return "/dev/rs485_0";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning :           ^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning :    return "/dev/rs485_1";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning :           ^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning :    return "/dev/rs485_2";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning :           ^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning :    return "/dev/rs485_3";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning :           ^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning :    return "/dev/rs485_4";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning :           ^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning :    return "/dev/rs485_5";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning :           ^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning :    return "/dev/rs485_6";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning :           ^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning :    return "/dev/rs485_7";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning :           ^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning :    return "/dev/rs485_3";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning :           ^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(105,20): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(105,20): warning :    node->f_id = open(port, O_RDWR);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(105,20): warning :                 ~~~~^~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(129,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(129,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(129,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(135,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(135,23): warning :      for (int y = 0; y < vector_optimize[i].request.size(); y++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(135,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(140,103): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(140,103): warning :       expected_size = ((vector_optimize[i].request[y][4] << 8) + vector_optimize[i].request[y][5]) * 2 + 5;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(140,103): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(147,20): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(147,20): warning :       result = ioctl(node->f_id, RS485_SEND_PACKED, &config);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(147,20): warning :                ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(185,59): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(185,59): warning :        current_crc = read_buffer_vector[expected_size - 2] + (read_buffer_vector[expected_size - 1] << 8);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(195,73): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(195,73): warning :         uint16_t start_address = (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3];
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(198,52): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(198,52): warning :         for (int v = 3, addr = start_address + 1; v < vector_optimize[i].response[y].size(); v += 2, addr++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(198,52): warning :                                                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(205,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(205,28): warning :           for (int s = 0; s < vector_optimize[i].holding_regs.size() + 1; s++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(205,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(209,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(209,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(209,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(213,55): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(213,55): warning :               pos = node->vectorDevice[i].vectorTag[c].reg_position;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(217,110): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(217,110): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(221,111): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(221,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(225,206): warning : conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(225,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(229,207): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(229,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(271,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(271,28): warning :           for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(271,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(275,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(275,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(275,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(279,55): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(279,55): warning :               pos = node->vectorDevice[i].vectorTag[c].reg_position;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(283,110): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(283,110): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(287,111): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(287,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(291,206): warning : conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(291,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(295,207): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(295,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(377,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(377,25): warning :        for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(377,25): warning :                        ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(433,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(433,25): warning :        for (int w = 0; w < config.rx_count; w++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(433,25): warning :                        ~~^~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(466,34): warning : conversion to ‘int16_t {aka short int}’ from ‘long int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(466,34): warning :    dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(466,34): warning :             ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(66,10): warning : variable ‘result’ set but not used [-Wunused-but-set-variable]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(66,10): warning :   int16_t result = 0;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(66,10): warning :           ^~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(77,10): warning : unused variable ‘common_dur_ms’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(77,10): warning :   int16_t common_dur_ms = 0;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(77,10): warning :           ^~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(88,10): warning : unused variable ‘test_val_count’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(88,10): warning :   uint8_t test_val_count = 0;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(88,10): warning :           ^~~~~~~~~~~~~~
+  tcp.cpp
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(143,12): warning : extra tokens at end of #endif directive [-Wendif-labels]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(143,12): warning :       #endif;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(143,12): warning :             ^
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(157,12): warning : extra tokens at end of #endif directive [-Wendif-labels]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(157,12): warning :       #endif;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(157,12): warning :             ^
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(49,29): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(49,29): warning :    if ((node->socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(49,29): warning :                        ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(82,1): warning : no return statement in function returning non-void [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(82,1): warning :  }
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(82,1): warning :  ^
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(130,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(130,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(130,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(136,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(136,23): warning :      for (int y = 0; y < vector_optimize[i].request.size(); y++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(136,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(207,52): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(207,52): warning :         for (int v = 9, r_addr = start_address+1; v < vector_optimize[i].response[y].size(); v+=2, r_addr++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(207,52): warning :                                                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(213,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(213,28): warning :           for (int s = 0; s < vector_optimize[i].holding_regs.size()+1; s++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(213,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(217,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(217,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(217,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(221,55): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(221,55): warning :               pos = node->vectorDevice[i].vectorTag[c].reg_position;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(225,111): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(225,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t) (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(229,112): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(229,112): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t) (vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(233,207): warning : conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(233,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t) (vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(237,207): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(237,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(272,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(272,28): warning :           for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(272,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(276,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(276,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(276,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(280,55): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(280,55): warning :               pos = node->vectorDevice[i].vectorTag[c].reg_position;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(284,110): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(284,110): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(288,111): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(288,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(292,206): warning : conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(292,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(296,207): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(296,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(373,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(373,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(373,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(427,34): warning : conversion to ‘int16_t {aka short int}’ from ‘long int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(427,34): warning :    dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(427,34): warning :             ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,10): warning : unused variable ‘modbus_value’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,10): warning :   int16_t modbus_value = 0;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(101,10): warning :           ^~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(103,17): warning : variable ‘timeout’ set but not used [-Wunused-but-set-variable]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(103,17): warning :   struct timeval timeout;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(103,17): warning :                  ^~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,10): warning : unused variable ‘common_dur_ms’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,10): warning :   int16_t common_dur_ms = 0;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(109,10): warning :           ^~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(119,11): warning : unused variable ‘r_addr’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(119,11): warning :   uint16_t r_addr = 0;
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp(119,11): warning :            ^~~~~~
   Archiving objects
   OPC_Server.vcxproj -> D:\Repos\OPC_Server\OPC_Server\bin\ARM\Debug\libOPC_Server.a

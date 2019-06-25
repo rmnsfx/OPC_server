@@ -1,34 +1,7 @@
 ﻿  Validating sources
   Copying sources remotely to '192.168.5.210'
-  Validating sources
-  Copying sources remotely to '192.168.5.210'
   Validating architecture
   Starting remote build
   Compiling sources:
-  test_main.cpp
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning :   for (int i = 0; i < vectorReference_tcp_input.size(); i++)
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(189,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(189,20): warning :   for (int i = 0; i < vectorReference_tcp_holding.size(); i++)
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(189,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(230,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(230,20): warning :   for (int i = 0; i < vectorReference_tcp_holding.size(); i++)
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(230,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(244,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(244,20): warning :   for (int i = 0; i < vectorReference_tcp_input.size(); i++)
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(244,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(285,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(285,20): warning :   for (int i = 0; i < vectorReference_rs485_holding.size(); i++)
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(285,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(299,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(299,20): warning :   for (int i = 0; i < vectorReference_rs485_input.size(); i++)
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(299,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(341,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(341,20): warning :   for (int i = 0; i < vectorReference_rs485_holding.size(); i++)
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(341,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(355,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(355,20): warning :   for (int i = 0; i < vectorReference_rs485_input.size(); i++)
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(355,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Linking objects
   OPC_Server_Test.vcxproj -> D:\Repos\OPC_Server\OPC_Server_Test\bin\ARM\Debug\OPC_Server_Test.out
