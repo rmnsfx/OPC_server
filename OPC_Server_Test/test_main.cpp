@@ -16,8 +16,8 @@
 #include <unistd.h>
 
 
-//https://github.com/google/googletest/blob/master/googletest/samples/sample1_unittest.cc
-//https://eax.me/cpp-gtest/
+
+
 
 class TestSerialization : public testing::Test {
 public:
@@ -388,6 +388,7 @@ TEST(Test_rs485, pollingDeviceRS485)
 	node.on = 1;
 	node.enum_interface_type = Interface_type::rs485; //Interface_type::rs485;
 	device.on = 1;
+	
 
 	tag.function = 3;
 	tag.enum_data_type = Data_type::int16;
@@ -407,10 +408,12 @@ TEST(Test_rs485, pollingDeviceRS485)
 
 	node.vectorDevice.push_back(device);
 
+	pollingDeviceRS485(&node);
 
 
-
-
+	EXPECT_EQ(node.vectorDevice[0].vectorTag[0].value, 3);
+	EXPECT_EQ(node.vectorDevice[0].vectorTag[1].value, 5);
+	EXPECT_EQ(node.vectorDevice[0].vectorTag[2].value, 8);
 
 };
 

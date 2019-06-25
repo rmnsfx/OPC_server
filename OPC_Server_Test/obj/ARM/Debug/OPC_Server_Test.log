@@ -1,45 +1,34 @@
 ﻿  Validating sources
   Copying sources remotely to '192.168.5.210'
+  Validating sources
+  Copying sources remotely to '192.168.5.210'
   Validating architecture
   Starting remote build
   Compiling sources:
+  test_main.cpp
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning :   for (int i = 0; i < vectorReference_tcp_input.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(189,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(189,20): warning :   for (int i = 0; i < vectorReference_tcp_holding.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(189,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(230,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(230,20): warning :   for (int i = 0; i < vectorReference_tcp_holding.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(230,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(244,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(244,20): warning :   for (int i = 0; i < vectorReference_tcp_input.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(244,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(285,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(285,20): warning :   for (int i = 0; i < vectorReference_rs485_holding.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(285,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(299,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(299,20): warning :   for (int i = 0; i < vectorReference_rs485_input.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(299,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(341,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(341,20): warning :   for (int i = 0; i < vectorReference_rs485_holding.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(341,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(355,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(355,20): warning :   for (int i = 0; i < vectorReference_rs485_input.size(); i++)
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(355,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Linking objects
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : In function `Test_crc_calculate_crc_Test::TestBody()':
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(39): error : undefined reference to `calculate_crc(unsigned char*, unsigned int)'
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : In function `Test_main_type_converter_Test::TestBody()':
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(72): error : undefined reference to `interface_converter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(73): error : undefined reference to `interface_converter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : In function `Test_main_interface_converter_Test::TestBody()':
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(81): error : undefined reference to `type_converter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(82): error : undefined reference to `type_converter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(83): error : undefined reference to `type_converter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(84): error : undefined reference to `type_converter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(85): error : undefined reference to `type_converter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : /root/projects/OPC_Server_Test/test_main.cpp:86: more undefined references to `type_converter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)' follow
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : In function `Test_poll_optimize_splitRegs_Test::TestBody()':
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(95): error : undefined reference to `splitRegs(std::vector<int, std::allocator<int> >&)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(101): error : undefined reference to `splitRegs(std::vector<int, std::allocator<int> >&)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(108): error : undefined reference to `splitRegs(std::vector<int, std::allocator<int> >&)'
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : In function `Test_poll_optimize_checkFloatType_Test::TestBody()':
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(125): error : undefined reference to `checkFloatType(std::vector<Tag, std::allocator<Tag> >, unsigned short)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(128): error : undefined reference to `checkFloatType(std::vector<Tag, std::allocator<Tag> >, unsigned short)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(131): error : undefined reference to `checkFloatType(std::vector<Tag, std::allocator<Tag> >, unsigned short)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(134): error : undefined reference to `checkFloatType(std::vector<Tag, std::allocator<Tag> >, unsigned short)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(137): error : undefined reference to `checkFloatType(std::vector<Tag, std::allocator<Tag> >, unsigned short)'
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : In function `Test_poll_optimize_reorganizeNodeIntoPolls_TCP_INT16_Test::TestBody()':
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(173): error : undefined reference to `reorganizeNodeIntoPolls(Node*)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(187): error : undefined reference to `reorganizeNodeIntoPolls(Node*)'
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : In function `Test_poll_optimize_reorganizeNodeIntoPolls_TCP_FLOAT_BE_Test::TestBody()':
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(228): error : undefined reference to `reorganizeNodeIntoPolls(Node*)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(242): error : undefined reference to `reorganizeNodeIntoPolls(Node*)'
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : In function `Test_poll_optimize_reorganizeNodeIntoPolls_RS485_INT16_Test::TestBody()':
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(283): error : undefined reference to `reorganizeNodeIntoPolls(Node*)'
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : /root/projects/OPC_Server_Test/test_main.cpp:297: more undefined references to `reorganizeNodeIntoPolls(Node*)' follow
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : In function `Test_rs485_pathToPort_Test::TestBody()':
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(364): error : undefined reference to `pathToPort(int)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(365): error : undefined reference to `pathToPort(int)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(366): error : undefined reference to `pathToPort(int)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(367): error : undefined reference to `pathToPort(int)'
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(368): error : undefined reference to `pathToPort(int)'
-D:\Repos\OPC_Server\OPC_Server_Test\obj\ARM\Debug\test_main.o : error : /root/projects/OPC_Server_Test/test_main.cpp:369: more undefined references to `pathToPort(int)' follow
-collect2 : error : ld returned 1 exit status
+  OPC_Server_Test.vcxproj -> D:\Repos\OPC_Server\OPC_Server_Test\bin\ARM\Debug\OPC_Server_Test.out
