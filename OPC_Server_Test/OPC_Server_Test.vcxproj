@@ -88,6 +88,9 @@
       <Project>{5a18e08a-24f4-468e-b57a-c2ec03c5d73b}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="opc.json" />
+  </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <AdditionalOptions>-lpthread -lgtest  -lgmock %(AdditionalOptions)</AdditionalOptions>

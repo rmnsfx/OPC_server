@@ -44,11 +44,11 @@ TEST(Test_crc, calculate_crc)
 TEST(Test_serialize, serializeFromJSON)
 {
 	Controller asis;
-	Controller tobe;
-
-	//asis = serializeFromJSON("opc.json");
 	
-	//EXPECT_EQ(correct_controller, current_controller);
+	asis = serializeFromJSON("/root/projects/OPC_Server_Test/opc.json");
+		
+	EXPECT_EQ(asis.vectorNode[0].vectorDevice[0].vectorTag[0].reg_address, 1001);
+	EXPECT_EQ(asis.vectorNode[0].vectorDevice[0].vectorTag[28].reg_address, 1057);
 };
 
 TEST(Test_main, workerOPC)

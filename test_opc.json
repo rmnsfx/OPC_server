@@ -1,0 +1,178 @@
+{
+    "name": "Distribute System Server",
+    "type": 0,
+    "comment": "",
+    "Coms": [
+        {
+            "name": "Default Com Name 0",
+            "on": 0,
+            "type": 1,
+            "intertype": "RS",
+            "address": "192.168.0.146",
+            "port": 8080,
+            "comment": "",
+            "baud_rate": 9600,
+            "word_lenght": 8,
+            "parity": 0,
+            "stop_bit": 0,
+            "wait_connection": 0,
+            "Devs": [],
+            "Tags": [],
+            "attribute": 90902373
+        },
+        {
+            "name": "Default Com Name 1",
+            "on": 0,
+            "type": 1,
+            "intertype": "TCP",
+            "address": "192.168.0.146",
+            "port": 8080,
+            "comment": "",
+            "baud_rate": 115200,
+            "word_lenght": 8,
+            "parity": 0,
+            "stop_bit": 1,
+            "wait_connection": 0,         
+            "Devs": [
+                {
+                    "name": "Default Dev Name 0",
+                    "on": 0,
+                    "type": 2,
+                    "devtype": 0,                    
+                    "address_device": 10,
+                    "comment": "",           
+                    "period": 1,
+                    "timeout": 1,
+                    "Tags": [],
+                    "attribute": 9171403
+                },
+                {
+                    "name": "Default Dev Name 1",
+                    "on": 1,
+                    "type": 2,
+                    "devtype": 0,                    
+                    "address_device": 1,
+                    "comment": "",           
+                    "period": 2,
+                    "timeout": 1,
+                    "Tags": [
+                        {
+                            "name": "Default Tag Name 0",
+                            "on": 1,
+                            "data_type": "float",
+                            "function": 3,
+                            "register": 0,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
+                            "string": "",
+                            "comment": "",
+                            "attribute": 66876749
+                        },
+                        {
+                            "name": "Default Tag Name 1",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 2,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
+                            "string": "",
+                            "comment": "",
+                            "attribute": 134655
+                        },
+                        {
+                            "name": "Default Tag Name 2",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 3,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
+                            "string": "",
+                            "comment": "",
+                            "attribute": 3055927
+                        },
+                        {
+                            "name": "Default Tag Name 3",
+                            "on": 1,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 4,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
+                            "string": "",
+                            "comment": "",
+                            "attribute": 8756366
+                        },
+                        {
+                            "name": "Default Tag Name 4",
+                            "on": 1,
+                            "data_type": "float",
+                            "function": 3,
+                            "register": 5,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
+                            "string": "",
+                            "comment": "",
+                            "attribute": 39117196
+                        }
+                    ],
+                    "attribute": 99202404
+                },
+                {
+                    "name": "Default Dev Name 2",
+                    "on": 0,
+                    "type": 2,
+                    "devtype": 0,                    
+                    "address_device": 3,
+                    "comment": "",           
+                    "period": 1,
+                    "timeout": 1,
+                    "Tags": [
+                        {
+                          "name": "Default Tag Name 0 (Dev Name 2)",
+                            "on": 0,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 0,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
+                            "string": "",
+                            "comment": "",
+                          "attribute": 9719186
+                        },
+                        {
+                          "name": "Default Tag Name 1 (Dev Name 2)",
+                            "on": 0,
+                            "data_type": "int",
+                            "function": 3,
+                            "register": 6,                            
+                            "coef_A": 1,
+                            "coef_B": 0,
+                            "string": "",
+                            "comment": "",
+                          "attribute": 60044311
+                        }
+                    ],
+                    "attribute": 1241970
+                }
+            ],            
+            "attribute": 13755101
+        }
+
+    ],
+    
+    "Tags": [
+        {
+            "name": "Default Tag Name",
+            "on": 0,
+            "type": 3,
+            "tagtype": "0",
+            "string": "",
+            "address": "",
+            "comment": "",
+            "attribute": 43946784
+        }
+    ],
+    "attribute": 69183054
+}

@@ -300,7 +300,7 @@ void sig_handler(int signum)
 
 
 
-//Отключаем main для возможости запуска gtest проекта
+//Отключаем main для запуска gtest проекта
 #if GTEST_DEBUG == 0
 
 int main(int argc, char** argv)
