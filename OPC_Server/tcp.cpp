@@ -27,8 +27,7 @@
 
 
 
-
-
+#if GTEST_DEBUG == 0
 
 void* connectDeviceTCP(void *args)
 {
@@ -81,6 +80,7 @@ void* connectDeviceTCP(void *args)
 	}
 }
 
+#endif
 
 
 void* pollingDeviceTCP(void *args)

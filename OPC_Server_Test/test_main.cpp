@@ -15,7 +15,11 @@
 #include <vector>
 #include <unistd.h>
 
+// LCOV
 
+// ~/projects/OPC_Server_Test/obj/ARM/Debug# mkdir coverage_results
+// lcov --directory . --capture - o coverage_results / lcov.info
+// genhtml -o coverage_results/ coverage_results/lcov.info --highlight --legend --title "My project coverage"
 
 
 
@@ -45,7 +49,7 @@ TEST(Test_serialize, serializeFromJSON)
 {
 	Controller asis;
 	
-	asis = serializeFromJSON("/root/projects/OPC_Server_Test/opc.json");
+	asis = serializeFromJSON("/root/projects/OPC_Server_Test/OPC_Server_Test/opc.json");
 		
 	EXPECT_EQ(asis.vectorNode[0].vectorDevice[0].vectorTag[0].reg_address, 1001);
 	EXPECT_EQ(asis.vectorNode[0].vectorDevice[0].vectorTag[28].reg_address, 1057);
@@ -90,11 +94,11 @@ TEST(Test_main, interface_converter)
 
 TEST(Test_poll_optimize, splitRegs)
 {
-	std::vector<int> regs1 = { 1 };
+	std::vector<int> regs1 = { 4 };
 	std::vector<std::vector<int>> result1; 
 	result1 = splitRegs(regs1);
 	
-	EXPECT_EQ(result1[0][0], 0);
+	EXPECT_EQ(result1[0][0], 3);
 
 	std::vector<int> regs2 = { 5, 3, 8 };
 	std::vector<std::vector<int>> result2;

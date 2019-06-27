@@ -7,7 +7,7 @@
 #include <vector>
 #include <unistd.h>
 
-#include "open62541.h"
+
 
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -37,6 +37,9 @@ UA_Server* getServer(void)
 	return server;
 }
 
+#if GTEST_DEBUG == 0
+
+#include "open62541.h"
 
 void* workerOPC(void *args)
 {
@@ -258,6 +261,8 @@ void* pollingEngine(void *args)
 	return 0;
 }
 
+#endif
+
 
 Data_type type_converter(const std::string &str)
 {
@@ -277,6 +282,8 @@ Interface_type interface_converter(const std::string &str)
 	else if (str == "RS-485") return Interface_type::rs485;
 };
 
+
+#if GTEST_DEBUG == 0
 
 void sig_handler(int signum)
 {
@@ -298,10 +305,8 @@ void sig_handler(int signum)
 };
 
 
-
-
 //Отключаем main для запуска gtest проекта
-#if GTEST_DEBUG == 0
+
 
 int main(int argc, char** argv)
 {

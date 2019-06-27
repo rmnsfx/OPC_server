@@ -79,26 +79,40 @@
     <ProjectPublicIncludePath>
     </ProjectPublicIncludePath>
     <LibraryPath>/root/projects/OPC_Server/bin/ARM/Debug;$(LibraryPath)</LibraryPath>
+    <MultiProcNumber>4</MultiProcNumber>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="..\OPC_Server\crc.cpp" />
+    <ClCompile Include="..\OPC_Server\main.cpp" />
+    <ClCompile Include="..\OPC_Server\poll_optimize.cpp" />
+    <ClCompile Include="..\OPC_Server\rs485.cpp" />
+    <ClCompile Include="..\OPC_Server\serialize.cpp" />
+    <ClCompile Include="..\OPC_Server\tcp.cpp" />
+    <ClCompile Include="..\OPC_Server\utils.cpp" />
     <ClCompile Include="test_main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OPC_Server\OPC_Server.vcxproj">
-      <Project>{5a18e08a-24f4-468e-b57a-c2ec03c5d73b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="opc.json" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\OPC_Server\crc.h" />
+    <ClInclude Include="..\OPC_Server\main.h" />
+    <ClInclude Include="..\OPC_Server\poll_optimize.h" />
+    <ClInclude Include="..\OPC_Server\rs485.h" />
+    <ClInclude Include="..\OPC_Server\rs485_device_ioctl.h" />
+    <ClInclude Include="..\OPC_Server\serialize.h" />
+    <ClInclude Include="..\OPC_Server\tcp.h" />
+    <ClInclude Include="..\OPC_Server\utils.h" />
+  </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalOptions>-lpthread -lgtest  -lgmock %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-lpthread -lgtest  -lgmock -g -fprofile-arcs -ftest-coverage -lgcov %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <LibraryDependencies>gtest; pthread; gmock;</LibraryDependencies>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>-g -fprofile-arcs -ftest-coverage -lgcov %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

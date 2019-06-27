@@ -1,14 +1,12 @@
 ﻿  Validating sources
   Copying sources remotely to '192.168.5.210'
-  Validating sources
-  Copying sources remotely to '192.168.5.210'
   Validating architecture
   Starting remote build
   Compiling sources:
   test_main.cpp
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(48,68): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(48,68): warning :   asis = serializeFromJSON("/root/projects/OPC_Server_Test/opc.json");
-D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(48,68): warning :                                                                     ^
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(48,84): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(48,84): warning :   asis = serializeFromJSON("/root/projects/OPC_Server_Test/OPC_Server_Test/opc.json");
+D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(48,84): warning :                                                                                     ^
 D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
 D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning :   for (int i = 0; i < vectorReference_tcp_input.size(); i++)
 D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(175,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,3 +33,151 @@ D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(355,20): warning :   for (int 
 D:\Repos\OPC_Server\OPC_Server_Test\test_main.cpp(355,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Linking objects
   OPC_Server_Test.vcxproj -> D:\Repos\OPC_Server\OPC_Server_Test\bin\ARM\Debug\OPC_Server_Test.out
+
+Итоги по проекту:
+    31716 мс вызовов   1 D:\Repos\OPC_Server\OPC_Server_Test\OPC_Server_Test.vcxproj
+              31716 мс вызовов   1 Build                                   
+
+Итоги по целям:
+        0 мс вызовов   1 GetCopyToOutputDirectoryXamlAppDefs     
+        0 мс вызовов   1 MakeDirsForResourceCompile              
+        0 мс вызовов   1 BeforeResourceCompile                   
+        0 мс вызовов   1 _ClCompile                              
+        0 мс вызовов   1 AfterClCompile                          
+        0 мс вызовов   1 _CheckForCompileOutputs                 
+        0 мс вызовов   1 _SelectClCompile                        
+        0 мс вызовов   1 SelectClCompile                         
+        0 мс вызовов   1 SelectCustomBuild                       
+        0 мс вызовов   1 _SelectedFiles                          
+        0 мс вызовов   1 MakeDirsForXdcMake                      
+        0 мс вызовов   1 _Deploy                                 
+        0 мс вызовов   1 _XdcMake                                
+        0 мс вызовов   1 ComputeReferenceCLInput                 
+        0 мс вызовов   1 ComputeCLInputPDBName                   
+        0 мс вызовов   1 BeforeClCompile                         
+        0 мс вызовов   1 _PrepareForClCompile                    
+        0 мс вызовов   1 ComputeIncludePathsFromRecipes          
+        0 мс вызовов   1 AfterResourceCompile                    
+        0 мс вызовов   1 _ResourceCompile                        
+        0 мс вызовов   1 AfterBuildCompileEvent                  
+        0 мс вызовов   1 _BuildCompileAction                     
+        0 мс вызовов   1 ComputeLinkImportLibraryOutputsForClean 
+        0 мс вызовов   1 MakeDirsForLink                         
+        0 мс вызовов   1 PrepareResourceNames                    
+        0 мс вызовов   1 CreateCustomManifestResourceNames       
+        0 мс вызовов   1 AfterLink                               
+        0 мс вызовов   1 _CopySourceItemsToOutputDirectory       
+        0 мс вызовов   1 ComputeManifestInputsTargets            
+        0 мс вызовов   1 ComputeLinkInputsFromProject            
+        0 мс вызовов   1 MergeRecipeFiles                        
+        0 мс вызовов   1 ComputeCLGeneratedLinkInputs            
+        0 мс вызовов   1 ComputeCustomBuildOutput                
+        0 мс вызовов   1 ComputeManifestGeneratedLinkerInputs    
+        0 мс вызовов   1 ComputeRCGeneratedLinkInputs            
+        0 мс вызовов   1 _ALink                                  
+        0 мс вызовов   1 BeforeLink                              
+        0 мс вызовов   1 ComputeLegacyManifestEmbedding          
+        0 мс вызовов   1 _Manifest                               
+        0 мс вызовов   1 BuildCompile                            
+        0 мс вызовов   1 _Link                                   
+        0 мс вызовов   1 ComputeCLCompileGeneratedSbrFiles       
+        0 мс вызовов   1 PrepareForRun                           
+        0 мс вызовов   1 ResolveReferences                       
+        0 мс вызовов   1 ResolveAssemblyReferences               
+        0 мс вызовов   1 ExpandSDKReferences                     
+        0 мс вызовов   1 ResolveSDKReferences                    
+        0 мс вызовов   1 AfterBuild                              
+        0 мс вызовов   1 SetCABuildNativeEnvironmentVariables    
+        0 мс вызовов   1 PlatformPrepareForBuild                 
+        0 мс вызовов   1 GetResolvedWinMD                        
+        0 мс вызовов   1 _GenerateSatelliteAssemblyInputs        
+        0 мс вызовов   1 GetReferenceAssemblyPaths               
+        0 мс вызовов   1 GetFrameworkPaths                       
+        0 мс вызовов   1 ResolveProjectReferences                
+        0 мс вызовов   1 PrepareProjectReferences                
+        0 мс вызовов   1 CreateSatelliteAssemblies               
+        0 мс вызовов   1 _SplitProjectReferencesByFileExistence  
+        0 мс вызовов   1 AssignProjectConfiguration              
+        0 мс вызовов   1 BeforeResolveReferences                 
+        0 мс вызовов   1 _PrepareForReferenceResolution          
+        0 мс вызовов   1 _Appverifier                            
+        0 мс вызовов   1 SetTelemetryEnvironmentVariables        
+        0 мс вызовов   1 AfterResolveReferences                  
+        0 мс вызовов   1 PostBuildEvent                          
+        0 мс вызовов   1 RemotePreLinkEvent                      
+        0 мс вызовов   1 BuildGenerateSourcesTraverse            
+        0 мс вызовов   1 MakeDirsForBscMake                      
+        0 мс вызовов   1 _AssignProjectReferencesPlatformType    
+        0 мс вызовов   1 BuildCompileTraverse                    
+        0 мс вызовов   1 BuildGenerateSources                    
+        0 мс вызовов   1 _BuildGenerateSourcesAction             
+        0 мс вызовов   1 AfterBuildGenerateSourcesEvent          
+        0 мс вызовов   1 AfterBuildGenerateSources               
+        0 мс вызовов   1 RemotePreBuildEvent                     
+        0 мс вызовов   1 _BscMake                                
+        0 мс вызовов   1 AfterMidl                               
+        0 мс вызовов   1 ComputeMIDLGeneratedCompileInputs       
+        0 мс вызовов   1 MakeDirsForMidl                         
+        0 мс вызовов   1 _Xsd                                    
+        0 мс вызовов   1 PreBuildEvent                           
+        0 мс вызовов   1 ResolveRemoteDir                        
+        0 мс вызовов   1 _PrepareUpToDateChecks                  
+        0 мс вызовов   1 RemotePostBuildEvent                    
+        0 мс вызовов   1 BeforeBuildGenerateSources              
+        0 мс вызовов   1 BuildLink                               
+        1 мс вызовов   1 ComputeCLCompileGeneratedXDCFiles       
+        1 мс вызовов   1 GetCopyToOutputDirectoryItems           
+        1 мс вызовов   1 FixupCLCompileOptions                   
+        1 мс вызовов   1 CreateRecipeFile                        
+        1 мс вызовов   1 _PrepareForBuild                        
+        1 мс вызовов   1 _GetProjectReferenceTargetFrameworkProperties
+        1 мс вызовов   1 SetBuildDefaultEnvironmentVariables     
+        1 мс вызовов   1 _BuildLinkAction                        
+        1 мс вызовов   1 _Midl                                   
+        1 мс вызовов   1 PreLinkEvent                            
+        1 мс вызовов   1 Build                                   
+        1 мс вызовов   1 MakeDirsForCl                           
+        1 мс вызовов   1 BuildLinkTraverse                       
+        1 мс вызовов   1 ComputeRCOutputs                        
+        1 мс вызовов   1 SplitResourcesByCulture                 
+        1 мс вызовов   1 CopyFilesToOutputDirectory              
+        2 мс вызовов   1 _WriteRemoteTarget                      
+        2 мс вызовов   1 FinalizeBuildStatus                     
+        2 мс вызовов   1 ComputeCLOutputs                        
+        2 мс вызовов   1 DoLinkOutputFilesMatch                  
+        3 мс вызовов   1 _CheckForInvalidConfigurationAndPlatform
+        3 мс вызовов   1 WarnCompileDuplicatedFilename           
+        4 мс вызовов   1 AssignTargetPaths                       
+        4 мс вызовов   1 _ValidateSources                        
+        4 мс вызовов   1 _ResolveRemoteTarget                    
+        4 мс вызовов   1 PrepareForBuild                         
+        5 мс вызовов   1 InitializeBuildStatus                   
+        7 мс вызовов   1 _ValidateValidArchitecture              
+       15 мс вызовов   1 _ConsolidateSourcesToCopy               
+      445 мс вызовов   1 _CopySources                            
+     5939 мс вызовов   1 Link                                    
+    25251 мс вызовов   1 ClCompile                               
+
+Итоги по задачам:
+        0 мс вызовов   7 SetEnv                                  
+        0 мс вызовов   1 AssignProjectConfiguration              
+        0 мс вызовов   1 MSBuild                                 
+        0 мс вызовов   1 CallTarget                              
+        0 мс вызовов   1 ReadLinesFromFile                       
+        0 мс вызовов   6 AssignTargetPath                        
+        0 мс вызовов   1 MergeRecipeLists                        
+        1 мс вызовов   2 Message                                 
+        1 мс вызовов   1 AssignCulture                           
+        1 мс вызовов   1 Delete                                  
+        1 мс вызовов   9 MakeDir                                 
+        2 мс вызовов   1 WriteRemoteTarget                       
+        3 мс вызовов   1 ResolveRemoteTarget                     
+        3 мс вызовов   2 Touch                                   
+        4 мс вызовов   1 ValidateSources                         
+        7 мс вызовов   1 ValidateValidArchitecture               
+       11 мс вызовов   4 WriteLinesToFile                        
+       12 мс вызовов   8 MakeClCommandLine                       
+       15 мс вызовов   1 ConsolidateSourcesToCopy                
+      445 мс вызовов   1 CopySources                             
+     5937 мс вызовов   1 Ld                                      
+    25232 мс вызовов   1 Compile                                 
