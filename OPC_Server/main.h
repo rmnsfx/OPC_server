@@ -12,7 +12,7 @@
 #include "open62541.h"
 
 
-#define GTEST_DEBUG 1
+#define GTEST_DEBUG 0
 
 
 class Controller;

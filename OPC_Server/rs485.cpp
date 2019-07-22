@@ -339,16 +339,15 @@ void* pollingDeviceRS485(void *args)
 						{
 							std::string s = " Port: " + std::to_string(node->port) + "!!! CRC Error";
 							write_text_to_log_file(s.c_str());
-							
-
-
-							printf("Warning! Error CRC. ");
+														
+							printf("Warning! No response or error CRC. Port = %d \n", node->port);
 						}
 
-						if (vector_optimize[i].response[y][1] == 0x83 || vector_optimize[i].response[y][1] == 0x84)
-						{
-							printf("Warning! No response from: device = %d, start reg address = %d \n", node->vectorDevice[i].device_address, (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3]);
-						}
+						
+						//if (vector_optimize[i].response[y][1] == 0x83 || vector_optimize[i].response[y][1] == 0x84)
+						//{
+						//	printf("Warning! No response from: device = %d, start reg address = %d \n", node->vectorDevice[i].device_address, (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3]);
+						//}
 
 						read_buffer_vector.clear();
 						
@@ -421,8 +420,8 @@ void* pollingDeviceRS485(void *args)
 						} //Закрываем for.. "Проходим по тэгам устройства (OPC)"
 
 
-					} //Закрываем if ..."Проверяем количество байт, если 0 то обрыв или ошибка"
-					else
+					} //Закрываем if ..."Проверяем количество байт, если 0 то обрыв или ошибка"					
+					else if (config.rx_count < expected_size)
 					{
 
 						std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count (" + std::to_string(config.rx_count) + ") < expected (" + std::to_string(config.rx_expected) + ")";
@@ -436,6 +435,13 @@ void* pollingDeviceRS485(void *args)
 						}
 						printf("\n");
 
+					}
+					else if (config.rx_count == 0)
+					{
+						std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count == 0";
+						write_text_to_log_file(s.c_str());
+
+						printf("Port: %d !!! rx_count == 0 \n", node->port);
 					}
 
 
