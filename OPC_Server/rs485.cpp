@@ -343,11 +343,6 @@ void* pollingDeviceRS485(void *args)
 							printf("Warning! No response or error CRC. Port = %d \n", node->port);
 						}
 
-						
-						//if (vector_optimize[i].response[y][1] == 0x83 || vector_optimize[i].response[y][1] == 0x84)
-						//{
-						//	printf("Warning! No response from: device = %d, start reg address = %d \n", node->vectorDevice[i].device_address, (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3]);
-						//}
 
 						read_buffer_vector.clear();
 						
@@ -438,16 +433,17 @@ void* pollingDeviceRS485(void *args)
 					}
 					else if (config.rx_count == 0)
 					{
-						std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count == 0";
+						std::string s = " Warning Port: " + std::to_string(node->port) + "!!! rx_count == 0";
 						write_text_to_log_file(s.c_str());
 
-						printf("Port: %d !!! rx_count == 0 \n", node->port);
+						printf("Warning! Port: %d !!! rx_count == 0 \n", node->port);
 					}
 
 
 				} // Закрываем for... "Отправляем запросы и принимаем ответы по порядку"
 
 						
+				//Debug to log file
 				std::string s = " Port: " + std::to_string(node->port);
 				write_text_to_log_file(s.c_str());
 				
