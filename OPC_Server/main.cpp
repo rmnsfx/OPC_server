@@ -7,13 +7,13 @@
 #include <vector>
 #include <unistd.h>
 
-#include "open62541.h"
+
 
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <netinet/in.h> 
-#include<netdb.h>
+#include <netdb.h>
 
 #include "main.h"
 #include "serialize.h"
@@ -37,6 +37,9 @@ UA_Server* getServer(void)
 	return server;
 }
 
+#if GTEST_DEBUG == 0
+
+#include "open62541.h"
 
 void* workerOPC(void *args)
 {
@@ -200,9 +203,7 @@ void* pollingEngine(void *args)
 	{
 		//printf("%s\n", controller->vectorNode[i].name.c_str());
 
-		//std::vector<pthread_t> modbus_thread(controller->vectorNode[i].vectorDevice.size());				
 		
-
 		//Создание сокета и подключение к устройству
 		if (controller->vectorNode[i].enum_interface_type == Interface_type::tcp)
 		{
@@ -260,6 +261,8 @@ void* pollingEngine(void *args)
 	return 0;
 }
 
+#endif
+
 
 Data_type type_converter(const std::string &str)
 {
@@ -279,6 +282,8 @@ Interface_type interface_converter(const std::string &str)
 	else if (str == "RS-485") return Interface_type::rs485;
 };
 
+
+#if GTEST_DEBUG == 0
 
 void sig_handler(int signum)
 {
@@ -300,6 +305,8 @@ void sig_handler(int signum)
 };
 
 
+//Отключаем main для запуска gtest проекта
+
 
 int main(int argc, char** argv)
 {
@@ -310,8 +317,8 @@ int main(int argc, char** argv)
 	pid_t main_pid;
 	pid_t th1_pid;
 
-	
-	
+
+
 
 
 
@@ -333,19 +340,19 @@ int main(int argc, char** argv)
 
 	printf("Start OPC server...\n");
 	printf("Path to json: %s\n", path_to_json);
-		
+
 	write_text_to_log_file("Start OPC server...\n");
 
-		
+
 	Controller controller;
-	
+
 	controller = serializeFromJSON(path_to_json);
-	
+
 	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 		
 	sleep(1);
 
 
-	pollingEngine(&controller);	//Запуск MODBUS опроса		
+	pollingEngine(&controller);	//Запуск опроса	(MODBUS)
 
 	pthread_join(server_thread, (void**)&status);
 	pthread_detach(server_thread);
@@ -353,3 +360,6 @@ int main(int argc, char** argv)
 
 	return 0;
 }
+
+
+#endif 

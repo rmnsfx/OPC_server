@@ -10,23 +10,7 @@
 #include <unistd.h>
 #include <sys/sysctl.h>
 
-timespec time_diff(timespec start, timespec end)
-{
-	timespec temp;
-
-	if ((end.tv_nsec - start.tv_nsec) < 0)
-	{
-		temp.tv_sec = end.tv_sec - start.tv_sec - 1;
-		temp.tv_nsec = 1000000000 + end.tv_nsec - start.tv_nsec;
-	}
-	else
-	{
-		temp.tv_sec = end.tv_sec - start.tv_sec;
-		temp.tv_nsec = end.tv_nsec - start.tv_nsec;
-	}
-	return temp;
-};
-
+#if GTEST_DEBUG == 0
 
 char* print_date_time(void)
 {
@@ -45,24 +29,7 @@ char* print_date_time(void)
 	//printf("%s\n", buff);
 }
 
-void write_text_to_log_file(const char* text)
-{	
-	char buff[20];
-	struct tm *sTm;
 
-	time_t now = time(0);
-	sTm = gmtime(&now);
-	strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
-	
-	
-	std::string input(buff);
-	
-
-	std::ofstream log_file("log_file.txt", std::ios_base::out | std::ios_base::app);
-	log_file << input << text << std::endl;
-	log_file.close();
-	
-}
 
 unsigned long long getTotalSystemMemory(void)
 {
@@ -70,6 +37,8 @@ unsigned long long getTotalSystemMemory(void)
 	long page_size = sysconf(_SC_PAGE_SIZE);
 	return pages * page_size;
 }
+
+#endif
 
 int getRam(void)
 {
@@ -94,3 +63,40 @@ int getRam(void)
 	fclose(meminfo);
 	return -1;
 }
+
+
+void write_text_to_log_file(const char* text)
+{
+	char buff[20];
+	struct tm *sTm;
+
+	time_t now = time(0);
+	sTm = gmtime(&now);
+	strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", sTm);
+
+
+	std::string input(buff);
+
+
+	std::ofstream log_file("log_file.txt", std::ios_base::out | std::ios_base::app);
+	log_file << input << text << std::endl;
+	log_file.close();
+
+}
+
+timespec time_diff(timespec start, timespec end)
+{
+	timespec temp;
+
+	if ((end.tv_nsec - start.tv_nsec) < 0)
+	{
+		temp.tv_sec = end.tv_sec - start.tv_sec - 1;
+		temp.tv_nsec = 1000000000 + end.tv_nsec - start.tv_nsec;
+	}
+	else
+	{
+		temp.tv_sec = end.tv_sec - start.tv_sec;
+		temp.tv_nsec = end.tv_nsec - start.tv_nsec;
+	}
+	return temp;
+};
