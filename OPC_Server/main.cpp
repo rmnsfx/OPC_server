@@ -355,9 +355,6 @@ int main(int argc, char** argv)
 	pollingEngine(&controller);	//Запуск опроса	(MODBUS)
 
 	
-	//pthread_join(server_thread, (void**)&status);
-	
-
 	return 0;
 }
 

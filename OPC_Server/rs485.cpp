@@ -375,51 +375,51 @@ void* pollingDeviceRS485(void *args)
 
 
 
-						////Проходим по тэгам устройства (OPC)
-						//for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-						//{
-						//	if (node->vectorDevice[i].vectorTag[j].on == 1)
-						//	{								
+						//Проходим по тэгам устройства (OPC)
+						for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+						{
+							if (node->vectorDevice[i].vectorTag[j].on == 1)
+							{								
 
-						//		if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int16)
-						//		{
-						//			opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
-						//			UA_Variant_setScalarCopy(&value, &opc_value_int16, &UA_TYPES[UA_TYPES_INT16]);
-						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						//		}
-						//		else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint16)
-						//		{
-						//			opc_value_uint16 = (UA_UInt16)node->vectorDevice[i].vectorTag[j].value;
-						//			UA_Variant_setScalarCopy(&value, &opc_value_uint16, &UA_TYPES[UA_TYPES_UINT16]);
-						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						//		}
-						//		else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int32)
-						//		{
-						//			opc_value_int32 = (UA_Int32)node->vectorDevice[i].vectorTag[j].value;
-						//			UA_Variant_setScalarCopy(&value, &opc_value_int32, &UA_TYPES[UA_TYPES_INT32]);
-						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						//		}
-						//		else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint32)
-						//		{
-						//			opc_value_uint32 = (UA_UInt32)node->vectorDevice[i].vectorTag[j].value;
-						//			UA_Variant_setScalarCopy(&value, &opc_value_uint32, &UA_TYPES[UA_TYPES_UINT32]);
-						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						//		}
-						//		else if ((node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE) ||
-						//			(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE_swap) ||
-						//			(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE) ||
-						//			(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE_swap))
-						//		{
-						//			opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
-						//			UA_Variant_setScalarCopy(&value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
-						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						//		}
+								if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int16)
+								{
+									opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalarCopy(&value, &opc_value_int16, &UA_TYPES[UA_TYPES_INT16]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
+								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint16)
+								{
+									opc_value_uint16 = (UA_UInt16)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalarCopy(&value, &opc_value_uint16, &UA_TYPES[UA_TYPES_UINT16]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
+								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int32)
+								{
+									opc_value_int32 = (UA_Int32)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalarCopy(&value, &opc_value_int32, &UA_TYPES[UA_TYPES_INT32]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
+								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint32)
+								{
+									opc_value_uint32 = (UA_UInt32)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalarCopy(&value, &opc_value_uint32, &UA_TYPES[UA_TYPES_UINT32]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
+								else if ((node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE) ||
+									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE_swap) ||
+									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE) ||
+									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE_swap))
+								{
+									opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalarCopy(&value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
 
-						//	}
+							}
 
-						//	//printf("%d %s %d\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
-						//
-						//} //Закрываем for.. "Проходим по тэгам устройства (OPC)"
+							//printf("%d %s %d\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
+						
+						} //Закрываем for.. "Проходим по тэгам устройства (OPC)"
 
 
 					} //Закрываем if ..."Проверяем количество байт, если 0 то обрыв или ошибка"					
@@ -493,7 +493,7 @@ void* pollingDeviceRS485(void *args)
 		write_text_to_log_file(s.c_str());
 		
 		
-		printf("%d \n", getTotalSystemMemory());
+		//printf("%d \n", getTotalSystemMemory());
 
 
 	} // Закрываем while
