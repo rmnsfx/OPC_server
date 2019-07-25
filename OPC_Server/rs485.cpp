@@ -87,18 +87,26 @@ void* pollingDeviceRS485(void *args)
 		
 	uint8_t test_val_count = 0;
 
-	Node* node = (Node*)args;
+	Node* node = nullptr;
+	if ((Node*)args != nullptr)
+	{
+		node = (Node*)args;
+	}
+
 	UA_Server* server = getServer();
+
 	
 	UA_Variant value;
-	UA_Int16 opc_value_int16;
-	UA_UInt16 opc_value_uint16;
-	UA_Int32 opc_value_int32;
-	UA_UInt32 opc_value_uint32;
-	UA_Float opc_value_float;
+	UA_Int16 opc_value_int16 = 0;
+	UA_UInt16 opc_value_uint16 = 0;
+	UA_Int32 opc_value_int32 = 0;
+	UA_UInt32 opc_value_uint32 = 0;
+	UA_Float opc_value_float = 0;
+
+	int32_t int_val = 0;
 
 
-	if (node != NULL)
+	if (node != nullptr)
 	{
 		char* port = pathToPort(node->port);
 
@@ -119,7 +127,7 @@ void* pollingDeviceRS485(void *args)
 	rs485_device_ioctl_t config;
 	   
 
-
+	
 	while (1)
 	{
 		clock_gettime(CLOCK_REALTIME, &start);
@@ -230,25 +238,25 @@ void* pollingDeviceRS485(void *args)
 													}
 													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE) //4.3.2.1
 													{
-														int32_t int_val = ((vector_optimize[i].response[y][v + 3] << 24) + (vector_optimize[i].response[y][v + 2] << 16)) + ((vector_optimize[i].response[y][v + 1] << 8) + vector_optimize[i].response[y][v + 0]);
+														int_val = ((vector_optimize[i].response[y][v + 3] << 24) + (vector_optimize[i].response[y][v + 2] << 16)) + ((vector_optimize[i].response[y][v + 1] << 8) + vector_optimize[i].response[y][v + 0]);
 
 														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 													}
 													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE_swap)  //3.4.1.2
 													{
-														int32_t int_val = ((vector_optimize[i].response[y][v + 2] << 24) + (vector_optimize[i].response[y][v + 3] << 16)) + ((vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1]);
+														int_val = ((vector_optimize[i].response[y][v + 2] << 24) + (vector_optimize[i].response[y][v + 3] << 16)) + ((vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1]);
 
 														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 													}
 													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE)  //1.2.3.4
 													{
-														int32_t int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 3]);
+														int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 3]);
 
 														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 													}
 													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE_swap)  //2.1.4.3
 													{
-														int32_t int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
+														int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
 
 														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 													}
@@ -296,28 +304,28 @@ void* pollingDeviceRS485(void *args)
 													}
 													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE) //4.3.2.1
 													{
-														int32_t int_val = ((vector_optimize[i].response[y][v + 3] << 24) + (vector_optimize[i].response[y][v + 2] << 16)) + ((vector_optimize[i].response[y][v + 1] << 8) + vector_optimize[i].response[y][v + 0]);
+														int_val = ((vector_optimize[i].response[y][v + 3] << 24) + (vector_optimize[i].response[y][v + 2] << 16)) + ((vector_optimize[i].response[y][v + 1] << 8) + vector_optimize[i].response[y][v + 0]);
 
 														//node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 														memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
 													}
 													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE_swap)  //3.4.1.2
 													{
-														int32_t int_val = ((vector_optimize[i].response[y][v + 2] << 24) + (vector_optimize[i].response[y][v + 3] << 16)) + ((vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1]);
+														int_val = ((vector_optimize[i].response[y][v + 2] << 24) + (vector_optimize[i].response[y][v + 3] << 16)) + ((vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1]);
 
 														//node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 														memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
 													}
 													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE)  //1.2.3.4
 													{
-														int32_t int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 3]);
+														int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 3]);
 
 														//node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 														memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
 													}
 													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE_swap)  //2.1.4.3
 													{
-														int32_t int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
+														int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
 
 														//node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
 														memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
@@ -367,52 +375,51 @@ void* pollingDeviceRS485(void *args)
 
 
 
-						//Проходим по тэгам устройства (OPC)
-						for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-						{
-							if (node->vectorDevice[i].vectorTag[j].on == 1)
-							{
-								
+						////Проходим по тэгам устройства (OPC)
+						//for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+						//{
+						//	if (node->vectorDevice[i].vectorTag[j].on == 1)
+						//	{								
 
-								if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int16)
-								{
-									opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
-									UA_Variant_setScalarCopy(&value, &opc_value_int16, &UA_TYPES[UA_TYPES_INT16]);
-									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-								}
-								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint16)
-								{
-									opc_value_uint16 = (UA_UInt16)node->vectorDevice[i].vectorTag[j].value;
-									UA_Variant_setScalarCopy(&value, &opc_value_uint16, &UA_TYPES[UA_TYPES_UINT16]);
-									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-								}
-								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int32)
-								{
-									opc_value_int32 = (UA_Int32)node->vectorDevice[i].vectorTag[j].value;
-									UA_Variant_setScalarCopy(&value, &opc_value_int32, &UA_TYPES[UA_TYPES_INT32]);
-									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-								}
-								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint32)
-								{
-									opc_value_uint32 = (UA_UInt32)node->vectorDevice[i].vectorTag[j].value;
-									UA_Variant_setScalarCopy(&value, &opc_value_uint32, &UA_TYPES[UA_TYPES_UINT32]);
-									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-								}
-								else if ((node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE) ||
-									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE_swap) ||
-									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE) ||
-									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE_swap))
-								{
-									opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
-									UA_Variant_setScalarCopy(&value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
-									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-								}
+						//		if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int16)
+						//		{
+						//			opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
+						//			UA_Variant_setScalarCopy(&value, &opc_value_int16, &UA_TYPES[UA_TYPES_INT16]);
+						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+						//		}
+						//		else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint16)
+						//		{
+						//			opc_value_uint16 = (UA_UInt16)node->vectorDevice[i].vectorTag[j].value;
+						//			UA_Variant_setScalarCopy(&value, &opc_value_uint16, &UA_TYPES[UA_TYPES_UINT16]);
+						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+						//		}
+						//		else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int32)
+						//		{
+						//			opc_value_int32 = (UA_Int32)node->vectorDevice[i].vectorTag[j].value;
+						//			UA_Variant_setScalarCopy(&value, &opc_value_int32, &UA_TYPES[UA_TYPES_INT32]);
+						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+						//		}
+						//		else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint32)
+						//		{
+						//			opc_value_uint32 = (UA_UInt32)node->vectorDevice[i].vectorTag[j].value;
+						//			UA_Variant_setScalarCopy(&value, &opc_value_uint32, &UA_TYPES[UA_TYPES_UINT32]);
+						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+						//		}
+						//		else if ((node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE) ||
+						//			(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE_swap) ||
+						//			(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE) ||
+						//			(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE_swap))
+						//		{
+						//			opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
+						//			UA_Variant_setScalarCopy(&value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
+						//			UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+						//		}
 
-							}
+						//	}
 
-							//printf("%d %s %d\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
-						
-						} //Закрываем for.. "Проходим по тэгам устройства (OPC)"
+						//	//printf("%d %s %d\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
+						//
+						//} //Закрываем for.. "Проходим по тэгам устройства (OPC)"
 
 
 					} //Закрываем if ..."Проверяем количество байт, если 0 то обрыв или ошибка"					
@@ -484,7 +491,9 @@ void* pollingDeviceRS485(void *args)
 		
 		std::string s = " Memory: " + std::to_string(getRam());
 		write_text_to_log_file(s.c_str());
-		//printf("%d \n", getTotalSystemMemory());
+		
+		
+		printf("%d \n", getTotalSystemMemory());
 
 
 	} // Закрываем while
@@ -493,6 +502,7 @@ void* pollingDeviceRS485(void *args)
 
 
 
-	pthread_exit(0);
-	//return 0;
+	//pthread_exit(0);
+
+	return 0;
 }

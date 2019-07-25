@@ -181,7 +181,8 @@ void* workerOPC(void *args)
 	
 	free(controller);
 	
-	pthread_exit(0);
+	//pthread_exit(0);
+	return 0;
 }
 
 
@@ -237,22 +238,21 @@ void* pollingEngine(void *args)
 			{				
 				pthread_t thr;
 				
+				pthread_create(&thr, NULL, pollingDeviceRS485, &controller->vectorNode[i]);									
+				
 				modbus_thread.push_back(thr);
 
-				pthread_create(&thr, NULL, pollingDeviceRS485, &controller->vectorNode[i]);					
-				
 			}			
 
 		}
 		
 	}	
 
-
+	
 	
 	for (int i = 0; i < modbus_thread.size(); i++)
 	{
-		pthread_join((pthread_t)&modbus_thread[i], NULL);
-		pthread_detach((pthread_t)&modbus_thread[i]);
+		pthread_join(modbus_thread[i], NULL);		
 	}
 	
 	
@@ -354,9 +354,9 @@ int main(int argc, char** argv)
 
 	pollingEngine(&controller);	//Запуск опроса	(MODBUS)
 
-	pthread_join(server_thread, (void**)&status);
-	pthread_detach(server_thread);
-
+	
+	//pthread_join(server_thread, (void**)&status);
+	
 
 	return 0;
 }

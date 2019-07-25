@@ -44,7 +44,7 @@ uint16_t calculate_crc(uint8_t *adr_buffer, uint32_t byte_cnt)
 	uint16_t crc = 0xFFFF;
 
 
-	uint8_t lut;
+	uint8_t lut = 0;
 	/* CRC Generation Function */
 	while (byte_cnt--) /* pass through message buffer */
 	{
