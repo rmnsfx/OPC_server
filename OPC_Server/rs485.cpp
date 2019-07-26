@@ -502,7 +502,7 @@ void* pollingDeviceRS485(void *args)
 		
 		//std::string s = " Memory: " + std::to_string(getRam());
 		str = "\nMemory: " + std::to_string(getCurrentProccessMemory());
-		write_text_to_log_file(s.c_str());
+		write_text_to_log_file(str.c_str());
 		
 		
 		//printf("%d \n", getTotalSystemMemory());
