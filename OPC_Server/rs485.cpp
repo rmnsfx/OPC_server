@@ -104,6 +104,7 @@ void* pollingDeviceRS485(void *args)
 	UA_Float opc_value_float = 0;
 
 	int32_t int_val = 0;
+	std::string str = "";
 
 
 	if (node != nullptr)
@@ -181,7 +182,7 @@ void* pollingDeviceRS485(void *args)
 					//printf("Port: %d RX_count: %d \n", node->port, config.rx_count);
 
 
-					//Проверяем количество байт, если 0 то обрыв или ошибка
+					//Проверяем количество полученных байт, если меньше то обрыв или ошибка crc
 					if (config.rx_count >= expected_size)
 					{
 						for (int a = 0; a < expected_size; a++)
@@ -343,13 +344,23 @@ void* pollingDeviceRS485(void *args)
 							}
 
 						} // Закрываем CRC
-						else
+						else if (config.rx_count == 0xff)
 						{
-							std::string s = " Port: " + std::to_string(node->port) + "!!! CRC Error";
-							write_text_to_log_file(s.c_str());
+							str.clear();
+							str = " Port: " + std::to_string(node->port) + "!!! No response\n";
+							write_text_to_log_file(str.c_str());
 														
-							printf("Warning! No response or error CRC. Port = %d \n", node->port);
+							printf(str.c_str());
 						}
+						else 
+						{
+							str.clear();
+							str = " Port: " + std::to_string(node->port) + "!!! CRC Error\n";
+							write_text_to_log_file(str.c_str());
+
+							printf(str.c_str());
+						}
+
 
 
 						read_buffer_vector.clear();
@@ -423,36 +434,36 @@ void* pollingDeviceRS485(void *args)
 
 
 					} //Закрываем if ..."Проверяем количество байт, если 0 то обрыв или ошибка"					
-					else if (config.rx_count < expected_size)
-					{
+					//else if (config.rx_count < expected_size)
+					//{
 
-						std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count (" + std::to_string(config.rx_count) + ") < expected (" + std::to_string(config.rx_expected) + ")";
-						write_text_to_log_file(s.c_str());		
-						
-						printf("Port: %d !!! rx_count (%d) < expected (%d) \n", node->port, config.rx_count, config.rx_expected);
-						
-						for (int w = 0; w < config.rx_count; w++)
-						{
-							printf("%X ", read_buffer[w]);
-						}
-						printf("\n");
+					//	std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count (" + std::to_string(config.rx_count) + ") < expected (" + std::to_string(config.rx_expected) + ")";
+					//	write_text_to_log_file(s.c_str());		
+					//	
+					//	printf("Port: %d !!! rx_count (%d) < expected (%d) \n", node->port, config.rx_count, config.rx_expected);
+					//	
+					//	for (int w = 0; w < config.rx_count; w++)
+					//	{
+					//		printf("%X ", read_buffer[w]);
+					//	}
+					//	printf("\n");
 
-					}
-					else if (config.rx_count == 0)
-					{
-						std::string s = " Warning Port: " + std::to_string(node->port) + "!!! rx_count == 0";
-						write_text_to_log_file(s.c_str());
+					//}
+					//else if (config.rx_count == 0)
+					//{
+					//	std::string s = " Warning Port: " + std::to_string(node->port) + "!!! rx_count == 0";
+					//	write_text_to_log_file(s.c_str());
 
-						printf("Warning! Port: %d !!! rx_count == 0 \n", node->port);
-					}
+					//	printf("Warning! Port: %d !!! rx_count == 0 \n", node->port);
+					//}
 
 
 				} // Закрываем for... "Отправляем запросы и принимаем ответы по порядку"
 
 						
 				//Debug to log file
-				std::string s = " Port: " + std::to_string(node->port);
-				write_text_to_log_file(s.c_str());
+				//std::string s = " Port: " + std::to_string(node->port);
+				//write_text_to_log_file(s.c_str());
 				
 
 
@@ -489,7 +500,8 @@ void* pollingDeviceRS485(void *args)
 		//printf("%d \n", test_val_count);
 
 		
-		std::string s = " Memory: " + std::to_string(getRam());
+		//std::string s = " Memory: " + std::to_string(getRam());
+		str = "\nMemory: " + std::to_string(getCurrentProccessMemory());
 		write_text_to_log_file(s.c_str());
 		
 		
