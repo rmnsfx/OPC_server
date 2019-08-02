@@ -400,12 +400,9 @@ void* pollingDeviceRS485(void *args)
 
 								if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int16)
 								{
-									//UA_Variant value;
-									//UA_Int16 opc_value_int16 = 0;
+									
 									UA_Variant_init(&value);
-
-									opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
-									//UA_Variant_setScalarCopy(&value, &opc_value_int16, &UA_TYPES[UA_TYPES_INT16]); //!!!!!!!!!!!!!!!!!!! течет
+									opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;									
 									UA_Variant_setScalar(&value, &opc_value_int16, &UA_TYPES[UA_TYPES_INT16]); 
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);						
 
@@ -451,21 +448,21 @@ void* pollingDeviceRS485(void *args)
 
 
 					} //Закрываем if ..."Проверяем количество байт, если 0 то обрыв или ошибка"					
-					//else if (config.rx_count < expected_size)
-					//{
+					else if (config.rx_count < expected_size)
+					{
 
-					//	std::string s = " Port: " + std::to_string(node->port) + "!!! rx_count (" + std::to_string(config.rx_count) + ") < expected (" + std::to_string(config.rx_expected) + ")";
-					//	write_text_to_log_file(s.c_str());		
-					//	
-					//	printf("Port: %d !!! rx_count (%d) < expected (%d) \n", node->port, config.rx_count, config.rx_expected);
-					//	
-					//	for (int w = 0; w < config.rx_count; w++)
-					//	{
-					//		printf("%X ", read_buffer[w]);
-					//	}
-					//	printf("\n");
+						std::string s = " Port: " + std::to_string(node->port) + " !!! No response (rx_count (" + std::to_string(config.rx_count) + ") < expected (" + std::to_string(config.rx_expected) + "))";
+						write_text_to_log_file(s.c_str());		
+						
+						printf("Port: %d. !!!No response (rx_count (%d) < expected (%d))\n", node->port, config.rx_count, config.rx_expected);
+						
+						for (int w = 0; w < config.rx_count; w++)
+						{
+							printf("%X ", read_buffer[w]);
+						}
+						printf("\n");
 
-					//}
+					}
 					//else if (config.rx_count == 0)
 					//{
 					//	std::string s = " Warning Port: " + std::to_string(node->port) + "!!! rx_count == 0";
@@ -528,10 +525,6 @@ void* pollingDeviceRS485(void *args)
 	} // Закрываем while
 
 
-
-
-
-	//pthread_exit(0);
 
 	return 0;
 }
