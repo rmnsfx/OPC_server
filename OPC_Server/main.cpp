@@ -1,3 +1,4 @@
+
 #include <cstdio>
 #include <cstdlib>
 #include <signal.h>
@@ -181,7 +182,8 @@ void* workerOPC(void *args)
 	
 	free(controller);
 	
-	pthread_exit(0);
+	//pthread_exit(0);
+	return 0;
 }
 
 
@@ -237,22 +239,21 @@ void* pollingEngine(void *args)
 			{				
 				pthread_t thr;
 				
+				pthread_create(&thr, NULL, pollingDeviceRS485, &controller->vectorNode[i]);									
+				
 				modbus_thread.push_back(thr);
 
-				pthread_create(&thr, NULL, pollingDeviceRS485, &controller->vectorNode[i]);					
-				
 			}			
 
 		}
 		
 	}	
 
-
+	
 	
 	for (int i = 0; i < modbus_thread.size(); i++)
 	{
-		pthread_join((pthread_t)&modbus_thread[i], NULL);
-		pthread_detach((pthread_t)&modbus_thread[i]);
+		pthread_join(modbus_thread[i], NULL);		
 	}
 	
 	
@@ -290,17 +291,21 @@ void sig_handler(int signum)
 	printf("\nReceived signal %d. \n", signum);
 
 	
-	if (signum == SIGTERM || signum == SIGSTOP || signum == SIGINT || signum == SIGQUIT || signum == SIGTSTP)
-	{		
-		//pthread_exit(&server_thread);
-		exit(0);
-		//kill(main_pid, SIGSTOP);
-	};
+	//if (signum == SIGTERM || signum == SIGSTOP || signum == SIGINT || signum == SIGQUIT || signum == SIGTSTP)
+	//{		
+	//	//pthread_exit(&server_thread);
+	//	exit(0);
+	//	//kill(main_pid, SIGSTOP);
+	//};
 
 	if (signum == SIGSEGV) //Segmentation fault
 	{		
 		write_text_to_log_file("Segmentation fault");
 	};
+
+	signal(signum, SIG_DFL);
+
+	exit(3);
 
 };
 
@@ -314,17 +319,17 @@ int main(int argc, char** argv)
 	pthread_t server_thread;
 
 	int status;
-	pid_t main_pid;
+	/*pid_t main_pid;
 	pid_t th1_pid;
+	main_pid = getpid();*/
 
 
 
 
+	//Регистрируем обработчик сообщения SIGSEGV
+	signal(SIGSEGV, sig_handler);
 
-
-	signal(SIGINT, sig_handler);
-
-	main_pid = getpid();
+	
 
 	char* path_to_json;
 
@@ -341,7 +346,7 @@ int main(int argc, char** argv)
 	printf("Start OPC server...\n");
 	printf("Path to json: %s\n", path_to_json);
 
-	write_text_to_log_file("Start OPC server...\n");
+	write_text_to_log_file(" Start OPC server...\n");
 
 
 	Controller controller;
@@ -354,10 +359,7 @@ int main(int argc, char** argv)
 
 	pollingEngine(&controller);	//Запуск опроса	(MODBUS)
 
-	pthread_join(server_thread, (void**)&status);
-	pthread_detach(server_thread);
-
-
+	
 	return 0;
 }
 
