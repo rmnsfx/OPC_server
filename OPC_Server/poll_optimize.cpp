@@ -20,7 +20,7 @@
 
 
 
-std::vector<std::vector<int>> splitRegs(std::vector<int>& regs)
+std::vector<std::vector<int>> splitRegs(std::vector<int>&regs)
 {	
 	std::vector<int> split(2); // создали и указали число ячеек	
 	std::vector<std::vector<int>> split_out;

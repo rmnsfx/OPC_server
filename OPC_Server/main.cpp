@@ -1,3 +1,4 @@
+
 #include <cstdio>
 #include <cstdlib>
 #include <signal.h>
@@ -7,13 +8,13 @@
 #include <vector>
 #include <unistd.h>
 
-#include "open62541.h"
+
 
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <netinet/in.h> 
-#include<netdb.h>
+#include <netdb.h>
 
 #include "main.h"
 #include "serialize.h"
@@ -26,15 +27,20 @@
 #include <signal.h>
 #include <syslog.h> 
 #include <sys/syscall.h>
+#include <time.h>
+#include <memory>
 
+ 
+static UA_Server* server;
 
-UA_Server *server;
-pthread_t server_thread;
-pthread_t* modbus_thread;
-int status;
-pid_t main_pid;
-pid_t th1_pid;
+UA_Server* getServer(void)
+{
+	return server;
+}
 
+#if GTEST_DEBUG == 0
+
+#include "open62541.h"
 
 void* workerOPC(void *args)
 {
@@ -45,19 +51,19 @@ void* workerOPC(void *args)
 	UA_UInt32 value_uint32;
 	UA_Float value_float;
 
-	//Controller * controller = (Controller*) calloc(100, sizeof(Controller)); // Выделяем память 
+	//Controller * controller = (Controller*) calloc(1, sizeof(Controller)); // Выделяем память 
 	//controller = (Controller*)args;
 
 	Controller* controller = (Controller*) args;
-	
-	
+		
 	UA_Boolean running = true;
 
-	UA_ServerConfig *config = UA_ServerConfig_new_default();
 	
+
+	UA_ServerConfig* config = UA_ServerConfig_new_default();	
 	server = UA_Server_new(config);
 
-
+	
 
 	UA_NodeId contrId; /* get the nodeid assigned by the server */
 	UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
@@ -167,11 +173,17 @@ void* workerOPC(void *args)
 	}
 
 
-
+	
 
 	UA_StatusCode retval = UA_Server_run(server, &running);
+
 	UA_Server_delete(server);
 	UA_ServerConfig_delete(config);
+	
+	free(controller);
+	
+	//pthread_exit(0);
+	return 0;
 }
 
 
@@ -185,14 +197,15 @@ void* pollingEngine(void *args)
 {
 	Controller* controller = (Controller*)args;
 
+	std::vector<pthread_t> modbus_thread;
+	
 
 	//Узел (Node/Coms)
 	for (int i = 0; i < controller->vectorNode.size(); i++)
 	{
 		//printf("%s\n", controller->vectorNode[i].name.c_str());
 
-		pthread_t modbus_thread[controller->vectorNode[i].vectorDevice.size()];
-
+		
 		//Создание сокета и подключение к устройству
 		if (controller->vectorNode[i].enum_interface_type == Interface_type::tcp)
 		{
@@ -223,14 +236,33 @@ void* pollingEngine(void *args)
 
 			//Запускаем опрос по RS-485
 			if (controller->vectorNode[i].on == 1)
-			{
-				pthread_create(&modbus_thread[i], NULL, pollingDeviceRS485, &controller->vectorNode[i]);
-			}
+			{				
+				pthread_t thr;
+				
+				pthread_create(&thr, NULL, pollingDeviceRS485, &controller->vectorNode[i]);									
+				
+				modbus_thread.push_back(thr);
+
+			}			
 
 		}
-
+		
 	}	
+
+	
+	
+	for (int i = 0; i < modbus_thread.size(); i++)
+	{
+		pthread_join(modbus_thread[i], NULL);		
+	}
+	
+	
+	modbus_thread.clear();
+	
+	return 0;
 }
+
+#endif
 
 
 Data_type type_converter(const std::string &str)
@@ -252,28 +284,52 @@ Interface_type interface_converter(const std::string &str)
 };
 
 
+#if GTEST_DEBUG == 0
+
 void sig_handler(int signum)
 {
 	printf("\nReceived signal %d. \n", signum);
 
 	
-	if (signum == SIGTERM | signum == SIGSTOP | signum == SIGINT | signum == SIGQUIT | signum == SIGTSTP)
+	//if (signum == SIGTERM || signum == SIGSTOP || signum == SIGINT || signum == SIGQUIT || signum == SIGTSTP)
+	//{		
+	//	//pthread_exit(&server_thread);
+	//	exit(0);
+	//	//kill(main_pid, SIGSTOP);
+	//};
+
+	if (signum == SIGSEGV) //Segmentation fault
 	{		
-		pthread_exit(&server_thread);
-		exit(0);
-		kill(main_pid, SIGSTOP);
-	}
+		write_text_to_log_file("Segmentation fault");
+	};
+
+	signal(signum, SIG_DFL);
+
+	exit(3);
 
 };
 
+
+//Отключаем main для запуска gtest проекта
 
 
 int main(int argc, char** argv)
 {
 
-	signal(SIGINT, sig_handler);
+	pthread_t server_thread;
 
-	main_pid = getpid();
+	int status;
+	/*pid_t main_pid;
+	pid_t th1_pid;
+	main_pid = getpid();*/
+
+
+
+
+	//Регистрируем обработчик сообщения SIGSEGV
+	signal(SIGSEGV, sig_handler);
+
+	
 
 	char* path_to_json;
 
@@ -290,21 +346,22 @@ int main(int argc, char** argv)
 	printf("Start OPC server...\n");
 	printf("Path to json: %s\n", path_to_json);
 
-		
+	write_text_to_log_file(" Start OPC server...\n");
+
+
 	Controller controller;
-	
+
 	controller = serializeFromJSON(path_to_json);
-	
-	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 
-		
+
+	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 		
 	sleep(1);
 
-	pollingEngine(&controller);	//Запуск MODBUS опроса
-		
 
-	pthread_join(server_thread, (void**)&status);
+	pollingEngine(&controller);	//Запуск опроса	(MODBUS)
+
 	
-	//sleep(15);
-
 	return 0;
 }
+
+
+#endif 

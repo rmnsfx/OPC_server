@@ -6086,6 +6086,7 @@ UA_Variant_setScalarCopy(UA_Variant *v, const void *p,
     }
     UA_Variant_setScalar(v, n, type);
     //cppcheck-suppress memleak
+	
     return UA_STATUSCODE_GOOD;
 }
 

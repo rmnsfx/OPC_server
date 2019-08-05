@@ -26,7 +26,7 @@
 #include "crc.h"
 #include "poll_optimize.h"
 #include "utils.h"
-
+#include <memory>
 
 char* pathToPort(int node_port)
 {
@@ -65,30 +65,51 @@ void* pollingDeviceRS485(void *args)
 	
 	int16_t result = 0;
 	//char write_buffer[] = { 0x01, 0x04, 0x03, 0xDD, 0x00, 0x01, 0xA1, 0xB4 };
+	
+	//std::shared_ptr<unsigned char> read_buffer(new unsigned char[255]);
+	//char* read_buffer = new char[255];
+	//memset(read_buffer, 0, 255); //–ò–Ω–∏—Ü.
+	//std::vector<uint8_t> read_buffer(255);
+
 	uint8_t read_buffer[255];
+	
 	int16_t dur_ms = 0;
 	int16_t common_dur_ms = 0;
+	
 	struct timespec start, stop, duration, stop2, common_duration;
 	std::vector<uint8_t> read_buffer_vector;
+	
 	uint8_t expected_size = 0;
 	uint16_t current_crc = 0;
 	uint16_t expected_crc = 0;
 	int16_t pos = 0;
-	extern UA_Server *server;
+
+		
+	uint8_t test_val_count = 0;
+
+	Node* node = nullptr;
+	if ((Node*)args != nullptr)
+	{
+		node = (Node*)args;
+	}
+
+	UA_Server* server = getServer();
+
+	
 	UA_Variant value;
-	UA_Int16 opc_value_int16;
-	UA_UInt16 opc_value_uint16;
-	UA_Int32 opc_value_int32;
-	UA_UInt32 opc_value_uint32;
-	UA_Float opc_value_float;
+	UA_Int16 opc_value_int16 = 0;
+	UA_UInt16 opc_value_uint16 = 0;
+	UA_Int32 opc_value_int32 = 0;
+	UA_UInt32 opc_value_uint32 = 0;
+	UA_Float opc_value_float = 0;
+
+	int32_t int_val = 0;
+	std::string str = "";
+
+	
 
 
-
-
-	Node* node = (Node*)args;
-
-
-	if (node != NULL)
+	if (node != nullptr)
 	{
 		char* port = pathToPort(node->port);
 
@@ -102,280 +123,371 @@ void* pollingDeviceRS485(void *args)
 		}
 	}
 	
-
-
+	
 	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);
-
-
+	
 	//transaction preparation			
 	rs485_device_ioctl_t config;
-	   
+	config.rx_count = 0;
+
+	
+
+	//int cc = 0;
+	//while (cc++ < 20)
 	while (1)
 	{
 		clock_gettime(CLOCK_REALTIME, &start);
 
 
-		//œÓıÓ‰ËÏ ÔÓ ÛÒÚÓÈÒÚ‚‡Ï
+		//–ü—Ä–æ—Ö–æ–¥–∏–º –ø–æ —É—Å—Ç—Ä–æ–π—Å—Ç–≤–∞–º
 		for (int i = 0; i < node->vectorDevice.size(); i++)
 		{
 			if (node->vectorDevice[i].on == 1)
 			{
 
-				//ŒÚÔ‡‚ÎˇÂÏ Á‡ÔÓÒ˚ Ë ÔËÌËÏ‡ÂÏ ÓÚ‚ÂÚ˚ ÔÓ ÔÓˇ‰ÍÛ
+				//–û—Ç–ø—Ä–∞–≤–ª—è–µ–º –∑–∞–ø—Ä–æ—Å—ã –∏ –ø—Ä–∏–Ω–∏–º–∞–µ–º –æ—Ç–≤–µ—Ç—ã –ø–æ –ø–æ—Ä—è–¥–∫—É
 				for (int y = 0; y < vector_optimize[i].request.size(); y++)
 				{
-					config.tx_buf = (const char*) &vector_optimize[i].request[y][0];
+					config.tx_buf = (const char*)&vector_optimize[i].request[y][0];
 					config.tx_count = vector_optimize[i].request[y].size();
-					
+
 					expected_size = ((vector_optimize[i].request[y][4] << 8) + vector_optimize[i].request[y][5]) * 2 + 5;
 
-					config.rx_buf = (char*) &read_buffer;
+					config.rx_buf = (char*)&read_buffer;
 					config.rx_size = sizeof(read_buffer);
 					config.rx_expected = expected_size; 		//ATTENTION: rx_expected must be set for correct driver reception.
-					
-					//ƒ‡È‚Â ÓÒÛ˘ÂÒÚ‚ÎˇÂÚ Á‡ÔÓÒ/ÓÚ‚ÂÚ
-					ioctl(node->f_id, RS485_SEND_PACKED, &config);
 
-					
-					for (int a = 0; a < expected_size; a++)
-					{
-						read_buffer_vector.push_back(read_buffer[a]);
-					}
+					//–î—Ä–∞–π–≤–µ—Ä –æ—Å—É—â–µ—Å—Ç–≤–ª—è–µ—Ç –∑–∞–ø—Ä–æ—Å/–æ—Ç–≤–µ—Ç
+					result = ioctl(node->f_id, RS485_SEND_PACKED, &config);
 
-					//œÓ‚ÂˇÂÏ crc
-					current_crc = read_buffer_vector[expected_size - 2] + (read_buffer_vector[expected_size - 1] << 8);
-					expected_crc = calculate_crc((uint8_t*)&read_buffer_vector[0], read_buffer_vector.size() - 2);
-
-					if (current_crc == expected_crc)
-					{
-						vector_optimize[i].response.push_back(read_buffer_vector);
+					#if GTEST_DEBUG == 1						
+						read_buffer[0] = 0x00;				
+						read_buffer[1] = 0x03;
+						read_buffer[2] = 0x14;
 						
+						read_buffer[3] = 0x00;
+						read_buffer[4] = 0x03;
+						read_buffer[5] = 0x00;
+						read_buffer[6] = 0x04;
+						read_buffer[7] = 0x00;
+						read_buffer[8] = 0x05;
+						read_buffer[9] = 0x00;
+						read_buffer[10] = 0x06;
+						read_buffer[11] = 0x00;
+						read_buffer[12] = 0x07;
+						read_buffer[13] = 0x00;
+						read_buffer[14] = 0x08;
+						read_buffer[15] = 0x23;
+						read_buffer[16] = 0x2B;						
 
-						//–‡Á·Ë‡ÂÏ (‡ÒÔÂ‰ÂÎˇÂÏ ÁÌ‡˜ÂÌËˇ ÔÓ Â„ËÒÚ‡Ï) ÓÚ‚ÂÚ
-						//ŒÔÂ‰ÂÎˇÂÏ Ì‡˜‡Î¸Ì˚È ‡‰ÂÒ
-						uint16_t start_address = (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3];
-						//printf("start: %d \n", start_address);
+						config.rx_count = 17;
+						
+					#endif
 
-						for (int v = 3, addr = start_address + 1; v < vector_optimize[i].response[y].size(); v += 2, addr++)
+					//printf("Port: %d RX_count: %d \n", node->port, config.rx_count);
+
+
+					//–ü—Ä–æ–≤–µ—Ä—è–µ–º –∫–æ–ª–∏—á–µ—Å—Ç–≤–æ –ø–æ–ª—É—á–µ–Ω–Ω—ã—Ö –±–∞–π—Ç, –µ—Å–ª–∏ –º–µ–Ω—å—à–µ —Ç–æ –æ–±—Ä—ã–≤ –∏–ª–∏ –æ—à–∏–±–∫–∞ crc
+					if (config.rx_count >= expected_size)
+					{
+						for (int a = 0; a < expected_size; a++)
 						{
+							read_buffer_vector.push_back(read_buffer[a]);
+						}
 
 
-							//œÂÂ·Ë‡ÂÏ holding
-							if (vector_optimize[i].response[y][1] == 0x03)
+						//–ü—Ä–æ–≤–µ—Ä—è–µ–º crc
+						current_crc = read_buffer_vector[expected_size - 2] + (read_buffer_vector[expected_size - 1] << 8);
+						expected_crc = calculate_crc((uint8_t*)&read_buffer_vector[0], read_buffer_vector.size() - 2);
+
+						if (current_crc == expected_crc)
+						{
+							vector_optimize[i].response.push_back(read_buffer_vector);
+
+
+							//–†–∞–∑–±–∏—Ä–∞–µ–º (—Ä–∞—Å–ø—Ä–µ–¥–µ–ª—è–µ–º –∑–Ω–∞—á–µ–Ω–∏—è –ø–æ —Ä–µ–≥–∏—Å—Ç—Ä–∞–º) –æ—Ç–≤–µ—Ç
+							//–û–ø—Ä–µ–¥–µ–ª—è–µ–º –Ω–∞—á–∞–ª—å–Ω—ã–π –∞–¥—Ä–µ—Å
+							uint16_t start_address = (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3];
+							//printf("start: %d \n", start_address);
+
+							for (int v = 3, addr = start_address + 1; v < vector_optimize[i].response[y].size(); v += 2, addr++)
 							{
-								for (int s = 0; s < vector_optimize[i].holding_regs.size() + 1; s++)
+
+								//–ü–µ—Ä–µ–±–∏—Ä–∞–µ–º holding
+								if (vector_optimize[i].response[y][1] == 0x03)
 								{
-									if (vector_optimize[i].holding_regs[s] == addr)
+									for (int s = 0; s < vector_optimize[i].holding_regs.size() + 1; s++)
 									{
-										for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
+										if (vector_optimize[i].holding_regs[s] == addr)
 										{
-											if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
+											for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
 											{
-												pos = node->vectorDevice[i].vectorTag[c].reg_position;
+												if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
+												{
+													pos = node->vectorDevice[i].vectorTag[c].reg_position;
 
-												if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int16)
-												{
-													node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::uint16)
-												{
-													node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int32) //1.2.3.4 (LE)
-												{
-													node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::uint32) //1.2.3.4 (LE)
-												{
-													node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE) //4.3.2.1
-												{
-													int32_t int_val = ((vector_optimize[i].response[y][v + 3] << 24) + (vector_optimize[i].response[y][v + 2] << 16)) + ((vector_optimize[i].response[y][v + 1] << 8) + vector_optimize[i].response[y][v + 0]);
+													if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int16)
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::uint16)
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int32) //1.2.3.4 (LE)
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::uint32) //1.2.3.4 (LE)
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE) //4.3.2.1
+													{
+														int_val = ((vector_optimize[i].response[y][v + 3] << 24) + (vector_optimize[i].response[y][v + 2] << 16)) + ((vector_optimize[i].response[y][v + 1] << 8) + vector_optimize[i].response[y][v + 0]);
 
-													node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE_swap)  //3.4.1.2
+													{
+														int_val = ((vector_optimize[i].response[y][v + 2] << 24) + (vector_optimize[i].response[y][v + 3] << 16)) + ((vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1]);
+
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE)  //1.2.3.4
+													{
+														int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 3]);
+
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE_swap)  //2.1.4.3
+													{
+														int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
+
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+													}
+
+													//–ü—Ä–∏–º–µ–Ω—è–µ–º –∫–æ—ç—Ñ–∏—Ü–∏–µ–Ω—Ç—ã –ê –∏ B
+													node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
+
+													//printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
 												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE_swap)  //3.4.1.2
+											}
+										}
+									}
+								}
+
+
+
+								//–ü–µ—Ä–µ–±–∏—Ä–∞–µ–º input
+								if (vector_optimize[i].response[y][1] == 0x04)
+								{
+									for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
+									{
+										if (vector_optimize[i].input_regs[s] == addr)
+										{
+											for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
+											{
+												if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
 												{
-													int32_t int_val = ((vector_optimize[i].response[y][v + 2] << 24) + (vector_optimize[i].response[y][v + 3] << 16)) + ((vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1]);
+													pos = node->vectorDevice[i].vectorTag[c].reg_position;
 
-													node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+													if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int16)
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::uint16)
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int32) //1.2.3.4 (LE)
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::uint32) //1.2.3.4 (LE)
+													{
+														node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE) //4.3.2.1
+													{
+														int_val = ((vector_optimize[i].response[y][v + 3] << 24) + (vector_optimize[i].response[y][v + 2] << 16)) + ((vector_optimize[i].response[y][v + 1] << 8) + vector_optimize[i].response[y][v + 0]);
+
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+														//memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
+
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE_swap)  //3.4.1.2
+													{
+														int_val = ((vector_optimize[i].response[y][v + 2] << 24) + (vector_optimize[i].response[y][v + 3] << 16)) + ((vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1]);
+
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+														//memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE)  //1.2.3.4
+													{
+														int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 3]);
+
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+														//memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
+													}
+													else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE_swap)  //2.1.4.3
+													{
+														int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
+
+														node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
+														//memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
+													}
+
+													//–ü—Ä–∏–º–µ–Ω—è–µ–º –∫–æ—ç—Ñ–∏—Ü–∏–µ–Ω—Ç—ã A –∏ B
+													node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
+
+													//printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
 												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE)  //1.2.3.4
-												{
-													int32_t int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 3]);
-
-													node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE_swap)  //2.1.4.3
-												{
-													int32_t int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
-
-													node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
-												}
-
-												//œËÏÂÌˇÂÏ ÍÓ˝ÙËˆËÂÌÚ˚ ¿ Ë B
-												node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
-
-												printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
 											}
 										}
 									}
 								}
 							}
 
-							
+						} // –ó–∞–∫—Ä—ã–≤–∞–µ–º CRC
+						else if (config.rx_count == 0xff)
+						{
+							str.clear();
+							str = " Port: " + std::to_string(node->port) + "!!! No response\n";
+							write_text_to_log_file(str.c_str());
+														
+							printf(str.c_str());
+						}
+						else 
+						{
+							str.clear();
+							str = " Port: " + std::to_string(node->port) + "!!! CRC Error\n";
+							write_text_to_log_file(str.c_str());
 
-							//œÂÂ·Ë‡ÂÏ input
-							if (vector_optimize[i].response[y][1] == 0x04)
-							{								
-								for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
-								{
-									if (vector_optimize[i].input_regs[s] == addr)
-									{
-										for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-										{
-											if (addr == node->vectorDevice[i].vectorTag[c].reg_address)
-											{
-												pos = node->vectorDevice[i].vectorTag[c].reg_position;
-
-												if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int16)
-												{
-													node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::uint16)
-												{
-													node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::int32) //1.2.3.4 (LE)
-												{
-													node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::uint32) //1.2.3.4 (LE)
-												{
-													node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE) //4.3.2.1
-												{
-													int32_t int_val = ((vector_optimize[i].response[y][v + 3] << 24) + (vector_optimize[i].response[y][v + 2] << 16)) + ((vector_optimize[i].response[y][v + 1] << 8) + vector_optimize[i].response[y][v + 0]);
-
-													//node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
-													memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_BE_swap)  //3.4.1.2
-												{
-													int32_t int_val = ((vector_optimize[i].response[y][v + 2] << 24) + (vector_optimize[i].response[y][v + 3] << 16)) + ((vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1]);
-
-													//node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
-													memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE)  //1.2.3.4
-												{
-													int32_t int_val = ((vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16)) + ((vector_optimize[i].response[y][v + 2] << 8) + vector_optimize[i].response[y][v + 3]);
-
-													//node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
-													memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
-												}
-												else if (node->vectorDevice[i].vectorTag[pos].enum_data_type == Data_type::float_LE_swap)  //2.1.4.3
-												{
-													int32_t int_val = ((vector_optimize[i].response[y][v + 1] << 24) + (vector_optimize[i].response[y][v] << 16)) + ((vector_optimize[i].response[y][v + 3] << 8) + vector_optimize[i].response[y][v + 2]);
-
-													//node->vectorDevice[i].vectorTag[pos].value = *reinterpret_cast<float*>(&int_val);
-													memcpy(&node->vectorDevice[i].vectorTag[pos].value, &int_val, sizeof(float));
-												}
-
-												//œËÏÂÌˇÂÏ ÍÓ˝ÙËˆËÂÌÚ˚ A Ë B
-												node->vectorDevice[i].vectorTag[pos].value = (node->vectorDevice[i].vectorTag[pos].value * node->vectorDevice[i].vectorTag[pos].coef_A) + node->vectorDevice[i].vectorTag[pos].coef_B;
-
-												printf("%d \n", (int)node->vectorDevice[i].vectorTag[pos].value);
-											}
-										}
-									}
-								}
-							}
+							printf(str.c_str());
 						}
 
+
+
+						read_buffer_vector.clear();
 						
 
-					}
-					else printf("Warning! Error CRC. ");
+						#if GTEST_DEBUG == 1	
+							return 0;
+						#endif
 
-					if (vector_optimize[i].response[y][1] == 0x83 || vector_optimize[i].response[y][1] == 0x84)
+
+						//printf("--->");
+						//for (int w = 0; w < 8; w++)
+						//{
+						//	printf("%X ", vector_optimize[i].request[y][w]);					
+						//}
+						//printf("\n <---");
+						//for (int w = 0; w < expected_size; w++)
+						//{					
+						//	printf("%X ", read_buffer[w]);
+						//}
+						//printf("\n");
+
+
+
+
+						//–ü—Ä–æ—Ö–æ–¥–∏–º –ø–æ —Ç—ç–≥–∞–º —É—Å—Ç—Ä–æ–π—Å—Ç–≤–∞ (OPC)
+						for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+						{
+							if (node->vectorDevice[i].vectorTag[j].on == 1)
+							{								
+
+								if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int16)
+								{
+									
+									UA_Variant_init(&value);
+									opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;									
+									UA_Variant_setScalar(&value, &opc_value_int16, &UA_TYPES[UA_TYPES_INT16]); 
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);						
+
+
+								}
+								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint16)
+								{
+									UA_Variant_init(&value);
+									opc_value_uint16 = (UA_UInt16)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalar(&value, &opc_value_uint16, &UA_TYPES[UA_TYPES_UINT16]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
+								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int32)
+								{
+									UA_Variant_init(&value);
+									opc_value_int32 = (UA_Int32)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalar(&value, &opc_value_int32, &UA_TYPES[UA_TYPES_INT32]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
+								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint32)
+								{
+									UA_Variant_init(&value);
+									opc_value_uint32 = (UA_UInt32)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalar(&value, &opc_value_uint32, &UA_TYPES[UA_TYPES_UINT32]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
+								else if ((node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE) ||
+									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE_swap) ||
+									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE) ||
+									(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE_swap))
+								{
+									UA_Variant_init(&value);
+									opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalar(&value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
+
+							}
+
+							//printf("%d %s %d\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
+						
+						} //–ó–∞–∫—Ä—ã–≤–∞–µ–º for.. "–ü—Ä–æ—Ö–æ–¥–∏–º –ø–æ —Ç—ç–≥–∞–º —É—Å—Ç—Ä–æ–π—Å—Ç–≤–∞ (OPC)"
+
+
+					} //–ó–∞–∫—Ä—ã–≤–∞–µ–º if ..."–ü—Ä–æ–≤–µ—Ä—è–µ–º –∫–æ–ª–∏—á–µ—Å—Ç–≤–æ –±–∞–π—Ç, –µ—Å–ª–∏ 0 —Ç–æ –æ–±—Ä—ã–≤ –∏–ª–∏ –æ—à–∏–±–∫–∞"					
+					else if (config.rx_count < expected_size)
 					{
-						printf("Warning! No response from: device = %d, start reg address = %d \n", node->vectorDevice[i].device_address, (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3]);
+
+						std::string s = " Port: " + std::to_string(node->port) + " !!! No response (rx_count (" + std::to_string(config.rx_count) + ") < expected (" + std::to_string(config.rx_expected) + "))";
+						write_text_to_log_file(s.c_str());		
+						
+						printf("Port: %d. !!!No response (rx_count (%d) < expected (%d))\n", node->port, config.rx_count, config.rx_expected);
+						
+						for (int w = 0; w < config.rx_count; w++)
+						{
+							printf("%X ", read_buffer[w]);
+						}
+						printf("\n");
+
 					}
-
-					read_buffer_vector.clear();
-
-
-					//printf("--->");
-					//for (int w = 0; w < 8; w++)
+					//else if (config.rx_count == 0)
 					//{
-					//	printf("%X ", vector_optimize[i].request[y][w]);					
+					//	std::string s = " Warning Port: " + std::to_string(node->port) + "!!! rx_count == 0";
+					//	write_text_to_log_file(s.c_str());
+
+					//	printf("Warning! Port: %d !!! rx_count == 0 \n", node->port);
 					//}
-					//printf("\n <---");
-					//for (int w = 0; w < expected_size; w++)
-					//{					
-					//	printf("%X ", read_buffer[w]);
-					//}
-					//printf("\n");
-				}
 
 
+				} // –ó–∞–∫—Ä—ã–≤–∞–µ–º for... "–û—Ç–ø—Ä–∞–≤–ª—è–µ–º –∑–∞–ø—Ä–æ—Å—ã –∏ –ø—Ä–∏–Ω–∏–º–∞–µ–º –æ—Ç–≤–µ—Ç—ã –ø–æ –ø–æ—Ä—è–¥–∫—É"
+
+						
+				//Debug to log file
+				//std::string s = " Port: " + std::to_string(node->port);
+				//write_text_to_log_file(s.c_str());
+				
 
 
+			} //–ó–∞–∫—Ä—ã–≤–∞–µ–º vectorDevice[i].on == 1
 
-				//œÓıÓ‰ËÏ ÔÓ Ú˝„‡Ï ÛÒÚÓÈÒÚ‚‡ (OPC)
-				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-				{
-					if (node->vectorDevice[i].vectorTag[j].on == 1)
-					{
-
-						if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int16)
-						{
-							opc_value_int16 = (UA_Int16)node->vectorDevice[i].vectorTag[j].value;
-							UA_Variant_setScalarCopy(&value, &opc_value_int16, &UA_TYPES[UA_TYPES_INT16]);
-							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						}
-						else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint16)
-						{
-							opc_value_uint16 = (UA_UInt16)node->vectorDevice[i].vectorTag[j].value;
-							UA_Variant_setScalarCopy(&value, &opc_value_uint16, &UA_TYPES[UA_TYPES_UINT16]);
-							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						}
-						else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::int32)
-						{
-							opc_value_int32 = (UA_Int32)node->vectorDevice[i].vectorTag[j].value;
-							UA_Variant_setScalarCopy(&value, &opc_value_int32, &UA_TYPES[UA_TYPES_INT32]);
-							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						}
-						else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::uint32)
-						{
-							opc_value_uint32 = (UA_UInt32)node->vectorDevice[i].vectorTag[j].value;
-							UA_Variant_setScalarCopy(&value, &opc_value_uint32, &UA_TYPES[UA_TYPES_UINT32]);
-							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						}
-						else if ( (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE) ||
-							(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_BE_swap) ||
-							(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE) ||
-							(node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::float_LE_swap) )
-						{
-							opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
-							UA_Variant_setScalarCopy(&value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
-							UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-						}
-
-					}
-
-					//printf("%d %s %d\n", node->vectorDevice[i].device_address, node->vectorDevice[i].vectorTag[j].name.c_str(), node->vectorDevice[i].vectorTag[j].value);
-				}
-
-
-
-			}
 
 			vector_optimize[i].response.clear();
-		}
+			//std::vector<Optimize>().swap(vector_optimize); //free memory
+
+		} // –ó–∞–∫—Ä—ã–≤–∞–µ–º for ... "–ü—Ä–æ—Ö–æ–¥–∏–º –ø–æ —É—Å—Ç—Ä–æ–π—Å—Ç–≤–∞–º"
 
 		
 
@@ -397,7 +509,22 @@ void* pollingDeviceRS485(void *args)
 		clock_gettime(CLOCK_REALTIME, &stop2);
 		common_duration = time_diff(start, stop2);
 		//printf("\nCommon Duration Time %d \n\n", common_duration.tv_sec*100 + (common_duration.tv_nsec / 1000000) );
-	}
+	
+
+		//printf("%d \n", test_val_count);
+
+		
+		//std::string s = " Memory: " + std::to_string(getRam());
+		str = " RES Memory: " + std::to_string(getCurrentProccessMemory());
+		write_text_to_log_file(str.c_str());
+		
+		
+		//printf("%d \n", getTotalSystemMemory());
 
 
+	} // –ó–∞–∫—Ä—ã–≤–∞–µ–º while
+
+
+
+	return 0;
 }
