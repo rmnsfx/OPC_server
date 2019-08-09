@@ -318,11 +318,7 @@ int main(int argc, char** argv)
 
 	pthread_t server_thread;
 
-	int status;
-	/*pid_t main_pid;
-	pid_t th1_pid;
-	main_pid = getpid();*/
-
+	int status = 0;
 
 
 
@@ -331,7 +327,7 @@ int main(int argc, char** argv)
 
 	
 
-	char* path_to_json;
+	char* path_to_json = nullptr;
 
 	if (argc > 1)
 	{
@@ -352,7 +348,7 @@ int main(int argc, char** argv)
 	Controller controller;
 
 	controller = serializeFromJSON(path_to_json);
-
+		
 	pthread_create(&server_thread, NULL, workerOPC, &controller); //Запуск OPC сервера 		
 	sleep(1);
 

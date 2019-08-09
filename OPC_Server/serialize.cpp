@@ -27,14 +27,22 @@ Controller serializeFromJSON(char* path)
 	Tag tags;
 	Tag nodeTags;
 	Tag controllerTags;
+	Document doc;
 
 	//char* readBuffer = (char*) calloc(65536, sizeof(char)); // Âûהוכÿול ןאלÿעü 	
 	char* readBuffer = new char[65536];
-
 	FILE* fp = fopen(path, "r");
-	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 
-	Document doc;
+	
+	if (fp == 0x0)
+	{
+		printf("!!! Not found opc.JSON. Exit.\n");
+		
+		exit(1);
+	}
+
+	
+	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 	doc.ParseStream(is);
 	fclose(fp);
 
