@@ -9,7 +9,7 @@
 #include <vector>
 #include <unistd.h>
 #include <stdint.h>
-#include "open62541.h"
+
 
 
 #define GTEST_DEBUG 0 //Работа в режиме модульного тестирования

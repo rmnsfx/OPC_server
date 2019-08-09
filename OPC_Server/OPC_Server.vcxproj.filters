@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="open62541.c" />
     <ClCompile Include="serialize.cpp" />
     <ClCompile Include="tcp.cpp" />
     <ClCompile Include="poll_optimize.cpp" />
@@ -22,6 +21,12 @@
     </Filter>
     <Filter Include="rapidjson\msinttypes">
       <UniqueIdentifier>{33c7d6a6-1e75-442a-be23-f9ea4e6d0eaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="open62541">
+      <UniqueIdentifier>{562669b7-88ba-4bba-89cc-f173828b7c20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="open62541\plugin">
+      <UniqueIdentifier>{848c9370-5db7-40dc-83a5-2b3f406136fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -133,7 +138,6 @@
     <ClInclude Include="rapidjson\msinttypes\stdint.h">
       <Filter>rapidjson\msinttypes</Filter>
     </ClInclude>
-    <ClInclude Include="open62541.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="serialize.h" />
     <ClInclude Include="tcp.h" />
@@ -142,8 +146,85 @@
     <ClInclude Include="rs485.h" />
     <ClInclude Include="crc.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="open62541\architecture_base.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\architecture_definitions.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\architecture_functions.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\client.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\client_config.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\client_highlevel.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\client_highlevel_async.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\client_subscriptions.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\config.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\constants.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\network_tcp.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\server.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\server_config.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\server_pubsub.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\types.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\util.h">
+      <Filter>open62541</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\plugin\accesscontrol.h">
+      <Filter>open62541\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\plugin\historydatabase.h">
+      <Filter>open62541\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\plugin\log.h">
+      <Filter>open62541\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\plugin\network.h">
+      <Filter>open62541\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\plugin\nodestore.h">
+      <Filter>open62541\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\plugin\pki.h">
+      <Filter>open62541\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\plugin\pubsub.h">
+      <Filter>open62541\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="open62541\plugin\securitypolicy.h">
+      <Filter>open62541\plugin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\opc.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="open62541\libopen62541.a">
+      <Filter>open62541</Filter>
+    </Library>
   </ItemGroup>
 </Project>
