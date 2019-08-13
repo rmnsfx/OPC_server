@@ -60,9 +60,9 @@ void* workerOPC(void *args)
 
 	
 
-	UA_ServerConfig* config = UA_ServerConfig_new_default();	
-	server = UA_Server_new(config);
-
+	//UA_ServerConfig* config = UA_ServerConfig_new_default();	
+	server = UA_Server_new();
+	UA_ServerConfig_setDefault(UA_Server_getConfig(server));
 	
 
 	UA_NodeId contrId; /* get the nodeid assigned by the server */
@@ -178,7 +178,7 @@ void* workerOPC(void *args)
 	UA_StatusCode retval = UA_Server_run(server, &running);
 
 	UA_Server_delete(server);
-	UA_ServerConfig_delete(config);
+	//UA_ServerConfig_delete(config);
 	
 	free(controller);
 	
