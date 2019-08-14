@@ -60,10 +60,15 @@ void* workerOPC(void *args)
 
 	
 
-	//UA_ServerConfig* config = UA_ServerConfig_new_default();	
-	server = UA_Server_new();
-	UA_ServerConfig_setDefault(UA_Server_getConfig(server));
+	UA_ServerConfig* config;
 	
+	server = UA_Server_new();
+	
+	//Historizing
+	UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(1);
+	config->historyDatabase = UA_HistoryDatabase_default(gathering);
+	
+
 
 	UA_NodeId contrId; /* get the nodeid assigned by the server */
 	UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
@@ -176,7 +181,7 @@ void* workerOPC(void *args)
 	
 
 	UA_StatusCode retval = UA_Server_run(server, &running);
-
+	UA_Server_run_shutdown(server);
 	UA_Server_delete(server);
 	//UA_ServerConfig_delete(config);
 	
