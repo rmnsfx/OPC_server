@@ -64,10 +64,31 @@ void* workerOPC(void *args)
 	
 	server = UA_Server_new();
 	
-	//Historizing
-	UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(1);
-	config->historyDatabase = UA_HistoryDatabase_default(gathering);
 	
+	
+	////Historizing Data
+	//UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(1);
+	//config->historyDatabase = UA_HistoryDatabase_default(gathering);
+	//
+	///* Now we define the settings for our node */
+	//UA_HistorizingNodeIdSettings setting;
+
+	///* There is a memory based database plugin. We will use that. We just
+	// * reserve space for 3 nodes with 100 values each. This will also
+	// * automaticaly grow if needed, but that is expensive, because all data must
+	// * be copied. */
+	//setting.historizingBackend = UA_HistoryDataBackend_Memory(3, 100);
+
+	///* We want the server to serve a maximum of 100 values per request. This
+	// * value depend on the plattform you are running the server. A big server
+	// * can serve more values, smaller ones less. */
+	//setting.maxHistoryDataResponseSize = 100;
+
+	///* We want the values stored in the database, when the nodes value is
+	//* set. */
+	//setting.historizingUpdateStrategy = UA_HISTORIZINGUPDATESTRATEGY_VALUESET;
+
+
 
 
 	UA_NodeId contrId; /* get the nodeid assigned by the server */
@@ -115,6 +136,8 @@ void* workerOPC(void *args)
 				std::string id_tag = controller->vectorNode[i].vectorDevice[j].vectorTag[k].name;
 
 				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
+				//statusAttr3.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD;
+				//statusAttr3.historizing = true;
 
 				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
 				{
@@ -172,6 +195,10 @@ void* workerOPC(void *args)
 				}
 
 				controller->vectorNode[i].vectorDevice[j].vectorTag[k].tagNodeId = tagNodeId;
+
+
+				/* At the end we register the node for gathering data in the database. */
+				//gathering.registerNodeId(server, gathering.context, &tagNodeId, setting);
 			}
 		}
 
