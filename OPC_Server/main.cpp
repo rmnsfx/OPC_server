@@ -111,7 +111,7 @@ void* workerOPC(void *args)
 
 		UA_VariableAttributes statusAttr = UA_VariableAttributes_default;
 
-		statusAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD;
+		statusAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
 		statusAttr.historizing = true;
 
 		UA_Variant_setScalar(&statusAttr.value, NULL, NULL);
@@ -128,7 +128,7 @@ void* workerOPC(void *args)
 
 			UA_VariableAttributes statusAttr2 = UA_VariableAttributes_default;
 
-			statusAttr2.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD;
+			statusAttr2.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
 			statusAttr2.historizing = true;
 			
 			UA_Variant_setScalar(&statusAttr2.value, NULL, NULL);
@@ -145,7 +145,7 @@ void* workerOPC(void *args)
 
 				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
 				
-				statusAttr3.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD;
+				statusAttr3.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
 				statusAttr3.historizing = true;
 
 				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
