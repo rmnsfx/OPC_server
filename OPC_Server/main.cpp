@@ -38,6 +38,13 @@ UA_Server* getServer(void)
 	return server;
 }
 
+static UA_HistoryDataBackend backend;
+
+UA_HistoryDataBackend getBackend(void)
+{
+	return backend;
+}
+
 #if GTEST_DEBUG == 0
 
 #include "open62541.h"
@@ -79,7 +86,8 @@ void* workerOPC(void *args)
 	 * reserve space for 3 nodes with 100 values each. This will also
 	 * automaticaly grow if needed, but that is expensive, because all data must
 	 * be copied. */
-	setting.historizingBackend = UA_HistoryDataBackend_Memory(100, 100);
+	backend = UA_HistoryDataBackend_Memory(100, 100);
+	setting.historizingBackend = backend;
 
 	/* We want the server to serve a maximum of 100 values per request. This
 	 * value depend on the plattform you are running the server. A big server

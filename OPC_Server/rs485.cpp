@@ -94,7 +94,7 @@ void* pollingDeviceRS485(void *args)
 	}
 
 	UA_Server* server = getServer();
-
+	UA_HistoryDataBackend backend = getBackend();
 	
 	UA_Variant value;
 	UA_Int16 opc_value_int16 = 0;
@@ -438,6 +438,22 @@ void* pollingDeviceRS485(void *args)
 									opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
 									UA_Variant_setScalar(&value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+
+									UA_DateTime currentDateTime = UA_DateTime_now();
+									UA_DataValue data_value;
+									UA_DataValue_init(&data_value);
+									data_value.hasSourceTimestamp = true;
+									data_value.sourceTimestamp = currentDateTime;
+									data_value.hasServerTimestamp = true;
+									data_value.serverTimestamp = currentDateTime;
+									data_value.hasStatus = true;
+									data_value.status = UA_STATUSCODE_GOOD;
+									UA_Variant_setScalar(&data_value.value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
+									if (backend.serverSetHistoryData(server, backend.context, NULL, NULL, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_FALSE, &data_value) == UA_STATUSCODE_GOOD)
+									{
+										printf("!!! Error Update History Data Backend\n");
+									};
+									//UA_DataValue_deleteMembers(&data_value);
 								}
 
 							}
