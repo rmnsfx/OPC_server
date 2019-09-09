@@ -76,7 +76,7 @@ void* workerOPC(void *args)
 	
 	
 	//Historizing Data
-	UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(30);
+	UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(300);
 	config->historyDatabase = UA_HistoryDatabase_default(gathering);
 	
 	/* Now we define the settings for our node */
@@ -86,7 +86,7 @@ void* workerOPC(void *args)
 	 * reserve space for 3 nodes with 100 values each. This will also
 	 * automaticaly grow if needed, but that is expensive, because all data must
 	 * be copied. */
-	backend = UA_HistoryDataBackend_Memory(100, 100);
+	backend = UA_HistoryDataBackend_Memory(3, 100);
 	setting.historizingBackend = backend;
 
 	/* We want the server to serve a maximum of 100 values per request. This

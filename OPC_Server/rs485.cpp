@@ -449,11 +449,15 @@ void* pollingDeviceRS485(void *args)
 									data_value.hasStatus = true;
 									data_value.status = UA_STATUSCODE_GOOD;
 									UA_Variant_setScalar(&data_value.value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
-									if (backend.serverSetHistoryData(server, backend.context, NULL, NULL, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_FALSE, &data_value) == UA_STATUSCODE_GOOD)
+									if (backend.serverSetHistoryData(server, backend.context, NULL, NULL, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_FALSE, &data_value) != UA_STATUSCODE_GOOD)
 									{
 										printf("!!! Error Update History Data Backend\n");
 									};
 									//UA_DataValue_deleteMembers(&data_value);
+
+
+
+									
 								}
 
 							}
