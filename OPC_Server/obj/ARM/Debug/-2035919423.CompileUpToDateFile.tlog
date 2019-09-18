@@ -1,0 +1,53 @@
+D:\Repos\OPC_Server\OPC_Server\crc.cpp|637006214410722640|/root/projects/OPC_Server||g++ -c -x c++ /root/projects/OPC_Server/OPC_Server/crc.cpp -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/crc.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+D:\Repos\OPC_Server\OPC_Server\main.cpp|637031894359275382|/root/projects/OPC_Server||g++ -c -x c++ /root/projects/OPC_Server/OPC_Server/main.cpp -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/main.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+D:\Repos\OPC_Server\OPC_Server\open62541.c|637030366452963117|/root/projects/OPC_Server||g++ -c -x c /root/projects/OPC_Server/OPC_Server/open62541.c -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/open62541.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-pointer-sign" -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fexceptions -std=c11
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp|637006214412012769|/root/projects/OPC_Server||g++ -c -x c++ /root/projects/OPC_Server/OPC_Server/poll_optimize.cpp -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/poll_optimize.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+D:\Repos\OPC_Server\OPC_Server\rs485.cpp|637037181359571339|/root/projects/OPC_Server||g++ -c -x c++ /root/projects/OPC_Server/OPC_Server/rs485.cpp -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/rs485.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+D:\Repos\OPC_Server\OPC_Server\serialize.cpp|637009488241326695|/root/projects/OPC_Server||g++ -c -x c++ /root/projects/OPC_Server/OPC_Server/serialize.cpp -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/serialize.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+D:\Repos\OPC_Server\OPC_Server\tcp.cpp|637009637589477605|/root/projects/OPC_Server||g++ -c -x c++ /root/projects/OPC_Server/OPC_Server/tcp.cpp -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/tcp.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+D:\Repos\OPC_Server\OPC_Server\utils.cpp|637007917229119173|/root/projects/OPC_Server||g++ -c -x c++ /root/projects/OPC_Server/OPC_Server/utils.cpp -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/utils.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+D:\Repos\OPC_Server\OPC_Server\crc.h|636961290432237615|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\main.h|637031028855845948|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\open62541.h|637014757563744512|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\poll_optimize.h|637006214412082776|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\allocators.h|636879787743368802|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\cursorstreamwrapper.h|636879787743388804|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\document.h|636893659749033127|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\encodedstream.h|636879787743448810|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\encodings.h|636879787743688834|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\error\en.h|636879787743718837|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\error\error.h|636879787743748840|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\filereadstream.h|636879787743758841|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\filewritestream.h|636879787743788844|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\fwd.h|636879787743808846|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\biginteger.h|636879787743838849|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\diyfp.h|636879787743858851|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\dtoa.h|636879787743878853|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\ieee754.h|636879787743908856|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\itoa.h|636879787743928858|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\meta.h|636879787743958861|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\pow10.h|636879787743978863|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\regex.h|636879787743998865|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\stack.h|636879787744028868|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\strfunc.h|636879787744048870|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\strtod.h|636879787744068872|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\internal\swap.h|636879787744098875|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\istreamwrapper.h|636879787744118877|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\memorybuffer.h|636879787744138879|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\memorystream.h|636879787744158881|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\msinttypes\inttypes.h|636879787744178883|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\msinttypes\stdint.h|636879787744468912|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\ostreamwrapper.h|636879787744508916|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\pointer.h|636879787744548920|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\prettywriter.h|636879787744858951|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\rapidjson.h|636879787744928958|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\reader.h|636879787745098975|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\schema.h|636879787745218987|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\stream.h|636879787745258991|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\stringbuffer.h|636879787745429008|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rapidjson\writer.h|636879787745549020|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rs485.h|637006214412182786|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\rs485_device_ioctl.h|636948131603289174|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\serialize.h|637007888987875096|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\tcp.h|636948131603339179|/root/projects/OPC_Server|| 
+D:\Repos\OPC_Server\OPC_Server\utils.h|637006214412462814|/root/projects/OPC_Server|| 

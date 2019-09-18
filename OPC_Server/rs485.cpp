@@ -94,7 +94,7 @@ void* pollingDeviceRS485(void *args)
 	}
 
 	UA_Server* server = getServer();
-
+	UA_HistoryDataBackend backend = getBackend();
 	
 	UA_Variant value;
 	UA_Int16 opc_value_int16 = 0;
@@ -438,6 +438,7 @@ void* pollingDeviceRS485(void *args)
 									opc_value_float = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
 									UA_Variant_setScalar(&value, &opc_value_float, &UA_TYPES[UA_TYPES_FLOAT]);
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								
 								}
 
 							}

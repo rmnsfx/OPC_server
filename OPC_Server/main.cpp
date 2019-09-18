@@ -38,6 +38,13 @@ UA_Server* getServer(void)
 	return server;
 }
 
+static UA_HistoryDataBackend backend;
+
+UA_HistoryDataBackend getBackend(void)
+{
+	return backend;
+}
+
 #if GTEST_DEBUG == 0
 
 #include "open62541.h"
@@ -60,13 +67,42 @@ void* workerOPC(void *args)
 
 	
 
-	UA_ServerConfig* config = UA_ServerConfig_new_default();	
-	server = UA_Server_new(config);
-
 	
+	//UA_ServerConfig_setDefault(config);
+	
+	server = UA_Server_new();
+	UA_ServerConfig* config = UA_Server_getConfig(server);	
+	UA_ServerConfig_setDefault(config);
+	
+	
+	//Historizing Data
+	UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(300);
+	config->historyDatabase = UA_HistoryDatabase_default(gathering);
+	
+	/* Now we define the settings for our node */
+	UA_HistorizingNodeIdSettings setting;
+
+	/* There is a memory based database plugin. We will use that. We just
+	 * reserve space for 3 nodes with 100 values each. This will also
+	 * automaticaly grow if needed, but that is expensive, because all data must
+	 * be copied. */
+	backend = UA_HistoryDataBackend_Memory(3, 100);
+	setting.historizingBackend = backend;
+
+	/* We want the server to serve a maximum of 100 values per request. This
+	 * value depend on the plattform you are running the server. A big server
+	 * can serve more values, smaller ones less. */
+	setting.maxHistoryDataResponseSize = 100;
+
+	/* We want the values stored in the database, when the nodes value is
+	* set. */
+	setting.historizingUpdateStrategy = UA_HISTORIZINGUPDATESTRATEGY_VALUESET;
+
+
+
 
 	UA_NodeId contrId; /* get the nodeid assigned by the server */
-	UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
+	UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;	
 	oAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*) controller->name.c_str());
 	UA_Server_addObjectNode(server, UA_NODEID_NULL,
 		UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
@@ -83,6 +119,9 @@ void* workerOPC(void *args)
 
 		UA_VariableAttributes statusAttr = UA_VariableAttributes_default;
 
+		statusAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
+		statusAttr.historizing = true;
+
 		UA_Variant_setScalar(&statusAttr.value, NULL, NULL);
 		statusAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_node.c_str());
 		UA_Server_addVariableNode(server, UA_NODEID_NULL, contrId,
@@ -96,6 +135,9 @@ void* workerOPC(void *args)
 			std::string id_device = controller->vectorNode[i].vectorDevice[j].name;
 
 			UA_VariableAttributes statusAttr2 = UA_VariableAttributes_default;
+
+			statusAttr2.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
+			statusAttr2.historizing = true;
 			
 			UA_Variant_setScalar(&statusAttr2.value, NULL, NULL);
 			statusAttr2.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_device.c_str());
@@ -110,6 +152,9 @@ void* workerOPC(void *args)
 				std::string id_tag = controller->vectorNode[i].vectorDevice[j].vectorTag[k].name;
 
 				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
+				
+				statusAttr3.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
+				statusAttr3.historizing = true;
 
 				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
 				{
@@ -167,6 +212,10 @@ void* workerOPC(void *args)
 				}
 
 				controller->vectorNode[i].vectorDevice[j].vectorTag[k].tagNodeId = tagNodeId;
+
+
+				/* At the end we register the node for gathering data in the database. */
+				gathering.registerNodeId(server, gathering.context, &tagNodeId, setting);
 			}
 		}
 
@@ -176,9 +225,9 @@ void* workerOPC(void *args)
 	
 
 	UA_StatusCode retval = UA_Server_run(server, &running);
-
+	UA_Server_run_shutdown(server);
 	UA_Server_delete(server);
-	UA_ServerConfig_delete(config);
+	//UA_ServerConfig_delete(config);
 	
 	free(controller);
 	
