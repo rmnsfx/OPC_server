@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OPC_Server", "OPC_Server\OP
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OPC_Server_Test", "OPC_Server_Test\OPC_Server_Test.vcxproj", "{846E94CE-AECA-4AA7-A657-8260E33A0DB5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Database", "Database\Database.vcxproj", "{DF52122F-5EDC-4553-88A3-3E5E021CC391}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -51,6 +53,22 @@ Global
 		{846E94CE-AECA-4AA7-A657-8260E33A0DB5}.Release|x64.Build.0 = Release|x64
 		{846E94CE-AECA-4AA7-A657-8260E33A0DB5}.Release|x86.ActiveCfg = Release|x86
 		{846E94CE-AECA-4AA7-A657-8260E33A0DB5}.Release|x86.Build.0 = Release|x86
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Debug|ARM.ActiveCfg = Debug|ARM
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Debug|ARM.Build.0 = Debug|ARM
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Debug|ARM64.Build.0 = Debug|ARM64
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Debug|x64.ActiveCfg = Debug|x64
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Debug|x64.Build.0 = Debug|x64
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Debug|x86.ActiveCfg = Debug|x86
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Debug|x86.Build.0 = Debug|x86
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Release|ARM.ActiveCfg = Release|ARM
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Release|ARM.Build.0 = Release|ARM
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Release|ARM64.ActiveCfg = Release|ARM64
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Release|ARM64.Build.0 = Release|ARM64
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Release|x64.ActiveCfg = Release|x64
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Release|x64.Build.0 = Release|x64
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Release|x86.ActiveCfg = Release|x86
+		{DF52122F-5EDC-4553-88A3-3E5E021CC391}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

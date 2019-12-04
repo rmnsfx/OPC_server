@@ -76,27 +76,27 @@ void* workerOPC(void *args)
 	
 	
 	//Historizing Data
-	UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(300);
-	config->historyDatabase = UA_HistoryDatabase_default(gathering);
+//	UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(300);
+//	config->historyDatabase = UA_HistoryDatabase_default(gathering);
 	
 	/* Now we define the settings for our node */
-	UA_HistorizingNodeIdSettings setting;
+//	UA_HistorizingNodeIdSettings setting;
 
 	/* There is a memory based database plugin. We will use that. We just
 	 * reserve space for 3 nodes with 100 values each. This will also
 	 * automaticaly grow if needed, but that is expensive, because all data must
 	 * be copied. */
-	backend = UA_HistoryDataBackend_Memory(3, 100);
-	setting.historizingBackend = backend;
+//	backend = UA_HistoryDataBackend_Memory(3, 100);
+//	setting.historizingBackend = backend;
 
 	/* We want the server to serve a maximum of 100 values per request. This
 	 * value depend on the plattform you are running the server. A big server
 	 * can serve more values, smaller ones less. */
-	setting.maxHistoryDataResponseSize = 100;
+//	setting.maxHistoryDataResponseSize = 100;
 
 	/* We want the values stored in the database, when the nodes value is
 	* set. */
-	setting.historizingUpdateStrategy = UA_HISTORIZINGUPDATESTRATEGY_VALUESET;
+//	setting.historizingUpdateStrategy = UA_HISTORIZINGUPDATESTRATEGY_VALUESET;
 
 
 
