@@ -104,7 +104,7 @@ private:
 //float_LE = point little endian(1, 2, 3, 4)			
 //float_LE_swap = point little endian whit byte - swapped(2, 1, 4, 3)
 
-enum class Data_type { int16, uint16, int32, uint32, float_BE, float_BE_swap, float_LE, float_LE_swap };
+enum class Data_type { int16, uint16, int32, uint32, float_BE, float_BE_swap, float_LE, float_LE_swap, sample };
 
 //Класс тэг
 class Tag : public Device

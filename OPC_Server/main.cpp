@@ -197,10 +197,21 @@ void* workerOPC(void *args)
 						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
 				}
 
-				if ( (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_BE) ||
+				else if ( (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_BE) ||
 					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_BE_swap) ||
 					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE) ||
 					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE_swap) )
+				{
+					value_float = 0;
+					UA_Variant_setScalar(&statusAttr3.value, &value_float, &UA_TYPES[UA_TYPES_FLOAT]);
+					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
+						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
+						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
+				}
+				
+				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::sample)
 				{
 					value_float = 0;
 					UA_Variant_setScalar(&statusAttr3.value, &value_float, &UA_TYPES[UA_TYPES_FLOAT]);
@@ -215,7 +226,7 @@ void* workerOPC(void *args)
 
 
 				/* At the end we register the node for gathering data in the database. */
-				gathering.registerNodeId(server, gathering.context, &tagNodeId, setting);
+				//gathering.registerNodeId(server, gathering.context, &tagNodeId, setting);
 			}
 		}
 
@@ -324,6 +335,7 @@ Data_type type_converter(const std::string &str)
 	else if (str == "float_BE_swap") return Data_type::float_BE_swap;
 	else if (str == "float_LE") return Data_type::float_LE;
 	else if (str == "float_LE_swap") return Data_type::float_LE_swap;
+	else if (str == "sample") return Data_type::sample;
 };
 
 Interface_type interface_converter(const std::string &str)
