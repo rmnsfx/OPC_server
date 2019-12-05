@@ -329,14 +329,14 @@ void* pollingEngine(void *args)
 Data_type type_converter(const std::string &str)
 {
 	if (str == "int16") return Data_type::int16;	
-	else if (str == "uint16") return Data_type::uint16;
-	else if (str == "int32") return Data_type::int32;
-	else if (str == "uint32") return Data_type::uint32;
-	else if (str == "float_BE") return Data_type::float_BE;
-	else if (str == "float_BE_swap") return Data_type::float_BE_swap;
-	else if (str == "float_LE") return Data_type::float_LE;
-	else if (str == "float_LE_swap") return Data_type::float_LE_swap;
-	else if (str == "sample") return Data_type::sample;
+	if (str == "uint16") return Data_type::uint16;
+	if (str == "int32") return Data_type::int32;
+	if (str == "uint32") return Data_type::uint32;
+	if (str == "float_BE") return Data_type::float_BE;
+	if (str == "float_BE_swap") return Data_type::float_BE_swap;
+	if (str == "float_LE") return Data_type::float_LE;
+	if (str == "float_LE_swap") return Data_type::float_LE_swap;
+	if (str == "sample") return Data_type::sample;
 };
 
 Interface_type interface_converter(const std::string &str)

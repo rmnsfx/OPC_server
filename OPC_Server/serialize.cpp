@@ -60,7 +60,7 @@ Controller serializeFromJSON(char* path)
 		controller.description = doc["comment"].GetString();
 		controller.attribute = doc["attribute"].GetUint();
 
-		printf("%s:\n", doc["name"].GetString());
+		//printf("%s:\n", doc["name"].GetString());
 
 		if (Coms.Size() > 0)
 		{
@@ -69,7 +69,7 @@ Controller serializeFromJSON(char* path)
 
 			for (int i = 0; i < Coms.Size(); i++)
 			{
-				printf("    Coms: %s\n", Coms[i]["name"].GetString());				
+				//printf("    Coms: %s\n", Coms[i]["name"].GetString());				
 								
 				node.name = Coms[i]["name"].GetString();
 				node.on = Coms[i]["on"].GetUint();
@@ -110,12 +110,13 @@ Controller serializeFromJSON(char* path)
 
 							for (int k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
 							{
-								printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());
+								//printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());
 
 								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
 								tags.on = Coms[i]["Devs"][j]["Tags"][k]["on"].GetUint();																
 								tags.enum_data_type = type_converter( Coms[i]["Devs"][j]["Tags"][k]["data_type"].GetString() ); //Конвертируем типы в enum
 
+								printf("%d\n", tags.enum_data_type );
 
 								tags.function = Coms[i]["Devs"][j]["Tags"][k]["function"].GetUint();
 								tags.reg_address = Coms[i]["Devs"][j]["Tags"][k]["register"].GetUint(); 
