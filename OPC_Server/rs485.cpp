@@ -102,6 +102,7 @@ void* pollingDeviceRS485(void *args)
 	UA_Int32 opc_value_int32 = 0;
 	UA_UInt32 opc_value_uint32 = 0;
 	UA_Float opc_value_float = 0;
+	UA_Float opc_value_sample = 0;
 
 	int32_t int_val = 0;
 	std::string str = "";
@@ -142,7 +143,7 @@ void* pollingDeviceRS485(void *args)
 		//Проходим по устройствам
 		for (int i = 0; i < node->vectorDevice.size(); i++)
 		{
-			if (node->vectorDevice[i].on == 1)
+			if (node->vectorDevice[i].on == 1) 
 			{
 
 				//Отправляем запросы и принимаем ответы по порядку
@@ -440,6 +441,14 @@ void* pollingDeviceRS485(void *args)
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 								
 								}
+								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::sample)
+								{
+									UA_Variant_init(&value);
+									opc_value_sample = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
+									UA_Variant_setScalar(&value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
+									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
+								}
+
 
 							}
 

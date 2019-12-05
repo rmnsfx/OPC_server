@@ -57,6 +57,7 @@ void* workerOPC(void *args)
 	UA_Int32 value_int32;
 	UA_UInt32 value_uint32;
 	UA_Float value_float;
+	UA_Float value_sample;
 
 	//Controller * controller = (Controller*) calloc(1, sizeof(Controller)); // Выделяем память 
 	//controller = (Controller*)args;
@@ -76,27 +77,27 @@ void* workerOPC(void *args)
 	
 	
 	//Historizing Data
-//	UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(300);
-//	config->historyDatabase = UA_HistoryDatabase_default(gathering);
+	UA_HistoryDataGathering gathering = UA_HistoryDataGathering_Default(300);
+	config->historyDatabase = UA_HistoryDatabase_default(gathering);
 	
 	/* Now we define the settings for our node */
-//	UA_HistorizingNodeIdSettings setting;
+	UA_HistorizingNodeIdSettings setting;
 
 	/* There is a memory based database plugin. We will use that. We just
 	 * reserve space for 3 nodes with 100 values each. This will also
 	 * automaticaly grow if needed, but that is expensive, because all data must
 	 * be copied. */
-//	backend = UA_HistoryDataBackend_Memory(3, 100);
-//	setting.historizingBackend = backend;
+	backend = UA_HistoryDataBackend_Memory(3, 100);
+	setting.historizingBackend = backend;
 
 	/* We want the server to serve a maximum of 100 values per request. This
 	 * value depend on the plattform you are running the server. A big server
 	 * can serve more values, smaller ones less. */
-//	setting.maxHistoryDataResponseSize = 100;
+	setting.maxHistoryDataResponseSize = 100;
 
 	/* We want the values stored in the database, when the nodes value is
 	* set. */
-//	setting.historizingUpdateStrategy = UA_HISTORIZINGUPDATESTRATEGY_VALUESET;
+	setting.historizingUpdateStrategy = UA_HISTORIZINGUPDATESTRATEGY_VALUESET;
 
 
 
@@ -120,7 +121,7 @@ void* workerOPC(void *args)
 		UA_VariableAttributes statusAttr = UA_VariableAttributes_default;
 
 		statusAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
-		statusAttr.historizing = true;
+		//statusAttr.historizing = true;
 
 		UA_Variant_setScalar(&statusAttr.value, NULL, NULL);
 		statusAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_node.c_str());
@@ -137,7 +138,7 @@ void* workerOPC(void *args)
 			UA_VariableAttributes statusAttr2 = UA_VariableAttributes_default;
 
 			statusAttr2.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
-			statusAttr2.historizing = true;
+			//statusAttr2.historizing = true;
 			
 			UA_Variant_setScalar(&statusAttr2.value, NULL, NULL);
 			statusAttr2.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_device.c_str());
@@ -226,7 +227,7 @@ void* workerOPC(void *args)
 
 
 				/* At the end we register the node for gathering data in the database. */
-				//gathering.registerNodeId(server, gathering.context, &tagNodeId, setting);
+				gathering.registerNodeId(server, gathering.context, &tagNodeId, setting);
 			}
 		}
 

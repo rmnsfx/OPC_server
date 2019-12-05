@@ -13,7 +13,7 @@
 
 
 #define GTEST_DEBUG 0 //Работа в режиме модульного тестирования
-
+#define LOG 0 
 
 class Controller;
 class Node;

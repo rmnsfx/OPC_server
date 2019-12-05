@@ -69,6 +69,9 @@ int getRam(void)
 
 void write_text_to_log_file(const char* text)
 {
+
+#if LOG == 1
+
 	char buff[20];
 	struct tm *sTm;
 
@@ -84,6 +87,7 @@ void write_text_to_log_file(const char* text)
 	log_file << input << text << std::endl;
 	log_file.close();
 
+#endif
 }
 
 timespec time_diff(timespec start, timespec end)
