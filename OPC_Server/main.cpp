@@ -155,7 +155,7 @@ void* workerOPC(void *args)
 				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
 				
 				statusAttr3.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
-				statusAttr3.historizing = true;
+				//statusAttr3.historizing = true;
 
 				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
 				{
@@ -214,6 +214,7 @@ void* workerOPC(void *args)
 				
 				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::sample)
 				{
+					statusAttr3.historizing = true;
 					value_float = 0;
 					UA_Variant_setScalar(&statusAttr3.value, &value_float, &UA_TYPES[UA_TYPES_FLOAT]);
 					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());

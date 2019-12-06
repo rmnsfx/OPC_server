@@ -107,9 +107,6 @@ void* pollingDeviceRS485(void *args)
 	int32_t int_val = 0;
 	std::string str = "";
 
-	
-
-
 	if (node != nullptr)
 	{
 		char* port = pathToPort(node->port);
@@ -131,7 +128,14 @@ void* pollingDeviceRS485(void *args)
 	rs485_device_ioctl_t config;
 	config.rx_count = 0;
 
-	
+
+	//Выборка
+	uint8_t sample_buffer[100000];
+	struct timespec time;
+	timespec_get(&time, TIME_UTC);
+	rs485_channel_read_t ch_read;
+
+
 
 	//int cc = 0;
 	//while (cc++ < 20)
@@ -484,6 +488,48 @@ void* pollingDeviceRS485(void *args)
 
 				} // Закрываем for... "Отправляем запросы и принимаем ответы по порядку"
 
+				//Проходим по тэгам, ищем выборки
+				for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+				{
+					if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::sample)
+					{						
+
+						std::cout << node->vectorDevice[i].vectorTag[j].name << std::endl;
+
+						
+						ch_read.adr = 2;
+						ch_read.channel = 1;
+						ch_read.data_size = sizeof(sample_buffer);
+						ch_read.data = sample_buffer;
+						ch_read.start_time = time;
+						//ch_read.start_time.tv_sec = 0;
+						//ch_read.start_time.tv_nsec = 0;
+						ch_read.end_time = time;
+						ch_read.start_time.tv_sec -= 1000; //read data from 1 seconds
+
+						int ioret = ioctl(node->f_id, RS485_SAMPLE_READ, &ch_read);
+
+ 						if ((ch_read.count_block > 0) && (ch_read.block_size > 0))
+						{
+							volatile rs485_buffer_pack_t* block = (rs485_buffer_pack_t*) ch_read.data;
+							
+							volatile sp_data_pack_t* pack;
+
+							for (int i = 0; i < ch_read.count_block; i++)
+							{
+								//block = ch_read.data + ch_read.block_size * i;
+								if ((block->points > 0) && (block->resolution > 0))
+								{
+									pack = (sp_data_pack_t*) block->data;
+									//here read data from pack
+									//read_points_from_pack(pack, response);
+								}
+							}
+						}
+
+					}
+				}
+
 						
 				//Debug to log file
 				//std::string s = " Port: " + std::to_string(node->port);
@@ -492,6 +538,8 @@ void* pollingDeviceRS485(void *args)
 
 
 			} //Закрываем vectorDevice[i].on == 1
+
+
 
 
 			vector_optimize[i].response.clear();

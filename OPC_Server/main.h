@@ -37,7 +37,7 @@ public:
 };
 
 //Класс контроллер
-class Controller : public iServerTree
+class Controller : virtual public iServerTree
 {
 
 public:
@@ -119,11 +119,12 @@ public:
 	float value = 0;
 	
 	UA_NodeId tagNodeId;
-	int reg_position;
+	int16_t reg_position;
+	
 };
 
 //Класс группа
-class Group : public iServerTree
+class Group : virtual public iServerTree
 {
 
 public:
