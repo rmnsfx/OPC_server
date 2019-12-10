@@ -56,7 +56,44 @@ char* pathToPort(int node_port)
 	}
 };
 
+int sp_master_read(rs485_buffer_pack_t * channel, float * data)
+{
+	
+	//if (data_size / sizeof(float) < channel->points) return -1;
+		
+	sp_data_pack_t * pack = (sp_data_pack_t*) channel->data;
+	uint8_t* start_position = pack->data;
 
+	uint8_t* position = start_position;
+	uint32_t tmp = 0;
+	size_t resolution = channel->resolution;
+	size_t bits_shift = 8;
+	float* data_end = data;	
+	size_t point = channel->points;
+	data_end += point;
+
+	uint8_t old_byte = *position++;
+	uint32_t mask = 0xFFFFFFFF >> (32 - resolution);
+
+	while (data < data_end)
+	{
+		old_byte >>= 8 - bits_shift;
+		tmp = old_byte;
+
+		while (bits_shift < resolution)
+		{
+			old_byte = *position++;
+			tmp |= old_byte << bits_shift;
+			bits_shift += 8;
+		}
+		bits_shift -= resolution;
+		tmp &= mask;
+		*data++ = tmp;
+	}
+
+
+	return point;
+}
 
 
 void* pollingDeviceRS485(void *args)
@@ -86,6 +123,9 @@ void* pollingDeviceRS485(void *args)
 
 		
 	uint8_t test_val_count = 0;
+
+	std::vector<float> out_float(512);
+	
 
 	Node* node = nullptr;
 	if ((Node*)args != nullptr)
@@ -132,13 +172,11 @@ void* pollingDeviceRS485(void *args)
 	//Выборка
 	uint8_t sample_buffer[100000];
 	struct timespec time;
-	timespec_get(&time, TIME_UTC);
+	
 	rs485_channel_read_t ch_read;
 
 
 
-	//int cc = 0;
-	//while (cc++ < 20)
 	while (1)
 	{
 		clock_gettime(CLOCK_REALTIME, &start);
@@ -494,26 +532,27 @@ void* pollingDeviceRS485(void *args)
 					if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::sample)
 					{						
 
-						std::cout << node->vectorDevice[i].vectorTag[j].name << std::endl;
+						//std::cout << node->vectorDevice[i].vectorTag[j].name << std::endl;
 
-						
+						timespec_get(&time, TIME_UTC);
+
 						ch_read.adr = 2;
 						ch_read.channel = 1;
 						ch_read.data_size = sizeof(sample_buffer);
-						ch_read.data = sample_buffer;
-						ch_read.start_time = time;
-						//ch_read.start_time.tv_sec = 0;
-						//ch_read.start_time.tv_nsec = 0;
+						ch_read.data = sample_buffer;						
+						//ch_read.start_time = time;
+						ch_read.start_time.tv_sec = 0;
+						ch_read.start_time.tv_nsec = 0;
 						ch_read.end_time = time;
-						ch_read.start_time.tv_sec -= 1000; //read data from 1 seconds
+						//ch_read.start_time.tv_sec -= 1000; //read data from 1 seconds
 
 						int ioret = ioctl(node->f_id, RS485_SAMPLE_READ, &ch_read);
 
  						if ((ch_read.count_block > 0) && (ch_read.block_size > 0))
 						{
-							volatile rs485_buffer_pack_t* block = (rs485_buffer_pack_t*) ch_read.data;
+							rs485_buffer_pack_t* block = (rs485_buffer_pack_t*) ch_read.data;
 							
-							volatile sp_data_pack_t* pack;
+							sp_data_pack_t* pack;
 
 							for (int i = 0; i < ch_read.count_block; i++)
 							{
@@ -521,11 +560,14 @@ void* pollingDeviceRS485(void *args)
 								if ((block->points > 0) && (block->resolution > 0))
 								{
 									pack = (sp_data_pack_t*) block->data;
-									//here read data from pack
-									//read_points_from_pack(pack, response);
+
+									sp_master_read(block, &out_float[0]);
 								}
 							}
 						}
+
+
+						std::cout << "out_float.size = " << out_float.size() << std::endl;
 
 					}
 				}
@@ -586,3 +628,5 @@ void* pollingDeviceRS485(void *args)
 
 	return 0;
 }
+
+
