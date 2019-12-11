@@ -56,20 +56,20 @@ char* pathToPort(int node_port)
 	}
 };
 
-int sp_master_read(rs485_buffer_pack_t * channel, float * data)
+int sp_master_read(rs485_buffer_pack_t * block , float * data)
 {
 	
 	//if (data_size / sizeof(float) < channel->points) return -1;
 		
-	sp_data_pack_t * pack = (sp_data_pack_t*) channel->data;
-	uint8_t* start_position = pack->data;
+	
+	uint8_t* start_position = block->pack.data;
 
 	uint8_t* position = start_position;
 	uint32_t tmp = 0;
-	size_t resolution = channel->resolution;
+	size_t resolution = block->resolution;
 	size_t bits_shift = 8;
 	float* data_end = data;	
-	size_t point = channel->points;
+	size_t point = block->points;
 	data_end += point;
 
 	uint8_t old_byte = *position++;
@@ -137,12 +137,13 @@ void* pollingDeviceRS485(void *args)
 	UA_HistoryDataBackend backend = getBackend();
 	
 	UA_Variant value;
+	UA_Variant sample_value;
 	UA_Int16 opc_value_int16 = 0;
 	UA_UInt16 opc_value_uint16 = 0;
 	UA_Int32 opc_value_int32 = 0;
 	UA_UInt32 opc_value_uint32 = 0;
 	UA_Float opc_value_float = 0;
-	UA_Float opc_value_sample = 0;
+	UA_Float opc_value_sample;
 
 	int32_t int_val = 0;
 	std::string str = "";
@@ -483,13 +484,7 @@ void* pollingDeviceRS485(void *args)
 									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
 								
 								}
-								else if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::sample)
-								{
-									UA_Variant_init(&value);
-									opc_value_sample = (UA_Float)node->vectorDevice[i].vectorTag[j].value;
-									UA_Variant_setScalar(&value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
-									UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, value);
-								}
+
 
 
 							}
@@ -552,22 +547,35 @@ void* pollingDeviceRS485(void *args)
 						{
 							rs485_buffer_pack_t* block = (rs485_buffer_pack_t*) ch_read.data;
 							
-							sp_data_pack_t* pack;
+							//sp_data_pack_t* pack;
 
-							for (int i = 0; i < ch_read.count_block; i++)
+							for (int v = 0; v < ch_read.count_block; v++)
 							{
 								//block = ch_read.data + ch_read.block_size * i;
 								if ((block->points > 0) && (block->resolution > 0))
 								{
-									pack = (sp_data_pack_t*) block->data;
+									//pack = (sp_data_pack_t*)block->data;
 
 									sp_master_read(block, &out_float[0]);
+
+
+									//for (int e = 0; e < out_float.size(); e++)
+									{
+										UA_Variant_init(&sample_value);
+										opc_value_sample = (UA_Float) 9;
+										UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
+										UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, sample_value);
+									}
 								}
+
+
 							}
 						}
 
-
+						
 						std::cout << "out_float.size = " << out_float.size() << std::endl;
+						
+						
 
 					}
 				}

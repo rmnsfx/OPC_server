@@ -215,8 +215,8 @@ void* workerOPC(void *args)
 				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::sample)
 				{
 					statusAttr3.historizing = true;
-					value_float = 0;
-					UA_Variant_setScalar(&statusAttr3.value, &value_float, &UA_TYPES[UA_TYPES_FLOAT]);
+					
+					UA_Variant_setScalar(&statusAttr3.value, &value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
 					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
