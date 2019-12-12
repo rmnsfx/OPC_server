@@ -1,4 +1,4 @@
-﻿Сборка начата 11.12.2019 15:15:11.
+﻿Сборка начата 12.12.2019 17:11:31.
      1>Проект "D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj" в узле 2 (целевые объекты Build).
      1>Сборка с инструментами версии "15.0".
        Целевой объект "EnableIntermediateOutputPathMismatchWarning" пропущен из-за невыполненного условия; выражение ('$(RestoreProjectStyle)' == 'PackageReference') равно ('' == 'PackageReference').
@@ -22,10 +22,10 @@
      1>Целевой объект "SetTelemetryEnvironmentVariables" в файле "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.Cpp.DesignTime.targets" из проекта "D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj" (целевой объект "Build" зависит от него):
        Используется задача "SetEnv" из сборки "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.Build.CppTasks.Common.dll".
        Задача "SetEnv"
-         VSTEL_SolutionSessionID={8D83D328-2EB7-46DD-822E-B2C22550565D}
+         VSTEL_SolutionSessionID={A949C958-ACD9-4BCC-BCE1-1E9FA48AC953}
        Выполнение задачи "SetEnv" завершено.
        Задача "SetEnv"
-         VSTEL_CurrentSolutionBuildID=24590016
+         VSTEL_CurrentSolutionBuildID=6997003
        Выполнение задачи "SetEnv" завершено.
        Задача "SetEnv"
          VSTEL_ProjectID={5a18e08a-24f4-468e-b57a-c2ec03c5d73b}
@@ -161,7 +161,7 @@
        Выполнение задачи "WriteLinesToFile" завершено.
        Используется задача "Touch" из сборки "Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
        Задача "Touch"
-         Обращение к "D:\Repos\OPC_Server\OPC_Server\obj\ARM\Debug\OPC_Server.tlog\unsuccessfulbuild".
+         Создание "D:\Repos\OPC_Server\OPC_Server\obj\ARM\Debug\OPC_Server.tlog\unsuccessfulbuild", так как было задано "AlwaysCreate".
        Выполнение задачи "Touch" завершено.
      1>Сборка целевого объекта "InitializeBuildStatus" в проекте "OPC_Server.vcxproj" завершена.
        Целевой объект "PrepareProjectReferences" пропущен. Предыдущая сборка успешна.
@@ -252,9 +252,9 @@
          Copying sources remotely to '192.168.5.210'
          Skipping 'D:\Repos\OPC_Server\OPC_Server\crc.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\main.cpp', as it is up to date.
-         Skipping 'D:\Repos\OPC_Server\OPC_Server\open62541.c', as it is up to date.
+         Copying file 'D:\Repos\OPC_Server\OPC_Server\open62541.c' to '/root/projects/OPC_Server/OPC_Server/open62541.c'
          Skipping 'D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp', as it is up to date.
-         Copying file 'D:\Repos\OPC_Server\OPC_Server\rs485.cpp' to '/root/projects/OPC_Server/OPC_Server/rs485.cpp'
+         Skipping 'D:\Repos\OPC_Server\OPC_Server\rs485.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\serialize.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\tcp.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\utils.cpp', as it is up to date.
@@ -401,258 +401,15 @@
          Compiling sources:
          Skipping 'D:\Repos\OPC_Server\OPC_Server\crc.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\main.cpp', as it is up to date.
-         Skipping 'D:\Repos\OPC_Server\OPC_Server\open62541.c', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp', as it is up to date.
+         Skipping 'D:\Repos\OPC_Server\OPC_Server\rs485.cpp', as it is up to date.
          Invoking 'g++'
+         Skipping 'D:\Repos\OPC_Server\OPC_Server\serialize.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\tcp.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\utils.cpp', as it is up to date.
-         g++ -c -x c++ /root/projects/OPC_Server/OPC_Server/rs485.cpp -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/rs485.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
-         rs485.cpp
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp: In function ‘char* pathToPort(int)’:
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:36:10: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-            return "/dev/rs485_0";
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:38:10: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-            return "/dev/rs485_1";
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:40:10: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-            return "/dev/rs485_2";
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:42:10: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-            return "/dev/rs485_3";
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:44:10: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-            return "/dev/rs485_4";
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:46:10: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-            return "/dev/rs485_5";
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:48:10: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-            return "/dev/rs485_6";
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:50:10: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-            return "/dev/rs485_7";
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:55:10: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-            return "/dev/rs485_3";
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp: In function ‘int sp_master_read(rs485_buffer_pack_t*, float*)’:
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:80:20: warning: conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-            old_byte >>= 8 - bits_shift;
-                             ^~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:91:13: warning: conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-            *data++ = tmp;
-                      ^~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp: In function ‘void* pollingDeviceRS485(void*)’:
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:155:20: warning: conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-            node->f_id = open(port, O_RDWR);
-                         ~~~~^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:187:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-            for (int i = 0; i < node->vectorDevice.size(); i++)
-                            ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:193:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-              for (int y = 0; y < vector_optimize[i].request.size(); y++)
-                              ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:198:103: warning: conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-               expected_size = ((vector_optimize[i].request[y][4] << 8) + vector_optimize[i].request[y][5]) * 2 + 5;
-                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:205:20: warning: conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-               result = ioctl(node->f_id, RS485_SEND_PACKED, &config);
-                        ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:244:59: warning: conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-                current_crc = read_buffer_vector[expected_size - 2] + (read_buffer_vector[expected_size - 1] << 8);
-                                                                     
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:254:73: warning: conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-                 uint16_t start_address = (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3];
-                                                                                   
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:257:52: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-                 for (int v = 3, addr = start_address + 1; v < vector_optimize[i].response[y].size(); v += 2, addr++)
-                                                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:263:28: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-                   for (int s = 0; s < vector_optimize[i].holding_regs.size() + 1; s++)
-                                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:267:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-                     for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-                                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:275:110: warning: conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-                        node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-                                                                                                                        
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:279:111: warning: conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-                        node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-                                                                                                                         
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:283:206: warning: conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
-                        node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-                                                                                                                                                                                                                        
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:287:207: warning: conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-                        node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-                                                                                                                                                                                                                         
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:329:28: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-                   for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
-                                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:333:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-                     for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-                                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:341:110: warning: conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-                        node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-                                                                                                                        
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:345:111: warning: conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-                        node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-                                                                                                                         
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:349:206: warning: conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
-                        node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-                                                                                                                                                                                                                        
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:353:207: warning: conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-                        node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-                                                                                                                                                                                                                         
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:440:25: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-                for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-                                ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:506:25: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-                for (int w = 0; w < config.rx_count; w++)
-                                ~~^~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:525:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-              for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-                              ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:552:26: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-                 for (int v = 0; v < ch_read.count_block; v++)
-                                 ~~^~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:544:11: warning: unused variable ‘ioret’ [-Wunused-variable]
-                int ioret = ioctl(node->f_id, RS485_SAMPLE_READ, &ch_read);
-                    ^~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:608:34: warning: conversion to ‘int16_t {aka short int}’ from ‘long int’ may alter its value [-Wconversion]
-            dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
-                     ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:103:10: warning: variable ‘result’ set but not used [-Wunused-but-set-variable]
-           int16_t result = 0;
-                   ^~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:114:10: warning: unused variable ‘common_dur_ms’ [-Wunused-variable]
-           int16_t common_dur_ms = 0;
-                   ^~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:125:10: warning: unused variable ‘test_val_count’ [-Wunused-variable]
-           uint8_t test_val_count = 0;
-                   ^~~~~~~~~~~~~~
-         /root/projects/OPC_Server/OPC_Server/rs485.cpp:137:24: warning: variable ‘backend’ set but not used [-Wunused-but-set-variable]
-           UA_HistoryDataBackend backend = getBackend();
-                                 ^~~~~~~
-         
-         In function ‘char* pathToPort(int)’:
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning :    return "/dev/rs485_0";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning :           ^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning :    return "/dev/rs485_1";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning :           ^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning :    return "/dev/rs485_2";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning :           ^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning :    return "/dev/rs485_3";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning :           ^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning :    return "/dev/rs485_4";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning :           ^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning :    return "/dev/rs485_5";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning :           ^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning :    return "/dev/rs485_6";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning :           ^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning :    return "/dev/rs485_7";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning :           ^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning :    return "/dev/rs485_3";
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning :           ^~~~~~~~~~~~~~
-         In function ‘int sp_master_read(rs485_buffer_pack_t*, float*)’:
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(80,20): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(80,20): warning :    old_byte >>= 8 - bits_shift;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(80,20): warning :                     ^~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(91,13): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(91,13): warning :    *data++ = tmp;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(91,13): warning :              ^~~
-         In function ‘void* pollingDeviceRS485(void*)’:
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(155,20): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(155,20): warning :    node->f_id = open(port, O_RDWR);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(155,20): warning :                 ~~~~^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(187,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(187,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(187,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(193,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(193,23): warning :      for (int y = 0; y < vector_optimize[i].request.size(); y++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(193,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(198,103): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(198,103): warning :       expected_size = ((vector_optimize[i].request[y][4] << 8) + vector_optimize[i].request[y][5]) * 2 + 5;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(198,103): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(205,20): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(205,20): warning :       result = ioctl(node->f_id, RS485_SEND_PACKED, &config);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(205,20): warning :                ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(244,59): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(244,59): warning :        current_crc = read_buffer_vector[expected_size - 2] + (read_buffer_vector[expected_size - 1] << 8);
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(254,73): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(254,73): warning :         uint16_t start_address = (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3];
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(257,52): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(257,52): warning :         for (int v = 3, addr = start_address + 1; v < vector_optimize[i].response[y].size(); v += 2, addr++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(257,52): warning :                                                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(263,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(263,28): warning :           for (int s = 0; s < vector_optimize[i].holding_regs.size() + 1; s++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(263,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(267,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(267,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(267,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(275,110): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(275,110): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(279,111): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(279,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(283,206): warning : conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(283,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(287,207): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(287,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(329,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(329,28): warning :           for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(329,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(333,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(333,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(333,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(341,110): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(341,110): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(345,111): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(345,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(349,206): warning : conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(349,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(353,207): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(353,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(440,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(440,25): warning :        for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(440,25): warning :                        ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(506,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(506,25): warning :        for (int w = 0; w < config.rx_count; w++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(506,25): warning :                        ~~^~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(525,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(525,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(525,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(552,26): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(552,26): warning :         for (int v = 0; v < ch_read.count_block; v++)
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(552,26): warning :                         ~~^~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(544,11): warning : unused variable ‘ioret’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(544,11): warning :        int ioret = ioctl(node->f_id, RS485_SAMPLE_READ, &ch_read);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(544,11): warning :            ^~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(608,34): warning : conversion to ‘int16_t {aka short int}’ from ‘long int’ may alter its value [-Wconversion]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(608,34): warning :    dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(608,34): warning :             ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(103,10): warning : variable ‘result’ set but not used [-Wunused-but-set-variable]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(103,10): warning :   int16_t result = 0;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(103,10): warning :           ^~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(114,10): warning : unused variable ‘common_dur_ms’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(114,10): warning :   int16_t common_dur_ms = 0;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(114,10): warning :           ^~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(125,10): warning : unused variable ‘test_val_count’ [-Wunused-variable]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(125,10): warning :   uint8_t test_val_count = 0;
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(125,10): warning :           ^~~~~~~~~~~~~~
-     1>D:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning : variable ‘backend’ set but not used [-Wunused-but-set-variable]
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning :   UA_HistoryDataBackend backend = getBackend();
-D:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning :                         ^~~~~~~
-         Done compiling '/root/projects/OPC_Server/OPC_Server/rs485.cpp'
-         Skipping 'D:\Repos\OPC_Server\OPC_Server\serialize.cpp', as it is up to date.
+         g++ -c -x c /root/projects/OPC_Server/OPC_Server/open62541.c -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/open62541.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-pointer-sign" -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fexceptions -std=c11
+         open62541.c
+         Done compiling '/root/projects/OPC_Server/OPC_Server/open62541.c'
        Выполнение задачи "Compile" завершено.
        Задача "WriteLinesToFile"
        Выполнение задачи "WriteLinesToFile" завершено.
@@ -915,272 +672,155 @@ D:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning :                     
      1>Сборка проекта "D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj" завершена (целевые объекты Build).
 
 Итоги по проекту:
-    12752 мс вызовов   1 D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj
-              12752 мс вызовов   1 Build                                   
+    54225 мс вызовов   1 D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj
+              54225 мс вызовов   1 Build                                   
 
 Итоги по целям:
         0 мс вызовов   1 Build                                   
+        0 мс вызовов   1 ComputeManifestGeneratedLinkerInputs    
         0 мс вызовов   1 ComputeRCGeneratedLinkInputs            
         0 мс вызовов   1 ComputeRCOutputs                        
         0 мс вызовов   1 BeforeLink                              
-        0 мс вызовов   1 BuildLinkTraverse                       
-        0 мс вызовов   1 BuildCompile                            
         0 мс вызовов   1 _BuildCompileAction                     
         0 мс вызовов   1 AfterBuildCompileEvent                  
         0 мс вызовов   1 _ResourceCompile                        
         0 мс вызовов   1 AfterResourceCompile                    
-        0 мс вызовов   1 ComputeManifestGeneratedLinkerInputs    
         0 мс вызовов   1 MakeDirsForResourceCompile              
-        0 мс вызовов   1 _ClCompile                              
+        0 мс вызовов   1 ComputeCustomBuildOutput                
+        0 мс вызовов   1 BeforeResourceCompile                   
         0 мс вызовов   1 AfterClCompile                          
-        0 мс вызовов   1 CopyFilesToOutputDirectory              
-        0 мс вызовов   1 PrepareForRun                           
+        0 мс вызовов   1 _CheckForCompileOutputs                 
         0 мс вызовов   1 _SelectClCompile                        
         0 мс вызовов   1 SelectClCompile                         
         0 мс вызовов   1 SelectCustomBuild                       
         0 мс вызовов   1 _SelectedFiles                          
-        0 мс вызовов   1 GetCopyToOutputDirectoryItems           
-        0 мс вызовов   1 BeforeResourceCompile                   
-        0 мс вызовов   1 ComputeCLGeneratedLinkInputs            
-        0 мс вызовов   1 ComputeLinkInputsFromProject            
-        0 мс вызовов   1 ComputeManifestInputsTargets            
         0 мс вызовов   1 GetCopyToOutputDirectoryXamlAppDefs     
+        0 мс вызовов   1 ComputeReferenceCLInput                 
+        0 мс вызовов   1 ComputeCLInputPDBName                   
+        0 мс вызовов   1 _ClCompile                              
+        0 мс вызовов   1 BeforeClCompile                         
+        0 мс вызовов   1 ComputeCLGeneratedLinkInputs            
+        0 мс вызовов   1 ComputeManifestInputsTargets            
         0 мс вызовов   1 _Deploy                                 
         0 мс вызовов   1 _Appverifier                            
         0 мс вызовов   1 CreateSatelliteAssemblies               
-        0 мс вызовов   1 _GenerateSatelliteAssemblyInputs        
         0 мс вызовов   1 RemotePostBuildEvent                    
         0 мс вызовов   1 _BscMake                                
+        0 мс вызовов   1 MakeDirsForBscMake                      
         0 мс вызовов   1 ComputeCLCompileGeneratedSbrFiles       
         0 мс вызовов   1 _XdcMake                                
         0 мс вызовов   1 MakeDirsForXdcMake                      
-        0 мс вызовов   1 ComputeCLCompileGeneratedXDCFiles       
+        0 мс вызовов   1 ComputeLinkInputsFromProject            
         0 мс вызовов   1 _Manifest                               
-        0 мс вызовов   1 _ALink                                  
         0 мс вызовов   1 _Link                                   
         0 мс вызовов   1 AfterLink                               
         0 мс вызовов   1 ComputeLinkImportLibraryOutputsForClean 
+        0 мс вызовов   1 _CopySourceItemsToOutputDirectory       
         0 мс вызовов   1 RemotePreLinkEvent                      
         0 мс вызовов   1 PreLinkEvent                            
-        0 мс вызовов   1 MakeDirsForLink                         
         0 мс вызовов   1 PrepareResourceNames                    
         0 мс вызовов   1 CreateCustomManifestResourceNames       
-        0 мс вызовов   1 ComputeCLInputPDBName                   
-        0 мс вызовов   1 BeforeClCompile                         
-        0 мс вызовов   1 _CopySourceItemsToOutputDirectory       
-        0 мс вызовов   1 ComputeIncludePathsFromRecipes          
-        0 мс вызовов   1 PreBuildEvent                           
-        0 мс вызовов   1 ResolveRemoteDir                        
-        0 мс вызовов   1 _PrepareUpToDateChecks                  
-        0 мс вызовов   1 BuildLink                               
-        0 мс вызовов   1 BeforeBuildGenerateSources              
+        0 мс вызовов   1 SplitResourcesByCulture                 
+        0 мс вызовов   1 _ALink                                  
         0 мс вызовов   1 _PrepareForClCompile                    
-        0 мс вызовов   1 AfterBuild                              
-        0 мс вызовов   1 PlatformPrepareForBuild                 
-        0 мс вызовов   1 PrepareProjectReferences                
+        0 мс вызовов   1 MakeDirsForCl                           
+        0 мс вызовов   1 BuildGenerateSourcesTraverse            
+        0 мс вызовов   1 BeforeBuildGenerateSources              
+        0 мс вызовов   1 ComputeIncludePathsFromRecipes          
+        0 мс вызовов   1 _BuildLinkAction                        
+        0 мс вызовов   1 ResolveReferences                       
         0 мс вызовов   1 AfterResolveReferences                  
         0 мс вызовов   1 ResolveAssemblyReferences               
-        0 мс вызовов   1 GetFrameworkPaths                       
         0 мс вызовов   1 ExpandSDKReferences                     
         0 мс вызовов   1 ResolveSDKReferences                    
-        0 мс вызовов   1 GetReferenceAssemblyPaths               
+        0 мс вызовов   1 BuildLink                               
         0 мс вызовов   1 SetCABuildNativeEnvironmentVariables    
-        0 мс вызовов   1 ResolveReferences                       
-        0 мс вызовов   1 _Xsd                                    
+        0 мс вызовов   1 PlatformPrepareForBuild                 
+        0 мс вызовов   1 SetBuildDefaultEnvironmentVariables     
+        0 мс вызовов   1 AfterBuild                              
+        0 мс вызовов   1 GetFrameworkPaths                       
+        0 мс вызовов   1 PrepareProjectReferences                
         0 мс вызовов   1 _SplitProjectReferencesByFileExistence  
-        0 мс вызовов   1 ComputeMIDLGeneratedCompileInputs       
-        0 мс вызовов   1 _PrepareForReferenceResolution          
         0 мс вызовов   1 BeforeResolveReferences                 
-        0 мс вызовов   1 CreateRecipeFile                        
-        0 мс вызовов   1 PostBuildEvent                          
-        0 мс вызовов   1 _BuildLinkAction                        
-        0 мс вызовов   1 MakeDirsForMidl                         
-        0 мс вызовов   1 BuildCompileTraverse                    
-        0 мс вызовов   1 BuildGenerateSources                    
-        0 мс вызовов   1 _AssignProjectReferencesPlatformType    
-        0 мс вызовов   1 AfterBuildGenerateSourcesEvent          
-        0 мс вызовов   1 AfterBuildGenerateSources               
+        0 мс вызовов   1 _PrepareForReferenceResolution          
+        0 мс вызовов   1 _PrepareForBuild                        
+        0 мс вызовов   1 _PrepareUpToDateChecks                  
+        0 мс вызовов   1 PreBuildEvent                           
+        0 мс вызовов   1 GetCopyToOutputDirectoryItems           
         0 мс вызовов   1 RemotePreBuildEvent                     
-        0 мс вызовов   1 _Midl                                   
+        0 мс вызовов   1 BuildCompileTraverse                    
+        0 мс вызовов   1 CreateRecipeFile                        
+        0 мс вызовов   1 PrepareForRun                           
+        0 мс вызовов   1 _Xsd                                    
+        0 мс вызовов   1 MakeDirsForMidl                         
+        0 мс вызовов   1 ComputeMIDLGeneratedCompileInputs       
         0 мс вызовов   1 AfterMidl                               
+        0 мс вызовов   1 BuildGenerateSources                    
+        0 мс вызовов   1 _Midl                                   
+        0 мс вызовов   1 _AssignProjectReferencesPlatformType    
+        0 мс вызовов   1 AfterBuildGenerateSources               
+        0 мс вызовов   1 PostBuildEvent                          
         0 мс вызовов   1 _BuildGenerateSourcesAction             
-        0 мс вызовов   1 GetResolvedWinMD                        
-        1 мс вызовов   1 MakeDirsForBscMake                      
-        1 мс вызовов   1 _GetProjectReferenceTargetFrameworkProperties
+        0 мс вызовов   1 AfterBuildGenerateSourcesEvent          
         1 мс вызовов   1 ResolveProjectReferences                
+        1 мс вызовов   1 BuildLinkTraverse                       
+        1 мс вызовов   1 FixupCLCompileOptions                   
         1 мс вызовов   1 AssignProjectConfiguration              
-        1 мс вызовов   1 _PrepareForBuild                        
-        1 мс вызовов   1 SetBuildDefaultEnvironmentVariables     
+        1 мс вызовов   1 _GenerateSatelliteAssemblyInputs        
         1 мс вызовов   1 SetTelemetryEnvironmentVariables        
-        1 мс вызовов   1 BuildGenerateSourcesTraverse            
-        1 мс вызовов   1 _CheckForCompileOutputs                 
+        1 мс вызовов   1 _GetProjectReferenceTargetFrameworkProperties
+        1 мс вызовов   1 ComputeCLCompileGeneratedXDCFiles       
+        1 мс вызовов   1 CopyFilesToOutputDirectory              
+        1 мс вызовов   1 GetResolvedWinMD                        
+        1 мс вызовов   1 ComputeLegacyManifestEmbedding          
         1 мс вызовов   1 DoLinkOutputFilesMatch                  
-        1 мс вызовов   1 SplitResourcesByCulture                 
+        1 мс вызовов   1 MakeDirsForLink                         
         1 мс вызовов   1 AssignTargetPaths                       
         1 мс вызовов   1 ComputeCLOutputs                        
-        1 мс вызовов   1 ComputeCustomBuildOutput                
-        1 мс вызовов   1 ComputeLegacyManifestEmbedding          
+        1 мс вызовов   1 BuildCompile                            
+        1 мс вызовов   1 ResolveRemoteDir                        
         1 мс вызовов   1 MergeRecipeFiles                        
-        1 мс вызовов   1 FixupCLCompileOptions                   
-        1 мс вызовов   1 ComputeReferenceCLInput                 
-        1 мс вызовов   1 MakeDirsForCl                           
-        3 мс вызовов   1 WarnCompileDuplicatedFilename           
-        4 мс вызовов   1 _WriteRemoteTarget                      
+        2 мс вызовов   1 WarnCompileDuplicatedFilename           
+        2 мс вызовов   1 _ResolveRemoteTarget                    
+        2 мс вызовов   1 _WriteRemoteTarget                      
+        3 мс вызовов   1 _CheckForInvalidConfigurationAndPlatform
+        4 мс вызовов   1 FinalizeBuildStatus                     
+        4 мс вызовов   1 InitializeBuildStatus                   
         4 мс вызовов   1 PrepareForBuild                         
-        5 мс вызовов   1 _ValidateValidArchitecture              
-        5 мс вызовов   1 FinalizeBuildStatus                     
-        7 мс вызовов   1 _ValidateSources                        
-        7 мс вызовов   1 InitializeBuildStatus                   
-        7 мс вызовов   1 _CheckForInvalidConfigurationAndPlatform
-        8 мс вызовов   1 _ResolveRemoteTarget                    
-       68 мс вызовов   1 _ConsolidateSourcesToCopy               
-      488 мс вызовов   1 _CopySources                            
-     3209 мс вызовов   1 Link                                    
-     8913 мс вызовов   1 ClCompile                               
+        5 мс вызовов   1 _ValidateSources                        
+        6 мс вызовов   1 GetReferenceAssemblyPaths               
+        7 мс вызовов   1 _ValidateValidArchitecture              
+       57 мс вызовов   1 _ConsolidateSourcesToCopy               
+      669 мс вызовов   1 _CopySources                            
+     2947 мс вызовов   1 Link                                    
+    50489 мс вызовов   1 ClCompile                               
 
 Итоги по задачам:
+        0 мс вызовов   1 Delete                                  
+        0 мс вызовов   7 SetEnv                                  
+        0 мс вызовов   1 AssignProjectConfiguration              
         0 мс вызовов   1 CallTarget                              
         0 мс вызовов   1 AssignCulture                           
         0 мс вызовов   6 AssignTargetPath                        
-        0 мс вызовов   1 ReadLinesFromFile                       
-        1 мс вызовов   2 Message                                 
         1 мс вызовов   1 MergeRecipeLists                        
-        1 мс вызовов   1 Delete                                  
-        1 мс вызовов   9 MakeDir                                 
+        1 мс вызовов   2 Message                                 
+        1 мс вызовов   1 ReadLinesFromFile                       
         1 мс вызовов   1 MSBuild                                 
-        1 мс вызовов   1 AssignProjectConfiguration              
-        2 мс вызовов   7 SetEnv                                  
-        4 мс вызовов   1 WriteRemoteTarget                       
-        5 мс вызовов   1 ValidateValidArchitecture               
-        6 мс вызовов   1 ValidateSources                         
-        7 мс вызовов   1 ResolveRemoteTarget                     
-        8 мс вызовов   2 Touch                                   
-        8 мс вызовов   4 WriteLinesToFile                        
-       12 мс вызовов   8 MakeClCommandLine                       
-       68 мс вызовов   1 ConsolidateSourcesToCopy                
-      488 мс вызовов   1 CopySources                             
-     3205 мс вызовов   1 Ld                                      
-     8896 мс вызовов   1 Compile                                 
+        2 мс вызовов   1 ResolveRemoteTarget                     
+        2 мс вызовов   1 WriteRemoteTarget                       
+        2 мс вызовов   9 MakeDir                                 
+        4 мс вызовов   2 Touch                                   
+        5 мс вызовов   4 WriteLinesToFile                        
+        5 мс вызовов   1 ValidateSources                         
+        6 мс вызовов   1 ValidateValidArchitecture               
+       11 мс вызовов   8 MakeClCommandLine                       
+       57 мс вызовов   1 ConsolidateSourcesToCopy                
+      669 мс вызовов   1 CopySources                             
+     2946 мс вызовов   1 Ld                                      
+    50473 мс вызовов   1 Compile                                 
 
 Сборка успешно завершена.
-
-       "D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj" (целевой объект Build ) (1) ->
-       (ClCompile конечный объект) -> 
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning :    return "/dev/rs485_0";
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning :    return "/dev/rs485_1";
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning :    return "/dev/rs485_2";
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning :    return "/dev/rs485_3";
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning :    return "/dev/rs485_4";
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning :    return "/dev/rs485_5";
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning :    return "/dev/rs485_6";
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning :    return "/dev/rs485_7";
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning :    return "/dev/rs485_3";
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(80,20): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(80,20): warning :    old_byte >>= 8 - bits_shift;
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(80,20): warning :                     ^~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(91,13): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(91,13): warning :    *data++ = tmp;
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(91,13): warning :              ^~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(155,20): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(155,20): warning :    node->f_id = open(port, O_RDWR);
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(155,20): warning :                 ~~~~^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(187,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(187,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(187,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(193,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(193,23): warning :      for (int y = 0; y < vector_optimize[i].request.size(); y++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(193,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(198,103): warning : conversion to ‘uint8_t {aka unsigned char}’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(198,103): warning :       expected_size = ((vector_optimize[i].request[y][4] << 8) + vector_optimize[i].request[y][5]) * 2 + 5;
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(198,103): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(205,20): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(205,20): warning :       result = ioctl(node->f_id, RS485_SEND_PACKED, &config);
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(205,20): warning :                ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(244,59): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(244,59): warning :        current_crc = read_buffer_vector[expected_size - 2] + (read_buffer_vector[expected_size - 1] << 8);
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(254,73): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(254,73): warning :         uint16_t start_address = (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3];
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(257,52): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(257,52): warning :         for (int v = 3, addr = start_address + 1; v < vector_optimize[i].response[y].size(); v += 2, addr++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(257,52): warning :                                                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(263,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(263,28): warning :           for (int s = 0; s < vector_optimize[i].holding_regs.size() + 1; s++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(263,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(267,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(267,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(267,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(275,110): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(275,110): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(279,111): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(279,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(283,206): warning : conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(283,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(287,207): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(287,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(329,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(329,28): warning :           for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(329,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(333,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(333,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(333,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(341,110): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(341,110): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(345,111): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(345,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(349,206): warning : conversion to ‘float’ from ‘int32_t {aka int}’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(349,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(353,207): warning : conversion to ‘float’ from ‘uint32_t {aka unsigned int}’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(353,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(440,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(440,25): warning :        for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(440,25): warning :                        ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(506,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(506,25): warning :        for (int w = 0; w < config.rx_count; w++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(506,25): warning :                        ~~^~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(525,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(525,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(525,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(552,26): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(552,26): warning :         for (int v = 0; v < ch_read.count_block; v++)
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(552,26): warning :                         ~~^~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(544,11): warning : unused variable ‘ioret’ [-Wunused-variable]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(544,11): warning :        int ioret = ioctl(node->f_id, RS485_SAMPLE_READ, &ch_read);
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(544,11): warning :            ^~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(608,34): warning : conversion to ‘int16_t {aka short int}’ from ‘long int’ may alter its value [-Wconversion]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(608,34): warning :    dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(608,34): warning :             ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(103,10): warning : variable ‘result’ set but not used [-Wunused-but-set-variable]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(103,10): warning :   int16_t result = 0;
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(103,10): warning :           ^~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(114,10): warning : unused variable ‘common_dur_ms’ [-Wunused-variable]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(114,10): warning :   int16_t common_dur_ms = 0;
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(114,10): warning :           ^~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(125,10): warning : unused variable ‘test_val_count’ [-Wunused-variable]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(125,10): warning :   uint8_t test_val_count = 0;
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(125,10): warning :           ^~~~~~~~~~~~~~
-         D:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning : variable ‘backend’ set but not used [-Wunused-but-set-variable]
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning :   UA_HistoryDataBackend backend = getBackend();
-       D:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning :                         ^~~~~~~
-
-    Предупреждений: 41
+    Предупреждений: 0
     Ошибок: 0
 
-Прошло времени 00:00:12.74
+Прошло времени 00:00:54.11

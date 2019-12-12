@@ -93,7 +93,7 @@ void* workerOPC(void *args)
 	/* We want the server to serve a maximum of 100 values per request. This
 	 * value depend on the plattform you are running the server. A big server
 	 * can serve more values, smaller ones less. */
-	setting.maxHistoryDataResponseSize = 100;
+	setting.maxHistoryDataResponseSize = 5000;
 
 	/* We want the values stored in the database, when the nodes value is
 	* set. */

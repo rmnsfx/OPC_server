@@ -24631,12 +24631,12 @@ processMSG(UA_Server *server, UA_SecureChannel *channel,
             UA_LOG_WARNING_CHANNEL(&server->config.logger, channel,
                                    "The server sends no timestamp in the request header. "
                                    "See the 'verifyRequestTimestamp' setting.");
-            if(server->config.verifyRequestTimestamp <= UA_RULEHANDLING_ABORT) {
-                retval = sendServiceFaultWithRequest(channel, requestHeader, responseType,
-                                                     requestId, UA_STATUSCODE_BADINVALIDTIMESTAMP);
-                UA_deleteMembers(request, requestType);
-                return retval;
-            }
+            //if(server->config.verifyRequestTimestamp <= UA_RULEHANDLING_ABORT) {
+            //    retval = sendServiceFaultWithRequest(channel, requestHeader, responseType,
+            //                                         requestId, UA_STATUSCODE_BADINVALIDTIMESTAMP);
+            //    UA_deleteMembers(request, requestType);
+            //    return retval;
+            //}
         }
     }
 

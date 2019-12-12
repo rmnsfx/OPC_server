@@ -124,7 +124,7 @@ void* pollingDeviceRS485(void *args)
 		
 	uint8_t test_val_count = 0;
 
-	std::vector<float> out_float(512);
+	std::vector<float> out_float(1024);
 	
 
 	Node* node = nullptr;
@@ -176,7 +176,8 @@ void* pollingDeviceRS485(void *args)
 	
 	rs485_channel_read_t ch_read;
 
-
+	int real_points = 0;
+	
 
 	while (1)
 	{
@@ -535,11 +536,13 @@ void* pollingDeviceRS485(void *args)
 						ch_read.channel = 1;
 						ch_read.data_size = sizeof(sample_buffer);
 						ch_read.data = sample_buffer;						
-						//ch_read.start_time = time;
-						ch_read.start_time.tv_sec = 0;
-						ch_read.start_time.tv_nsec = 0;
+						
+						ch_read.start_time = time;
+						ch_read.start_time.tv_sec -= 1; //read data from 1 seconds
+						//ch_read.start_time.tv_sec = 0;
+						//ch_read.start_time.tv_nsec = 0;
 						ch_read.end_time = time;
-						//ch_read.start_time.tv_sec -= 1000; //read data from 1 seconds
+						
 
 						int ioret = ioctl(node->f_id, RS485_SAMPLE_READ, &ch_read);
 
@@ -547,25 +550,24 @@ void* pollingDeviceRS485(void *args)
 						{
 							rs485_buffer_pack_t* block = (rs485_buffer_pack_t*) ch_read.data;
 							
-							//sp_data_pack_t* pack;
-
+							
 							for (int v = 0; v < ch_read.count_block; v++)
 							{
 								//block = ch_read.data + ch_read.block_size * i;
 								if ((block->points > 0) && (block->resolution > 0))
 								{
-									//pack = (sp_data_pack_t*)block->data;
+									real_points = sp_master_read(block, &out_float[0]);
 
-									sp_master_read(block, &out_float[0]);
-
-
-									//for (int e = 0; e < out_float.size(); e++)
+									
+									for (int e = 0; e < real_points; e++)
 									{
 										UA_Variant_init(&sample_value);
-										opc_value_sample = (UA_Float) 9;
+										opc_value_sample = (UA_Float) out_float[e];
 										UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
-										UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, sample_value);
+										UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, sample_value);					
+										
 									}
+									
 								}
 
 
@@ -573,7 +575,7 @@ void* pollingDeviceRS485(void *args)
 						}
 
 						
-						std::cout << "out_float.size = " << out_float.size() << std::endl;
+						std::cout << "out_float.size = " << out_float.size() << " :: " << ch_read.count_block << " :: " << ch_read.block_size << " :: "<< out_float.size() << std::endl;
 						
 						
 
@@ -611,15 +613,13 @@ void* pollingDeviceRS485(void *args)
 		if (dur_ms < node->poll_period)
 		{
 			usleep((node->poll_period - dur_ms) * 1000);
-			//printf("Time %d ", (node->poll_period - dur_ms));
+			printf("Poll time %d ms", (node->poll_period - dur_ms));
 		}
 
 		clock_gettime(CLOCK_REALTIME, &stop2);
 		common_duration = time_diff(start, stop2);
-		//printf("\nCommon Duration Time %d \n\n", common_duration.tv_sec*100 + (common_duration.tv_nsec / 1000000) );
+		printf("\nCommon Duration Time %d ms\n\n", common_duration.tv_sec*1000 + (common_duration.tv_nsec / 1000000) );
 	
-
-		//printf("%d \n", test_val_count);
 
 		
 		//std::string s = " Memory: " + std::to_string(getRam());
