@@ -87,13 +87,13 @@ void* workerOPC(void *args)
 	 * reserve space for 3 nodes with 100 values each. This will also
 	 * automaticaly grow if needed, but that is expensive, because all data must
 	 * be copied. */
-	backend = UA_HistoryDataBackend_Memory(3, 100);
+	backend = UA_HistoryDataBackend_Memory(30, 1000);
 	setting.historizingBackend = backend;
 
 	/* We want the server to serve a maximum of 100 values per request. This
 	 * value depend on the plattform you are running the server. A big server
 	 * can serve more values, smaller ones less. */
-	setting.maxHistoryDataResponseSize = 5000;
+	setting.maxHistoryDataResponseSize = 6000000;
 
 	/* We want the values stored in the database, when the nodes value is
 	* set. */

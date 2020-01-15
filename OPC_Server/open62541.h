@@ -190,6 +190,8 @@ void UA_free(void* ptr); //de-allocate memory previously allocated with UA_mallo
 # define _BSD_SOURCE
 #endif
 
+#include <time.h> 
+#include "utils.h"
 #include <errno.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>

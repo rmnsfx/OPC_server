@@ -27,6 +27,8 @@
 
 #include "open62541.h"
 
+
+
 /*********************************** amalgamated original file "/home/open62541_rc3/deps/open62541_queue.h" ***********************************/
 
 /*	$OpenBSD: queue.h,v 1.38 2013/07/03 15:05:21 fgsch Exp $	*/
@@ -55689,6 +55691,9 @@ copyDataValues_backend_memory(UA_Server *server,
     return UA_STATUSCODE_GOOD;
 }
 
+
+
+
 static UA_StatusCode
 insertDataValue_backend_memory(UA_Server *server,
                    void *hdbContext,
@@ -56277,6 +56282,10 @@ getResultSize_service_default(const UA_HistoryDataBackend* backend,
     return size;
 }
 
+static struct timeval t1, t0;
+static int common_points = 0;
+
+
 static UA_StatusCode
 getHistoryData_service_default(const UA_HistoryDataBackend* backend,
                                const UA_DateTime start,
@@ -56296,6 +56305,18 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
                                size_t *resultSize,
                                UA_DataValue ** result)
 {
+	//UA_DateTime time1 = UA_DateTime_now();
+	//UA_DateTime time2;
+	//static UA_DateTime time3;
+
+
+	//struct timespec new_start, new_stop, new_duration, new_stop2, new_common_duration;
+	//clock_gettime(CLOCK_REALTIME, &new_start);
+
+	
+	gettimeofday(&t0, 0);
+
+
     size_t skip = 0;
     UA_ByteString backendContinuationPoint;
     UA_ByteString_init(&backendContinuationPoint);
@@ -56335,6 +56356,9 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
     if (*resultSize > maxSize) {
         *resultSize = maxSize;
     }
+	
+	
+
     UA_DataValue *outResult= (UA_DataValue*)UA_Array_new(*resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
     if (!outResult) {
         *resultSize = 0;
@@ -56372,22 +56396,121 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
         }
 
         UA_StatusCode ret = UA_STATUSCODE_GOOD;
-        if (valueSize > 0)
-            ret = backend->copyDataValues(server,
-                                          backend->context,
-                                          sessionId,
-                                          sessionContext,
-                                          nodeId,
-                                          startIndex,
-                                          endIndex,
-                                          reverse,
-                                          valueSize,
-                                          range,
-                                          releaseContinuationPoints,
-                                          &backendContinuationPoint,
-                                          &backendOutContinuationPoint,
-                                          &retval,
-                                          &outResult[counter]);
+
+
+	
+
+		
+		
+		
+		//UA_DataValue * test = UA_Array_new(600, &UA_TYPES[UA_TYPES_DATAVALUE]);
+		//
+		////test->value.type = &UA_TYPES[UA_TYPES_FLOAT];
+		//test->value.arrayDimensionsSize = 0;
+		//test->value.arrayDimensions = 0;
+		//test->sourceTimestamp = 0x1d5bacf656df800;
+		//test->status = 0x80d70000;
+
+		
+
+		
+		
+		//for (int r = 0; r < 600; r++)
+		//{
+		//	float * test2 = (float*)UA_calloc(1, 4);
+		//	*test2 = 0.1+r;			
+		//	
+		//	test[r].value.data = test2;			
+
+		//	test[r].value.arrayDimensionsSize = 0;
+		//	test[r].value.arrayDimensions = 0;
+		//	test[r].sourceTimestamp = 0x1c06e1ec506b800 +r;
+		//	//test[r].status = 0x80d70000;
+		//	test[r].hasValue = 0x1;
+		//	test[r].sourceTimestamp = 0x1;
+		//}
+
+		
+		
+
+		//value1->status = 0x80d70000;
+		//value1->hasValue = 0;
+		//value1->hasStatus = 1;
+		//value1->sourceTimestamp = 0x1d5bacf656df800;
+		//
+		//value1->value.type = &UA_TYPES[UA_TYPES_FLOAT];
+		//value1->value.storageType = UA_VARIANT_DATA;
+		//value1->value.arrayLength = 0;
+		//value1->value.data = &test;
+		//value1->value.arrayDimensionsSize = 0;
+		//value1->value.arrayDimensions = 0;
+				
+		
+		
+
+		if (valueSize > 0)
+			ret = backend->copyDataValues(server,
+				backend->context,
+				sessionId,
+				sessionContext,
+				nodeId,
+				startIndex,
+				endIndex,
+				reverse,
+				valueSize,
+				range,
+				releaseContinuationPoints,
+				&backendContinuationPoint,
+				&backendOutContinuationPoint,
+				&retval,				
+				&outResult[counter]);
+
+		
+		for (int r = 0; r < *resultSize; r++)
+		{
+			//UA_DataValue * test = UA_Array_new(1, &UA_TYPES[UA_TYPES_DATAVALUE]);
+
+			//test->value.type = &UA_TYPES[UA_TYPES_FLOAT];
+			//test->value.arrayDimensionsSize = 0;
+			//test->value.arrayDimensions = 0;
+			//test->sourceTimestamp = 0x1d5bacf656df800 + r;
+			//test->status = 0x80d70000;
+
+			float * test2 = (float*)UA_calloc(1, 4);
+			*test2 = 0.1;
+
+			
+			outResult[r].value.data = test2;
+			
+			common_points++;
+		}
+
+		//printf("Общее количество точек = %d\n", common_points);
+		//time2 = UA_DateTime_now();
+		//time3 += (time2 - time1);
+		//printf("Время = %lld\n", time3);
+
+		//clock_gettime(CLOCK_REALTIME, &new_stop2);
+		//new_common_duration = time_diff(new_start, new_stop2);
+		
+		
+		//if ((new_stop2.tv_nsec - new_start.tv_nsec) < 0)
+		//{
+		//	new_common_duration.tv_sec = new_stop2.tv_sec - new_start.tv_sec - 1;
+		//	new_common_duration.tv_nsec = 1000000000 + new_stop2.tv_nsec - new_start.tv_nsec;
+		//}
+		//else
+		//{
+		//	new_common_duration.tv_sec = new_stop2.tv_sec - new_start.tv_sec;
+		//	new_common_duration.tv_nsec = new_stop2.tv_nsec - new_start.tv_nsec;
+		//}
+				
+		//if (common_points >= 6000000) printf("\nВремя = %d сек. \n\n", new_common_duration.tv_sec + (new_common_duration.tv_nsec / 1000000));
+		//printf("\nВремя = %d сек. \n\n", new_common_duration.tv_sec + (new_common_duration.tv_nsec / 1000000));
+
+
+
+
         if (ret != UA_STATUSCODE_GOOD) {
             UA_Array_delete(outResult, *resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
             *result = NULL;
@@ -56426,6 +56549,16 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
             memcpy(outContinuationPoint->data + sizeof(size_t), backendOutContinuationPoint.data, backendOutContinuationPoint.length);
     }
     UA_ByteString_deleteMembers(&backendOutContinuationPoint);
+
+
+	
+	
+	gettimeofday(&t1, 0);
+	int64_t dif = (t1.tv_usec - t0.tv_usec) / 1000;	
+	if (common_points >= 6000000) printf("Elasped time is %lld \n", dif);
+
+
+
     return UA_STATUSCODE_GOOD;
 }
 
