@@ -93,7 +93,7 @@ void* workerOPC(void *args)
 	/* We want the server to serve a maximum of 100 values per request. This
 	 * value depend on the plattform you are running the server. A big server
 	 * can serve more values, smaller ones less. */
-	setting.maxHistoryDataResponseSize = 6000000;
+	setting.maxHistoryDataResponseSize = 100000;
 
 	/* We want the values stored in the database, when the nodes value is
 	* set. */
@@ -153,6 +153,7 @@ void* workerOPC(void *args)
 				std::string id_tag = controller->vectorNode[i].vectorDevice[j].vectorTag[k].name;
 
 				UA_VariableAttributes statusAttr3 = UA_VariableAttributes_default;
+				UA_VariableAttributes statusAttr4 = UA_VariableAttributes_default;
 				
 				statusAttr3.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
 				//statusAttr3.historizing = true;
@@ -214,14 +215,16 @@ void* workerOPC(void *args)
 				
 				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::sample)
 				{
-					statusAttr3.historizing = true;
+					statusAttr4.historizing = true;
+					statusAttr4.description.text = UA_STRING("sample");
+					statusAttr4.sample = true;
 					
-					UA_Variant_setScalar(&statusAttr3.value, &value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
-					statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+					UA_Variant_setScalar(&statusAttr4.value, &value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
+					statusAttr4.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
 					UA_Server_addVariableNode(server, UA_NODEID_NULL, deviceId,
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
 						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
-						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
+						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr4, NULL, &tagNodeId);
 				}
 
 				controller->vectorNode[i].vectorDevice[j].vectorTag[k].tagNodeId = tagNodeId;

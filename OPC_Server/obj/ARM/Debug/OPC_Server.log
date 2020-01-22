@@ -1,4 +1,4 @@
-﻿Сборка начата 15.01.2020 13:52:40.
+﻿Сборка начата 22.01.2020 11:55:06.
      1>Проект "D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj" в узле 2 (целевые объекты Build).
      1>Сборка с инструментами версии "15.0".
        Целевой объект "EnableIntermediateOutputPathMismatchWarning" пропущен из-за невыполненного условия; выражение ('$(RestoreProjectStyle)' == 'PackageReference') равно ('' == 'PackageReference').
@@ -22,10 +22,10 @@
      1>Целевой объект "SetTelemetryEnvironmentVariables" в файле "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.Cpp.DesignTime.targets" из проекта "D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj" (целевой объект "Build" зависит от него):
        Используется задача "SetEnv" из сборки "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.Build.CppTasks.Common.dll".
        Задача "SetEnv"
-         VSTEL_SolutionSessionID={08631624-7A92-4681-BC93-7EA0CA134613}
+         VSTEL_SolutionSessionID={5ABBC5BD-7551-4F48-9EE0-2BB66F69AB99}
        Выполнение задачи "SetEnv" завершено.
        Задача "SetEnv"
-         VSTEL_CurrentSolutionBuildID=177017610
+         VSTEL_CurrentSolutionBuildID=97696874
        Выполнение задачи "SetEnv" завершено.
        Задача "SetEnv"
          VSTEL_ProjectID={5a18e08a-24f4-468e-b57a-c2ec03c5d73b}
@@ -251,8 +251,8 @@
        Задача "CopySources"
          Copying sources remotely to '192.168.5.210'
          Skipping 'D:\Repos\OPC_Server\OPC_Server\crc.cpp', as it is up to date.
-         Skipping 'D:\Repos\OPC_Server\OPC_Server\main.cpp', as it is up to date.
-         Copying file 'D:\Repos\OPC_Server\OPC_Server\open62541.c' to '/root/projects/OPC_Server/OPC_Server/open62541.c'
+         Copying file 'D:\Repos\OPC_Server\OPC_Server\main.cpp' to '/root/projects/OPC_Server/OPC_Server/main.cpp'
+         Skipping 'D:\Repos\OPC_Server\OPC_Server\open62541.c', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\rs485.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\serialize.cpp', as it is up to date.
@@ -400,25 +400,160 @@
          Starting remote build
          Compiling sources:
          Skipping 'D:\Repos\OPC_Server\OPC_Server\crc.cpp', as it is up to date.
-         Skipping 'D:\Repos\OPC_Server\OPC_Server\main.cpp', as it is up to date.
+         Invoking 'g++'
+         Skipping 'D:\Repos\OPC_Server\OPC_Server\open62541.c', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\poll_optimize.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\rs485.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\serialize.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\tcp.cpp', as it is up to date.
          Skipping 'D:\Repos\OPC_Server\OPC_Server\utils.cpp', as it is up to date.
-         Invoking 'g++'
-         g++ -c -x c /root/projects/OPC_Server/OPC_Server/open62541.c -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/open62541.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-pointer-sign" -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fexceptions -std=c11
-         open62541.c
-         /root/projects/OPC_Server/OPC_Server/open62541.c: In function ‘getHistoryData_service_default’:
-         /root/projects/OPC_Server/OPC_Server/open62541.c:56317:2: warning: implicit declaration of function ‘gettimeofday’ [-Wimplicit-function-declaration]
-           gettimeofday(&t0, 0);
-           ^~~~~~~~~~~~
+         g++ -c -x c++ /root/projects/OPC_Server/OPC_Server/main.cpp -I /root/projects/OPC_Server/OPC_Server/rapidjson -I /root/projects/OPC_Server/OPC_Server/rapidjson -g2 -gdwarf-2 -o "/root/projects/OPC_Server/obj/ARM/Debug/main.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+         main.cpp
+         /root/projects/OPC_Server/OPC_Server/main.cpp: In function ‘void* workerOPC(void*)’:
+         /root/projects/OPC_Server/OPC_Server/main.cpp:107:80: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+           oAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*) controller->name.c_str());
+                                                                                         ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:115:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+           for (int i = 0; i < controller->vectorNode.size(); i++)
+                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         /root/projects/OPC_Server/OPC_Server/main.cpp:127:76: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+            statusAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_node.c_str());
+                                                                                     ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:133:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+            for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+                            ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         /root/projects/OPC_Server/OPC_Server/main.cpp:144:80: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             statusAttr2.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_device.c_str());
+                                                                                         ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:150:22: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+             for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
+                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         /root/projects/OPC_Server/OPC_Server/main.cpp:165:79: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+               statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+                                                                                        ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:175:79: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+               statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+                                                                                        ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:185:79: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+               statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+                                                                                        ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:195:79: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+               statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+                                                                                        ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:209:79: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+               statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+                                                                                        ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:219:55: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+               statusAttr4.description.text = UA_STRING("sample");
+                                                                ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:223:79: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+               statusAttr4.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+                                                                                        ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:243:16: warning: unused variable ‘retval’ [-Wunused-variable]
+           UA_StatusCode retval = UA_Server_run(server, &running);
+                         ^~~~~~
+         /root/projects/OPC_Server/OPC_Server/main.cpp: In function ‘void* pollingEngine(void*)’:
+         /root/projects/OPC_Server/OPC_Server/main.cpp:269:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+           for (int i = 0; i < controller->vectorNode.size(); i++)
+                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         /root/projects/OPC_Server/OPC_Server/main.cpp:281:22: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+             for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         /root/projects/OPC_Server/OPC_Server/main.cpp:285:59: warning: conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
+              controller->vectorNode[i].vectorDevice[j].id_device = j;
+                                                                    ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp:319:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+           for (int i = 0; i < modbus_thread.size(); i++)
+                           ~~^~~~~~~~~~~~~~~~~~~~~~
+         /root/projects/OPC_Server/OPC_Server/main.cpp: In function ‘int main(int, char**)’:
+         /root/projects/OPC_Server/OPC_Server/main.cpp:404:18: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+            path_to_json = "/usr/httpserv/opc.json";
+                           ^~~~~~~~~~~~~~~~~~~~~~~~
+         /root/projects/OPC_Server/OPC_Server/main.cpp:387:6: warning: unused variable ‘status’ [-Wunused-variable]
+           int status = 0;
+               ^~~~~~
          
-         In function ‘getHistoryData_service_default’:
-     1>D:\Repos\OPC_Server\OPC_Server\open62541.c(56317,2): warning : implicit declaration of function ‘gettimeofday’ [-Wimplicit-function-declaration]
-D:\Repos\OPC_Server\OPC_Server\open62541.c(56317,2): warning :   gettimeofday(&t0, 0);
-D:\Repos\OPC_Server\OPC_Server\open62541.c(56317,2): warning :   ^~~~~~~~~~~~
-         Done compiling '/root/projects/OPC_Server/OPC_Server/open62541.c'
+         /root/projects/OPC_Server/OPC_Server/main.cpp: In function ‘Data_type type_converter(const string&)’:
+         /root/projects/OPC_Server/OPC_Server/main.cpp:344:1: warning: control reaches end of non-void function [-Wreturn-type]
+          };
+          ^
+         /root/projects/OPC_Server/OPC_Server/main.cpp: In function ‘Interface_type interface_converter(const string&)’:
+         /root/projects/OPC_Server/OPC_Server/main.cpp:350:1: warning: control reaches end of non-void function [-Wreturn-type]
+          };
+          ^
+         
+         In function ‘void* workerOPC(void*)’:
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(107,80): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(107,80): warning :   oAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*) controller->name.c_str());
+D:\Repos\OPC_Server\OPC_Server\main.cpp(107,80): warning :                                                                                 ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(115,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(115,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(115,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(127,76): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(127,76): warning :    statusAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_node.c_str());
+D:\Repos\OPC_Server\OPC_Server\main.cpp(127,76): warning :                                                                             ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(133,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(133,21): warning :    for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(133,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(144,80): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(144,80): warning :     statusAttr2.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_device.c_str());
+D:\Repos\OPC_Server\OPC_Server\main.cpp(144,80): warning :                                                                                 ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(150,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(150,22): warning :     for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(150,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(165,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(165,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+D:\Repos\OPC_Server\OPC_Server\main.cpp(165,79): warning :                                                                                ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(175,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(175,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+D:\Repos\OPC_Server\OPC_Server\main.cpp(175,79): warning :                                                                                ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(185,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(185,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+D:\Repos\OPC_Server\OPC_Server\main.cpp(185,79): warning :                                                                                ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(195,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(195,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+D:\Repos\OPC_Server\OPC_Server\main.cpp(195,79): warning :                                                                                ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(209,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(209,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+D:\Repos\OPC_Server\OPC_Server\main.cpp(209,79): warning :                                                                                ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(219,55): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(219,55): warning :       statusAttr4.description.text = UA_STRING("sample");
+D:\Repos\OPC_Server\OPC_Server\main.cpp(219,55): warning :                                                        ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(223,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(223,79): warning :       statusAttr4.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+D:\Repos\OPC_Server\OPC_Server\main.cpp(223,79): warning :                                                                                ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(243,16): warning : unused variable ‘retval’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(243,16): warning :   UA_StatusCode retval = UA_Server_run(server, &running);
+D:\Repos\OPC_Server\OPC_Server\main.cpp(243,16): warning :                 ^~~~~~
+         In function ‘void* pollingEngine(void*)’:
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(269,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(269,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(269,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(281,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(281,22): warning :     for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(281,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(285,59): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(285,59): warning :      controller->vectorNode[i].vectorDevice[j].id_device = j;
+D:\Repos\OPC_Server\OPC_Server\main.cpp(285,59): warning :                                                            ^
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(319,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(319,20): warning :   for (int i = 0; i < modbus_thread.size(); i++)
+D:\Repos\OPC_Server\OPC_Server\main.cpp(319,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~
+         In function ‘int main(int, char**)’:
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(404,18): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(404,18): warning :    path_to_json = "/usr/httpserv/opc.json";
+D:\Repos\OPC_Server\OPC_Server\main.cpp(404,18): warning :                   ^~~~~~~~~~~~~~~~~~~~~~~~
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(387,6): warning : unused variable ‘status’ [-Wunused-variable]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(387,6): warning :   int status = 0;
+D:\Repos\OPC_Server\OPC_Server\main.cpp(387,6): warning :       ^~~~~~
+         In function ‘Data_type type_converter(const string&)’:
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(344,1): warning : control reaches end of non-void function [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(344,1): warning :  };
+D:\Repos\OPC_Server\OPC_Server\main.cpp(344,1): warning :  ^
+         In function ‘Interface_type interface_converter(const string&)’:
+     1>D:\Repos\OPC_Server\OPC_Server\main.cpp(350,1): warning : control reaches end of non-void function [-Wreturn-type]
+D:\Repos\OPC_Server\OPC_Server\main.cpp(350,1): warning :  };
+D:\Repos\OPC_Server\OPC_Server\main.cpp(350,1): warning :  ^
+         Done compiling '/root/projects/OPC_Server/OPC_Server/main.cpp'
        Выполнение задачи "Compile" завершено.
        Задача "WriteLinesToFile"
        Выполнение задачи "WriteLinesToFile" завершено.
@@ -681,12 +816,11 @@ D:\Repos\OPC_Server\OPC_Server\open62541.c(56317,2): warning :   ^~~~~~~~~~~~
      1>Сборка проекта "D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj" завершена (целевые объекты Build).
 
 Итоги по проекту:
-    61304 мс вызовов   1 D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj
-              61304 мс вызовов   1 Build                                   
+    14305 мс вызовов   1 D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj
+              14305 мс вызовов   1 Build                                   
 
 Итоги по целям:
         0 мс вызовов   1 Build                                   
-        0 мс вызовов   1 ComputeCustomBuildOutput                
         0 мс вызовов   1 ComputeManifestGeneratedLinkerInputs    
         0 мс вызовов   1 ComputeRCGeneratedLinkInputs            
         0 мс вызовов   1 ComputeRCOutputs                        
@@ -696,26 +830,26 @@ D:\Repos\OPC_Server\OPC_Server\open62541.c(56317,2): warning :   ^~~~~~~~~~~~
         0 мс вызовов   1 BuildCompile                            
         0 мс вызовов   1 _BuildCompileAction                     
         0 мс вызовов   1 AfterBuildCompileEvent                  
+        0 мс вызовов   1 ComputeCustomBuildOutput                
         0 мс вызовов   1 _ResourceCompile                        
-        0 мс вызовов   1 AfterResourceCompile                    
         0 мс вызовов   1 MakeDirsForResourceCompile              
         0 мс вызовов   1 BeforeResourceCompile                   
         0 мс вызовов   1 _ClCompile                              
         0 мс вызовов   1 AfterClCompile                          
-        0 мс вызовов   1 _CheckForCompileOutputs                 
-        0 мс вызовов   1 CopyFilesToOutputDirectory              
         0 мс вызовов   1 _SelectClCompile                        
         0 мс вызовов   1 SelectClCompile                         
         0 мс вызовов   1 SelectCustomBuild                       
-        0 мс вызовов   1 ComputeCLGeneratedLinkInputs            
         0 мс вызовов   1 _SelectedFiles                          
+        0 мс вызовов   1 ComputeReferenceCLInput                 
+        0 мс вызовов   1 AfterResourceCompile                    
         0 мс вызовов   1 ComputeLinkInputsFromProject            
-        0 мс вызовов   1 CreateCustomManifestResourceNames       
+        0 мс вызовов   1 ComputeManifestInputsTargets            
+        0 мс вызовов   1 SplitResourcesByCulture                 
+        0 мс вызовов   1 GetCopyToOutputDirectoryXamlAppDefs     
         0 мс вызовов   1 _Deploy                                 
         0 мс вызовов   1 _Appverifier                            
         0 мс вызовов   1 CreateSatelliteAssemblies               
         0 мс вызовов   1 _GenerateSatelliteAssemblyInputs        
-        0 мс вызовов   1 RemotePostBuildEvent                    
         0 мс вызовов   1 _BscMake                                
         0 мс вызовов   1 MakeDirsForBscMake                      
         0 мс вызовов   1 ComputeCLCompileGeneratedSbrFiles       
@@ -726,117 +860,181 @@ D:\Repos\OPC_Server\OPC_Server\open62541.c(56317,2): warning :   ^~~~~~~~~~~~
         0 мс вызовов   1 _Link                                   
         0 мс вызовов   1 AfterLink                               
         0 мс вызовов   1 ComputeLinkImportLibraryOutputsForClean 
-        0 мс вызовов   1 _CopySourceItemsToOutputDirectory       
+        0 мс вызовов   1 _CheckForCompileOutputs                 
         0 мс вызовов   1 RemotePreLinkEvent                      
         0 мс вызовов   1 PreLinkEvent                            
         0 мс вызовов   1 DoLinkOutputFilesMatch                  
-        0 мс вызовов   1 MakeDirsForLink                         
         0 мс вызовов   1 PrepareResourceNames                    
-        0 мс вызовов   1 ComputeManifestInputsTargets            
-        0 мс вызовов   1 ComputeReferenceCLInput                 
-        0 мс вызовов   1 GetCopyToOutputDirectoryItems           
+        0 мс вызовов   1 CreateCustomManifestResourceNames       
+        0 мс вызовов   1 ComputeCLInputPDBName                   
         0 мс вызовов   1 BeforeClCompile                         
-        0 мс вызовов   1 PreBuildEvent                           
-        0 мс вызовов   1 ResolveRemoteDir                        
-        0 мс вызовов   1 _PrepareUpToDateChecks                  
+        0 мс вызовов   1 MakeDirsForCl                           
+        0 мс вызовов   1 BeforeBuildGenerateSources              
+        0 мс вызовов   1 _PrepareForClCompile                    
+        0 мс вызовов   1 BuildGenerateSourcesTraverse            
         0 мс вызовов   1 _BuildLinkAction                        
         0 мс вызовов   1 ResolveReferences                       
         0 мс вызовов   1 AfterResolveReferences                  
+        0 мс вызовов   1 ResolveAssemblyReferences               
         0 мс вызовов   1 ExpandSDKReferences                     
+        0 мс вызовов   1 ResolveSDKReferences                    
         0 мс вызовов   1 SetCABuildNativeEnvironmentVariables    
-        0 мс вызовов   1 PlatformPrepareForBuild                 
-        0 мс вызовов   1 SetBuildDefaultEnvironmentVariables     
+        0 мс вызовов   1 _PrepareUpToDateChecks                  
+        0 мс вызовов   1 GetResolvedWinMD                        
+        0 мс вызовов   1 GetReferenceAssemblyPaths               
         0 мс вызовов   1 GetFrameworkPaths                       
         0 мс вызовов   1 BuildLink                               
         0 мс вызовов   1 PrepareProjectReferences                
         0 мс вызовов   1 _SplitProjectReferencesByFileExistence  
         0 мс вызовов   1 BeforeResolveReferences                 
         0 мс вызовов   1 _PrepareForReferenceResolution          
+        0 мс вызовов   1 _PrepareForBuild                        
         0 мс вызовов   1 AfterBuild                              
+        0 мс вызовов   1 SetBuildDefaultEnvironmentVariables     
+        0 мс вызовов   1 ResolveRemoteDir                        
+        0 мс вызовов   1 _CopySourceItemsToOutputDirectory       
         0 мс вызовов   1 _Xsd                                    
-        0 мс вызовов   1 ComputeMIDLGeneratedCompileInputs       
-        0 мс вызовов   1 BeforeBuildGenerateSources              
-        0 мс вызовов   1 ComputeIncludePathsFromRecipes          
-        0 мс вызовов   1 _Midl                                   
-        0 мс вызовов   1 RemotePreBuildEvent                     
-        0 мс вызовов   1 AfterBuildGenerateSources               
-        0 мс вызовов   1 AfterBuildGenerateSourcesEvent          
-        0 мс вызовов   1 AfterMidl                               
-        0 мс вызовов   1 PrepareForRun                           
-        0 мс вызовов   1 _PrepareForClCompile                    
-        0 мс вызовов   1 PostBuildEvent                          
-        0 мс вызовов   1 _BuildGenerateSourcesAction             
-        0 мс вызовов   1 BuildGenerateSources                    
+        0 мс вызовов   1 PreBuildEvent                           
         0 мс вызовов   1 BuildCompileTraverse                    
-        1 мс вызовов   1 GetReferenceAssemblyPaths               
-        1 мс вызовов   1 ComputeCLCompileGeneratedXDCFiles       
-        1 мс вызовов   1 MakeDirsForMidl                         
-        1 мс вызовов   1 GetCopyToOutputDirectoryXamlAppDefs     
-        1 мс вызовов   1 FixupCLCompileOptions                   
-        1 мс вызовов   1 _PrepareForBuild                        
+        0 мс вызовов   1 PostBuildEvent                          
+        0 мс вызовов   1 BuildGenerateSources                    
+        0 мс вызовов   1 _BuildGenerateSourcesAction             
+        0 мс вызовов   1 AfterBuildGenerateSourcesEvent          
+        0 мс вызовов   1 PrepareForRun                           
+        0 мс вызовов   1 AfterBuildGenerateSources               
+        0 мс вызовов   1 RemotePreBuildEvent                     
+        0 мс вызовов   1 _Midl                                   
+        0 мс вызовов   1 AfterMidl                               
+        0 мс вызовов   1 ComputeMIDLGeneratedCompileInputs       
+        0 мс вызовов   1 MakeDirsForMidl                         
+        0 мс вызовов   1 _AssignProjectReferencesPlatformType    
         1 мс вызовов   1 CreateRecipeFile                        
-        1 мс вызовов   1 GetResolvedWinMD                        
-        1 мс вызовов   1 MakeDirsForCl                           
-        1 мс вызовов   1 ResolveSDKReferences                    
-        1 мс вызовов   1 _AssignProjectReferencesPlatformType    
-        1 мс вызовов   1 ResolveAssemblyReferences               
-        1 мс вызовов   1 SplitResourcesByCulture                 
+        1 мс вызовов   1 RemotePostBuildEvent                    
+        1 мс вызовов   1 GetCopyToOutputDirectoryItems           
+        1 мс вызовов   1 FixupCLCompileOptions                   
+        1 мс вызовов   1 ComputeCLCompileGeneratedXDCFiles       
+        1 мс вызовов   1 PlatformPrepareForBuild                 
+        1 мс вызовов   1 CopyFilesToOutputDirectory              
+        1 мс вызовов   1 MakeDirsForLink                         
         1 мс вызовов   1 AssignTargetPaths                       
-        1 мс вызовов   1 BuildGenerateSourcesTraverse            
-        1 мс вызовов   1 ComputeCLInputPDBName                   
+        1 мс вызовов   1 ComputeCLGeneratedLinkInputs            
         1 мс вызовов   1 ComputeCLOutputs                        
+        1 мс вызовов   1 ComputeIncludePathsFromRecipes          
         2 мс вызовов   1 _GetProjectReferenceTargetFrameworkProperties
         2 мс вызовов   1 AssignProjectConfiguration              
-        3 мс вызовов   1 WarnCompileDuplicatedFilename           
-        4 мс вызовов   1 _WriteRemoteTarget                      
+        2 мс вызовов   1 WarnCompileDuplicatedFilename           
+        2 мс вызовов   1 FinalizeBuildStatus                     
+        3 мс вызовов   1 _WriteRemoteTarget                      
+        6 мс вызовов   1 PrepareForBuild                         
         6 мс вызовов   1 MergeRecipeFiles                        
-       10 мс вызовов   1 _ValidateSources                        
-       10 мс вызовов   1 PrepareForBuild                         
-       11 мс вызовов   1 _ValidateValidArchitecture              
-       11 мс вызовов   1 SetTelemetryEnvironmentVariables        
-       13 мс вызовов   1 FinalizeBuildStatus                     
-       30 мс вызовов   1 _ResolveRemoteTarget                    
-       31 мс вызовов   1 ResolveProjectReferences                
-       34 мс вызовов   1 _CheckForInvalidConfigurationAndPlatform
-       44 мс вызовов   1 InitializeBuildStatus                   
-       82 мс вызовов   1 _ConsolidateSourcesToCopy               
-     3304 мс вызовов   1 Link                                    
-     3350 мс вызовов   1 _CopySources                            
-    54334 мс вызовов   1 ClCompile                               
+        7 мс вызовов   1 _ValidateSources                        
+        8 мс вызовов   1 _ValidateValidArchitecture              
+       10 мс вызовов   1 SetTelemetryEnvironmentVariables        
+       19 мс вызовов   1 ResolveProjectReferences                
+       44 мс вызовов   1 _ConsolidateSourcesToCopy               
+       45 мс вызовов   1 _ResolveRemoteTarget                    
+       56 мс вызовов   1 _CheckForInvalidConfigurationAndPlatform
+      205 мс вызовов   1 InitializeBuildStatus                   
+     2873 мс вызовов   1 _CopySources                            
+     3066 мс вызовов   1 Link                                    
+     7929 мс вызовов   1 ClCompile                               
 
 Итоги по задачам:
         0 мс вызовов   1 CallTarget                              
-        0 мс вызовов   6 AssignTargetPath                        
-        1 мс вызовов   1 MSBuild                                 
+        0 мс вызовов   1 AssignCulture                           
+        0 мс вызовов   1 MSBuild                                 
+        1 мс вызовов   2 Message                                 
+        1 мс вызовов   6 AssignTargetPath                        
+        1 мс вызовов   1 Delete                                  
         1 мс вызовов   9 MakeDir                                 
-        1 мс вызовов   1 AssignCulture                           
-        2 мс вызовов   2 Message                                 
-        2 мс вызовов   1 AssignProjectConfiguration              
-        2 мс вызовов   1 ReadLinesFromFile                       
-        4 мс вызовов   7 SetEnv                                  
-        4 мс вызовов   1 WriteRemoteTarget                       
+        1 мс вызовов   1 AssignProjectConfiguration              
+        1 мс вызовов   1 ReadLinesFromFile                       
+        2 мс вызовов   7 SetEnv                                  
+        3 мс вызовов   1 WriteRemoteTarget                       
         6 мс вызовов   1 MergeRecipeLists                        
-        8 мс вызовов   2 Touch                                   
-        9 мс вызовов   1 ValidateSources                         
-       10 мс вызовов   1 Delete                                  
-       11 мс вызовов   1 ValidateValidArchitecture               
-       26 мс вызовов   1 ResolveRemoteTarget                     
-       47 мс вызовов   8 MakeClCommandLine                       
-       82 мс вызовов   1 ConsolidateSourcesToCopy                
-      112 мс вызовов   4 WriteLinesToFile                        
-     3231 мс вызовов   1 Ld                                      
-     3350 мс вызовов   1 CopySources                             
-    54281 мс вызовов   1 Compile                                 
+        7 мс вызовов   1 ValidateSources                         
+        8 мс вызовов   4 WriteLinesToFile                        
+        8 мс вызовов   1 ValidateValidArchitecture               
+       33 мс вызовов   8 MakeClCommandLine                       
+       39 мс вызовов   1 ResolveRemoteTarget                     
+       44 мс вызовов   1 ConsolidateSourcesToCopy                
+      203 мс вызовов   2 Touch                                   
+     2873 мс вызовов   1 CopySources                             
+     3058 мс вызовов   1 Ld                                      
+     7891 мс вызовов   1 Compile                                 
 
 Сборка успешно завершена.
 
        "D:\Repos\OPC_Server\OPC_Server\OPC_Server.vcxproj" (целевой объект Build ) (1) ->
        (ClCompile конечный объект) -> 
-         D:\Repos\OPC_Server\OPC_Server\open62541.c(56317,2): warning : implicit declaration of function ‘gettimeofday’ [-Wimplicit-function-declaration]
-       D:\Repos\OPC_Server\OPC_Server\open62541.c(56317,2): warning :   gettimeofday(&t0, 0);
-       D:\Repos\OPC_Server\OPC_Server\open62541.c(56317,2): warning :   ^~~~~~~~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(107,80): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(107,80): warning :   oAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*) controller->name.c_str());
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(107,80): warning :                                                                                 ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(115,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(115,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(115,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(127,76): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(127,76): warning :    statusAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_node.c_str());
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(127,76): warning :                                                                             ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(133,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(133,21): warning :    for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(133,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(144,80): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(144,80): warning :     statusAttr2.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_device.c_str());
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(144,80): warning :                                                                                 ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(150,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(150,22): warning :     for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(150,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(165,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(165,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(165,79): warning :                                                                                ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(175,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(175,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(175,79): warning :                                                                                ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(185,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(185,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(185,79): warning :                                                                                ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(195,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(195,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(195,79): warning :                                                                                ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(209,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(209,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(209,79): warning :                                                                                ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(219,55): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(219,55): warning :       statusAttr4.description.text = UA_STRING("sample");
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(219,55): warning :                                                        ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(223,79): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(223,79): warning :       statusAttr4.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(223,79): warning :                                                                                ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(243,16): warning : unused variable ‘retval’ [-Wunused-variable]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(243,16): warning :   UA_StatusCode retval = UA_Server_run(server, &running);
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(243,16): warning :                 ^~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(269,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(269,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(269,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(281,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(281,22): warning :     for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(281,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(285,59): warning : conversion to ‘int16_t {aka short int}’ from ‘int’ may alter its value [-Wconversion]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(285,59): warning :      controller->vectorNode[i].vectorDevice[j].id_device = j;
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(285,59): warning :                                                            ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(319,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(319,20): warning :   for (int i = 0; i < modbus_thread.size(); i++)
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(319,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(404,18): warning : ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(404,18): warning :    path_to_json = "/usr/httpserv/opc.json";
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(404,18): warning :                   ^~~~~~~~~~~~~~~~~~~~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(387,6): warning : unused variable ‘status’ [-Wunused-variable]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(387,6): warning :   int status = 0;
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(387,6): warning :       ^~~~~~
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(344,1): warning : control reaches end of non-void function [-Wreturn-type]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(344,1): warning :  };
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(344,1): warning :  ^
+         D:\Repos\OPC_Server\OPC_Server\main.cpp(350,1): warning : control reaches end of non-void function [-Wreturn-type]
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(350,1): warning :  };
+       D:\Repos\OPC_Server\OPC_Server\main.cpp(350,1): warning :  ^
 
-    Предупреждений: 1
+    Предупреждений: 22
     Ошибок: 0
 
-Прошло времени 00:01:01.32
+Прошло времени 00:00:14.30

@@ -27,7 +27,7 @@
 
 #include "open62541.h"
 
-
+#include "rs485_device_ioctl.h"
 
 /*********************************** amalgamated original file "/home/open62541_rc3/deps/open62541_queue.h" ***********************************/
 
@@ -25111,6 +25111,7 @@ UA_Server_editNode(UA_Server *server, UA_Session *session,
     const UA_Node *node = UA_Nodestore_getNode(server->nsCtx, nodeId);
     if(!node)
         return UA_STATUSCODE_BADNODEIDUNKNOWN;
+
     UA_StatusCode retval = callback(server, session, (UA_Node*)(uintptr_t)node, data);
     UA_Nodestore_releaseNode(server->nsCtx, node);
     return retval;
@@ -37343,6 +37344,7 @@ __UA_Server_addNode(UA_Server *server, const UA_NodeClass nodeClass,
     item.nodeAttributes.encoding = UA_EXTENSIONOBJECT_DECODED_NODELETE;
     item.nodeAttributes.content.decoded.type = attributeType;
     item.nodeAttributes.content.decoded.data = (void*)(uintptr_t)attr;
+	
 
     /* Call the normal addnodes service */
     UA_AddNodesResult result;
@@ -55704,7 +55706,9 @@ insertDataValue_backend_memory(UA_Server *server,
 {
     if (!value->hasSourceTimestamp && !value->hasServerTimestamp)
         return UA_STATUSCODE_BADINVALIDTIMESTAMP;
+
     const UA_DateTime timestamp = value->hasSourceTimestamp ? value->sourceTimestamp : value->serverTimestamp;
+
     UA_NodeIdStoreContextItem_backend_memory* item = getNodeIdStoreContextItem_backend_memory((UA_MemoryStoreContext*)hdbContext, server, nodeId);
 
     size_t index = getDateTimeMatch_backend_memory(server,
@@ -55714,6 +55718,7 @@ insertDataValue_backend_memory(UA_Server *server,
                                     nodeId,
                                     timestamp,
                                     MATCH_EQUAL_OR_AFTER);
+
     if (item->storeEnd != index && item->dataStore[index]->timestamp == timestamp)
         return UA_STATUSCODE_BADENTRYEXISTS;
 
@@ -55726,14 +55731,20 @@ insertDataValue_backend_memory(UA_Server *server,
         }
         item->storeSize = newStoreSize;
     }
+
     UA_DataValueMemoryStoreItem *newItem = (UA_DataValueMemoryStoreItem *)UA_calloc(1, sizeof(UA_DataValueMemoryStoreItem));
-    newItem->timestamp = timestamp;
-    UA_DataValue_copy(value, &newItem->value);
-    if (item->storeEnd > 0 && index < item->storeEnd) {
+    
+	newItem->timestamp = timestamp;
+    
+	UA_DataValue_copy(value, &newItem->value);
+    
+	if (item->storeEnd > 0 && index < item->storeEnd) {
         memmove(&item->dataStore[index+1], &item->dataStore[index], sizeof(UA_DataValueMemoryStoreItem*) * (item->storeEnd - index));
     }
-    item->dataStore[index] = newItem;
+    
+	item->dataStore[index] = newItem;
     ++item->storeEnd;
+
     return UA_STATUSCODE_GOOD;
 }
 
@@ -55881,15 +55892,15 @@ UA_HistoryDataBackend_Memory(size_t initialNodeIdStoreSize, size_t initialDataSt
     ctx->initialStoreSize = initialDataStoreSize;
     ctx->storeSize = initialNodeIdStoreSize;
     ctx->storeEnd = 0;
-    result.serverSetHistoryData = &serverSetHistoryData_backend_memory;
-    result.resultSize = &resultSize_backend_memory;
+    result.serverSetHistoryData = &serverSetHistoryData_backend_memory; //выделяем память
+    result.resultSize = &resultSize_backend_memory;						//return endIndex - startIndex + 1;
     result.getEnd = &getEnd_backend_memory;
-    result.lastIndex = &lastIndex_backend_memory;
-    result.firstIndex = &firstIndex_backend_memory;
-    result.getDateTimeMatch = &getDateTimeMatch_backend_memory;
-    result.copyDataValues = &copyDataValues_backend_memory;
-    result.getDataValue = &getDataValue_backend_memory;
-    result.boundSupported = &boundSupported_backend_memory;
+    result.lastIndex = &lastIndex_backend_memory;						
+    result.firstIndex = &firstIndex_backend_memory;						
+    result.getDateTimeMatch = &getDateTimeMatch_backend_memory;			
+    result.copyDataValues = &copyDataValues_backend_memory;				//
+    result.getDataValue = &getDataValue_backend_memory;					
+    result.boundSupported = &boundSupported_backend_memory;				
     result.timestampsToReturnSupported = &timestampsToReturnSupported_backend_memory;
     result.insertDataValue =  &insertDataValue_backend_memory;
     result.updateDataValue =  &updateDataValue_backend_memory;
@@ -56282,9 +56293,10 @@ getResultSize_service_default(const UA_HistoryDataBackend* backend,
     return size;
 }
 
-static struct timeval t1, t0;
-static int common_points = 0;
-
+//static struct timeval t1, t0;
+//static int common_points = 0;
+//static uint8_t sample_read_buffer[100000];
+//static rs485_device_ioctl_t sample_config;
 
 static UA_StatusCode
 getHistoryData_service_default(const UA_HistoryDataBackend* backend,
@@ -56305,16 +56317,8 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
                                size_t *resultSize,
                                UA_DataValue ** result)
 {
-	//UA_DateTime time1 = UA_DateTime_now();
-	//UA_DateTime time2;
-	//static UA_DateTime time3;
-
-
-	//struct timespec new_start, new_stop, new_duration, new_stop2, new_common_duration;
-	//clock_gettime(CLOCK_REALTIME, &new_start);
-
 	
-	gettimeofday(&t0, 0);
+	//gettimeofday(&t0, 0); //отметка время старта
 
 
     size_t skip = 0;
@@ -56400,54 +56404,6 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
 
 	
 
-		
-		
-		
-		//UA_DataValue * test = UA_Array_new(600, &UA_TYPES[UA_TYPES_DATAVALUE]);
-		//
-		////test->value.type = &UA_TYPES[UA_TYPES_FLOAT];
-		//test->value.arrayDimensionsSize = 0;
-		//test->value.arrayDimensions = 0;
-		//test->sourceTimestamp = 0x1d5bacf656df800;
-		//test->status = 0x80d70000;
-
-		
-
-		
-		
-		//for (int r = 0; r < 600; r++)
-		//{
-		//	float * test2 = (float*)UA_calloc(1, 4);
-		//	*test2 = 0.1+r;			
-		//	
-		//	test[r].value.data = test2;			
-
-		//	test[r].value.arrayDimensionsSize = 0;
-		//	test[r].value.arrayDimensions = 0;
-		//	test[r].sourceTimestamp = 0x1c06e1ec506b800 +r;
-		//	//test[r].status = 0x80d70000;
-		//	test[r].hasValue = 0x1;
-		//	test[r].sourceTimestamp = 0x1;
-		//}
-
-		
-		
-
-		//value1->status = 0x80d70000;
-		//value1->hasValue = 0;
-		//value1->hasStatus = 1;
-		//value1->sourceTimestamp = 0x1d5bacf656df800;
-		//
-		//value1->value.type = &UA_TYPES[UA_TYPES_FLOAT];
-		//value1->value.storageType = UA_VARIANT_DATA;
-		//value1->value.arrayLength = 0;
-		//value1->value.data = &test;
-		//value1->value.arrayDimensionsSize = 0;
-		//value1->value.arrayDimensions = 0;
-				
-		
-		
-
 		if (valueSize > 0)
 			ret = backend->copyDataValues(server,
 				backend->context,
@@ -56465,50 +56421,22 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
 				&retval,				
 				&outResult[counter]);
 
+
+		//transaction preparation			
 		
-		for (int r = 0; r < *resultSize; r++)
-		{
-			//UA_DataValue * test = UA_Array_new(1, &UA_TYPES[UA_TYPES_DATAVALUE]);
 
-			//test->value.type = &UA_TYPES[UA_TYPES_FLOAT];
-			//test->value.arrayDimensionsSize = 0;
-			//test->value.arrayDimensions = 0;
-			//test->sourceTimestamp = 0x1d5bacf656df800 + r;
-			//test->status = 0x80d70000;
 
-			float * test2 = (float*)UA_calloc(1, 4);
-			*test2 = 0.1;
 
-			
-			outResult[r].value.data = test2;
-			
-			common_points++;
-		}
-
-		//printf("Общее количество точек = %d\n", common_points);
-		//time2 = UA_DateTime_now();
-		//time3 += (time2 - time1);
-		//printf("Время = %lld\n", time3);
-
-		//clock_gettime(CLOCK_REALTIME, &new_stop2);
-		//new_common_duration = time_diff(new_start, new_stop2);
 		
-		
-		//if ((new_stop2.tv_nsec - new_start.tv_nsec) < 0)
+		//for (int r = 0; r < *resultSize; r++)
 		//{
-		//	new_common_duration.tv_sec = new_stop2.tv_sec - new_start.tv_sec - 1;
-		//	new_common_duration.tv_nsec = 1000000000 + new_stop2.tv_nsec - new_start.tv_nsec;
+		//	float * test2 = (float*)UA_calloc(1, 4);
+		//	*test2 = 0.1;
+		//	
+		//	outResult[r].value.data = test2;
+		//	
+		//	common_points++;
 		//}
-		//else
-		//{
-		//	new_common_duration.tv_sec = new_stop2.tv_sec - new_start.tv_sec;
-		//	new_common_duration.tv_nsec = new_stop2.tv_nsec - new_start.tv_nsec;
-		//}
-				
-		//if (common_points >= 6000000) printf("\nВремя = %d сек. \n\n", new_common_duration.tv_sec + (new_common_duration.tv_nsec / 1000000));
-		//printf("\nВремя = %d сек. \n\n", new_common_duration.tv_sec + (new_common_duration.tv_nsec / 1000000));
-
-
 
 
         if (ret != UA_STATUSCODE_GOOD) {
@@ -56553,9 +56481,9 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
 
 	
 	
-	gettimeofday(&t1, 0);
-	int64_t dif = (t1.tv_usec - t0.tv_usec) / 1000;	
-	if (common_points >= 6000000) printf("Elasped time is %lld \n", dif);
+	//gettimeofday(&t1, 0);
+	//int64_t dif = (t1.tv_usec - t0.tv_usec) / 1000;	
+	//if (common_points >= 6000000) printf("Elasped time is %lld \n", dif);
 
 
 

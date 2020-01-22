@@ -13889,6 +13889,7 @@ typedef struct {
     UA_Byte userAccessLevel;
     UA_Double minimumSamplingInterval;
     UA_Boolean historizing;
+	UA_Boolean sample;
 } UA_VariableAttributes;
 
 #define UA_TYPES_VARIABLEATTRIBUTES 27
@@ -25884,6 +25885,7 @@ typedef struct {
     UA_Byte accessLevel;
     UA_Double minimumSamplingInterval;
     UA_Boolean historizing;
+	UA_Boolean sample;
 } UA_VariableNode;
 
 /**
