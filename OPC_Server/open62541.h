@@ -12560,7 +12560,8 @@ typedef enum {
     UA_ATTRIBUTEID_MINIMUMSAMPLINGINTERVAL = 19,
     UA_ATTRIBUTEID_HISTORIZING             = 20,
     UA_ATTRIBUTEID_EXECUTABLE              = 21,
-    UA_ATTRIBUTEID_USEREXECUTABLE          = 22
+    UA_ATTRIBUTEID_USEREXECUTABLE          = 22,
+	UA_ATTRIBUTEID_SAMPLE    			   = 23,
 } UA_AttributeId;
 
 /**
@@ -23204,6 +23205,13 @@ UA_Server_readHistorizing(UA_Server *server, const UA_NodeId nodeId,
                           UA_Boolean *outHistorizing) {
     return __UA_Server_read(server, &nodeId, UA_ATTRIBUTEID_HISTORIZING,
                             outHistorizing);
+}
+
+static UA_INLINE UA_StatusCode
+UA_Server_readSample(UA_Server* server, const UA_NodeId nodeId,
+    UA_Boolean* outSample) {
+    return __UA_Server_read(server, &nodeId, UA_ATTRIBUTEID_SAMPLE,
+        outSample);
 }
 
 static UA_INLINE UA_StatusCode

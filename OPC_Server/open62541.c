@@ -33138,6 +33138,12 @@ ReadWithNode(const UA_Node *node, UA_Server *server, UA_Session *session,
         retval = UA_Variant_setScalarCopy(&v->value, &((const UA_VariableNode*)node)->historizing,
                           &UA_TYPES[UA_TYPES_BOOLEAN]);
         break;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    case UA_ATTRIBUTEID_SAMPLE:
+        CHECK_NODECLASS(UA_NODECLASS_VARIABLE);
+        retval = UA_Variant_setScalarCopy(&v->value, &((const UA_VariableNode*)node)->sample, &UA_TYPES[UA_TYPES_BOOLEAN]);
+        break;
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     case UA_ATTRIBUTEID_EXECUTABLE:
         CHECK_NODECLASS(UA_NODECLASS_METHOD);
         retval = UA_Variant_setScalarCopy(&v->value, &((const UA_MethodNode*)node)->executable,
@@ -56293,8 +56299,8 @@ getResultSize_service_default(const UA_HistoryDataBackend* backend,
     return size;
 }
 
-//static struct timeval t1, t0;
-//static int common_points = 0;
+static struct timeval t1, t0;
+static int common_points = 0;
 //static uint8_t sample_read_buffer[100000];
 //static rs485_device_ioctl_t sample_config;
 
@@ -56317,8 +56323,8 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
                                size_t *resultSize,
                                UA_DataValue ** result)
 {
-	
-	//gettimeofday(&t0, 0); //отметка время старта
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	gettimeofday(&t0, 0); //отметка время старта
 
 
     size_t skip = 0;
@@ -56481,10 +56487,10 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
 
 	
 	
-	//gettimeofday(&t1, 0);
-	//int64_t dif = (t1.tv_usec - t0.tv_usec) / 1000;	
-	//if (common_points >= 6000000) printf("Elasped time is %lld \n", dif);
-
+	gettimeofday(&t1, 0);
+	int64_t dif = (t1.tv_usec - t0.tv_usec) / 1000;	
+	if (common_points >= 6000000) printf("Elasped time is %lld \n", dif);
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     return UA_STATUSCODE_GOOD;
@@ -56678,12 +56684,22 @@ readRaw_service_default(UA_Server *server,
             continue;
         }
 
-        UA_Boolean historizing = false;
-        UA_Server_readHistorizing(server,
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        UA_Boolean sample = false;
+        //UA_Server_readSample(server, nodesToRead[i].nodeId, &sample);
+        //__UA_Server_read(server, &nodesToRead[i].nodeId, UA_ATTRIBUTEID_SAMPLE, &sample);                
+        ////////////////////////////////////////////////////////////////////////////////////
+
+
+        UA_Boolean historizing = false;		      
+		UA_Server_readHistorizing(server,
                                   nodesToRead[i].nodeId,
                                   &historizing);
+
+
         if (!historizing) {
-            response->results[i].statusCode = UA_STATUSCODE_BADHISTORYOPERATIONINVALID;
+            response->results[i].statusCode = UA_STATUSCODE_BADHISTORYOPERATIONINVALID;            
             continue;
         }
 

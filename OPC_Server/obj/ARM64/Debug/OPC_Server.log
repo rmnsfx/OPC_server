@@ -1,0 +1,6 @@
+﻿  Проверка исходных файлов
+  Удаленное копирование исходных файлов в "192.168.0.141"
+  Проверка архитектуры
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Application Type\Linux\1.0\Linux.targets(183,5): warning : Архитектуры платформ для удаленных систем, используемых при развертывании ("x64", "ARM"), несовместимы.
+  Проверка архитектуры
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Application Type\Linux\1.0\Linux.targets(174,5): error : Текущая архитектура проекта "ARM64" несовместима с архитектурой удаленной системы "x64" ("x64"). Переключите архитектуру проекта на "x64" в Configuration Manager.

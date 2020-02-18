@@ -156,7 +156,7 @@ void* workerOPC(void *args)
 				UA_VariableAttributes statusAttr4 = UA_VariableAttributes_default;
 				
 				statusAttr3.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
-				//statusAttr3.historizing = true;
+				statusAttr3.historizing = true;
 
 				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
 				{

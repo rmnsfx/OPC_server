@@ -572,9 +572,9 @@ void* pollingDeviceRS485(void *args)
 
 									for (int e = 0; e < real_points; e++)
 									{
-										UA_Variant_init(&sample_value);
-										opc_value_sample = (UA_Float) out_float[e];
-										UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
+										//UA_Variant_init(&sample_value);
+										//opc_value_sample = (UA_Float) out_float[e];
+										//UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
 										//UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, sample_value);												
 									}
 									
