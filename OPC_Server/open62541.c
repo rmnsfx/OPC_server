@@ -56496,6 +56496,204 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
     return UA_STATUSCODE_GOOD;
 }
 
+
+static UA_StatusCode
+getHistoryData_service_fromDriver(const UA_HistoryDataBackend* backend,
+    const UA_DateTime start,
+    const UA_DateTime end,
+    UA_Server* server,
+    const UA_NodeId* sessionId,
+    void* sessionContext,
+    const UA_NodeId* nodeId,
+    size_t maxSize,
+    UA_UInt32 numValuesPerNode,
+    UA_Boolean returnBounds,
+    UA_TimestampsToReturn timestampsToReturn,
+    UA_NumericRange range,
+    UA_Boolean releaseContinuationPoints,
+    const UA_ByteString* continuationPoint,
+    UA_ByteString* outContinuationPoint,
+    size_t* resultSize,
+    UA_DataValue** result)
+{
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    gettimeofday(&t0, 0); //отметка время старта
+
+
+    size_t skip = 0;
+    UA_ByteString backendContinuationPoint;
+    UA_ByteString_init(&backendContinuationPoint);
+    if (continuationPoint->length > 0) {
+        if (continuationPoint->length >= sizeof(size_t)) {
+            skip = *((size_t*)(continuationPoint->data));
+            if (continuationPoint->length > 0) {
+                backendContinuationPoint.length = continuationPoint->length - sizeof(size_t);
+                backendContinuationPoint.data = continuationPoint->data + sizeof(size_t);
+            }
+        }
+        else {
+            return UA_STATUSCODE_BADCONTINUATIONPOINTINVALID;
+        }
+    }
+
+    size_t storeEnd = backend->getEnd(server, backend->context, sessionId, sessionContext, nodeId);
+    size_t startIndex;
+    size_t endIndex;
+    UA_Boolean addFirst;
+    UA_Boolean addLast;
+    UA_Boolean reverse;
+    size_t _resultSize = getResultSize_service_default(backend,
+        server,
+        sessionId,
+        sessionContext,
+        nodeId,
+        start,
+        end,
+        numValuesPerNode == 0 ? 0 : numValuesPerNode + (UA_UInt32)skip,
+        returnBounds,
+        &startIndex,
+        &endIndex,
+        &addFirst,
+        &addLast,
+        &reverse);
+    *resultSize = _resultSize - skip;
+    if (*resultSize > maxSize) {
+        *resultSize = maxSize;
+    }
+
+
+
+    UA_DataValue* outResult = (UA_DataValue*)UA_Array_new(*resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
+    if (!outResult) {
+        *resultSize = 0;
+        return UA_STATUSCODE_BADOUTOFMEMORY;
+    }
+    *result = outResult;
+
+    size_t counter = 0;
+    if (addFirst) {
+        if (skip == 0) {
+            outResult[counter].hasStatus = true;
+            outResult[counter].status = UA_STATUSCODE_BADBOUNDNOTFOUND;
+            outResult[counter].hasSourceTimestamp = true;
+            if (start == LLONG_MIN) {
+                outResult[counter].sourceTimestamp = end;
+            }
+            else {
+                outResult[counter].sourceTimestamp = start;
+            }
+            ++counter;
+        }
+    }
+    UA_ByteString backendOutContinuationPoint;
+    UA_ByteString_init(&backendOutContinuationPoint);
+    if (endIndex != storeEnd && startIndex != storeEnd) {
+        size_t retval = 0;
+
+        size_t valueSize = *resultSize - counter;
+        if (valueSize + skip > _resultSize - addFirst - addLast) {
+            if (skip == 0) {
+                valueSize = _resultSize - addFirst - addLast;
+            }
+            else {
+                valueSize = _resultSize - skip - addLast;
+            }
+
+        }
+
+        UA_StatusCode ret = UA_STATUSCODE_GOOD;
+
+
+
+
+        if (valueSize > 0)
+            ret = backend->copyDataValues(server,
+                backend->context,
+                sessionId,
+                sessionContext,
+                nodeId,
+                startIndex,
+                endIndex,
+                reverse,
+                valueSize,
+                range,
+                releaseContinuationPoints,
+                &backendContinuationPoint,
+                &backendOutContinuationPoint,
+                &retval,
+                &outResult[counter]);
+
+
+        //transaction preparation			
+
+
+
+
+
+        //for (int r = 0; r < *resultSize; r++)
+        //{
+        //	float * test2 = (float*)UA_calloc(1, 4);
+        //	*test2 = 0.1;
+        //	
+        //	outResult[r].value.data = test2;
+        //	
+        //	common_points++;
+        //}
+
+
+        if (ret != UA_STATUSCODE_GOOD) {
+            UA_Array_delete(outResult, *resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
+            *result = NULL;
+            *resultSize = 0;
+            return ret;
+        }
+        counter += retval;
+    }
+    if (addLast && counter < *resultSize) {
+        outResult[counter].hasStatus = true;
+        outResult[counter].status = UA_STATUSCODE_BADBOUNDNOTFOUND;
+        outResult[counter].hasSourceTimestamp = true;
+        if (start == LLONG_MIN && storeEnd != backend->firstIndex(server, backend->context, sessionId, sessionContext, nodeId)) {
+            outResult[counter].sourceTimestamp = backend->getDataValue(server, backend->context, sessionId, sessionContext, nodeId, endIndex)->sourceTimestamp - UA_DATETIME_SEC;
+        }
+        else if (end == LLONG_MIN && storeEnd != backend->firstIndex(server, backend->context, sessionId, sessionContext, nodeId)) {
+            outResult[counter].sourceTimestamp = backend->getDataValue(server, backend->context, sessionId, sessionContext, nodeId, endIndex)->sourceTimestamp + UA_DATETIME_SEC;
+        }
+        else {
+            outResult[counter].sourceTimestamp = end;
+        }
+    }
+    // there are more values
+    if (skip + *resultSize < _resultSize
+        // there are not more values for this request, but there are more values in database
+        || (backendOutContinuationPoint.length > 0
+            && numValuesPerNode != 0)
+        // we deliver just one value which is a FIRST/LAST value
+        || (skip == 0
+            && addFirst == true
+            && *resultSize == 1)) {
+        if (UA_ByteString_allocBuffer(outContinuationPoint, backendOutContinuationPoint.length + sizeof(size_t))
+            != UA_STATUSCODE_GOOD) {
+            return UA_STATUSCODE_BADOUTOFMEMORY;
+        }
+        *((size_t*)(outContinuationPoint->data)) = skip + *resultSize;
+        if (backendOutContinuationPoint.length > 0)
+            memcpy(outContinuationPoint->data + sizeof(size_t), backendOutContinuationPoint.data, backendOutContinuationPoint.length);
+    }
+    UA_ByteString_deleteMembers(&backendOutContinuationPoint);
+
+
+
+
+    gettimeofday(&t1, 0);
+    int64_t dif = (t1.tv_usec - t0.tv_usec) / 1000;
+    if (common_points >= 6000000) printf("Elasped time is %lld \n", dif);
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    return UA_STATUSCODE_GOOD;
+}
+
 static void
 updateData_service_default(UA_Server *server,
                            void *hdbContext,
@@ -56688,7 +56886,7 @@ readRaw_service_default(UA_Server *server,
         ////////////////////////////////////////////////////////////////////////////////////
         UA_Boolean sample = false;
         //UA_Server_readSample(server, nodesToRead[i].nodeId, &sample);
-        //__UA_Server_read(server, &nodesToRead[i].nodeId, UA_ATTRIBUTEID_SAMPLE, &sample);                
+        //__UA_Server_read(server, &nodesToRead[i].nodeId, UA_ATTRIBUTEID_SAMPLE, &sample);                  
         ////////////////////////////////////////////////////////////////////////////////////
 
 

@@ -79,9 +79,12 @@
     <LibraryPath>$(ProjectDir)rapidjson;$(LibraryPath)</LibraryPath>
     <IncludePath>$(ProjectDir)rapidjson;$(IncludePath)</IncludePath>
     <MultiProcNumber>4</MultiProcNumber>
-    <RemoteCppCompileToolExe>/root/var_som_mx7_debian/toolchain/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-g++</RemoteCppCompileToolExe>
-    <RemoteCCompileToolExe>/root/var_som_mx7_debian/toolchain/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-g++</RemoteCCompileToolExe>
-    <RemoteLdToolExe>/root/var_som_mx7_debian/toolchain/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-g++</RemoteLdToolExe>
+    <RemoteCppCompileToolExe>g++</RemoteCppCompileToolExe>
+    <RemoteCCompileToolExe>g++</RemoteCCompileToolExe>
+    <RemoteLdToolExe>g++</RemoteLdToolExe>
+    <OutDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <RemoteDeployDir>$(RemoteDeployDir)</RemoteDeployDir>
+    <RemoteProjectDir>$(RemoteRootDir)/$(ProjectName)</RemoteProjectDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <LocalRemoteCopySources>true</LocalRemoteCopySources>
@@ -181,7 +184,7 @@
       <AdditionalOptions>-pthread -lpthread %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <PostBuildEvent>
-      <Command>pscp.exe -pw root C:\Users\SavchenkoRS\projects\OPC_Server\OPC_Server\bin\x64\Debug\OPC_Server.out root@192.168.5.210:/root/projects/OPC_Server/bin/x64/Debug/OPC_Server.out</Command>
+      <Command>pscp -pw root C:\Repos\OPC_Server\OPC_Server\bin\x64\Debug\OPC_Server.out root@192.168.5.210:/root/projects/OPC_Server/bin/x64/Debug/</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

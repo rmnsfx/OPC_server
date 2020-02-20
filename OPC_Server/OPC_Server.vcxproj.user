@@ -6,9 +6,11 @@
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <RemoteTarget>-908794954;192.168.0.141 (username=, port=1022, authentication=Password)</RemoteTarget>
+    <RemoteTarget>-756055745;192.168.5.210 (username=, port=22, authentication=Password)</RemoteTarget>
     <RemoteDebuggingTarget>-756055745;192.168.5.210 (username=, port=22, authentication=Password)</RemoteDebuggingTarget>
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
+    <RemoteDebuggerWorkingDirectory>
+    </RemoteDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <RemoteTarget>-908794954;192.168.0.141 (username=, port=1022, authentication=Password)</RemoteTarget>

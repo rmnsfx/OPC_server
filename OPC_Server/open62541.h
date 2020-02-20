@@ -23208,10 +23208,8 @@ UA_Server_readHistorizing(UA_Server *server, const UA_NodeId nodeId,
 }
 
 static UA_INLINE UA_StatusCode
-UA_Server_readSample(UA_Server* server, const UA_NodeId nodeId,
-    UA_Boolean* outSample) {
-    return __UA_Server_read(server, &nodeId, UA_ATTRIBUTEID_SAMPLE,
-        outSample);
+UA_Server_readSample(UA_Server* server, const UA_NodeId nodeId, UA_Boolean* outSample) {
+    return __UA_Server_read(server, &nodeId, UA_ATTRIBUTEID_SAMPLE, outSample);
 }
 
 static UA_INLINE UA_StatusCode

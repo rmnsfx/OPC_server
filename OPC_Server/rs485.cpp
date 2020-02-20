@@ -178,7 +178,7 @@ void* pollingDeviceRS485(void *args)
 
 	int real_points = 0;
 	
-	//for (int e = 0; e < 100000; e++)
+	//for (int e = 0; e < 100; e++)
 	//{
 	//	UA_Variant_init(&sample_value);
 	//	//opc_value_sample = (UA_Float)out_float[e];

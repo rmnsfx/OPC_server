@@ -156,7 +156,8 @@ void* workerOPC(void *args)
 				UA_VariableAttributes statusAttr4 = UA_VariableAttributes_default;
 				
 				statusAttr3.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
-				statusAttr3.historizing = true;
+				statusAttr4.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
+				//statusAttr3.historizing = true;
 
 				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
 				{
@@ -198,7 +199,6 @@ void* workerOPC(void *args)
 						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
 						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
 				}
-
 				else if ( (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_BE) ||
 					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_BE_swap) ||
 					(controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::float_LE) ||
@@ -211,10 +211,9 @@ void* workerOPC(void *args)
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
 						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
 						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr3, NULL, &tagNodeId);
-				}
-				
+				}				
 				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::sample)
-				{
+				{					
 					statusAttr4.historizing = true;
 					statusAttr4.description.text = UA_STRING("sample");
 					statusAttr4.sample = true;
