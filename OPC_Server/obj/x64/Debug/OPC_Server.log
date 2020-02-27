@@ -5,76 +5,49 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\
   Проверка архитектуры
   Запуск удаленной сборки.
   Компиляция исходных файлов:
-  main.cpp
-C:\Repos\OPC_Server\OPC_Server\main.cpp(107,80): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(107,80): warning :   oAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*) controller->name.c_str());
-C:\Repos\OPC_Server\OPC_Server\main.cpp(107,80): warning :                                                                                 ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(115,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(115,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
-C:\Repos\OPC_Server\OPC_Server\main.cpp(115,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\main.cpp(127,76): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(127,76): warning :    statusAttr.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_node.c_str());
-C:\Repos\OPC_Server\OPC_Server\main.cpp(127,76): warning :                                                                             ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(133,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(133,21): warning :    for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
-C:\Repos\OPC_Server\OPC_Server\main.cpp(133,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\main.cpp(144,80): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(144,80): warning :     statusAttr2.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_device.c_str());
-C:\Repos\OPC_Server\OPC_Server\main.cpp(144,80): warning :                                                                                 ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(150,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(150,22): warning :     for (int k = 0; k < controller->vectorNode[i].vectorDevice[j].vectorTag.size(); k++)
-C:\Repos\OPC_Server\OPC_Server\main.cpp(150,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\main.cpp(166,79): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(166,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
-C:\Repos\OPC_Server\OPC_Server\main.cpp(166,79): warning :                                                                                ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(176,79): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(176,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
-C:\Repos\OPC_Server\OPC_Server\main.cpp(176,79): warning :                                                                                ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(186,79): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(186,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
-C:\Repos\OPC_Server\OPC_Server\main.cpp(186,79): warning :                                                                                ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(196,79): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(196,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
-C:\Repos\OPC_Server\OPC_Server\main.cpp(196,79): warning :                                                                                ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(209,79): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(209,79): warning :       statusAttr3.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
-C:\Repos\OPC_Server\OPC_Server\main.cpp(209,79): warning :                                                                                ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(218,55): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(218,55): warning :       statusAttr4.description.text = UA_STRING("sample");
-C:\Repos\OPC_Server\OPC_Server\main.cpp(218,55): warning :                                                        ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(222,79): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(222,79): warning :       statusAttr4.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
-C:\Repos\OPC_Server\OPC_Server\main.cpp(222,79): warning :                                                                                ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(242,16): warning : unused variable 'retval' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(242,16): warning :   UA_StatusCode retval = UA_Server_run(server, &running);
-C:\Repos\OPC_Server\OPC_Server\main.cpp(242,16): warning :                 ^~~~~~
-C:\Repos\OPC_Server\OPC_Server\main.cpp(268,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(268,20): warning :   for (int i = 0; i < controller->vectorNode.size(); i++)
-C:\Repos\OPC_Server\OPC_Server\main.cpp(268,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\main.cpp(280,22): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(280,22): warning :     for (int j = 0; j < controller->vectorNode[i].vectorDevice.size(); j++)
-C:\Repos\OPC_Server\OPC_Server\main.cpp(280,22): warning :                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\main.cpp(284,59): warning : conversion to 'int16_t {aka short int}' from 'int' may alter its value [-Wconversion]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(284,59): warning :      controller->vectorNode[i].vectorDevice[j].id_device = j;
-C:\Repos\OPC_Server\OPC_Server\main.cpp(284,59): warning :                                                            ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(318,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(318,20): warning :   for (int i = 0; i < modbus_thread.size(); i++)
-C:\Repos\OPC_Server\OPC_Server\main.cpp(318,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\main.cpp(403,18): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(403,18): warning :    path_to_json = "/usr/httpserv/opc.json";
-C:\Repos\OPC_Server\OPC_Server\main.cpp(403,18): warning :                   ^~~~~~~~~~~~~~~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\main.cpp(386,6): warning : unused variable 'status' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(386,6): warning :   int status = 0;
-C:\Repos\OPC_Server\OPC_Server\main.cpp(386,6): warning :       ^~~~~~
-C:\Repos\OPC_Server\OPC_Server\main.cpp(343,1): warning : control reaches end of non-void function [-Wreturn-type]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(343,1): warning :  };
-C:\Repos\OPC_Server\OPC_Server\main.cpp(343,1): warning :  ^
-C:\Repos\OPC_Server\OPC_Server\main.cpp(349,1): warning : control reaches end of non-void function [-Wreturn-type]
-C:\Repos\OPC_Server\OPC_Server\main.cpp(349,1): warning :  };
-C:\Repos\OPC_Server\OPC_Server\main.cpp(349,1): warning :  ^
+  open62541.c
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56357,22): warning : conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56357,22): warning :          old_byte >>= 8 - bits_shift;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56357,22): warning :                       ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56363,17): warning : conversion to 'uint32_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56363,17): warning :              tmp |= old_byte << bits_shift;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56363,17): warning :                  ^~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56368,19): warning : conversion to 'float' from 'uint32_t {aka unsigned int}' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56368,19): warning :          *data++ = tmp;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56368,19): warning :                    ^~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56372,12): warning : conversion to 'int' from 'size_t {aka unsigned int}' may change the sign of the result [-Wsign-conversion]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56372,12): warning :      return point;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56372,12): warning :             ^~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56400,2): warning : implicit declaration of function 'gettimeofday' [-Wimplicit-function-declaration]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56400,2): warning :   gettimeofday(&t0, 0); //отметка время старта
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56400,2): warning :   ^~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56668,26): warning : conversion to 'size_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56668,26): warning :      size_t _resultSize = real_points;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56668,26): warning :                           ^~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56666,16): warning : unused variable 'reverse' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56666,16): warning :      UA_Boolean reverse;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56666,16): warning :                 ^~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56665,16): warning : unused variable 'addLast' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56665,16): warning :      UA_Boolean addLast;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56665,16): warning :                 ^~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56663,12): warning : unused variable 'endIndex' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56663,12): warning :      size_t endIndex;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56663,12): warning :             ^~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56662,12): warning : unused variable 'startIndex' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56662,12): warning :      size_t startIndex;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56662,12): warning :             ^~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56661,12): warning : unused variable 'storeEnd' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56661,12): warning :      size_t storeEnd = backend->getEnd(server, backend->context, sessionId, sessionContext, nodeId);
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56661,12): warning :             ^~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56617,9): warning : unused variable 'ioret' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56617,9): warning :      int ioret = ioctl(5, RS485_SAMPLE_READ, &ch_read);
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56617,9): warning :          ^~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56698,8): warning : 'addFirst' may be used uninitialized in this function [-Wmaybe-uninitialized]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56698,8): warning :      if (addFirst) {
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56698,8): warning :         ^
   Связывание объектов
   OPC_Server.vcxproj -> C:\Repos\OPC_Server\OPC_Server\bin\x64\Debug\OPC_Server.out
   
-  OPC_Server.out            | 4 kB |   4.0 kB/s | ETA: 00:09:22 |   0%
-  OPC_Server.out            | 1520 kB | 1520.0 kB/s | ETA: 00:00:00 |  67%
-  OPC_Server.out            | 2253 kB | 2253.9 kB/s | ETA: 00:00:00 | 100%
+  OPC_Server.out            | 4 kB |   4.0 kB/s | ETA: 00:09:26 |   0%
+  OPC_Server.out            | 1888 kB | 1888.0 kB/s | ETA: 00:00:00 |  83%
+  OPC_Server.out            | 2271 kB | 2271.8 kB/s | ETA: 00:00:00 | 100%

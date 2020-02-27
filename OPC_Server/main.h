@@ -155,6 +155,7 @@ Data_type type_converter(const std::string &str);
 Interface_type interface_converter(const std::string &str);
 UA_Server* getServer(void);
 UA_HistoryDataBackend getBackend(void);
+UA_NodeId getNodeId(void);
 
 void* workerOPC(void *args);
 void* pollingEngine(void *args);

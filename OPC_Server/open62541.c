@@ -29,6 +29,9 @@
 
 #include "rs485_device_ioctl.h"
 
+
+
+
 /*********************************** amalgamated original file "/home/open62541_rc3/deps/open62541_queue.h" ***********************************/
 
 /*	$OpenBSD: queue.h,v 1.38 2013/07/03 15:05:21 fgsch Exp $	*/
@@ -21897,6 +21900,10 @@ copyVariableNodeAttributes(UA_VariableNode *vnode,
     vnode->accessLevel = attr->accessLevel;
     vnode->historizing = attr->historizing;
     vnode->minimumSamplingInterval = attr->minimumSamplingInterval;
+
+    vnode->sample = attr->sample;
+    vnode->f_id = attr->f_id;
+
     return copyCommonVariableAttributes(vnode, attr);
 }
 
@@ -22002,10 +22009,15 @@ UA_Node_setAttributes(UA_Node *node, const void *attributes,
         retval = copyMethodNodeAttributes((UA_MethodNode*)node,
                                           (const UA_MethodAttributes*)attributes);
         break;
+
+
+
+
     case UA_NODECLASS_UNSPECIFIED:
     default:
         retval = UA_STATUSCODE_BADNODECLASSINVALID;
     }
+
 
     if(retval == UA_STATUSCODE_GOOD)
         retval = copyStandardAttributes(node, (const UA_NodeAttributes*)attributes);
@@ -33141,7 +33153,22 @@ ReadWithNode(const UA_Node *node, UA_Server *server, UA_Session *session,
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     case UA_ATTRIBUTEID_SAMPLE:
         CHECK_NODECLASS(UA_NODECLASS_VARIABLE);
+        
+        //if (node->description.text.length != NULL)
+        //{
+        //    if ((node->description.text.data[0] == 0x73) &&
+        //        (node->description.text.data[1] == 0x61) &&
+        //        (node->description.text.data[2] == 0x6d) &&
+        //        (node->description.text.data[3] == 0x70) &&
+        //        (node->description.text.data[4] == 0x6c) &&
+        //        (node->description.text.data[5] == 0x65))
+        //    {
+        //        ((UA_VariableNode*)node)->sample = true; //description must contain "sample"
+        //    }            
+        //}
+        
         retval = UA_Variant_setScalarCopy(&v->value, &((const UA_VariableNode*)node)->sample, &UA_TYPES[UA_TYPES_BOOLEAN]);
+
         break;
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     case UA_ATTRIBUTEID_EXECUTABLE:
@@ -33152,7 +33179,7 @@ ReadWithNode(const UA_Node *node, UA_Server *server, UA_Session *session,
     case UA_ATTRIBUTEID_USEREXECUTABLE: {
         CHECK_NODECLASS(UA_NODECLASS_METHOD);
         UA_Boolean userExecutable = getUserExecutable(server, session, (const UA_MethodNode*)node);
-        retval = UA_Variant_setScalarCopy(&v->value, &userExecutable, &UA_TYPES[UA_TYPES_BOOLEAN]);
+        retval = UA_Variant_setScalarCopy(&v->value, &userExecutable, &UA_TYPES[UA_TYPES_UINT32]);
         break; }
     default:
         retval = UA_STATUSCODE_BADATTRIBUTEIDINVALID;
@@ -34120,6 +34147,12 @@ copyAttributeIntoNode(UA_Server *server, UA_Session *session,
         CHECK_USERWRITEMASK(UA_WRITEMASK_HISTORIZING);
         CHECK_DATATYPE_SCALAR(BOOLEAN);
         ((UA_VariableNode*)node)->historizing = *(const UA_Boolean*)value;
+        break;
+    case UA_ATTRIBUTEID_SAMPLE:
+        CHECK_NODECLASS_WRITE(UA_NODECLASS_VARIABLE);
+        CHECK_USERWRITEMASK(UA_WRITEMASK_SAMPLE);
+        CHECK_DATATYPE_SCALAR(BOOLEAN);
+        ((UA_VariableNode*)node)->sample = *(const UA_Boolean*)value;
         break;
     case UA_ATTRIBUTEID_EXECUTABLE:
         CHECK_NODECLASS_WRITE(UA_NODECLASS_METHOD);
@@ -56299,6 +56332,46 @@ getResultSize_service_default(const UA_HistoryDataBackend* backend,
     return size;
 }
 
+
+int sp_master_read(rs485_buffer_pack_t* block, float* data)
+{
+
+    //if (data_size / sizeof(float) < channel->points) return -1;
+
+
+    uint8_t* start_position = block->pack.data;
+
+    uint8_t* position = start_position;
+    uint32_t tmp = 0;
+    size_t resolution = block->resolution;
+    size_t bits_shift = 8;
+    float* data_end = data;
+    size_t point = block->points;
+    data_end += point;
+
+    uint8_t old_byte = *position++;
+    uint32_t mask = 0xFFFFFFFF >> (32 - resolution);
+
+    while (data < data_end)
+    {
+        old_byte >>= 8 - bits_shift;
+        tmp = old_byte;
+
+        while (bits_shift < resolution)
+        {
+            old_byte = *position++;
+            tmp |= old_byte << bits_shift;
+            bits_shift += 8;
+        }
+        bits_shift -= resolution;
+        tmp &= mask;
+        *data++ = tmp;
+    }
+
+
+    return point;
+}
+
 static struct timeval t1, t0;
 static int common_points = 0;
 //static uint8_t sample_read_buffer[100000];
@@ -56498,7 +56571,7 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
 
 
 static UA_StatusCode
-getHistoryData_service_fromDriver(const UA_HistoryDataBackend* backend,
+getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
     const UA_DateTime start,
     const UA_DateTime end,
     UA_Server* server,
@@ -56518,6 +56591,55 @@ getHistoryData_service_fromDriver(const UA_HistoryDataBackend* backend,
 {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     gettimeofday(&t0, 0); //отметка время старта
+
+
+
+    struct timespec time;
+    rs485_channel_read_t ch_read;
+    static uint8_t sample_buffer[8192];
+    static float out_float[1024];
+    int real_points = 0;
+
+    timespec_get(&time, TIME_UTC);
+
+    ch_read.adr = 2;
+    ch_read.channel = 1;
+    ch_read.data_size = sizeof(sample_buffer);
+    ch_read.data = sample_buffer;
+
+    ch_read.start_time = time;
+    ch_read.start_time.tv_sec -= 1; //read data from 1 seconds
+    //ch_read.start_time.tv_sec = 0;
+    //ch_read.start_time.tv_nsec = 0;
+    ch_read.end_time = time;
+
+
+    int ioret = ioctl(5, RS485_SAMPLE_READ, &ch_read);
+
+    if ((ch_read.count_block > 0) && (ch_read.block_size > 0))
+    {
+        rs485_buffer_pack_t* block = (rs485_buffer_pack_t*)ch_read.data;
+
+
+        for (int v = 0; v < ch_read.count_block; v++)
+        {
+            
+            if ((block->points > 0) && (block->resolution > 0))
+            {
+                real_points = sp_master_read(block, &out_float[0]);
+
+
+                //for (int e = 0; e < real_points; e++)
+                //{
+										
+                //}
+
+            }
+
+
+        }
+    }
+
 
 
     size_t skip = 0;
@@ -56542,26 +56664,28 @@ getHistoryData_service_fromDriver(const UA_HistoryDataBackend* backend,
     UA_Boolean addFirst;
     UA_Boolean addLast;
     UA_Boolean reverse;
-    size_t _resultSize = getResultSize_service_default(backend,
-        server,
-        sessionId,
-        sessionContext,
-        nodeId,
-        start,
-        end,
-        numValuesPerNode == 0 ? 0 : numValuesPerNode + (UA_UInt32)skip,
-        returnBounds,
-        &startIndex,
-        &endIndex,
-        &addFirst,
-        &addLast,
-        &reverse);
+    
+    size_t _resultSize = real_points;
+    //_resultSize = getResultSize_service_default(backend,
+    //    server,
+    //    sessionId,
+    //    sessionContext,
+    //    nodeId,
+    //    start,
+    //    end,
+    //    numValuesPerNode == 0 ? 0 : numValuesPerNode + (UA_UInt32)skip,
+    //    returnBounds,
+    //    &startIndex,
+    //    &endIndex,
+    //    &addFirst,
+    //    &addLast,
+    //    &reverse);
+    
     *resultSize = _resultSize - skip;
-    if (*resultSize > maxSize) {
-        *resultSize = maxSize;
-    }
-
-
+    //if (*resultSize > maxSize) {
+    //    *resultSize = maxSize;
+    //}
+    
 
     UA_DataValue* outResult = (UA_DataValue*)UA_Array_new(*resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
     if (!outResult) {
@@ -56587,100 +56711,104 @@ getHistoryData_service_fromDriver(const UA_HistoryDataBackend* backend,
     }
     UA_ByteString backendOutContinuationPoint;
     UA_ByteString_init(&backendOutContinuationPoint);
-    if (endIndex != storeEnd && startIndex != storeEnd) {
-        size_t retval = 0;
+    //if (endIndex != storeEnd && startIndex != storeEnd) {
+    //    size_t retval = 0;
 
-        size_t valueSize = *resultSize - counter;
-        if (valueSize + skip > _resultSize - addFirst - addLast) {
-            if (skip == 0) {
-                valueSize = _resultSize - addFirst - addLast;
-            }
-            else {
-                valueSize = _resultSize - skip - addLast;
-            }
+    //    size_t valueSize = *resultSize - counter;
+    //    if (valueSize + skip > _resultSize - addFirst - addLast) {
+    //        if (skip == 0) {
+    //            valueSize = _resultSize - addFirst - addLast;
+    //        }
+    //        else {
+    //            valueSize = _resultSize - skip - addLast;
+    //        }
 
-        }
+    //    }
 
-        UA_StatusCode ret = UA_STATUSCODE_GOOD;
-
-
+    //    UA_StatusCode ret = UA_STATUSCODE_GOOD;
 
 
-        if (valueSize > 0)
-            ret = backend->copyDataValues(server,
-                backend->context,
-                sessionId,
-                sessionContext,
-                nodeId,
-                startIndex,
-                endIndex,
-                reverse,
-                valueSize,
-                range,
-                releaseContinuationPoints,
-                &backendContinuationPoint,
-                &backendOutContinuationPoint,
-                &retval,
-                &outResult[counter]);
+
+
+    //    if (valueSize > 0)
+    //        ret = backend->copyDataValues(server,
+    //            backend->context,
+    //            sessionId,
+    //            sessionContext,
+    //            nodeId,
+    //            startIndex,
+    //            endIndex,
+    //            reverse,
+    //            valueSize,
+    //            range,
+    //            releaseContinuationPoints,
+    //            &backendContinuationPoint,
+    //            &backendOutContinuationPoint,
+    //            &retval,
+    //            &outResult[counter]);
 
 
         //transaction preparation			
+        for (int r = 0; r < *resultSize; r++)
+        {
+    	    float * test_value = (float*)UA_calloc(1, 4);
+    	    test_value = &out_float[r];
+        	
+            outResult[r].value.data = test_value;
+            //common_points++;
+
+            outResult[r].hasStatus = true;
+            outResult[r].hasValue = false;
+            outResult[r].hasSourceTimestamp = true;
+            outResult[r].hasServerTimestamp = true;
+            outResult[r].serverTimestamp = UA_DateTime_now();
+            outResult[r].status = 2161573888;
+        }
 
 
+        
 
 
-
-        //for (int r = 0; r < *resultSize; r++)
-        //{
-        //	float * test2 = (float*)UA_calloc(1, 4);
-        //	*test2 = 0.1;
-        //	
-        //	outResult[r].value.data = test2;
-        //	
-        //	common_points++;
+        //if (ret != UA_STATUSCODE_GOOD) {
+        //    UA_Array_delete(outResult, *resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
+        //    *result = NULL;
+        //    *resultSize = 0;
+        //    return ret;
         //}
-
-
-        if (ret != UA_STATUSCODE_GOOD) {
-            UA_Array_delete(outResult, *resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
-            *result = NULL;
-            *resultSize = 0;
-            return ret;
-        }
-        counter += retval;
-    }
-    if (addLast && counter < *resultSize) {
-        outResult[counter].hasStatus = true;
-        outResult[counter].status = UA_STATUSCODE_BADBOUNDNOTFOUND;
-        outResult[counter].hasSourceTimestamp = true;
-        if (start == LLONG_MIN && storeEnd != backend->firstIndex(server, backend->context, sessionId, sessionContext, nodeId)) {
-            outResult[counter].sourceTimestamp = backend->getDataValue(server, backend->context, sessionId, sessionContext, nodeId, endIndex)->sourceTimestamp - UA_DATETIME_SEC;
-        }
-        else if (end == LLONG_MIN && storeEnd != backend->firstIndex(server, backend->context, sessionId, sessionContext, nodeId)) {
-            outResult[counter].sourceTimestamp = backend->getDataValue(server, backend->context, sessionId, sessionContext, nodeId, endIndex)->sourceTimestamp + UA_DATETIME_SEC;
-        }
-        else {
-            outResult[counter].sourceTimestamp = end;
-        }
-    }
+        //counter += retval;
+    //}
+    //if (addLast && counter < *resultSize) {
+    //    outResult[counter].hasStatus = true;
+    //    outResult[counter].status = UA_STATUSCODE_BADBOUNDNOTFOUND;
+    //    outResult[counter].hasSourceTimestamp = true;
+    //    if (start == LLONG_MIN && storeEnd != backend->firstIndex(server, backend->context, sessionId, sessionContext, nodeId)) {
+    //        outResult[counter].sourceTimestamp = backend->getDataValue(server, backend->context, sessionId, sessionContext, nodeId, endIndex)->sourceTimestamp - UA_DATETIME_SEC;
+    //    }
+    //    else if (end == LLONG_MIN && storeEnd != backend->firstIndex(server, backend->context, sessionId, sessionContext, nodeId)) {
+    //        outResult[counter].sourceTimestamp = backend->getDataValue(server, backend->context, sessionId, sessionContext, nodeId, endIndex)->sourceTimestamp + UA_DATETIME_SEC;
+    //    }
+    //    else {
+    //        outResult[counter].sourceTimestamp = end;
+    //    }
+    //}
     // there are more values
-    if (skip + *resultSize < _resultSize
-        // there are not more values for this request, but there are more values in database
-        || (backendOutContinuationPoint.length > 0
-            && numValuesPerNode != 0)
-        // we deliver just one value which is a FIRST/LAST value
-        || (skip == 0
-            && addFirst == true
-            && *resultSize == 1)) {
-        if (UA_ByteString_allocBuffer(outContinuationPoint, backendOutContinuationPoint.length + sizeof(size_t))
-            != UA_STATUSCODE_GOOD) {
-            return UA_STATUSCODE_BADOUTOFMEMORY;
-        }
-        *((size_t*)(outContinuationPoint->data)) = skip + *resultSize;
-        if (backendOutContinuationPoint.length > 0)
-            memcpy(outContinuationPoint->data + sizeof(size_t), backendOutContinuationPoint.data, backendOutContinuationPoint.length);
-    }
-    UA_ByteString_deleteMembers(&backendOutContinuationPoint);
+    //if (skip + *resultSize < _resultSize
+    //    // there are not more values for this request, but there are more values in database
+    //    || (backendOutContinuationPoint.length > 0
+    //        && numValuesPerNode != 0)
+    //    // we deliver just one value which is a FIRST/LAST value
+    //    || (skip == 0
+    //        && addFirst == true
+    //        && *resultSize == 1)) {
+    //    if (UA_ByteString_allocBuffer(outContinuationPoint, backendOutContinuationPoint.length + sizeof(size_t))
+    //        != UA_STATUSCODE_GOOD) {
+    //        return UA_STATUSCODE_BADOUTOFMEMORY;
+    //    }
+    //    *((size_t*)(outContinuationPoint->data)) = skip + *resultSize;
+    //    if (backendOutContinuationPoint.length > 0)
+    //        memcpy(outContinuationPoint->data + sizeof(size_t), backendOutContinuationPoint.data, backendOutContinuationPoint.length);
+    //}
+    //UA_ByteString_deleteMembers(&backendOutContinuationPoint);
 
 
 
@@ -56883,13 +57011,6 @@ readRaw_service_default(UA_Server *server,
         }
 
 
-        ////////////////////////////////////////////////////////////////////////////////////
-        UA_Boolean sample = false;
-        //UA_Server_readSample(server, nodesToRead[i].nodeId, &sample);
-        //__UA_Server_read(server, &nodesToRead[i].nodeId, UA_ATTRIBUTEID_SAMPLE, &sample);                  
-        ////////////////////////////////////////////////////////////////////////////////////
-
-
         UA_Boolean historizing = false;		      
 		UA_Server_readHistorizing(server,
                                   nodesToRead[i].nodeId,
@@ -56910,6 +57031,13 @@ readRaw_service_default(UA_Server *server,
             response->results[i].statusCode = UA_STATUSCODE_BADHISTORYOPERATIONINVALID;
             continue;
         }
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        UA_Boolean sample = false;
+        //UA_Server_readSample(server, nodesToRead[i].nodeId, &sample);
+        __UA_Server_read(server, &nodesToRead[i].nodeId, UA_ATTRIBUTEID_SAMPLE, &sample);                  
+
+        ////////////////////////////////////////////////////////////////////////////////////
 
         if (historyReadDetails->returnBounds && !setting->historizingBackend.boundSupported(
                     server,
@@ -56944,43 +57072,67 @@ readRaw_service_default(UA_Server *server,
         }
 
         UA_StatusCode getHistoryDataStatusCode;
-        if (setting->historizingBackend.getHistoryData) {
-            getHistoryDataStatusCode = setting->historizingBackend.getHistoryData(
-                        server,
-                        sessionId,
-                        sessionContext,
-                        &setting->historizingBackend,
-                        historyReadDetails->startTime,
-                        historyReadDetails->endTime,
-                        &nodesToRead[i].nodeId,
-                        setting->maxHistoryDataResponseSize,
-                        historyReadDetails->numValuesPerNode,
-                        historyReadDetails->returnBounds,
-                        timestampsToReturn,
-                        range,
-                        releaseContinuationPoints,
-                        &nodesToRead[i].continuationPoint,
-                        &response->results[i].continuationPoint,
-                        historyData[i]);
-        } else {
-            getHistoryDataStatusCode = getHistoryData_service_default(
-                        &setting->historizingBackend,
-                        historyReadDetails->startTime,
-                        historyReadDetails->endTime,
-                        server,
-                        sessionId,
-                        sessionContext,
-                        &nodesToRead[i].nodeId,
-                        setting->maxHistoryDataResponseSize,
-                        historyReadDetails->numValuesPerNode,
-                        historyReadDetails->returnBounds,
-                        timestampsToReturn,
-                        range,
-                        releaseContinuationPoints,
-                        &nodesToRead[i].continuationPoint,
-                        &response->results[i].continuationPoint,
-                        &historyData[i]->dataValuesSize,
-                        &historyData[i]->dataValues);
+        if (sample == true)
+        {
+            getHistoryDataStatusCode = getHistoryData_service_readDriver(
+                &setting->historizingBackend,
+                historyReadDetails->startTime,
+                historyReadDetails->endTime,
+                server,
+                sessionId,
+                sessionContext,
+                &nodesToRead[i].nodeId,
+                setting->maxHistoryDataResponseSize,
+                historyReadDetails->numValuesPerNode,
+                historyReadDetails->returnBounds,
+                timestampsToReturn,
+                range,
+                releaseContinuationPoints,
+                &nodesToRead[i].continuationPoint,
+                &response->results[i].continuationPoint,
+                &historyData[i]->dataValuesSize,
+                &historyData[i]->dataValues);
+        }
+        else {
+            if (setting->historizingBackend.getHistoryData) {
+                getHistoryDataStatusCode = setting->historizingBackend.getHistoryData(
+                    server,
+                    sessionId,
+                    sessionContext,
+                    &setting->historizingBackend,
+                    historyReadDetails->startTime,
+                    historyReadDetails->endTime,
+                    &nodesToRead[i].nodeId,
+                    setting->maxHistoryDataResponseSize,
+                    historyReadDetails->numValuesPerNode,
+                    historyReadDetails->returnBounds,
+                    timestampsToReturn,
+                    range,
+                    releaseContinuationPoints,
+                    &nodesToRead[i].continuationPoint,
+                    &response->results[i].continuationPoint,
+                    historyData[i]);
+            }
+            else {
+                getHistoryDataStatusCode = getHistoryData_service_default(
+                    &setting->historizingBackend,
+                    historyReadDetails->startTime,
+                    historyReadDetails->endTime,
+                    server,
+                    sessionId,
+                    sessionContext,
+                    &nodesToRead[i].nodeId,
+                    setting->maxHistoryDataResponseSize,
+                    historyReadDetails->numValuesPerNode,
+                    historyReadDetails->returnBounds,
+                    timestampsToReturn,
+                    range,
+                    releaseContinuationPoints,
+                    &nodesToRead[i].continuationPoint,
+                    &response->results[i].continuationPoint,
+                    &historyData[i]->dataValuesSize,
+                    &historyData[i]->dataValues);
+            }
         }
         if (getHistoryDataStatusCode != UA_STATUSCODE_GOOD) {
             response->results[i].statusCode = getHistoryDataStatusCode;

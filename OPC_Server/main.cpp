@@ -45,6 +45,15 @@ UA_HistoryDataBackend getBackend(void)
 	return backend;
 }
 
+static UA_NodeId extNodeId;
+
+UA_NodeId getNodeId(void)
+{
+	return extNodeId;
+}
+
+
+
 #if GTEST_DEBUG == 0
 
 #include "open62541.h"
@@ -157,7 +166,7 @@ void* workerOPC(void *args)
 				
 				statusAttr3.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
 				statusAttr4.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE | UA_ACCESSLEVELMASK_HISTORYREAD | UA_ACCESSLEVELMASK_HISTORYWRITE;
-				//statusAttr3.historizing = true;
+				statusAttr3.historizing = true;
 
 				if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::int16)
 				{
@@ -224,6 +233,8 @@ void* workerOPC(void *args)
 						UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
 						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
 						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr4, NULL, &tagNodeId);
+
+					extNodeId = tagNodeId;
 				}
 
 				controller->vectorNode[i].vectorDevice[j].vectorTag[k].tagNodeId = tagNodeId;

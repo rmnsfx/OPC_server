@@ -39,7 +39,7 @@
  * ---------------
  * Changing the feature options has no effect on a pre-compiled library. */
 
-#define UA_LOGLEVEL 300
+#define UA_LOGLEVEL 0
 #ifndef UA_ENABLE_AMALGAMATION
 #define UA_ENABLE_AMALGAMATION
 #endif
@@ -12606,6 +12606,7 @@ typedef enum {
 #define UA_WRITEMASK_VALUERANK               (0x01u << 19u)
 #define UA_WRITEMASK_WRITEMASK               (0x01u << 20u)
 #define UA_WRITEMASK_VALUEFORVARIABLETYPE    (0x01u << 21u)
+#define UA_WRITEMASK_SAMPLE                  (0x01u << 22u)
 
 /**
  * ValueRanks
@@ -13891,6 +13892,7 @@ typedef struct {
     UA_Double minimumSamplingInterval;
     UA_Boolean historizing;
 	UA_Boolean sample;
+    int f_id;
 } UA_VariableAttributes;
 
 #define UA_TYPES_VARIABLEATTRIBUTES 27
@@ -23358,6 +23360,15 @@ UA_Server_writeHistorizing(UA_Server *server, const UA_NodeId nodeId,
 }
 
 static UA_INLINE UA_StatusCode
+UA_Server_writeSample(UA_Server* server, const UA_NodeId nodeId,
+    const UA_Boolean sample) {
+    return __UA_Server_write(server, &nodeId,
+        UA_ATTRIBUTEID_SAMPLE,
+        &UA_TYPES[UA_TYPES_BOOLEAN],
+        &sample);
+}
+
+static UA_INLINE UA_StatusCode
 UA_Server_writeExecutable(UA_Server *server, const UA_NodeId nodeId,
                           const UA_Boolean executable) {
     return __UA_Server_write(server, &nodeId, UA_ATTRIBUTEID_EXECUTABLE,
@@ -25791,6 +25802,8 @@ typedef struct {
     void *context;                              \
     UA_Boolean constructed; /* Constructors were called */
 
+    
+
 typedef struct {
     UA_NODE_BASEATTRIBUTES
 } UA_Node;
@@ -25892,6 +25905,7 @@ typedef struct {
     UA_Double minimumSamplingInterval;
     UA_Boolean historizing;
 	UA_Boolean sample;
+    int f_id;
 } UA_VariableNode;
 
 /**
@@ -27444,6 +27458,11 @@ UA_Client_readHistorizingAttribute(UA_Client *client, const UA_NodeId nodeId,
 }
 
 static UA_INLINE UA_StatusCode
+UA_Client_readSampleAttribute(UA_Client* client, const UA_NodeId nodeId, UA_Boolean* outSample) {
+    return __UA_Client_readAttribute(client, &nodeId, UA_ATTRIBUTEID_SAMPLE, outSample, &UA_TYPES[UA_TYPES_BOOLEAN]);
+}
+
+static UA_INLINE UA_StatusCode
 UA_Client_readExecutableAttribute(UA_Client *client, const UA_NodeId nodeId,
                                   UA_Boolean *outExecutable) {
     return __UA_Client_readAttribute(client, &nodeId, UA_ATTRIBUTEID_EXECUTABLE,
@@ -27683,6 +27702,13 @@ UA_Client_writeHistorizingAttribute(UA_Client *client, const UA_NodeId nodeId,
                                     const UA_Boolean *newHistorizing) {
     return __UA_Client_writeAttribute(client, &nodeId, UA_ATTRIBUTEID_HISTORIZING,
                                       newHistorizing, &UA_TYPES[UA_TYPES_BOOLEAN]);
+}
+
+static UA_INLINE UA_StatusCode
+UA_Client_writeSampleAttribute(UA_Client* client, const UA_NodeId nodeId,
+    const UA_Boolean* newSample) {
+    return __UA_Client_writeAttribute(client, &nodeId, UA_ATTRIBUTEID_SAMPLE,
+        newSample, &UA_TYPES[UA_TYPES_BOOLEAN]);
 }
 
 static UA_INLINE UA_StatusCode
@@ -28421,6 +28447,22 @@ typedef void (*UA_ClientAsyncReadExecutableAttributeCallback)(UA_Client *client,
                                                               void *userdata,
                                                               UA_UInt32 requestId,
                                                               UA_Boolean *out);
+
+static UA_INLINE UA_StatusCode
+UA_Client_readSampleAttribute_async(
+    UA_Client* client, const UA_NodeId nodeId,
+    UA_ClientAsyncReadHistorizingAttributeCallback callback, void* userdata,
+    UA_UInt32* reqId) {
+    return __UA_Client_readAttribute_async(
+        client, &nodeId, UA_ATTRIBUTEID_SAMPLE, &UA_TYPES[UA_TYPES_BOOLEAN],
+        (UA_ClientAsyncServiceCallback)callback, userdata, reqId);
+}
+typedef void (*UA_ClientAsyncReadExecutableAttributeCallback)(UA_Client* client,
+    void* userdata,
+    UA_UInt32 requestId,
+    UA_Boolean* out);
+
+
 static UA_INLINE UA_StatusCode
 UA_Client_readExecutableAttribute_async(
     UA_Client *client, const UA_NodeId nodeId,
@@ -28627,6 +28669,15 @@ UA_Client_writeHistorizingAttribute_async(UA_Client *client, const UA_NodeId nod
     return __UA_Client_writeAttribute_async(client, &nodeId, UA_ATTRIBUTEID_HISTORIZING,
                                             outHistorizing, &UA_TYPES[UA_TYPES_BOOLEAN],
                                             callback, userdata, reqId);
+}
+static UA_INLINE UA_StatusCode
+UA_Client_writeSampleAttribute_async(UA_Client* client, const UA_NodeId nodeId,
+    const UA_Boolean* outHistorizing,
+    UA_ClientAsyncServiceCallback callback,
+    void* userdata, UA_UInt32* reqId) {
+    return __UA_Client_writeAttribute_async(client, &nodeId, UA_ATTRIBUTEID_SAMPLE,
+        outHistorizing, &UA_TYPES[UA_TYPES_BOOLEAN],
+        callback, userdata, reqId);
 }
 static UA_INLINE UA_StatusCode
 UA_Client_writeExecutableAttribute_async(UA_Client *client, const UA_NodeId nodeId,
