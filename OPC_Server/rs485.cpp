@@ -178,16 +178,16 @@ void* pollingDeviceRS485(void *args)
 
 	int real_points = 0;
 	
-	//for (int e = 0; e < 100; e++)
+	//for (int e = 0; e < 512; e++)
 	//{
 	//	UA_Variant_init(&sample_value);
 	//	//opc_value_sample = (UA_Float)out_float[e];
-	//	opc_value_sample = (UA_Float)1.9;
+	//	opc_value_sample = (UA_Float) 0.0;
 	//	UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
 	//	UA_Server_writeValue(server, node->vectorDevice[0].vectorTag[2].tagNodeId, sample_value);
 	//}
-	//
-	//printf("!!! Точки созданы\n");
+	
+	printf("!!! Точки созданы\n");
 
 	//while (1) sleep(1000);
 	while (1)

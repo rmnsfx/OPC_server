@@ -224,8 +224,9 @@ void* workerOPC(void *args)
 				else if (controller->vectorNode[i].vectorDevice[j].vectorTag[k].enum_data_type == Data_type::sample)
 				{					
 					statusAttr4.historizing = true;
-					statusAttr4.description.text = UA_STRING("sample");
+					//statusAttr4.description.text = UA_STRING("sample");
 					statusAttr4.sample = true;
+					statusAttr4.tagNodeId = tagNodeId;
 					
 					UA_Variant_setScalar(&statusAttr4.value, &value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
 					statusAttr4.displayName = UA_LOCALIZEDTEXT("en-US", (char*)id_tag.c_str());
@@ -234,7 +235,8 @@ void* workerOPC(void *args)
 						UA_QUALIFIEDNAME(1, (char*)id_tag.c_str()),
 						UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), statusAttr4, NULL, &tagNodeId);
 
-					extNodeId = tagNodeId;
+					extNodeId = tagNodeId;									
+
 				}
 
 				controller->vectorNode[i].vectorDevice[j].vectorTag[k].tagNodeId = tagNodeId;

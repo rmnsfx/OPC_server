@@ -13222,7 +13222,7 @@ typedef enum {
 } UA_VariantStorageType;
 
 typedef struct {
-    const UA_DataType *type;      /* The data type description */
+    UA_DataType *type;      /* The data type description */
     UA_VariantStorageType storageType;
     size_t arrayLength;           /* The number of elements in the data array */
     void *data;                   /* Points to the scalar or array data */
@@ -13892,6 +13892,7 @@ typedef struct {
     UA_Double minimumSamplingInterval;
     UA_Boolean historizing;
 	UA_Boolean sample;
+    UA_NodeId tagNodeId;
     int f_id;
 } UA_VariableAttributes;
 
@@ -25905,6 +25906,7 @@ typedef struct {
     UA_Double minimumSamplingInterval;
     UA_Boolean historizing;
 	UA_Boolean sample;
+    UA_NodeId tagNodeId;
     int f_id;
 } UA_VariableNode;
 

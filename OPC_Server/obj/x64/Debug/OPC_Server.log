@@ -6,6 +6,66 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\
   Запуск удаленной сборки.
   Компиляция исходных файлов:
   open62541.c
+C:\Repos\OPC_Server\OPC_Server\open62541.c(8237,13): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(8237,13): warning :      v->type = type;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(8237,13): warning :              ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(8264,13): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(8264,13): warning :      v->type = type;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(8264,13): warning :              ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(8275,13): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(8275,13): warning :      v->type = type;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(8275,13): warning :              ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(10039,19): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(10039,19): warning :         (dst->type = UA_findDataTypeByBinaryInternal(&typeId, ctx)) != NULL) {
+C:\Repos\OPC_Server\OPC_Server\open62541.c(10039,19): warning :                    ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(10044,19): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(10044,19): warning :          dst->type = &UA_TYPES[UA_TYPES_EXTENSIONOBJECT];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(10044,19): warning :                    ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(10092,15): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(10092,15): warning :      dst->type = &UA_TYPES[typeKind];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(10092,15): warning :                ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23152,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23152,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_UINT32];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23152,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23164,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23164,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_SERVERSTATE];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23164,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23184,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23184,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_SERVERSTATUSDATATYPE];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23184,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23190,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23190,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_BUILDINFO];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23190,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23195,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23195,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23195,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23200,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23200,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23200,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23205,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23205,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23205,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23210,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23210,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23210,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23215,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23215,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23215,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23220,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23220,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_DATETIME];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23220,27): warning :                            ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23251,23): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23251,23): warning :      value->value.type = &UA_TYPES[UA_TYPES_BYTE];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23251,23): warning :                        ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23276,23): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23276,23): warning :      value->value.type = &UA_TYPES[UA_TYPES_BOOLEAN];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(23276,23): warning :                        ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(33624,21): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(33624,21): warning :          value->type = &UA_TYPES[UA_TYPES_BYTE];
+C:\Repos\OPC_Server\OPC_Server\open62541.c(33624,21): warning :                      ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(33635,21): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(33635,21): warning :          value->type = targetDataType;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(33635,21): warning :                      ^
 C:\Repos\OPC_Server\OPC_Server\open62541.c(56357,22): warning : conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
 C:\Repos\OPC_Server\OPC_Server\open62541.c(56357,22): warning :          old_byte >>= 8 - bits_shift;
 C:\Repos\OPC_Server\OPC_Server\open62541.c(56357,22): warning :                       ^
@@ -18,36 +78,38 @@ C:\Repos\OPC_Server\OPC_Server\open62541.c(56368,19): warning :                 
 C:\Repos\OPC_Server\OPC_Server\open62541.c(56372,12): warning : conversion to 'int' from 'size_t {aka unsigned int}' may change the sign of the result [-Wsign-conversion]
 C:\Repos\OPC_Server\OPC_Server\open62541.c(56372,12): warning :      return point;
 C:\Repos\OPC_Server\OPC_Server\open62541.c(56372,12): warning :             ^~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56400,2): warning : implicit declaration of function 'gettimeofday' [-Wimplicit-function-declaration]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56400,2): warning :   gettimeofday(&t0, 0); //отметка время старта
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56400,2): warning :   ^~~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56668,26): warning : conversion to 'size_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56668,26): warning :      size_t _resultSize = real_points;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56668,26): warning :                           ^~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56666,16): warning : unused variable 'reverse' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56666,16): warning :      UA_Boolean reverse;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56666,16): warning :                 ^~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56665,16): warning : unused variable 'addLast' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56665,16): warning :      UA_Boolean addLast;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56665,16): warning :                 ^~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56663,12): warning : unused variable 'endIndex' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56663,12): warning :      size_t endIndex;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56663,12): warning :             ^~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56662,12): warning : unused variable 'startIndex' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56662,12): warning :      size_t startIndex;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56662,12): warning :             ^~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56661,12): warning : unused variable 'storeEnd' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56661,12): warning :      size_t storeEnd = backend->getEnd(server, backend->context, sessionId, sessionContext, nodeId);
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56661,12): warning :             ^~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56617,9): warning : unused variable 'ioret' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56617,9): warning :      int ioret = ioctl(5, RS485_SAMPLE_READ, &ch_read);
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56617,9): warning :          ^~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56698,8): warning : 'addFirst' may be used uninitialized in this function [-Wmaybe-uninitialized]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56698,8): warning :      if (addFirst) {
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56698,8): warning :         ^
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56399,2): warning : implicit declaration of function 'gettimeofday' [-Wimplicit-function-declaration]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56399,2): warning :   gettimeofday(&t0, 0); //отметка время старта
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56399,2): warning :   ^~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,23): warning : conversion to 'size_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,23): warning :      size_t storeEnd = real_points;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,23): warning :                        ^~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56657,23): warning : conversion to 'size_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56657,23): warning :      size_t endIndex = real_points;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56657,23): warning :                        ^~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56664,26): warning : conversion to 'size_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56664,26): warning :      size_t _resultSize = real_points;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56664,26): warning :                           ^~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56678,19): warning : variable 'ret' set but not used [-Wunused-but-set-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56678,19): warning :      UA_StatusCode ret = UA_STATUSCODE_GOOD;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56678,19): warning :                    ^~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56677,9): warning : unused variable 'skip' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56677,9): warning :      int skip = 0;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56677,9): warning :          ^~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56659,16): warning : unused variable 'addLast' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56659,16): warning :      UA_Boolean addLast = false;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56659,16): warning :                 ^~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56658,16): warning : unused variable 'addFirst' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56658,16): warning :      UA_Boolean addFirst = false;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56658,16): warning :                 ^~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,12): warning : unused variable 'storeEnd' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,12): warning :      size_t storeEnd = real_points;
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,12): warning :             ^~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56612,9): warning : unused variable 'ioret' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56612,9): warning :      int ioret = ioctl(5, RS485_SAMPLE_READ, &ch_read);
+C:\Repos\OPC_Server\OPC_Server\open62541.c(56612,9): warning :          ^~~~~
   Связывание объектов
   OPC_Server.vcxproj -> C:\Repos\OPC_Server\OPC_Server\bin\x64\Debug\OPC_Server.out
   
-  OPC_Server.out            | 4 kB |   4.0 kB/s | ETA: 00:09:26 |   0%
-  OPC_Server.out            | 1888 kB | 1888.0 kB/s | ETA: 00:00:00 |  83%
-  OPC_Server.out            | 2271 kB | 2271.8 kB/s | ETA: 00:00:00 | 100%
+  OPC_Server.out            | 4 kB |   4.0 kB/s | ETA: 00:09:28 |   0%
+  OPC_Server.out            | 2276 kB | 2276.3 kB/s | ETA: 00:00:00 | 100%

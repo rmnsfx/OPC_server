@@ -21900,7 +21900,7 @@ copyVariableNodeAttributes(UA_VariableNode *vnode,
     vnode->accessLevel = attr->accessLevel;
     vnode->historizing = attr->historizing;
     vnode->minimumSamplingInterval = attr->minimumSamplingInterval;
-
+    vnode->tagNodeId = attr->tagNodeId;
     vnode->sample = attr->sample;
     vnode->f_id = attr->f_id;
 
@@ -55689,7 +55689,7 @@ copyDataValues_backend_memory(UA_Server *server,
             return UA_STATUSCODE_BADCONTINUATIONPOINTINVALID;
         }
     }
-    const UA_NodeIdStoreContextItem_backend_memory* item = getNodeIdStoreContextItem_backend_memory((UA_MemoryStoreContext*)context, server, nodeId);;
+    const UA_NodeIdStoreContextItem_backend_memory* item = getNodeIdStoreContextItem_backend_memory((UA_MemoryStoreContext*)context, server, nodeId);
     size_t index = startIndex;
     size_t counter = 0;
     size_t skipedValues = 0;
@@ -56374,8 +56374,7 @@ int sp_master_read(rs485_buffer_pack_t* block, float* data)
 
 static struct timeval t1, t0;
 static int common_points = 0;
-//static uint8_t sample_read_buffer[100000];
-//static rs485_device_ioctl_t sample_config;
+
 
 static UA_StatusCode
 getHistoryData_service_default(const UA_HistoryDataBackend* backend,
@@ -56501,12 +56500,7 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
 				&outResult[counter]);
 
 
-		//transaction preparation			
-		
-
-
-
-		
+		//transaction preparation							
 		//for (int r = 0; r < *resultSize; r++)
 		//{
 		//	float * test2 = (float*)UA_calloc(1, 4);
@@ -56517,6 +56511,7 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
 		//	common_points++;
 		//}
 
+        
 
         if (ret != UA_STATUSCODE_GOOD) {
             UA_Array_delete(outResult, *resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
@@ -56538,7 +56533,7 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
             outResult[counter].sourceTimestamp = end;
         }
     }
-    // there are more values
+    //there are more values
     if (skip + *resultSize < _resultSize
             // there are not more values for this request, but there are more values in database
             || (backendOutContinuationPoint.length > 0
@@ -56640,52 +56635,35 @@ getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
         }
     }
 
+    
 
+    ////////////////////////////////////////////////////////////////////////////////////////
+    //Временное решение для тестирования
+    UA_Variant sample_value;
+    UA_Float opc_value_sample;
 
-    size_t skip = 0;
-    UA_ByteString backendContinuationPoint;
-    UA_ByteString_init(&backendContinuationPoint);
-    if (continuationPoint->length > 0) {
-        if (continuationPoint->length >= sizeof(size_t)) {
-            skip = *((size_t*)(continuationPoint->data));
-            if (continuationPoint->length > 0) {
-                backendContinuationPoint.length = continuationPoint->length - sizeof(size_t);
-                backendContinuationPoint.data = continuationPoint->data + sizeof(size_t);
-            }
-        }
-        else {
-            return UA_STATUSCODE_BADCONTINUATIONPOINTINVALID;
-        }
+    for (int e = 0; e < real_points; e++)
+    {
+        UA_Variant_init(&sample_value);
+        opc_value_sample = (UA_Float) out_float[e];
+        UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
+        UA_Server_writeValue(server, *nodeId, sample_value);
     }
+    ////////////////////////////////////////////////////////////////////////////////////////
 
-    size_t storeEnd = backend->getEnd(server, backend->context, sessionId, sessionContext, nodeId);
-    size_t startIndex;
-    size_t endIndex;
-    UA_Boolean addFirst;
-    UA_Boolean addLast;
-    UA_Boolean reverse;
     
+    size_t storeEnd = real_points;
+    size_t startIndex = 0;
+    size_t endIndex = real_points;
+    UA_Boolean addFirst = false;
+    UA_Boolean addLast = false;
+    UA_Boolean reverse = false;
+    
+    
+    //edit quantity points
     size_t _resultSize = real_points;
-    //_resultSize = getResultSize_service_default(backend,
-    //    server,
-    //    sessionId,
-    //    sessionContext,
-    //    nodeId,
-    //    start,
-    //    end,
-    //    numValuesPerNode == 0 ? 0 : numValuesPerNode + (UA_UInt32)skip,
-    //    returnBounds,
-    //    &startIndex,
-    //    &endIndex,
-    //    &addFirst,
-    //    &addLast,
-    //    &reverse);
     
-    *resultSize = _resultSize - skip;
-    //if (*resultSize > maxSize) {
-    //    *resultSize = maxSize;
-    //}
-    
+    *resultSize = _resultSize;
 
     UA_DataValue* outResult = (UA_DataValue*)UA_Array_new(*resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
     if (!outResult) {
@@ -56694,121 +56672,91 @@ getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
     }
     *result = outResult;
 
-    size_t counter = 0;
-    if (addFirst) {
-        if (skip == 0) {
-            outResult[counter].hasStatus = true;
-            outResult[counter].status = UA_STATUSCODE_BADBOUNDNOTFOUND;
-            outResult[counter].hasSourceTimestamp = true;
-            if (start == LLONG_MIN) {
-                outResult[counter].sourceTimestamp = end;
-            }
-            else {
-                outResult[counter].sourceTimestamp = start;
-            }
-            ++counter;
-        }
-    }
+    size_t counter = 1;
+
+    int skip = 0;
+    UA_StatusCode ret = UA_STATUSCODE_GOOD;
+    UA_ByteString backendContinuationPoint;
+    UA_ByteString_init(&backendContinuationPoint);
     UA_ByteString backendOutContinuationPoint;
     UA_ByteString_init(&backendOutContinuationPoint);
-    //if (endIndex != storeEnd && startIndex != storeEnd) {
-    //    size_t retval = 0;
 
-    //    size_t valueSize = *resultSize - counter;
-    //    if (valueSize + skip > _resultSize - addFirst - addLast) {
-    //        if (skip == 0) {
-    //            valueSize = _resultSize - addFirst - addLast;
-    //        }
-    //        else {
-    //            valueSize = _resultSize - skip - addLast;
-    //        }
+    
+    if  (real_points > 0 && real_points < 1000) {
+    
+        size_t retval = 0;
 
-    //    }
-
-    //    UA_StatusCode ret = UA_STATUSCODE_GOOD;
+        size_t valueSize = *resultSize - counter;
+       
 
 
-
-
-    //    if (valueSize > 0)
-    //        ret = backend->copyDataValues(server,
-    //            backend->context,
-    //            sessionId,
-    //            sessionContext,
-    //            nodeId,
-    //            startIndex,
-    //            endIndex,
-    //            reverse,
-    //            valueSize,
-    //            range,
-    //            releaseContinuationPoints,
-    //            &backendContinuationPoint,
-    //            &backendOutContinuationPoint,
-    //            &retval,
-    //            &outResult[counter]);
-
-
-        //transaction preparation			
-        for (int r = 0; r < *resultSize; r++)
+        if (valueSize > 0)
         {
-    	    float * test_value = (float*)UA_calloc(1, 4);
-    	    test_value = &out_float[r];
-        	
-            outResult[r].value.data = test_value;
-            //common_points++;
-
-            outResult[r].hasStatus = true;
-            outResult[r].hasValue = false;
-            outResult[r].hasSourceTimestamp = true;
-            outResult[r].hasServerTimestamp = true;
-            outResult[r].serverTimestamp = UA_DateTime_now();
-            outResult[r].status = 2161573888;
+            ret = backend->copyDataValues(server,
+                backend->context,
+                sessionId,
+                sessionContext,
+                nodeId,
+                startIndex,
+                endIndex,
+                reverse,
+                valueSize,
+                range,
+                releaseContinuationPoints,
+                &backendContinuationPoint,
+                &backendOutContinuationPoint,
+                &retval,
+                &outResult[counter]);
         }
-
 
         
 
+        //float* test_value = (float*)UA_calloc(1, 4);
+        //test_value = &out_float[r];
+        
+        //transaction preparation			
+        //for (int r = 0; r < *resultSize; r++)
+        //{
+    	    //float * test_value = (float*)UA_calloc(1, 4);
+    	    //test_value = &out_float[r];
+        	//
+            //outResult[r].value.data = test_value;
+            //common_points++;
+            
 
-        //if (ret != UA_STATUSCODE_GOOD) {
-        //    UA_Array_delete(outResult, *resultSize, &UA_TYPES[UA_TYPES_DATAVALUE]);
-        //    *result = NULL;
-        //    *resultSize = 0;
-        //    return ret;
+            //outResult[r].hasStatus = true;
+            //outResult[r].hasValue = true;
+            //outResult[r].hasSourceTimestamp = true;
+            //outResult[r].hasServerTimestamp = false;
+            //outResult[r].sourceTimestamp = UA_DateTime_now();
+            //outResult[r].hasServerPicoseconds = 0;
+            //outResult[r].hasSourcePicoseconds = 0;
+            //outResult[r].hasServerPicoseconds = 0;
+            //outResult[r].hasSourcePicoseconds = 0;
+            //outResult[r].status = 2161573888;
+
+            //UA_Variant* sample_value = (UA_Variant*) UA_malloc(sizeof(UA_TYPES[UA_TYPES_VARIANT]));
+            //UA_Variant_init(&sample_value);
+            //UA_Variant_setScalar(&sample_value, &test_value, &UA_TYPES[UA_TYPES_FLOAT]);
+
+            //retval = UA_Variant_copy(sample_value, &outResult[r].value);
+
+            //outResult[r].value.arrayDimensions = &sample_value->arrayDimensions;
+            //outResult[r].value.arrayDimensionsSize = sample_value->arrayDimensionsSize;
+/*            outResult[r].value.arrayLength = sample_value->arrayLength;
+            outResult[r].value.storageType = sample_value->storageType;         */   
+            //outResult[r].value.type = sample_value->type;
+            //outResult[r].value.data = &sample_value->data;
+
         //}
-        //counter += retval;
-    //}
-    //if (addLast && counter < *resultSize) {
-    //    outResult[counter].hasStatus = true;
-    //    outResult[counter].status = UA_STATUSCODE_BADBOUNDNOTFOUND;
-    //    outResult[counter].hasSourceTimestamp = true;
-    //    if (start == LLONG_MIN && storeEnd != backend->firstIndex(server, backend->context, sessionId, sessionContext, nodeId)) {
-    //        outResult[counter].sourceTimestamp = backend->getDataValue(server, backend->context, sessionId, sessionContext, nodeId, endIndex)->sourceTimestamp - UA_DATETIME_SEC;
-    //    }
-    //    else if (end == LLONG_MIN && storeEnd != backend->firstIndex(server, backend->context, sessionId, sessionContext, nodeId)) {
-    //        outResult[counter].sourceTimestamp = backend->getDataValue(server, backend->context, sessionId, sessionContext, nodeId, endIndex)->sourceTimestamp + UA_DATETIME_SEC;
-    //    }
-    //    else {
-    //        outResult[counter].sourceTimestamp = end;
-    //    }
-    //}
-    // there are more values
-    //if (skip + *resultSize < _resultSize
-    //    // there are not more values for this request, but there are more values in database
-    //    || (backendOutContinuationPoint.length > 0
-    //        && numValuesPerNode != 0)
-    //    // we deliver just one value which is a FIRST/LAST value
-    //    || (skip == 0
-    //        && addFirst == true
-    //        && *resultSize == 1)) {
-    //    if (UA_ByteString_allocBuffer(outContinuationPoint, backendOutContinuationPoint.length + sizeof(size_t))
-    //        != UA_STATUSCODE_GOOD) {
-    //        return UA_STATUSCODE_BADOUTOFMEMORY;
-    //    }
-    //    *((size_t*)(outContinuationPoint->data)) = skip + *resultSize;
-    //    if (backendOutContinuationPoint.length > 0)
-    //        memcpy(outContinuationPoint->data + sizeof(size_t), backendOutContinuationPoint.data, backendOutContinuationPoint.length);
-    //}
-    //UA_ByteString_deleteMembers(&backendOutContinuationPoint);
+
+    }
+    else
+    {
+        printf("!!! real_points is out %d \n", real_points);
+    }
+    
+
 
 
 
@@ -57037,6 +56985,7 @@ readRaw_service_default(UA_Server *server,
         //UA_Server_readSample(server, nodesToRead[i].nodeId, &sample);
         __UA_Server_read(server, &nodesToRead[i].nodeId, UA_ATTRIBUTEID_SAMPLE, &sample);                  
 
+
         ////////////////////////////////////////////////////////////////////////////////////
 
         if (historyReadDetails->returnBounds && !setting->historizingBackend.boundSupported(
@@ -57092,6 +57041,15 @@ readRaw_service_default(UA_Server *server,
                 &response->results[i].continuationPoint,
                 &historyData[i]->dataValuesSize,
                 &historyData[i]->dataValues);
+
+
+            getHistoryDataStatusCode = setting->historizingBackend.removeDataValue(server,
+                setting->historizingBackend.context,
+                sessionId,
+                sessionContext,
+                &nodesToRead[i].nodeId,
+                0,
+                UA_DateTime_now());
         }
         else {
             if (setting->historizingBackend.getHistoryData) {
