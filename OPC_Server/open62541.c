@@ -56333,44 +56333,7 @@ getResultSize_service_default(const UA_HistoryDataBackend* backend,
 }
 
 
-int sp_master_read(rs485_buffer_pack_t* block, float* data)
-{
 
-    //if (data_size / sizeof(float) < channel->points) return -1;
-
-
-    uint8_t* start_position = block->pack.data;
-
-    uint8_t* position = start_position;
-    uint32_t tmp = 0;
-    size_t resolution = block->resolution;
-    size_t bits_shift = 8;
-    float* data_end = data;
-    size_t point = block->points;
-    data_end += point;
-
-    uint8_t old_byte = *position++;
-    uint32_t mask = 0xFFFFFFFF >> (32 - resolution);
-
-    while (data < data_end)
-    {
-        old_byte >>= 8 - bits_shift;
-        tmp = old_byte;
-
-        while (bits_shift < resolution)
-        {
-            old_byte = *position++;
-            tmp |= old_byte << bits_shift;
-            bits_shift += 8;
-        }
-        bits_shift -= resolution;
-        tmp &= mask;
-        *data++ = tmp;
-    }
-
-
-    return point;
-}
 
 static struct timeval t1, t0;
 static int common_points = 0;
@@ -56565,6 +56528,43 @@ getHistoryData_service_default(const UA_HistoryDataBackend* backend,
 }
 
 
+int sp_master_read(rs485_buffer_pack_t* block, float* data)
+{
+    //if (data_size / sizeof(float) < channel->points) return -1;
+
+    uint8_t* start_position = block->pack.data;
+
+    uint8_t* position = start_position;
+    uint32_t tmp = 0;
+    size_t resolution = block->resolution;
+    size_t bits_shift = 8;
+    float* data_end = data;
+    size_t point = block->points;
+    data_end += point;
+
+    uint8_t old_byte = *position++;
+    uint32_t mask = 0xFFFFFFFF >> (32 - resolution);
+
+    while (data < data_end)
+    {
+        old_byte >>= 8 - bits_shift;
+        tmp = old_byte;
+
+        while (bits_shift < resolution)
+        {
+            old_byte = *position++;
+            tmp |= old_byte << bits_shift;
+            bits_shift += 8;
+        }
+        bits_shift -= resolution;
+        tmp &= mask;
+        *data++ = tmp;
+    }
+    return point;
+}
+
+
+//Переопределение сервиса получения исторических данных
 static UA_StatusCode
 getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
     const UA_DateTime start,
@@ -56586,8 +56586,7 @@ getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
 {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     gettimeofday(&t0, 0); //отметка время старта
-
-
+    
 
     struct timespec time;
     rs485_channel_read_t ch_read;
@@ -56603,12 +56602,12 @@ getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
     ch_read.data = sample_buffer;
 
     ch_read.start_time = time;
-    ch_read.start_time.tv_sec -= 1; //read data from 1 seconds
+    ch_read.start_time.tv_sec -= 1; //read data 1 seconds
     //ch_read.start_time.tv_sec = 0;
     //ch_read.start_time.tv_nsec = 0;
     ch_read.end_time = time;
 
-
+    //Осуществляем запрос выборки к драйверу
     int ioret = ioctl(5, RS485_SAMPLE_READ, &ch_read);
 
     if ((ch_read.count_block > 0) && (ch_read.block_size > 0))
@@ -56625,8 +56624,7 @@ getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
 
 
                 //for (int e = 0; e < real_points; e++)
-                //{
-										
+                //{										
                 //}
 
             }
@@ -56634,11 +56632,10 @@ getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
 
         }
     }
-
     
 
     ////////////////////////////////////////////////////////////////////////////////////////
-    //Временное решение для тестирования
+    //Сохраняем выборку во внутреннюю БД (временное решение)
     UA_Variant sample_value;
     UA_Float opc_value_sample;
 
@@ -56682,12 +56679,11 @@ getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
     UA_ByteString_init(&backendOutContinuationPoint);
 
     
-    if  (real_points > 0 && real_points < 1000) {
+    if  (real_points > 0 && real_points < 10000) {
     
         size_t retval = 0;
 
-        size_t valueSize = *resultSize - counter;
-       
+        size_t valueSize = *resultSize - counter;       
 
 
         if (valueSize > 0)
@@ -56709,56 +56705,12 @@ getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
                 &outResult[counter]);
         }
 
-        
-
-        //float* test_value = (float*)UA_calloc(1, 4);
-        //test_value = &out_float[r];
-        
-        //transaction preparation			
-        //for (int r = 0; r < *resultSize; r++)
-        //{
-    	    //float * test_value = (float*)UA_calloc(1, 4);
-    	    //test_value = &out_float[r];
-        	//
-            //outResult[r].value.data = test_value;
-            //common_points++;
-            
-
-            //outResult[r].hasStatus = true;
-            //outResult[r].hasValue = true;
-            //outResult[r].hasSourceTimestamp = true;
-            //outResult[r].hasServerTimestamp = false;
-            //outResult[r].sourceTimestamp = UA_DateTime_now();
-            //outResult[r].hasServerPicoseconds = 0;
-            //outResult[r].hasSourcePicoseconds = 0;
-            //outResult[r].hasServerPicoseconds = 0;
-            //outResult[r].hasSourcePicoseconds = 0;
-            //outResult[r].status = 2161573888;
-
-            //UA_Variant* sample_value = (UA_Variant*) UA_malloc(sizeof(UA_TYPES[UA_TYPES_VARIANT]));
-            //UA_Variant_init(&sample_value);
-            //UA_Variant_setScalar(&sample_value, &test_value, &UA_TYPES[UA_TYPES_FLOAT]);
-
-            //retval = UA_Variant_copy(sample_value, &outResult[r].value);
-
-            //outResult[r].value.arrayDimensions = &sample_value->arrayDimensions;
-            //outResult[r].value.arrayDimensionsSize = sample_value->arrayDimensionsSize;
-/*            outResult[r].value.arrayLength = sample_value->arrayLength;
-            outResult[r].value.storageType = sample_value->storageType;         */   
-            //outResult[r].value.type = sample_value->type;
-            //outResult[r].value.data = &sample_value->data;
-
-        //}
-
     }
     else
     {
-        printf("!!! real_points is out %d \n", real_points);
+        printf("!!! real_points is out of range %d \n", real_points);
     }
     
-
-
-
 
 
     gettimeofday(&t1, 0);
@@ -56981,11 +56933,10 @@ readRaw_service_default(UA_Server *server,
         }
 
         ////////////////////////////////////////////////////////////////////////////////////
-        UA_Boolean sample = false;
-        //UA_Server_readSample(server, nodesToRead[i].nodeId, &sample);
+        //Проверяем признак "выборки" в запросе на исторические данные
+        
+        UA_Boolean sample = false;        
         __UA_Server_read(server, &nodesToRead[i].nodeId, UA_ATTRIBUTEID_SAMPLE, &sample);                  
-
-
         ////////////////////////////////////////////////////////////////////////////////////
 
         if (historyReadDetails->returnBounds && !setting->historizingBackend.boundSupported(
@@ -57042,7 +56993,9 @@ readRaw_service_default(UA_Server *server,
                 &historyData[i]->dataValuesSize,
                 &historyData[i]->dataValues);
 
-
+            /////////////////////////////////////////////////////////////////////////////////
+            //Удаляем все записи исторических данных из внутренней БД
+                        
             getHistoryDataStatusCode = setting->historizingBackend.removeDataValue(server,
                 setting->historizingBackend.context,
                 sessionId,
@@ -57050,6 +57003,7 @@ readRaw_service_default(UA_Server *server,
                 &nodesToRead[i].nodeId,
                 0,
                 UA_DateTime_now());
+            /////////////////////////////////////////////////////////////////////////////////
         }
         else {
             if (setting->historizingBackend.getHistoryData) {
