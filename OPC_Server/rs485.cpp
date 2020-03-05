@@ -165,7 +165,7 @@ void* pollingDeviceRS485(void *args)
 	
 	std::vector<Optimize> vector_optimize = reorganizeNodeIntoPolls(node);
 	
-	//transaction preparation			
+	//transaction preparation for ioctl			
 	rs485_device_ioctl_t config;
 	config.rx_count = 0;
 
@@ -178,18 +178,33 @@ void* pollingDeviceRS485(void *args)
 
 	int real_points = 0;
 	
-	//for (int e = 0; e < 512; e++)
-	//{
-	//	UA_Variant_init(&sample_value);
-	//	//opc_value_sample = (UA_Float)out_float[e];
-	//	opc_value_sample = (UA_Float) 0.0;
-	//	UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
-	//	UA_Server_writeValue(server, node->vectorDevice[0].vectorTag[2].tagNodeId, sample_value);
-	//}
-	
-	printf("!!! Точки созданы\n");
 
-	//while (1) sleep(1000);
+	//Проходим по тэгам, ищем выборки, передаем служебные аттрибуты в соответствующий Node сервера OPCUA 
+	for (int i = 0; i < node->vectorDevice.size(); i++)
+	{
+		for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+		{
+			if (node->vectorDevice[i].vectorTag[j].enum_data_type == Data_type::sample)
+			{
+				//UA_Variant_init(&sample_value);
+				//opc_value_sample = (UA_Float) out_float[e];
+				//UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
+				//UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, sample_value);	
+							   
+				
+				//__UA_Server_write(server, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_ATTRIBUTEID_IOCTL_CHREAD_ADR, &UA_TYPES[UA_TYPES_INT32], &historizing);
+				//__UA_Server_write(server, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_ATTRIBUTEID_IOCTL_CHREAD_CHANNEL, &UA_TYPES[UA_TYPES_INT32], &historizing);
+				__UA_Server_write(server, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_ATTRIBUTEID_IOCTL_F_ID, &UA_TYPES[UA_TYPES_INT16], &node->f_id);
+
+				//node->f_id
+				//ch_read.adr = 2;
+				//ch_read.channel = 1;
+			}
+		}
+	}
+
+
+
 	while (1)
 	{
 		clock_gettime(CLOCK_REALTIME, &start);
@@ -526,7 +541,6 @@ void* pollingDeviceRS485(void *args)
 					//{
 					//	std::string s = " Warning Port: " + std::to_string(node->port) + "!!! rx_count == 0";
 					//	write_text_to_log_file(s.c_str());
-
 					//	printf("Warning! Port: %d !!! rx_count == 0 \n", node->port);
 					//}
 
@@ -541,53 +555,45 @@ void* pollingDeviceRS485(void *args)
 
 						//std::cout << node->vectorDevice[i].vectorTag[j].name << std::endl;
 
-						timespec_get(&time, TIME_UTC);
+						//timespec_get(&time, TIME_UTC);
 
-						ch_read.adr = 2;
-						ch_read.channel = 1;
-						ch_read.data_size = sizeof(sample_buffer);
-						ch_read.data = sample_buffer;						
-						
-						ch_read.start_time = time;
-						ch_read.start_time.tv_sec -= 1; //read data from 1 seconds
-						//ch_read.start_time.tv_sec = 0;
-						//ch_read.start_time.tv_nsec = 0;
-						ch_read.end_time = time;
-						
+						//ch_read.adr = 2;
+						//ch_read.channel = 1;
+						//ch_read.data_size = sizeof(sample_buffer);
+						//ch_read.data = sample_buffer;												
+						//ch_read.start_time = time;
+						//ch_read.start_time.tv_sec -= 1; //read data from 1 seconds
+						////ch_read.start_time.tv_sec = 0;
+						////ch_read.start_time.tv_nsec = 0;
+						//ch_read.end_time = time;
+						//
+						//int ioret = ioctl(node->f_id, RS485_SAMPLE_READ, &ch_read);
 
-						int ioret = ioctl(node->f_id, RS485_SAMPLE_READ, &ch_read);
+ 						//if ((ch_read.count_block > 0) && (ch_read.block_size > 0))
+						//{
+						//	rs485_buffer_pack_t* block = (rs485_buffer_pack_t*) ch_read.data;
+						//	
+						//	
+						//	for (int v = 0; v < ch_read.count_block; v++)
+						//	{
+						//		//block = ch_read.data + ch_read.block_size * i;
+						//		if ((block->points > 0) && (block->resolution > 0))
+						//		{
+						//			real_points = sp_master_read(block, &out_float[0]);
+						//			
+						//			for (int e = 0; e < real_points; e++)
+						//			{
+						//				//UA_Variant_init(&sample_value);
+						//				//opc_value_sample = (UA_Float) out_float[e];
+						//				//UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
+						//				//UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, sample_value);												
+						//			}
+						//			
+						//		}
+						//	}
+						//}
 
- 						if ((ch_read.count_block > 0) && (ch_read.block_size > 0))
-						{
-							rs485_buffer_pack_t* block = (rs485_buffer_pack_t*) ch_read.data;
-							
-							
-							for (int v = 0; v < ch_read.count_block; v++)
-							{
-								//block = ch_read.data + ch_read.block_size * i;
-								if ((block->points > 0) && (block->resolution > 0))
-								{
-									real_points = sp_master_read(block, &out_float[0]);
-									
-
-									for (int e = 0; e < real_points; e++)
-									{
-										//UA_Variant_init(&sample_value);
-										//opc_value_sample = (UA_Float) out_float[e];
-										//UA_Variant_setScalar(&sample_value, &opc_value_sample, &UA_TYPES[UA_TYPES_FLOAT]);
-										//UA_Server_writeValue(server, node->vectorDevice[i].vectorTag[j].tagNodeId, sample_value);												
-									}
-									
-								}
-
-
-							}
-						}
-
-						
-						//std::cout << "out_float.size = " << out_float.size() << " :: " << ch_read.count_block << " :: " << ch_read.block_size << " :: "<< out_float.size() << std::endl;
-						
-						
+						//std::cout << "out_float.size = " << out_float.size() << " :: " << ch_read.count_block << " :: " << ch_read.block_size << " :: "<< out_float.size() << std::endl;						
 
 					}
 				}
@@ -595,8 +601,7 @@ void* pollingDeviceRS485(void *args)
 						
 				//Debug to log file
 				//std::string s = " Port: " + std::to_string(node->port);
-				//write_text_to_log_file(s.c_str());
-				
+				//write_text_to_log_file(s.c_str());			
 
 
 			} //Закрываем vectorDevice[i].on == 1

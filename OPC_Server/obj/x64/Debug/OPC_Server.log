@@ -5,111 +5,141 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\
   Проверка архитектуры
   Запуск удаленной сборки.
   Компиляция исходных файлов:
-  open62541.c
-C:\Repos\OPC_Server\OPC_Server\open62541.c(8237,13): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(8237,13): warning :      v->type = type;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(8237,13): warning :              ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(8264,13): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(8264,13): warning :      v->type = type;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(8264,13): warning :              ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(8275,13): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(8275,13): warning :      v->type = type;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(8275,13): warning :              ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(10039,19): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(10039,19): warning :         (dst->type = UA_findDataTypeByBinaryInternal(&typeId, ctx)) != NULL) {
-C:\Repos\OPC_Server\OPC_Server\open62541.c(10039,19): warning :                    ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(10044,19): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(10044,19): warning :          dst->type = &UA_TYPES[UA_TYPES_EXTENSIONOBJECT];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(10044,19): warning :                    ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(10092,15): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(10092,15): warning :      dst->type = &UA_TYPES[typeKind];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(10092,15): warning :                ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23152,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23152,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_UINT32];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23152,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23164,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23164,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_SERVERSTATE];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23164,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23184,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23184,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_SERVERSTATUSDATATYPE];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23184,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23190,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23190,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_BUILDINFO];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23190,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23195,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23195,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23195,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23200,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23200,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23200,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23205,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23205,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23205,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23210,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23210,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23210,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23215,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23215,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_STRING];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23215,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23220,27): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23220,27): warning :          value->value.type = &UA_TYPES[UA_TYPES_DATETIME];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23220,27): warning :                            ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23251,23): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23251,23): warning :      value->value.type = &UA_TYPES[UA_TYPES_BYTE];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23251,23): warning :                        ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23276,23): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23276,23): warning :      value->value.type = &UA_TYPES[UA_TYPES_BOOLEAN];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(23276,23): warning :                        ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(33624,21): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(33624,21): warning :          value->type = &UA_TYPES[UA_TYPES_BYTE];
-C:\Repos\OPC_Server\OPC_Server\open62541.c(33624,21): warning :                      ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(33635,21): warning : assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(33635,21): warning :          value->type = targetDataType;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(33635,21): warning :                      ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56357,22): warning : conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56357,22): warning :          old_byte >>= 8 - bits_shift;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56357,22): warning :                       ^
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56363,17): warning : conversion to 'uint32_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56363,17): warning :              tmp |= old_byte << bits_shift;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56363,17): warning :                  ^~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56368,19): warning : conversion to 'float' from 'uint32_t {aka unsigned int}' may alter its value [-Wconversion]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56368,19): warning :          *data++ = tmp;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56368,19): warning :                    ^~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56372,12): warning : conversion to 'int' from 'size_t {aka unsigned int}' may change the sign of the result [-Wsign-conversion]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56372,12): warning :      return point;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56372,12): warning :             ^~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56399,2): warning : implicit declaration of function 'gettimeofday' [-Wimplicit-function-declaration]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56399,2): warning :   gettimeofday(&t0, 0); //отметка время старта
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56399,2): warning :   ^~~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,23): warning : conversion to 'size_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,23): warning :      size_t storeEnd = real_points;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,23): warning :                        ^~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56657,23): warning : conversion to 'size_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56657,23): warning :      size_t endIndex = real_points;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56657,23): warning :                        ^~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56664,26): warning : conversion to 'size_t {aka unsigned int}' from 'int' may change the sign of the result [-Wsign-conversion]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56664,26): warning :      size_t _resultSize = real_points;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56664,26): warning :                           ^~~~~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56678,19): warning : variable 'ret' set but not used [-Wunused-but-set-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56678,19): warning :      UA_StatusCode ret = UA_STATUSCODE_GOOD;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56678,19): warning :                    ^~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56677,9): warning : unused variable 'skip' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56677,9): warning :      int skip = 0;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56677,9): warning :          ^~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56659,16): warning : unused variable 'addLast' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56659,16): warning :      UA_Boolean addLast = false;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56659,16): warning :                 ^~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56658,16): warning : unused variable 'addFirst' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56658,16): warning :      UA_Boolean addFirst = false;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56658,16): warning :                 ^~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,12): warning : unused variable 'storeEnd' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,12): warning :      size_t storeEnd = real_points;
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56655,12): warning :             ^~~~~~~~
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56612,9): warning : unused variable 'ioret' [-Wunused-variable]
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56612,9): warning :      int ioret = ioctl(5, RS485_SAMPLE_READ, &ch_read);
-C:\Repos\OPC_Server\OPC_Server\open62541.c(56612,9): warning :          ^~~~~
+  rs485.cpp
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning :    return "/dev/rs485_0";
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(36,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning :    return "/dev/rs485_1";
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(38,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning :    return "/dev/rs485_2";
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(40,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning :    return "/dev/rs485_3";
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(42,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning :    return "/dev/rs485_4";
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(44,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning :    return "/dev/rs485_5";
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(46,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning :    return "/dev/rs485_6";
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(48,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning :    return "/dev/rs485_7";
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(50,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning : ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning :    return "/dev/rs485_3";
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(55,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(80,20): warning : conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(80,20): warning :    old_byte >>= 8 - bits_shift;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(80,20): warning :                     ^~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(91,13): warning : conversion to 'float' from 'uint32_t {aka unsigned int}' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(91,13): warning :    *data++ = tmp;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(91,13): warning :              ^~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(155,20): warning : conversion to 'int16_t {aka short int}' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(155,20): warning :    node->f_id = open(port, O_RDWR);
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(155,20): warning :                 ~~~~^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(183,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(183,20): warning :   for (int i = 0; i < node->vectorDevice.size(); i++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(183,20): warning :                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(185,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(185,21): warning :    for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(185,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(214,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(214,21): warning :    for (int i = 0; i < node->vectorDevice.size(); i++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(214,21): warning :                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(220,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(220,23): warning :      for (int y = 0; y < vector_optimize[i].request.size(); y++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(220,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(225,103): warning : conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(225,103): warning :       expected_size = ((vector_optimize[i].request[y][4] << 8) + vector_optimize[i].request[y][5]) * 2 + 5;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(225,103): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(232,20): warning : conversion to 'int16_t {aka short int}' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(232,20): warning :       result = ioctl(node->f_id, RS485_SEND_PACKED, &config);
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(232,20): warning :                ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(271,59): warning : conversion to 'uint16_t {aka short unsigned int}' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(271,59): warning :        current_crc = read_buffer_vector[expected_size - 2] + (read_buffer_vector[expected_size - 1] << 8);
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(281,73): warning : conversion to 'uint16_t {aka short unsigned int}' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(281,73): warning :         uint16_t start_address = (vector_optimize[i].request[y][2] << 8) + vector_optimize[i].request[y][3];
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(284,52): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(284,52): warning :         for (int v = 3, addr = start_address + 1; v < vector_optimize[i].response[y].size(); v += 2, addr++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(284,52): warning :                                                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(290,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(290,28): warning :           for (int s = 0; s < vector_optimize[i].holding_regs.size() + 1; s++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(290,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(294,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(294,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(294,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(302,110): warning : conversion to 'float' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(302,110): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(306,111): warning : conversion to 'float' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(306,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(310,206): warning : conversion to 'float' from 'int32_t {aka int}' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(310,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(314,207): warning : conversion to 'float' from 'uint32_t {aka unsigned int}' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(314,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(356,28): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(356,28): warning :           for (int s = 0; s < vector_optimize[i].input_regs.size() + 1; s++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(356,28): warning :                           ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(360,30): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(360,30): warning :             for (int c = 0; c < node->vectorDevice[i].vectorTag.size(); c++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(360,30): warning :                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(368,110): warning : conversion to 'float' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(368,110): warning :                node->vectorDevice[i].vectorTag[pos].value = (int16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(372,111): warning : conversion to 'float' from 'int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(372,111): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint16_t)(vector_optimize[i].response[y][v] << 8) + vector_optimize[i].response[y][v + 1];
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(376,206): warning : conversion to 'float' from 'int32_t {aka int}' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(376,206): warning :                node->vectorDevice[i].vectorTag[pos].value = (int32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(380,207): warning : conversion to 'float' from 'uint32_t {aka unsigned int}' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(380,207): warning :                node->vectorDevice[i].vectorTag[pos].value = (uint32_t)(vector_optimize[i].response[y][v] << 24) + (vector_optimize[i].response[y][v + 1] << 16) + (vector_optimize[i].response[y][v + 2] << 8) + (vector_optimize[i].response[y][v + 3]);
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(467,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(467,25): warning :        for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(467,25): warning :                        ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(533,25): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(533,25): warning :        for (int w = 0; w < config.rx_count; w++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(533,25): warning :                        ~~^~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(551,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(551,23): warning :      for (int j = 0; j < node->vectorDevice[i].vectorTag.size(); j++)
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(551,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(625,34): warning : conversion to 'int16_t {aka short int}' from 'long int' may alter its value [-Wconversion]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(625,34): warning :    dur_ms = duration.tv_sec * 100 + (duration.tv_nsec / 1000000);
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(625,34): warning :             ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(103,10): warning : variable 'result' set but not used [-Wunused-but-set-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(103,10): warning :   int16_t result = 0;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(103,10): warning :           ^~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(114,10): warning : unused variable 'common_dur_ms' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(114,10): warning :   int16_t common_dur_ms = 0;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(114,10): warning :           ^~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(125,10): warning : unused variable 'test_val_count' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(125,10): warning :   uint8_t test_val_count = 0;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(125,10): warning :           ^~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning : variable 'backend' set but not used [-Wunused-but-set-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning :   UA_HistoryDataBackend backend = getBackend();
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(137,24): warning :                         ^~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(140,13): warning : unused variable 'sample_value' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(140,13): warning :   UA_Variant sample_value;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(140,13): warning :              ^~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(146,11): warning : unused variable 'opc_value_sample' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(146,11): warning :   UA_Float opc_value_sample;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(146,11): warning :            ^~~~~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(174,10): warning : unused variable 'sample_buffer' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(174,10): warning :   uint8_t sample_buffer[100000];
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(174,10): warning :           ^~~~~~~~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(175,18): warning : unused variable 'time' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(175,18): warning :   struct timespec time;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(175,18): warning :                   ^~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(177,23): warning : unused variable 'ch_read' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(177,23): warning :   rs485_channel_read_t ch_read;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(177,23): warning :                        ^~~~~~~
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(179,6): warning : unused variable 'real_points' [-Wunused-variable]
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(179,6): warning :   int real_points = 0;
+C:\Repos\OPC_Server\OPC_Server\rs485.cpp(179,6): warning :       ^~~~~~~~~~~
   Связывание объектов
   OPC_Server.vcxproj -> C:\Repos\OPC_Server\OPC_Server\bin\x64\Debug\OPC_Server.out
   
-  OPC_Server.out            | 4 kB |   4.0 kB/s | ETA: 00:09:28 |   0%
-  OPC_Server.out            | 2276 kB | 2276.3 kB/s | ETA: 00:00:00 | 100%
+  OPC_Server.out            | 4 kB |   4.0 kB/s | ETA: 00:09:23 |   0%
+  OPC_Server.out            | 808 kB | 808.0 kB/s | ETA: 00:00:01 |  35%
+  OPC_Server.out            | 2259 kB | 2259.9 kB/s | ETA: 00:00:00 | 100%

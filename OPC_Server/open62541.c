@@ -56715,7 +56715,7 @@ getHistoryData_service_readDriver(const UA_HistoryDataBackend* backend,
 
     gettimeofday(&t1, 0);
     int64_t dif = (t1.tv_usec - t0.tv_usec) / 1000;
-    if (common_points >= 6000000) printf("Elasped time is %lld \n", dif);
+    printf("Elasped time is %lld \n", dif);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -56934,9 +56934,11 @@ readRaw_service_default(UA_Server *server,
 
         ////////////////////////////////////////////////////////////////////////////////////
         //Проверяем признак "выборки" в запросе на исторические данные
-        
+        UA_Int32 fid = 0;
         UA_Boolean sample = false;        
         __UA_Server_read(server, &nodesToRead[i].nodeId, UA_ATTRIBUTEID_SAMPLE, &sample);                  
+        __UA_Server_read(server, &nodesToRead[i].nodeId, UA_ATTRIBUTEID_IOCTL_F_ID, &fid);
+
         ////////////////////////////////////////////////////////////////////////////////////
 
         if (historyReadDetails->returnBounds && !setting->historizingBackend.boundSupported(

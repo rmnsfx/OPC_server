@@ -39,7 +39,7 @@
  * ---------------
  * Changing the feature options has no effect on a pre-compiled library. */
 
-#define UA_LOGLEVEL 0
+#define UA_LOGLEVEL 300
 #ifndef UA_ENABLE_AMALGAMATION
 #define UA_ENABLE_AMALGAMATION
 #endif
@@ -12562,6 +12562,9 @@ typedef enum {
     UA_ATTRIBUTEID_EXECUTABLE              = 21,
     UA_ATTRIBUTEID_USEREXECUTABLE          = 22,
 	UA_ATTRIBUTEID_SAMPLE    			   = 23,
+    UA_ATTRIBUTEID_IOCTL_CHREAD_ADR        = 24,
+    UA_ATTRIBUTEID_IOCTL_CHREAD_CHANNEL    = 25,
+    UA_ATTRIBUTEID_IOCTL_F_ID              = 26,
 } UA_AttributeId;
 
 /**
