@@ -413,7 +413,7 @@ int main(int argc, char** argv)
 	}
 	else
 	{
-		path_to_json = "/usr/httpserv/opc.json";
+		path_to_json = "/usr/common-scripts/opc.json";
 	};
 
 

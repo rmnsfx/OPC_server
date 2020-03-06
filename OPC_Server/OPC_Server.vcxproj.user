@@ -6,7 +6,7 @@
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <RemoteTarget>-756055745;192.168.5.210 (username=, port=22, authentication=Password)</RemoteTarget>
+    <RemoteTarget>-908794954;192.168.0.141 (username=, port=1022, authentication=Password)</RemoteTarget>
     <RemoteDebuggingTarget>-756055745;192.168.5.210 (username=, port=22, authentication=Password)</RemoteDebuggingTarget>
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
     <RemoteDebuggerWorkingDirectory>
@@ -21,5 +21,6 @@
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
     <PreLaunchCommand>
     </PreLaunchCommand>
+    <RemoteDebuggingMode>gdb</RemoteDebuggingMode>
   </PropertyGroup>
 </Project>

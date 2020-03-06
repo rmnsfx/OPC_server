@@ -34,7 +34,7 @@ Controller serializeFromJSON(char* path)
 	FILE* fp = fopen(path, "r");
 
 	
-	if (fp == 0x0)
+	if (fp == 0x00)
 	{
 		printf("!!! Not found opc.JSON. Exit.\n");
 		
@@ -46,17 +46,16 @@ Controller serializeFromJSON(char* path)
 	doc.ParseStream(is);
 	fclose(fp);
 
-	printf("Parsing json complete.\n\n");
+	printf("Read json complete.\n\n");
 
-	const Value& Coms = doc["Coms"];
-	const Value& Tags = doc["Tags"];
-
+	const Value& Coms = doc["children"];
+	
 
 	if (doc.IsObject() == true)
 	{
 		
 		controller.name = doc["name"].GetString();
-		controller.type = doc["type"].GetUint();
+		//controller.type = doc["type"].GetString();
 		controller.description = doc["comment"].GetString();
 		controller.attribute = doc["attribute"].GetUint();
 
@@ -73,12 +72,12 @@ Controller serializeFromJSON(char* path)
 								
 				node.name = Coms[i]["name"].GetString();
 				node.on = Coms[i]["on"].GetUint();
-				node.type = Coms[i]["type"].GetUint();
+				//node.type = Coms[i]["type"].GetString();
 				//node.intertype = Coms[i]["intertype"].GetString();
 				node.enum_interface_type = interface_converter( Coms[i]["intertype"].GetString() );
-				node.address = Coms[i]["address"].GetString();
+				//node.address = Coms[i]["address"].GetString();
 				node.port = Coms[i]["port"].GetUint();	
-				node.baud_rate = Coms[i]["baud_rate"].GetUint();
+				node.baud_rate = 3000000; //Coms[i]["baud_rate"].GetUint();
 				node.word_lenght = 8;//node.word_lenght = Coms[i]["word_lenght"].GetUint();
 				node.parity = 0;//node.parity = Coms[i]["parity"].GetUint();
 				node.stop_bit = 1;//node.stop_bit = Coms[i]["stop_bit"].GetUint();
@@ -87,43 +86,43 @@ Controller serializeFromJSON(char* path)
 				node.poll_period = Coms[i]["period"].GetUint();
 
 
-				if (Coms[i]["Devs"].Size() > 0)
+				if (Coms[i]["children"].Size() > 0)
 				{
 					node.vectorDevice.clear();
 
-					for (int j = 0; j < Coms[i]["Devs"].Size(); j++)
+					for (int j = 0; j < Coms[i]["children"].Size(); j++)
 					{
-						printf("         Devs: %s\n", Coms[i]["Devs"][j]["name"].GetString());						
+						printf("         Devs: %s\n", Coms[i]["children"][j]["name"].GetString());						
 
-						device.name = Coms[i]["Devs"][j]["name"].GetString();
-						device.on = Coms[i]["Devs"][j]["on"].GetUint();						
-						device.type = Coms[i]["Devs"][j]["type"].GetUint();
-						device.devtype = Coms[i]["Devs"][j]["devtype"].GetUint();						
-						device.device_address = Coms[i]["Devs"][j]["address_device"].GetUint();
-						device.description = Coms[i]["Devs"][j]["comment"].GetString();												
-						device.poll_timeout = Coms[i]["Devs"][j]["timeout"].GetUint();
-						device.attribute = Coms[i]["Devs"][j]["attribute"].GetUint();
+						device.name = Coms[i]["children"][j]["name"].GetString();
+						device.on = Coms[i]["children"][j]["on"].GetUint();						
+						//device.type = Coms[i]["Devs"][j]["type"].GetString();
+						device.devtype = Coms[i]["children"][j]["devtype"].GetUint();						
+						device.device_address = Coms[i]["children"][j]["address_device"].GetUint();
+						device.description = Coms[i]["children"][j]["comment"].GetString();												
+						device.poll_timeout = Coms[i]["children"][j]["timeout"].GetUint();
+						device.attribute = Coms[i]["children"][j]["attribute"].GetUint();
 
-						if (Coms[i]["Devs"][j]["Tags"].Size() > 0)
+						if (Coms[i]["children"][j]["children"].Size() > 0)
 						{
 							device.vectorTag.clear();
 
-							for (int k = 0; k < Coms[i]["Devs"][j]["Tags"].Size(); k++)
+							for (int k = 0; k < Coms[i]["children"][j]["children"].Size(); k++)
 							{
-								printf("            Tag: %s\n", Coms[i]["Devs"][j]["Tags"][k]["name"].GetString());
+								printf("            Tag: %s\n", Coms[i]["children"][j]["children"][k]["name"].GetString());
 
-								tags.name = Coms[i]["Devs"][j]["Tags"][k]["name"].GetString();
-								tags.on = Coms[i]["Devs"][j]["Tags"][k]["on"].GetUint();																
-								tags.enum_data_type = type_converter( Coms[i]["Devs"][j]["Tags"][k]["data_type"].GetString() ); //Конвертируем типы в enum
+								tags.name = Coms[i]["children"][j]["children"][k]["name"].GetString();
+								tags.on = Coms[i]["children"][j]["children"][k]["on"].GetUint();																
+								tags.enum_data_type = type_converter( Coms[i]["children"][j]["children"][k]["data_type"].GetString() ); //Конвертируем типы в enum
 
 								
-								tags.function = Coms[i]["Devs"][j]["Tags"][k]["function"].GetUint();
-								tags.reg_address = Coms[i]["Devs"][j]["Tags"][k]["register"].GetUint(); 
-								tags.coef_A = Coms[i]["Devs"][j]["Tags"][k]["coef_A"].GetFloat();
-								tags.coef_B = Coms[i]["Devs"][j]["Tags"][k]["coef_B"].GetFloat();
+								tags.function = Coms[i]["children"][j]["children"][k]["function"].GetUint();
+								tags.reg_address = Coms[i]["children"][j]["children"][k]["register"].GetUint(); 
+								tags.coef_A = Coms[i]["children"][j]["children"][k]["coef_A"].GetFloat();
+								tags.coef_B = Coms[i]["children"][j]["children"][k]["coef_B"].GetFloat();
 								
-								tags.description = Coms[i]["Devs"][j]["Tags"][k]["comment"].GetString();
-								tags.attribute = Coms[i]["Devs"][j]["Tags"][k]["attribute"].GetUint();
+								tags.description = Coms[i]["children"][j]["children"][k]["comment"].GetString();
+								tags.attribute = Coms[i]["children"][j]["children"][k]["attribute"].GetUint();
 
 								device.vectorTag.push_back(tags);
 							}

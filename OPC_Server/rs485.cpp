@@ -177,7 +177,7 @@ void* pollingDeviceRS485(void *args)
 	rs485_channel_read_t ch_read;
 
 	int real_points = 0;
-	
+	UA_StatusCode status = 0;
 
 	//Проходим по тэгам, ищем выборки, передаем служебные аттрибуты в соответствующий Node сервера OPCUA 
 	for (int i = 0; i < node->vectorDevice.size(); i++)
@@ -194,8 +194,10 @@ void* pollingDeviceRS485(void *args)
 				
 				//__UA_Server_write(server, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_ATTRIBUTEID_IOCTL_CHREAD_ADR, &UA_TYPES[UA_TYPES_INT32], &historizing);
 				//__UA_Server_write(server, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_ATTRIBUTEID_IOCTL_CHREAD_CHANNEL, &UA_TYPES[UA_TYPES_INT32], &historizing);
-				__UA_Server_write(server, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_ATTRIBUTEID_IOCTL_F_ID, &UA_TYPES[UA_TYPES_INT16], &node->f_id);
+				status = __UA_Server_write(server, &node->vectorDevice[i].vectorTag[j].tagNodeId, UA_ATTRIBUTEID_IOCTL_F_ID, &UA_TYPES[UA_TYPES_INT16], &node->f_id);
 
+
+				//UA_Variant_init(&sample_value);
 				//node->f_id
 				//ch_read.adr = 2;
 				//ch_read.channel = 1;

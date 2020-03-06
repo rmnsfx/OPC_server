@@ -33154,22 +33154,17 @@ ReadWithNode(const UA_Node *node, UA_Server *server, UA_Session *session,
     case UA_ATTRIBUTEID_SAMPLE:
         CHECK_NODECLASS(UA_NODECLASS_VARIABLE);
         
-        //if (node->description.text.length != NULL)
-        //{
-        //    if ((node->description.text.data[0] == 0x73) &&
-        //        (node->description.text.data[1] == 0x61) &&
-        //        (node->description.text.data[2] == 0x6d) &&
-        //        (node->description.text.data[3] == 0x70) &&
-        //        (node->description.text.data[4] == 0x6c) &&
-        //        (node->description.text.data[5] == 0x65))
-        //    {
-        //        ((UA_VariableNode*)node)->sample = true; //description must contain "sample"
-        //    }            
-        //}
-        
         retval = UA_Variant_setScalarCopy(&v->value, &((const UA_VariableNode*)node)->sample, &UA_TYPES[UA_TYPES_BOOLEAN]);
 
         break;
+
+    case UA_ATTRIBUTEID_IOCTL_F_ID:
+        CHECK_NODECLASS(UA_NODECLASS_VARIABLE);
+
+        retval = UA_Variant_setScalarCopy(&v->value, &((const UA_VariableNode*)node)->f_id, &UA_TYPES[UA_TYPES_INT16]);
+
+        break;
+
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     case UA_ATTRIBUTEID_EXECUTABLE:
         CHECK_NODECLASS(UA_NODECLASS_METHOD);

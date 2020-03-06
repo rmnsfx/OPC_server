@@ -28,7 +28,7 @@ public:
 
 	virtual ~iServerTree() {};
 	
-	int16_t type = 0;
+	std::string type = "";
 	std::string name = "";
 	std::string label = "";
 	std::string description = "";
